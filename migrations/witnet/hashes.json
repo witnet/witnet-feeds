@@ -1,0 +1,31 @@
+{
+    "reducers": {
+        "price-aggregator": "0xf18a522de467fdc0cb2712b0c5b3d827ab894ca11caa09a21404aaea10a5eca5",
+        "price-tally": "0xdf914428d1026f5cbcf22755326712d32fc7b72a5921883d8a4dc38b89e695fc"
+    },
+    "retrievals": {
+        "binance.us/ticker": "0xbbd02d00d9df07d6dc7968f8ab903e0af2c41524336a75ca9326ab0dcd2c39e8",
+        "bitrue/ticker": "0x3d96edebcc828fd9c36aa33d2be93f824c4e39c108be524da4c43f3c8bba7c3a",
+        "coinbase/ticker": "0xa4066933392dab8e93aa5d269a3ec9cf27ccebde1e7b8ecf56d9bc15c0f5bcfe",
+        "okx/ticker": "0x9874f26e4946643cfeb4bd73d4fff2d32473ed2b1660ac6b79190bae87559b87",
+        "upbit/ticker": "0x47ab9bff849178c6613a6be5c55f2b67a4a5d8eaf69314a386b9cc5846a96a91",
+        "bitfinex/ticker": "0x2971f9b8f52788a62c7527eebf57281c1a79b58098a8f06b381202088bfe959b",
+        "bitstamp/ticker": "0xa06ff5438db660be3c28896c74d8ec6f17d9b1a361d311d824b94afc8ef9083b",
+        "bittrex/ticker": "0x1655c17da01dbe46cfcda297e6485dedf0a96b89d366ccc7a3763d7542feaccf",
+        "kraken/ticker": "0x8862ca6e0aa183d89f54bd9172cb6b3a7e0fca9796a336df611ab71d68e9183a",
+        "gateio/ticker": "0xd94002c6f045eee3971b5c23fc32d857072d67db0618feaadc5f65788a212ee3",
+        "subgraphs/name/beamswap/beamswap-dex": "0x43206e35de005699ad74dee40c9be3b0c4632c0a6a8a9a1c28dcfdc76a0656fe",
+        "subgraphs/name/sameepsi/quickswap-v3": "0x793ffb1f745d53763eebf0b9ec3bcf8a00682504513793b27f29ba1323c193ba",
+        "subgraphs/name/sameepsi/quickswap-v3_9": "0x7ad6f77477b14502752800378fb39a802d4e33a07e44181201d1b017d3023a2a",
+        "gemini/ticker": "0xd9187966887a7c3b588a9440f2798522f5ae03b1291042d44b2e11990a5270a1",
+        "subgraphs/name/sushiswap/matic-exchange": "0xe8827cf8d456f0c47cd717e8d03dabd81ed55a81fea099ed2acccf22fd167c31",
+        "binance.com/ticker": "0xdb00fbc123a74d46b3f4544f5d4526646d4bd690c3daba21ee4fe59cd28186e5",
+        "bybit/ticker": "0xa0d681fa54aa209274eb279b3cdc140dd2c6eb0806a5afe9b7444f6c1d486847",
+        "huobi/ticker": "0xc353777142d72f04dfdd87ff039b574dfbe08de5fcc8e310f735957d3e3e75c7",
+        "kucoin/ticker": "0xe6a86757a4373113887a9336a47212fb7c29bacea1ff90dfefef64b8148e8b04",
+        "bitmart/ticker": "0x77b88adac4922084641f8c743eea1a5f1e7f3251f03366f8c60820aa7d6bfc15",
+        "indoex/ticker": "0xf14d437887c7811d8680509dfd1a098c20c9eb3c272bdf88158f10b18bf423d1",
+        "ascendex/ticker": "0xc6d923a65cca21eb077620b4ee77c458997f9805fc9eea6ca860bf5038acb4c3",
+        "mexc/ticker": "0x820df7e00279459cd702853117d87704bc74419f84ad3ed246c9e8143e184e56"
+    }
+}
