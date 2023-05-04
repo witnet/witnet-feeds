@@ -1,4 +1,25 @@
 {
+    "elastos": {
+        "elastos.testnet": {
+            "requests": {
+                "WitnetRequestPriceBnbUsdt6": "0xd02C95966122458E7877146a622667f7eDb77A29",
+                "WitnetRequestPriceBtcUsd6": "0x10e9029Ad2246921D09118d31a9fe38D2Da9A5D7",
+                "WitnetRequestPriceBusdUsdt6": "0xB1Dd1716b1a8E405Ddf2dd1D4908eaf22189c1e2",
+                "WitnetRequestPriceElaUsdt6": "0xB507f4e925f6f22BCcced7e32Ce57761CaD0DB6B",
+                "WitnetRequestPriceEthUsd6": "0xf588B270B7BEaF7BF4d9Af3fcAbd77C7b2684403",
+                "WitnetRequestPriceHtUsdt6": "0x694327B6B67dA88D47f250355b4F93ee4831be46",
+                "WitnetRequestPriceUsdcUsd6": "0xf17A613D3b81Da34918d638d2F7F9Ca0bF380280",
+                "WitnetRequestPriceUsdtUsd6": "0x69BEdc0a53Ba8c247FaFd2Afb9e2b3F35a697d2d"
+            },
+            "solvers": {
+                "WitnetPriceSolverBnbUsd6": "0x43405cc78E2bf1126B3C480833BF2E31A556a457",
+                "WitnetPriceSolverBusdUsd6": "0x07De351f515666c408d975C530629782A9cD1c16",
+                "WitnetPriceSolverElaUsd6": "0x8A8F4390858287eACd74C169C2ac85665A51b72a",
+                "WitnetPriceSolverHtUsd6": "0x9C796920a38F0E14c11619b77eb2456888fd9701"
+            },
+            "templates": {}
+        }
+    },
     "polygon": {
         "polygon.goerli": {
             "requests": {
