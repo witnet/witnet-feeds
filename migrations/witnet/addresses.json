@@ -20,6 +20,22 @@
             "templates": {}
         }
     },
+    "fuse": {
+        "fuse.testnet": {
+            "requests": {
+                "WitnetRequestPriceBnbUsdt6": "0x6754D01b3220792A8f73de605Ef2C2c6C7336B33",
+                "WitnetRequestPriceBtcUsd6": "0x1f15C1C5c4274cb7Fda14847e1f26A9a866dB5F0",
+                "WitnetRequestPriceEthUsd6": "0xA0815d90fE3d3E0cBD6879465E8DAfE65788AC29",
+                "WitnetRequestPriceFuseUsdt6": "0x33233B6d13980Bc3a351FeA51fD7102D057867fc",
+                "WitnetRequestPriceMaticUsd6": "0x920cBECDC110117FB07d7ffA09965dAc88329Fc7",
+                "WitnetRequestPriceUsdtUsd6": "0x16e31D8352C5BA648EAd5a2aE9D50e0a18cd4B81"
+            },
+            "solvers": {
+                "WitnetPriceSolverBnbUsd6": "0x9597b5708CDB58fF057ca494574951Fc3d9163f7"
+            },
+            "templates": {}
+        }
+    },
     "polygon": {
         "polygon.goerli": {
             "requests": {
