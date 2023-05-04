@@ -74,6 +74,15 @@ module.exports = {
                 'kraken/ticker': [ "ETH", "USD" ], // kraken.com
             },
         },
+        WitnetRequestPriceFuseUsdt6: {
+            ...priceTicker,
+            retrievals: {
+                'ascendex/ticker': [ "FUSE", "USDT" ], // ascendex.com
+                'gateio/ticker': [ "fuse", "usdt" ], // gateio.io
+                'huobi/ticker': [ "fuse", "usdt" ], // huobi.pro
+                'mexc/ticker': [ "FUSE", "USDT" ], // mexc.com
+            }
+        },
         WitnetRequestPriceGlintUsdc6: {
             args: [{
                 pair_id: "0x61b4cec9925b1397b64dece8f898047eed0f7a07", 
