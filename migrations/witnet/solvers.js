@@ -1,47 +1,29 @@
 
 module.exports = {
-    prices: {
-        WitnetPriceSolverBatUsd6: {
-            artifact: "WitnetPriceSolverProduct",
-            deps: [
-                'Price-BAT/USDT-6',
-                'Price-USDT/USD-6',
-            ],
-        },
-        WitnetPriceSolverBnbUsd6: {
-            artifact: "WitnetPriceSolverProduct",
-            deps: [
-                'Price-BNB/USDT-6',
-                'Price-USDT/USD-6',
-            ],
-        },
-        WitnetPriceSolverBusdUsd6: {
-            artifact: "WitnetPriceSolverProduct",
-            deps: [
-                'Price-BUSD/USDT-6',
-                'Price-USDT/USD-6',
-            ],
-        },
-        WitnetPriceSolverElaUsd6: {
-            artifact: "WitnetPriceSolverProduct",
-            deps: [
-                'Price-ELA/USDT-6',
-                'Price-USDT/USD-6',
-            ],
-        },
-        WitnetPriceSolverHtUsd6: {
-            artifact: "WitnetPriceSolverProduct",
-            deps: [
-                'Price-HT/USDT-6',
-                'Price-USDT/USD-6',
-            ],
-        },
-        WitnetPriceSolverQuickUsd6: {
-            artifact: "WitnetPriceSolverProduct",
-            deps: [
-                'Price-QUICK/USDC-6',
-                'Price-USDC/USD-6',
-            ],
-        },
+    WitnetPriceSolverProduct: {
+        'Price-BAT/USD-6': [
+            'Price-BAT/USDT-6',
+            'Price-USDT/USD-6',
+        ],
+        'Price-BNB/USD-6': [
+            'Price-BNB/USDT-6', 
+            'Price-USDT/USD-6',
+        ],
+        'Price-BUSD/USD-6': [
+            'Price-BUSD/USDT-6', 
+            'Price-USDT/USD-6',
+        ],
+        'Price-ELA/USD-6': [
+            'Price-ELA/USDT-6', 
+            'Price-USDT/USD-6',
+        ],
+        'Price-HT/USD-6': [
+            'Price-HT/USDT-6',
+            'Price-USDT/USD-6',
+        ],
+        'Price-QUICK/USD-6': [
+            'Price-QUICK/USDC-6',
+            'Price-USDC/USD-6',
+        ],
     },
 }

@@ -1,69 +1,79 @@
 const addresses = require("../witnet/addresses")
+const solvers = require("../witnet/solvers")
 const utils = require("../../assets/witnet/utils/js")
 
 const WitnetPriceFeeds = artifacts.require("WitnetPriceFeeds")
-const WitnetPriceSolver = artifacts.require("WitnetPriceSolverBase")
 
 module.exports = async function (_deployer, network, [, from]) {
     const ecosystem = utils.getRealmNetworkFromArgs()[0]
     network = network.split("-")[0]
-    await settlePriceFeedsSolver(from, addresses[ecosystem][network].solvers)
-}
 
-async function settlePriceFeedsSolver(from, addresses) {
     const feeds = await WitnetPriceFeeds.deployed()
-    for (const key in addresses) {
-        console.info()
-        var caption = extractCaptionFromKey(key)
-        var hash = await feeds.hash.call(caption, { from })
-        try {
-            var solver = await WitnetPriceSolver.at(addresses[key])
-            if ((await web3.eth.getCode(solver.address)).length > 2) {
-                var solverClass = await solver.class.call({ from })
-                if (solverClass !== "0x70a91957") {
-                    throw `contract at ${addresses[key]} not of the WitnetPriceSolver kind.`
-                }
-                var solverCurrentAddress = await feeds.lookupPriceSolver.call(hash, {from})
-                if (solver.address === solverCurrentAddress) {
-                    utils.traceHeader(`Skipping '${key}': already settled to '${caption}' as ${solver.address}`)
-                } else {
-                    if (!(await feeds.supportsCaption.call(caption, {from}))) {
-                        utils.traceHeader(`Settling '${key}':`)
-                        
-                    } else {
-                        utils.traceHeader(`Revisiting '${key}':`)
-                    }
-                    console.info("  ", "> Routed feed id:            ", hash)
-                    console.info("  ", "> Routed feed caption:       ", caption)
-                    console.info("  ", "> Routed feed solver address:", solver.address)
-                    var deps = await solver.deps.call({from})
-                    var innerCaptions = []
-                    for (var j = 0; j < deps.length; j ++) {
-                        var innerCaption = await feeds.lookupCaption.call(deps[j], {from})
-                        if (
-                            innerCaption === ""
-                                || !(await feeds.supportsCaption.call(innerCaption, {from}))
-                        ) {
-                            throw `relies on feed '${deps[j]}' which is not currently supported on ${feeds.address}`
-                        }
-                        innerCaptions.push(innerCaption)
-                    }
-                    console.info("  ", "> Routed feed solver deps:   ", innerCaptions)
-                    var tx = await feeds.settleFeedSolver(
-                        caption,
-                        addresses[key],
-                        { from }
-                    )
-                    traceTx(tx.receipt)
-                }
-            } else {
-                utils.traceHeader(`Skipping '${key}': no code at ${addresses[key]}.`)
+    for (const key in solvers) {
+        const solverArtifact = artifacts.require(key)
+        for (const caption in solvers[key]) {
+            const key = extractKeyFromCaption(caption)
+            console.log(caption, "=>", key)
+            if (addresses[ecosystem][network].solvers[key] !== undefined) {
+                await settlePriceFeedSolver(
+                    feeds,
+                    from,
+                    caption,
+                    solverArtifact,
+                    solvers[key][caption]
+                )
             }
-        } catch (ex) {
-            console.info(`Couldn't handle '${key}': ${ex}`)
-            process.exit(1)
         }
     }
+}
+
+async function settlePriceFeedSolver(feeds, from, caption, solverArtifact, solverDeps) {
+    console.info()
+    try {
+        const hash = await feeds.hash.call(caption, { from })    
+        const solver = await solverArtifact.deployed()
+        const currentSolver = await feeds.lookupPriceSolver.call(hash, {from})
+        let doSettlement = false
+        if (
+            solver.address === currentSolver[0]
+                && JSON.stringify(solverDeps) === JSON.stringify(currentSolver[1])
+        ) {
+            utils.traceHeader(`Skipping '${key}':`)
+        } else {
+            doSettlement = true
+            if (!(await feeds.supportsCaption.call(caption, {from}))) {
+                utils.traceHeader(`Settling '${key}':`)
+            } else {
+                utils.traceHeader(`Revisiting '${key}':`)
+            }
+            console.info("  ", "> Routed feed id:            ", hash)
+            console.info("  ", "> Routed feed solver address:", solver.address)
+            console.info("  ", "> Routed feed solver deps   :", solverDeps)
+            var tx = await feeds.settleFeedSolver(
+                caption,
+                addresses[key],
+                { from }
+            )
+            traceTx(tx.receipt)
+        }
+    } catch (ex) {
+        utils.traceHeader(`Failed '${caption}:`)
+        console.info("   > Exception:", ex)
+    }
+}
+
+function camelize(str) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+      if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+      return index === 0 ? match.toLowerCase() : match.toUpperCase();
+    });
+  }
+
+function extractKeyFromCaption(caption) {
+    let parts = caption.split("-")
+    const decimals = parts[parts.length - 1]
+    parts = parts.split("/")
+    return `WitnetPriceSolver${camelize(parts[0])}${camelize(parts[1])}${decimals}`
 }
 
 function extractCaptionFromKey(key) {
@@ -76,7 +86,7 @@ function extractCaptionFromKey(key) {
 }
 
 function traceTx(receipt) {
-    console.log("  ", "> block number:     ", receipt.blockNumber)
-    console.log("  ", "> transaction hash: ", receipt.transactionHash)
-    console.log("  ", "> transaction gas:  ", receipt.gasUsed)
+    console.log("  ", "> Block number:     ", receipt.blockNumber)
+    console.log("  ", "> Transaction hash: ", receipt.transactionHash)
+    console.log("  ", "> Transaction gas:  ", receipt.gasUsed)
 }
