@@ -41,6 +41,7 @@
     "truffle-assertions": "~0.9.2",
     "truffle-flattener": "~1.6.0",
     "truffle-plugin-verify": "~0.6.2",
-    "witnet-solidity": "~0.0.7"
+    "witnet-solidity": "~0.0.7",
+    "witnet-solidity-bridge": "https://github.com/guidiaz/witnet-solidity-bridge#7c4d964678d1409542326f98410ca49f8913c1f8"
   }
 }

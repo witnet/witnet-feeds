@@ -8,16 +8,17 @@ contract WitnetPriceSolverProduct
     is
         WitnetPriceSolverBase
 {
-    constructor(uint8 _decimals, bytes4[] memory _deps)
-        WitnetPriceSolverBase(_decimals, _deps)
+    constructor(address _delegator)
+        WitnetPriceSolverBase(_delegator)
     {}
 
     function solve(bytes4 feedId)
         virtual override
         external view
+        onlyDelegator
         returns (Price memory _latestPrice)
     {
-        bytes4[] memory _deps = deps();
+        bytes4[] memory _deps = _depsOf(feedId);
         for (uint _ix = 0; _ix < _deps.length; _ix ++) {
             bytes4 _feedId = _deps[_ix];
             try IWitnetPriceFeeds(address(this)).latestPrice(_feedId)
@@ -48,7 +49,7 @@ contract WitnetPriceSolverProduct
                 });
             }
         }
-        int _reductor = __records_(feedId).reductor;
+        int _reductor = __records_(feedId).solverReductor;
         if (_reductor < 0) {
             _latestPrice.value /= (10 ** uint(-_reductor));
         } else if (_reductor > 0) {

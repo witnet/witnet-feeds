@@ -2,66 +2,62 @@
 
 pragma solidity >=0.8.0 <0.9.0;
 
-import "witnet-solidity-bridge/contracts/data/WitnetFeedsData.sol";
+import "witnet-solidity-bridge/contracts/data/WitnetPriceFeedsData.sol";
 import "witnet-solidity-bridge/contracts/interfaces/V2/IWitnetPriceFeeds.sol";
-import "witnet-solidity-bridge/contracts/interfaces/V2/IWitnetPriceSolver.sol";
 
 abstract contract WitnetPriceSolverBase
     is
         IWitnetPriceSolver,
-        WitnetFeedsData
+        WitnetPriceFeedsData
 {
-    uint8 public immutable override decimals;
+    address public immutable override delegator;
 
-    uint256 internal immutable __depsCount;
-    bytes32 internal immutable __depsFlag;
+    modifier onlyDelegator {
+        require(
+            address(this) == delegator,
+            "WitnetPriceSolverBase: not the delegator"
+        );
+        _;
+    }
 
-    constructor(
-            uint8 _decimals,
-            bytes4[] memory _deps
-    ) {
-        decimals = _decimals;
-        assert(_deps.length > 0 && _deps.length <= 8);
-        bytes32 _depsFlag;
-        for (uint _ix = 0; _ix < _deps.length; _ix ++) {
-            assert(_deps[_ix] != 0);
-            _depsFlag |= (bytes32(_deps[_ix]) >> (32 * _ix));
-        }
-        __depsCount = _deps.length;
-        __depsFlag = _depsFlag;
+    constructor(address _delegator) {
+        assert(address(_delegator) != address(0));
+        delegator = _delegator;
     }
 
     function class() external pure returns (bytes4) {
         return type(IWitnetPriceSolver).interfaceId;
     }
 
-    function deps() override public view returns (bytes4[] memory _deps) {
-        _deps = new bytes4[](__depsCount);
-        bytes32 _depsFlag = __depsFlag;
-        for (uint _ix = 0; _ix < _deps.length; _ix ++) {
-            _deps[_ix] = bytes4(_depsFlag);
-            _depsFlag <<= 32;
-        }
-    }
-
-    function validate(bytes4 feedId) virtual override external {
-        uint _innerDecimals;
-        bytes4[] memory _deps = deps();
-        for (uint _ix = 0; _ix < _deps.length; _ix ++) {
-            Record storage __record = __records_(_deps[_ix]);
-            require(__record.index > 0, "WitnetPriceSolverBase: missing dependency");
+    function validate(bytes4 feedId, string[] calldata deps) virtual override external {
+        bytes32 _depsFlag;
+        uint256 _innerDecimals;
+        require(
+            deps.length <= 8,
+            "WitnetPriceSolverBase: too many deps"
+        );
+        for (uint _ix = 0; _ix < deps.length; _ix ++) {
+            bytes4 _depsId4 = bytes4(keccak256(bytes(deps[_ix])));
+            Record storage __depsFeed = __records_(_depsId4);
             require(
-                _deps[_ix] != feedId, 
+                __depsFeed.index > 0, 
                 string(abi.encodePacked(
-                    "WitnetPriceSolverBase: first-level loop: 0x",
-                    Witnet.toHexString(uint8(bytes1(feedId))),
-                    Witnet.toHexString(uint8(bytes1(feedId << 8))),
-                    Witnet.toHexString(uint8(bytes1(feedId << 16))),
-                    Witnet.toHexString(uint8(bytes1(feedId << 24)))
+                    "WitnetPriceSolverBase: unsupported: ",
+                    deps[_ix]
                 ))
             );
-            _innerDecimals += __record.decimals;
+            require(
+                _depsId4 != feedId, 
+                string(abi.encodePacked(
+                    "WitnetPriceSolverBase: first-level loop: ",
+                    deps[_ix]
+                ))
+            );
+            _depsFlag |= (bytes32(_depsId4) >> (32 * _ix));
+            _innerDecimals += __depsFeed.decimals;
         }
-        __records_(feedId).reductor = int(uint(decimals)) - int(_innerDecimals);
+        Record storage __feed = __records_(feedId);
+        __feed.solverReductor = int(uint(__feed.decimals)) - int(_innerDecimals);
+        __feed.solverDepsFlag = _depsFlag;
     }
 }
