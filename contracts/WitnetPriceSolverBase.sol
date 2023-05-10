@@ -42,14 +42,14 @@ abstract contract WitnetPriceSolverBase
             require(
                 __depsFeed.index > 0, 
                 string(abi.encodePacked(
-                    "WitnetPriceSolverBase: unsupported: ",
+                    "WitnetPriceSolverBase: unsupported ",
                     deps[_ix]
                 ))
             );
             require(
                 _depsId4 != feedId, 
                 string(abi.encodePacked(
-                    "WitnetPriceSolverBase: first-level loop: ",
+                    "WitnetPriceSolverBase: loop on ",
                     deps[_ix]
                 ))
             );

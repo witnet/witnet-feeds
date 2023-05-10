@@ -5,6 +5,7 @@ const utils = require("../../assets/witnet/utils/js")
 const WitnetPriceFeeds = artifacts.require("WitnetPriceFeeds")
 
 module.exports = async function (_deployer, network, [, from]) {
+  const isDryRun = network === "test" || network.split("-")[1] === "fork" || network.split("-")[0] === "develop"
   const ecosystem = utils.getRealmNetworkFromArgs()[0]
   network = network.split("-")[0]
 
@@ -12,18 +13,21 @@ module.exports = async function (_deployer, network, [, from]) {
   for (const key in solvers) {
     const solverArtifact = artifacts.require(key)
     for (const caption in solvers[key]) {
-      const key = extractKeyFromCaption(caption)
-      console.log(caption, "=>", key)
-      if (addresses[ecosystem][network].solvers[key] !== undefined) {
-        await settlePriceFeedSolver(
+      const solverName = extractKeyFromCaption(caption)
+      if (isDryRun || addresses[ecosystem][network].solvers[solverName] !== undefined) {
+      await settlePriceFeedSolver(
           feeds,
           from,
           caption,
           solverArtifact,
           solvers[key][caption]
         )
+        addresses[ecosystem][network].solvers[solverName] = solverArtifact.address
       }
     }
+    if (!isDryRun) {
+      utils.saveAddresses(addresses)       
+     }
   }
 }
 
@@ -49,10 +53,11 @@ async function settlePriceFeedSolver (feeds, from, caption, solverArtifact, solv
       console.info("  ", "> Routed feed solver deps:   ", solverDeps)
     }
     if (doSettlement) {
-      console.info("  ", "> Routed feed solver address:", `${currentSolver[1]} => ${solverArtifact.address}`)
+      console.info("  ", "> Routed feed solver address:", `${currentSolver[0]} => ${solverArtifact.address}`)
       const tx = await feeds.settleFeedSolver(
         caption,
         solverArtifact.address,
+        solverDeps,
         { from }
       )
       traceTx(tx.receipt)
@@ -61,21 +66,21 @@ async function settlePriceFeedSolver (feeds, from, caption, solverArtifact, solv
     }
   } catch (ex) {
     utils.traceHeader(`Failed '${caption}:`)
-    console.info("   > Exception:", ex)
+    console.info("  ", unescape(ex))
+    process.exit(1)
   }
 }
 
-function camelize (str) {
-  return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
-    if (+match === 0) return "" // or if (/\s+/.test(match)) for white spaces
-    return index === 0 ? match.toLowerCase() : match.toUpperCase()
-  })
-}
+function camelize(str) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+      return index === 0 ? word.toUpperCase() : word.toLowerCase();
+    }).replace(/\s+/g, '');
+  }
 
 function extractKeyFromCaption (caption) {
   let parts = caption.split("-")
   const decimals = parts[parts.length - 1]
-  parts = parts.split("/")
+  parts = parts[1].split("/")
   return `WitnetPriceSolver${camelize(parts[0])}${camelize(parts[1])}${decimals}`
 }
 
