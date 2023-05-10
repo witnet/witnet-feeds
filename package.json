@@ -17,8 +17,8 @@
     "compile:requests": "npm run compile:queries",
     "compile:contracts": "npx truffle compile --all",
     "flatten": "npm run clean:flattened && node ./scripts/flatten.js contracts/ 2>&1",
-    "fmt": "solhint --max-warnings 0 \"contracts/**/*.sol\" && eslint ./test && eslint ./scripts/*.js && solhint \"test/**/*.sol\"",
-    "fmt!": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix && eslint ./test --fix && eslint ./scripts/*.js --fix && solhint \"test/**/*.sol\" --fix",
+    "fmt": "solhint --max-warnings 0 \"contracts/**/*.sol\" && eslint ./test && eslint ./migrations/**/*.js && solhint \"test/**/*.sol\"",
+    "fmt!": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix && eslint ./test --fix && eslint ./migrations/**/*.js --fix && solhint \"test/**/*.sol\" --fix",
     "migrate": "npm run clean:build && node ./scripts/migrate.js 2>&1",
     "test": "npx truffle test"
   },

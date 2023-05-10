@@ -9,3 +9,5 @@ package-lock.json
 
 Flattened*.sol
 flattened/**
+
+.old

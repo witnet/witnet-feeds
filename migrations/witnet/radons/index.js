@@ -1,5 +1,5 @@
 
 module.exports = {
-    reducers: require("./reducers"),
-    retrievals: require("./retrievals"),
+  reducers: require("./reducers"),
+  retrievals: require("./retrievals"),
 }

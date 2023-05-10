@@ -3,7 +3,7 @@ const witnet = require("../../assets/witnet")
 
 const WitnetBytecodes = artifacts.require("WitnetBytecodes")
 const WitnetEncodingLib = artifacts.require("WitnetEncodingLib")
-const WitnetErrorsLib= artifacts.require("WitnetErrorsLib")
+const WitnetErrorsLib = artifacts.require("WitnetErrorsLib")
 const WitnetPriceFeeds = artifacts.require("WitnetPriceFeeds")
 const WitnetRandomness = artifacts.require("WitnetRandomness")
 const WitnetRequestBoard = artifacts.require("WitnetRequestBoard")
@@ -13,7 +13,7 @@ const WitnetBytecodesDefault = artifacts.require("WitnetBytecodesDefault")
 const WitnetPriceFeedsUpgradable = artifacts.require("WitnetPriceFeedsUpgradable")
 const WitnetRandomnessProxiable = artifacts.require("WitnetRandomnessProxiable")
 const WitnetRequestBoardDefault = artifacts.require("WitnetRequestBoardTrustableDefault")
-const WitnetRequestFactoryDefault = artifacts.require("WitnetRequestFactoryDefault");
+const WitnetRequestFactoryDefault = artifacts.require("WitnetRequestFactoryDefault")
 const WitnetRequestRandomness = artifacts.require("WitnetRequestRandomness")
 
 module.exports = async function (deployer, network, [, from]) {
@@ -21,12 +21,12 @@ module.exports = async function (deployer, network, [, from]) {
   const ecosystem = utils.getRealmNetworkFromArgs()[0]
   network = network.split("-")[0]
 
-  var witnetAddresses
+  let witnetAddresses
   if (!isDryRun) {
     try {
       witnetAddresses = witnet.addresses[ecosystem][network]
       WitnetBytecodes.address = witnetAddresses.WitnetBytecodes
-      WitnetPriceFeeds.address= witnetAddresses.WitnetPriceFeeds
+      WitnetPriceFeeds.address = witnetAddresses.WitnetPriceFeeds
       WitnetRandomness.address = witnetAddresses.WitnetRandomness
       WitnetRequestBoard.address = witnetAddresses.WitnetRequestBoard
       WitnetRequestFactory.address = witnetAddresses.WitnetRequestFactory
@@ -45,16 +45,46 @@ module.exports = async function (deployer, network, [, from]) {
     await deployer.link(WitnetEncodingLib, WitnetBytecodesDefault)
     await deployer.deploy(WitnetErrorsLib, { from })
     await deployer.link(WitnetErrorsLib, WitnetRequestBoardDefault)
-    await deployer.deploy(WitnetBytecodesDefault, false, utils.fromAscii(network), { from, gas: 6721975 })
+    await deployer.deploy(
+      WitnetBytecodesDefault,
+      false,
+      utils.fromAscii(network),
+      { from, gas: 6721975 }
+    )
     WitnetBytecodes.address = WitnetBytecodesDefault.address
-    await deployer.deploy(WitnetRequestFactoryDefault, WitnetBytecodes.address, false, utils.fromAscii(network), { from, gas: 6721975 })
+    await deployer.deploy(
+      WitnetRequestFactoryDefault,
+      WitnetBytecodes.address,
+      false,
+      utils.fromAscii(network),
+      { from, gas: 6721975 }
+    )
     WitnetRequestFactory.address = WitnetRequestFactoryDefault.address
-    await deployer.deploy(WitnetRequestBoardDefault, WitnetRequestFactory.address, false, utils.fromAscii(network), 135000, { from, gas: 6721975 })
+    await deployer.deploy(
+      WitnetRequestBoardDefault,
+      WitnetRequestFactory.address,
+      false,
+      utils.fromAscii(network),
+      135000,
+      { from, gas: 6721975 }
+    )
     WitnetRequestBoard.address = WitnetRequestBoardDefault.address
-    await deployer.deploy(WitnetPriceFeedsUpgradable, WitnetRequestBoard.address, false, utils.fromAscii(network), { from, gas: 6721975 })
+    await deployer.deploy(
+      WitnetPriceFeedsUpgradable,
+      WitnetRequestBoard.address,
+      false,
+      utils.fromAscii(network),
+      { from, gas: 6721975 }
+    )
     WitnetPriceFeeds.address = WitnetPriceFeedsUpgradable.address
     await deployer.deploy(WitnetRequestRandomness, { from })
-    await deployer.deploy(WitnetRandomnessProxiable, WitnetRequestBoard.address, WitnetRequestRandomness.address, utils.fromAscii(network), { from, gas: 6721975 })
+    await deployer.deploy(
+      WitnetRandomnessProxiable,
+      WitnetRequestBoard.address,
+      WitnetRequestRandomness.address,
+      utils.fromAscii(network),
+      { from, gas: 6721975 }
+    )
     WitnetRandomness.address = WitnetRandomnessProxiable.address
     const addresses = require("../witnet/addresses")
     if (addresses[ecosystem] && addresses[ecosystem][network]) {

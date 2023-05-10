@@ -14,10 +14,10 @@ module.exports = async function (_deployer, network, [, from]) {
   const ecosystem = utils.getRealmNetworkFromArgs()[0]
   network = network.split("-")[0]
 
-  if (!addresses[ecosystem]) addresses[ecosystem] = {};
-  if (!addresses[ecosystem][network]) addresses[ecosystem][network] = {};
-  if (!addresses[ecosystem][network].requests) addresses[ecosystem][network].requests = {};
-  if (!addresses[ecosystem][network].templates) addresses[ecosystem][network].templates = {};
+  if (!addresses[ecosystem]) addresses[ecosystem] = {}
+  if (!addresses[ecosystem][network]) addresses[ecosystem][network] = {}
+  if (!addresses[ecosystem][network].requests) addresses[ecosystem][network].requests = {}
+  if (!addresses[ecosystem][network].templates) addresses[ecosystem][network].templates = {}
 
   if (!hashes.reducers) hashes.reducers = {}
   if (!hashes.retrievals) hashes.retrievals = {}
@@ -25,13 +25,13 @@ module.exports = async function (_deployer, network, [, from]) {
   await deployWitnetRequests(from, isDryRun, ecosystem, network, requests)
 }
 
-async function deployWitnetRequests(from, isDryRun, ecosystem, network, requests) {
+async function deployWitnetRequests (from, isDryRun, ecosystem, network, requests) {
   for (const key in requests) {
     const request = requests[key]
     if (request?.retrievals || request?.template) {
-      var targetAddress = addresses[ecosystem][network].requests[key] ?? null
+      const targetAddress = addresses[ecosystem][network].requests[key] ?? null
       if (isDryRun || targetAddress === "") {
-        var requestAddress
+        let requestAddress
         if (request?.retrievals) {
           try {
             requestAddress = await deployWitnetRequest(from, key, request)
@@ -41,12 +41,12 @@ async function deployWitnetRequests(from, isDryRun, ecosystem, network, requests
           }
         } else {
           try {
-            var templateAddr = findArtifactAddress(addresses, request?.template)
+            let templateAddr = findArtifactAddress(addresses, request?.template)
             if (
-              utils.isNullAddress(templateAddr)
-                || (await web3.eth.getCode(templateAddr)).length <= 3
+              utils.isNullAddress(templateAddr) ||
+                (await web3.eth.getCode(templateAddr)).length <= 3
             ) {
-              var templateArtifact = findTemplateArtifact(witnet.templates, request?.template)
+              const templateArtifact = findTemplateArtifact(witnet.templates, request?.template)
               if (!templateArtifact) {
                 throw `artifact '${request?.template} not found in templates file`
               }
@@ -59,13 +59,14 @@ async function deployWitnetRequests(from, isDryRun, ecosystem, network, requests
             utils.traceHeader(`Settling '${key}'...`)
             console.info("  ", "> template artifact:", request?.template)
             console.info("  ", "> template address: ", templateAddr)
-            var contract = await WitnetRequestTemplate.at(templateAddr)
-            var args = request?.args
+            const contract = await WitnetRequestTemplate.at(templateAddr)
+            const args = request?.args
             args.map((subargs, source) => {
               if (!Array.isArray(subargs)) {
                 args[source] = Object.values(subargs)
               }
-              console.info("  ", `> template source #${source+1} params => ${JSON.stringify(args[source])}`)
+              console.info("  ", `> template source #${source + 1} params => ${JSON.stringify(args[source])}`)
+              return subargs
             })
             requestAddress = await utils.buildWitnetRequestFromTemplate(from, contract, request?.args)
           } catch (ex) {
@@ -90,24 +91,24 @@ async function deployWitnetRequests(from, isDryRun, ecosystem, network, requests
   }
 }
 
-async function deployWitnetRequest(from, key, request) {
-  var registry = await WitnetBytecodes.deployed()
-  var aggregator = await utils.verifyWitnetRadonReducerByTag(from, registry, witnet.radons, request.aggregator)
-  var tally = await utils.verifyWitnetRadonReducerByTag(from, registry, witnet.radons, request.tally)
-  var tags = Object.keys(request?.retrievals)
-  var retrievals = []
-  for (var i = 0; i < tags?.length; i ++) {
-    var hash = await utils.verifyWitnetRadonRetrievalByTag(from, registry, witnet.radons, tags[i])
+async function deployWitnetRequest (from, key, request) {
+  const registry = await WitnetBytecodes.deployed()
+  const aggregator = await utils.verifyWitnetRadonReducerByTag(from, registry, witnet.radons, request.aggregator)
+  const tally = await utils.verifyWitnetRadonReducerByTag(from, registry, witnet.radons, request.tally)
+  const tags = Object.keys(request?.retrievals)
+  const retrievals = []
+  for (let i = 0; i < tags?.length; i++) {
+    const hash = await utils.verifyWitnetRadonRetrievalByTag(from, registry, witnet.radons, tags[i])
     hashes.retrievals[tags[i]] = hash
     retrievals.push(hash)
   }
   hashes.reducers[request.aggregator] = aggregator
   hashes.reducers[request.tally] = tally
   utils.saveHashes(hashes)
-  
+
   utils.traceHeader(`Building '${key}'...`)
-  var factory = await WitnetRequestFactory.deployed()
-  var templateAddr = await factory.buildRequestTemplate.call(
+  const factory = await WitnetRequestFactory.deployed()
+  let templateAddr = await factory.buildRequestTemplate.call(
     retrievals,
     aggregator,
     tally,
@@ -115,26 +116,26 @@ async function deployWitnetRequest(from, key, request) {
     { from }
   )
   if (
-    utils.isNullAddress(templateAddr)
-      || (await web3.eth.getCode(templateAddr)).length <= 3
+    utils.isNullAddress(templateAddr) ||
+      (await web3.eth.getCode(templateAddr)).length <= 3
   ) {
-    var tx = await factory.buildRequestTemplate(
+    const tx = await factory.buildRequestTemplate(
       retrievals,
       aggregator,
       tally,
       request?.resultDataMaxSize || 0,
       { from }
     )
-    tx.logs = tx.logs.filter(log => log.event === 'WitnetRequestTemplateBuilt')
+    tx.logs = tx.logs.filter(log => log.event === "WitnetRequestTemplateBuilt")
     templateAddr = tx.logs[0].args.template
     console.info("  ", "> transaction hash:", tx.receipt.transactionHash)
     console.info("  ", "> transaction gas: ", tx.receipt.gasUsed)
   }
   console.info("  ", "> template address:", templateAddr)
-  var contract = await WitnetRequestTemplate.at(templateAddr)
+  const contract = await WitnetRequestTemplate.at(templateAddr)
   console.info("  ", "> request retrievals...")
-  var args = Object.entries(request?.retrievals).map(entry => {
-    var subargs = entry[1]
+  const args = Object.entries(request?.retrievals).map(entry => {
+    let subargs = entry[1]
     if (!Array.isArray(subargs)) {
       subargs = Object.values(subargs)
     }
@@ -144,14 +145,14 @@ async function deployWitnetRequest(from, key, request) {
   return utils.buildWitnetRequestFromTemplate(from, contract, args)
 }
 
-async function deployWitnetRequestTemplate(from, key, template) {
-  var registry = await WitnetBytecodes.deployed()
-  var aggregator = await utils.verifyWitnetRadonReducerByTag(from, registry, witnet.radons, template.aggregator)
-  var tally = await utils.verifyWitnetRadonReducerByTag(from, registry, witnet.radons, template.tally)
-  var retrievals = []
-  for (var i = 0; i < template.retrievals.length; i ++) {
-    var tag = template.retrievals[i]
-    var hash = await utils.verifyWitnetRadonRetrievalByTag(from, registry, witnet.radons, tag)
+async function deployWitnetRequestTemplate (from, key, template) {
+  const registry = await WitnetBytecodes.deployed()
+  const aggregator = await utils.verifyWitnetRadonReducerByTag(from, registry, witnet.radons, template.aggregator)
+  const tally = await utils.verifyWitnetRadonReducerByTag(from, registry, witnet.radons, template.tally)
+  const retrievals = []
+  for (let i = 0; i < template.retrievals.length; i++) {
+    const tag = template.retrievals[i]
+    const hash = await utils.verifyWitnetRadonRetrievalByTag(from, registry, witnet.radons, tag)
     hashes.retrievals[tag] = hash
     retrievals.push(hash)
   }
@@ -160,8 +161,8 @@ async function deployWitnetRequestTemplate(from, key, template) {
   utils.saveHashes(hashes)
 
   utils.traceHeader(`Building '${key}'...`)
-  var factory = await WitnetRequestFactory.deployed()
-  var templateAddr = await factory.buildRequestTemplate.call(
+  const factory = await WitnetRequestFactory.deployed()
+  let templateAddr = await factory.buildRequestTemplate.call(
     retrievals,
     aggregator,
     tally,
@@ -169,63 +170,63 @@ async function deployWitnetRequestTemplate(from, key, template) {
     { from }
   )
   if (
-    utils.isNullAddress(templateAddr)
-      || (await web3.eth.getCode(templateAddr)).length <= 3
+    utils.isNullAddress(templateAddr) ||
+      (await web3.eth.getCode(templateAddr)).length <= 3
   ) {
-    var tx = await factory.buildRequestTemplate(
+    const tx = await factory.buildRequestTemplate(
       retrievals,
       aggregator,
       tally,
       template?.resultDataMaxSize || 0,
       { from }
     )
-    tx.logs = tx.logs.filter(log => log.event === 'WitnetRequestTemplateBuilt')
+    tx.logs = tx.logs.filter(log => log.event === "WitnetRequestTemplateBuilt")
     templateAddr = tx.logs[0].args.template
     console.info("  ", "> transaction hash:", tx.receipt.transactionHash)
     console.info("  ", "> transaction gas: ", tx.receipt.gasUsed)
     if (!tx.logs[0].args.parameterized) {
       // settle as a WitnetRequest if retrievals require no params
-      var args = []
-      for (var i = 0; i < retrievals?.length; i ++) {
+      const args = []
+      for (let i = 0; i < retrievals?.length; i++) {
         args.push([])
       }
-      var tx = await contract.buildRequest(args, { from })
-      tx.logs = tx.logs.filter(log => log.event === 'WitnetRequestBuilt')
+      const tx = await contract.buildRequest(args, { from })
+      tx.logs = tx.logs.filter(log => log.event === "WitnetRequestBuilt")
       console.debug("  ", "> no-args settlement hash:", tx.receipt.transactionHash)
-      console.debug("  ", "> no-args settlement gas: ", tx.receipt.gasUsed)    
+      console.debug("  ", "> no-args settlement gas: ", tx.receipt.gasUsed)
       console.info("  ", "> request address:  ", tx.logs[0].args.request)
       console.info("  ", "> request radhash:  ", tx.logs[0].args.radHash)
-      console.info("  ", "> request data type:", await contr)
+      console.info("  ", "> request data type:", (await contract.resultDataType.call()).toString())
     }
   }
   console.info("  ", "> template address:", templateAddr)
   return templateAddr
 }
 
-function findTemplateArtifact(templates, artifact) {
-  if (typeof templates === 'object') {
+function findTemplateArtifact (templates, artifact) {
+  if (typeof templates === "object") {
     for (const key in templates) {
       if (key === artifact) {
         return templates[key]
-      } 
-      if (typeof templates[key] === 'object') {
-        var template = findTemplateArtifact(templates[key], artifact)
-        if (template !== "") return template;
+      }
+      if (typeof templates[key] === "object") {
+        const template = findTemplateArtifact(templates[key], artifact)
+        if (template !== "") return template
       }
     }
   }
   return ""
 }
 
-function findArtifactAddress(addresses, artifact) {
-  if (typeof addresses === 'object') {
+function findArtifactAddress (addresses, artifact) {
+  if (typeof addresses === "object") {
     for (const key in addresses) {
       if (key === artifact) {
         return addresses[key]
-      } 
-      if (typeof addresses[key] === 'object') {
-        var address = findArtifactAddress(addresses[key], artifact)
-        if (address !== "") return address;
+      }
+      if (typeof addresses[key] === "object") {
+        const address = findArtifactAddress(addresses[key], artifact)
+        if (address !== "") return address
       }
     }
   }

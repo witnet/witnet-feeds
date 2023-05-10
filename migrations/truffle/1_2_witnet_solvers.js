@@ -9,18 +9,18 @@ module.exports = async function (deployer, network, [, from]) {
   const ecosystem = utils.getRealmNetworkFromArgs()[0]
   network = network.split("-")[0]
 
-  if (!addresses[ecosystem]) addresses[ecosystem] = {};
-  if (!addresses[ecosystem][network]) addresses[ecosystem][network] = {};
-  if (!addresses[ecosystem][network].solvers) addresses[ecosystem][network].solvers = {};
+  if (!addresses[ecosystem]) addresses[ecosystem] = {}
+  if (!addresses[ecosystem][network]) addresses[ecosystem][network] = {}
+  if (!addresses[ecosystem][network].solvers) addresses[ecosystem][network].solvers = {}
 
-  for (key in solvers) {
+  for (const key in solvers) {
     await deployWitnetPriceSolver(deployer, from, isDryRun, ecosystem, network, key)
   }
 }
 
-async function deployWitnetPriceSolver(deployer, from, isDryRun, ecosystem, network, key) {
+async function deployWitnetPriceSolver (deployer, from, isDryRun, ecosystem, network, key) {
+  const artifact = artifacts.require(key)
   if (isDryRun || utils.isNullAddress(addresses[ecosystem][network].solvers[key])) {
-    const artifact = artifacts.require(key)
     await deployer.deploy(artifact, WitnetPriceFeeds.address, { from })
     addresses[ecosystem][network].solvers[key] = artifact.address
     if (!isDryRun) {
