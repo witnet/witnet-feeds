@@ -1,6 +1,6 @@
 {
   "name": "witnet-feeds",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Public data feeds currently sustained by the Witnet Foundation",
   "main": "",
   "repository": "https://github.com/witnet/witnet-solidity-feeds",
