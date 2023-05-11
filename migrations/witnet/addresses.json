@@ -32,8 +32,8 @@
                 "WitnetRequestPriceUsdtUsd6": "0x16e31D8352C5BA648EAd5a2aE9D50e0a18cd4B81"
             },
             "solvers": {
-                "WitnetPriceSolverProduct": "",
-                "WitnetPriceSolverBnbUsd6": ""
+                "WitnetPriceSolverProduct": "0xeBd91A65eA5d30536E4b4C97D907cfe08a06358C",
+                "WitnetPriceSolverBnbUsd6": "0xeBd91A65eA5d30536E4b4C97D907cfe08a06358C"
             },
             "templates": {}
         }
