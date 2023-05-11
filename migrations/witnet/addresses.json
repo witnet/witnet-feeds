@@ -12,11 +12,11 @@
                 "WitnetRequestPriceUsdtUsd6": "0x69BEdc0a53Ba8c247FaFd2Afb9e2b3F35a697d2d"
             },
             "solvers": {
-                "WitnetPriceSolverProduct": "",
-                "WitnetPriceSolverBnbUsd6": "",
-                "WitnetPriceSolverBusdUsd6": "",
-                "WitnetPriceSolverElaUsd6": "",
-                "WitnetPriceSolverHtUsd6": ""
+                "WitnetPriceSolverProduct": "0x21466da76A711f09638dfC1fb281b6462D067cBc",
+                "WitnetPriceSolverBnbUsd6": "0x21466da76A711f09638dfC1fb281b6462D067cBc",
+                "WitnetPriceSolverBusdUsd6": "0x21466da76A711f09638dfC1fb281b6462D067cBc",
+                "WitnetPriceSolverElaUsd6": "0x21466da76A711f09638dfC1fb281b6462D067cBc",
+                "WitnetPriceSolverHtUsd6": "0x21466da76A711f09638dfC1fb281b6462D067cBc"
             },
             "templates": {}
         }
