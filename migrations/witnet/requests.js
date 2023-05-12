@@ -108,6 +108,14 @@ module.exports = {
         "kraken/ticker": ["MATIC", "USD"], // kraken.com
       },
     },
+    WitnetRequestPriceMetisUsdt6: {
+      ...priceTicker,
+      retrievals: {
+        "gateio/ticker": ["metis", "usdt"], // gateio.io
+        "kucoin/ticker": ["METIS", "USDT"], // kucoin.com
+        "mexc/ticker": ["METIS", "USDT"], // mexc.com
+      },
+    },
     WitnetRequestPriceQuickUsdc6: {
       args: [{
         pair_id: "0x022df0b3341b3a0157eea97dd024a93f7496d631",

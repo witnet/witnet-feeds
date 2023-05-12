@@ -38,6 +38,17 @@
             "templates": {}
         }
     },
+    "metis": {
+        "metis.goerli": {
+            "requests": {
+                "WitnetRequestPriceBtcUsd6": "",
+                "WitnetRequestPriceEthUsd6": "",
+                "WitnetRequestPriceMetisUsdt6": ""
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
     "polygon": {
         "polygon.goerli": {
             "requests": {
