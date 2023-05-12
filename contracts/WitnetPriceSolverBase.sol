@@ -34,7 +34,7 @@ abstract contract WitnetPriceSolverBase
         uint256 _innerDecimals;
         require(
             deps.length <= 8,
-            "WitnetPriceSolverBase: too many deps"
+            "WitnetPriceSolverBase: too many dependencies"
         );
         for (uint _ix = 0; _ix < deps.length; _ix ++) {
             bytes4 _depsId4 = bytes4(keccak256(bytes(deps[_ix])));
