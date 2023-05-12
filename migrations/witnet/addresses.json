@@ -41,12 +41,16 @@
     "metis": {
         "metis.goerli": {
             "requests": {
-                "WitnetRequestPriceBtcUsd6": "",
-                "WitnetRequestPriceEthUsd6": "",
-                "WitnetRequestPriceMetisUsdt6": ""
+                "WitnetRequestPriceBtcUsd6": "0xa20F1f917E5e5E36202aef8bb1fF5aB098ff0f7a",
+                "WitnetRequestPriceEthUsd6": "0x5B690489AE99eda57120a990De7f014AB2b4C82A",
+                "WitnetRequestPriceMetisUsdt6": "0x3A18A28b298e2eF9D683d1dC1F10E966792BbFE9",
+                "WitnetRequestPriceUsdtUsd6": "0x05DF3FE527981F6873176363F7c8Cf48515dca8E"
             },
             "templates": {},
-            "solvers": {}
+            "solvers": {
+                "WitnetPriceSolverProduct": "0x0eC4b055753dF3678c873d451594295381824243",
+                "WitnetPriceSolverMetisUsd6": "0x0eC4b055753dF3678c873d451594295381824243"
+            }
         }
     },
     "polygon": {
