@@ -5,6 +5,8 @@ const addresses = require("../witnet/addresses")
 const hashes = require("../witnet/hashes")
 const requests = require("../witnet/requests")
 
+const selection = utils.getWitnetRequestArtifactsFromArgs()
+
 const WitnetBytecodes = artifacts.require("WitnetBytecodes")
 const WitnetRequestFactory = artifacts.require("WitnetRequestFactory")
 const WitnetRequestTemplate = artifacts.require("WitnetRequestTemplate")
@@ -30,54 +32,56 @@ async function deployWitnetRequests (from, isDryRun, ecosystem, network, request
     const request = requests[key]
     if (request?.retrievals || request?.template) {
       const targetAddress = addresses[ecosystem][network].requests[key] ?? null
-      if (isDryRun || targetAddress === "") {
-        let requestAddress
-        if (request?.retrievals) {
-          try {
-            requestAddress = await deployWitnetRequest(from, key, request)
-          } catch (e) {
-            utils.traceHeader(`Failed '${key}': ${e}`)
-            process.exit(1)
-          }
-        } else {
-          try {
-            let templateAddr = findArtifactAddress(addresses, request?.template)
-            if (
-              utils.isNullAddress(templateAddr) ||
-                (await web3.eth.getCode(templateAddr)).length <= 3
-            ) {
-              const templateArtifact = findTemplateArtifact(witnet.templates, request?.template)
-              if (!templateArtifact) {
-                throw `artifact '${request?.template} not found in templates file`
-              }
-              templateAddr = await deployWitnetRequestTemplate(from, request?.template, templateArtifact)
-              if (utils.isNullAddress(templateAddr)) {
-                throw `artifact '${request?.template}' could not get deployed`
-              }
-              addresses[ecosystem][network].templates[request?.template] = templateAddr
+      if (!isDryRun || selection.length == 0 || selection.includes(key)) {
+        if (isDryRun || targetAddress === "") {
+          let requestAddress
+          if (request?.retrievals) {
+            try {
+              requestAddress = await deployWitnetRequest(from, key, request)
+            } catch (e) {
+              utils.traceHeader(`Failed '${key}': ${e}`)
+              process.exit(1)
             }
-            utils.traceHeader(`Settling '${key}'...`)
-            console.info("  ", "> template artifact:", request?.template)
-            console.info("  ", "> template address: ", templateAddr)
-            const contract = await WitnetRequestTemplate.at(templateAddr)
-            const args = request?.args
-            args.map((subargs, source) => {
-              if (!Array.isArray(subargs)) {
-                args[source] = Object.values(subargs)
+          } else {
+            try {
+              let templateAddr = findArtifactAddress(addresses, request?.template)
+              if (
+                utils.isNullAddress(templateAddr) ||
+                  (await web3.eth.getCode(templateAddr)).length <= 3
+              ) {
+                const templateArtifact = findTemplateArtifact(witnet.templates, request?.template)
+                if (!templateArtifact) {
+                  throw `artifact '${request?.template} not found in templates file`
+                }
+                templateAddr = await deployWitnetRequestTemplate(from, request?.template, templateArtifact)
+                if (utils.isNullAddress(templateAddr)) {
+                  throw `artifact '${request?.template}' could not get deployed`
+                }
+                addresses[ecosystem][network].templates[request?.template] = templateAddr
               }
-              console.info("  ", `> template source #${source + 1} params => ${JSON.stringify(args[source])}`)
-              return subargs
-            })
-            requestAddress = await utils.buildWitnetRequestFromTemplate(from, contract, request?.args)
-          } catch (ex) {
-            utils.traceHeader(`Failed '${key}': ${ex}`)
-            process.exit(1)
+              utils.traceHeader(`Settling '${key}'...`)
+              console.info("  ", "> template artifact:", request?.template)
+              console.info("  ", "> template address: ", templateAddr)
+              const contract = await WitnetRequestTemplate.at(templateAddr)
+              const args = request?.args
+              args.map((subargs, source) => {
+                if (!Array.isArray(subargs)) {
+                  args[source] = Object.values(subargs)
+                }
+                console.info("  ", `> template source #${source + 1} params => ${JSON.stringify(args[source])}`)
+                return subargs
+              })
+              requestAddress = await utils.buildWitnetRequestFromTemplate(from, contract, request?.args)
+            } catch (ex) {
+              utils.traceHeader(`Failed '${key}': ${ex}`)
+              process.exit(1)
+            }
           }
+          addresses[ecosystem][network].requests[key] = requestAddress
+          utils.saveAddresses(addresses)
+        } else if (!utils.isNullAddress(targetAddress)) {
+          utils.traceHeader(`Skipping '${key}': deployed at '${targetAddress}'`)
         }
-        addresses[ecosystem][network].requests[key] = requestAddress
-        utils.saveAddresses(addresses)
-      } else if (!utils.isNullAddress(targetAddress)) {
-        utils.traceHeader(`Skipping '${key}': deployed at '${targetAddress}'`)
       }
     } else {
       await deployWitnetRequests(

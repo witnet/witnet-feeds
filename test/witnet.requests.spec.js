@@ -8,25 +8,27 @@ contract("migrations/witnet/requests", async () => {
   describe("My Witnet Requests...", async () => {
     const crafts = findWitnetRequestCrafts(requests)
     crafts.forEach(async (craft) => {
-      describe(`${craft.artifact}`, async () => {
-        it("verified?", async () => {
-          const request = await WitnetRequest.at(craft.address)
-          await request.radHash.call()
+      if (craft.address !== "") {
+        describe(`${craft.artifact}`, async () => {
+          it("verified?", async () => {
+            const request = await WitnetRequest.at(craft.address)
+            await request.radHash.call()
+          })
+          it("securable?", async () => {
+            const request = await WitnetRequest.at(craft.address)
+            await request.settleRadonSLA([3, 51, "100000000", "1000000000", "10000000"])
+          })
+          it("responsive?", async () => {
+            const request = await WitnetRequest.at(craft.address)
+            const tx = await request.settleRadonSLA([3, 51, "100000000", "1000000000", "10000000"])
+            const logs = tx.logs.filter(log => log.event === "WitnetRequestSettled")
+            const secured = await WitnetRequest.at(logs[0].args.request)
+            const bytecode = await secured.bytecode.call()
+            assert(bytecode, `${craft.artifact}: has no RadonSLA`)
+            await dryRunBytecode(bytecode)
+          })
         })
-        it("securable?", async () => {
-          const request = await WitnetRequest.at(craft.address)
-          await request.settleRadonSLA([3, 51, "100000000", "1000000000", "10000000"])
-        })
-        it("responsive?", async () => {
-          const request = await WitnetRequest.at(craft.address)
-          const tx = await request.settleRadonSLA([3, 51, "100000000", "1000000000", "10000000"])
-          const logs = tx.logs.filter(log => log.event === "WitnetRequestSettled")
-          const secured = await WitnetRequest.at(logs[0].args.request)
-          const bytecode = await secured.bytecode.call()
-          assert(bytecode, `${craft.artifact}: has no RadonSLA`)
-          await dryRunBytecode(bytecode)
-        })
-      })
+      }
     })
   })
 
@@ -69,6 +71,6 @@ contract("migrations/witnet/requests", async () => {
         return addrs[key]
       }
     }
-    throw Error(`Cannot find address for ${target}`)
+    return ""
   }
 })

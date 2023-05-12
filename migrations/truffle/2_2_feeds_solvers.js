@@ -2,6 +2,8 @@ const addresses = require("../witnet/addresses")
 const solvers = require("../witnet/solvers")
 const utils = require("../../assets/witnet/utils/js")
 
+const selection = utils.getWitnetRequestArtifactsFromArgs()
+
 const WitnetPriceFeeds = artifacts.require("WitnetPriceFeeds")
 
 module.exports = async function (_deployer, network, [, from]) {
@@ -32,6 +34,9 @@ module.exports = async function (_deployer, network, [, from]) {
 }
 
 async function settlePriceFeedSolver (feeds, from, caption, solverArtifact, solverDeps) {
+  if (selection.length > 0 && !checkDepsMatchSelection(solverDeps)) {
+    return
+  }
   console.info()
   try {
     const hash = await feeds.hash.call(caption, { from })
@@ -72,10 +77,21 @@ async function settlePriceFeedSolver (feeds, from, caption, solverArtifact, solv
 }
 
 function camelize(str) {
-    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
-      return index === 0 ? word.toUpperCase() : word.toLowerCase();
-    }).replace(/\s+/g, '');
-  }
+  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+    return index === 0 ? word.toUpperCase() : word.toLowerCase();
+  }).replace(/\s+/g, '');
+}
+
+function checkDepsMatchSelection(deps) {
+  let match = true
+  deps.map(caption => {
+    const key = extractKeyFromCaption(caption)
+    if (!selection.includes(key)) {
+      match = false
+    }
+  })
+  return match
+}
 
 function extractKeyFromCaption (caption) {
   let parts = caption.split("-")

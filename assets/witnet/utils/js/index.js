@@ -10,6 +10,8 @@ module.exports = {
   getRealmNetworkFromArgs,
   getRealmNetworkFromString,
   getRequestMethodString,
+  getRequestResultDataTypeString,
+  getWitnetRequestArtifactsFromArgs,
   isNullAddress,
   padLeft,
   prompt,
@@ -110,6 +112,17 @@ function getRealmNetworkFromString(network) {
   return [realm, network]
 }
 
+function getWitnetRequestArtifactsFromArgs() {
+  let selection = []
+  process.argv.map((argv, index, args) => {
+    if (argv === "--requests") {
+      selection = args[index + 1].split(",")
+    }
+    return argv
+  })
+  return selection
+}
+
 function getRequestMethodString(method) {
   if (method == 0) {
     return "UNKNOWN"
@@ -121,6 +134,26 @@ function getRequestMethodString(method) {
     return "HTTP-POST"
   } else {
     return method.toString()
+  }
+}
+
+function getRequestResultDataTypeString(type) {
+  if (type == 1) {
+    return "Array"
+  } else if (type == 2) {
+    return "Bool"
+  } else if (type == 3) {
+    return "Bytes"
+  } else if (type == 4) {
+    return "Integer"
+  } else if (type == 5) {
+    return "Float"
+  } else if (type == 6) {
+    return "Map"
+  } else if (type == 7) {
+    return "String"
+  } else {
+    return "(Undetermined)"
   }
 }
 

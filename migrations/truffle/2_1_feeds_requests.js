@@ -14,12 +14,12 @@ async function settlePriceFeedsRadHash (from, addresses) {
   const feeds = await WitnetPriceFeeds.deployed()
   for (const key in addresses) {
     console.info()
-    const caption = extractCaptionFromKey(key)
-    const hash = await feeds.hash.call(caption, { from })
     try {
       if (utils.isNullAddress(addresses[key])) {
         throw "no address."
       }
+      const caption = extractCaptionFromKey(key)
+      const hash = await feeds.hash.call(caption, { from })
       const request = await WitnetRequest.at(addresses[key])
       if ((await web3.eth.getCode(request.address)).length > 2) {
         const requestClass = await request.class.call({ from })

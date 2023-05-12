@@ -20,14 +20,16 @@ module.exports = async function (deployer, network, [, from]) {
 
 async function deployWitnetPriceSolver (deployer, from, isDryRun, ecosystem, network, key) {
   const artifact = artifacts.require(key)
-  if (isDryRun || utils.isNullAddress(addresses[ecosystem][network].solvers[key])) {
-    await deployer.deploy(artifact, WitnetPriceFeeds.address, { from })
-    addresses[ecosystem][network].solvers[key] = artifact.address
-    if (!isDryRun) {
-      utils.saveAddresses(addresses)
+  if (addresses[ecosystem][network].solvers[key] !== undefined) {
+    if (isDryRun || utils.isNullAddress(addresses[ecosystem][network].solvers[key])) {
+      await deployer.deploy(artifact, WitnetPriceFeeds.address, { from })
+      addresses[ecosystem][network].solvers[key] = artifact.address
+      if (!isDryRun) {
+        utils.saveAddresses(addresses)
+      }
+    } else {
+      artifact.address = addresses[ecosystem][network].solvers[key]
+      utils.traceHeader(`Skipping '${key}': deployed at ${artifact.address}`)
     }
-  } else {
-    artifact.address = addresses[ecosystem][network].solvers[key]
-    utils.traceHeader(`Skipping '${key}': deployed at ${artifact.address}`)
   }
 }
