@@ -25,5 +25,9 @@ module.exports = {
       "Price-QUICK/USDC-6",
       "Price-USDC/USD-6",
     ],
+    "Price-METIS/USD-6": [
+      "Price-METIS/USDT-6",
+      "Price-USDT/USD-6"
+    ],
   },
 }
