@@ -1,4 +1,13 @@
 {
+    "arbitrum": {
+        "arbitrum.one": {
+            "requests": {
+                "WitnetRequestPriceEthUsd6": "0x64AbbDd8356CA5d0af5b309F7672BEd847906fC3"
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
     "elastos": {
         "elastos.testnet": {
             "requests": {
