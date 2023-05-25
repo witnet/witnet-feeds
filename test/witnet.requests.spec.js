@@ -1,14 +1,24 @@
-const WitnetRequest = artifacts.require("WitnetRequest")
-
 const { execSync } = require("child_process")
+const utils = require("../assets/witnet/utils/js")
+
 const addresses = require("../migrations/witnet/addresses")
 const requests = require("../migrations/witnet/requests")
+const selection = utils.getWitnetRequestArtifactsFromArgs()
+
+const WitnetBytecodes = artifacts.require("WitnetBytecodes")
+const WitnetRequest = artifacts.require("WitnetRequest")
 
 contract("migrations/witnet/requests", async () => {
   describe("My Witnet Requests...", async () => {
     const crafts = findWitnetRequestCrafts(requests)
     crafts.forEach(async (craft) => {
-      if (craft.address !== "") {
+      if (
+        craft.address !== ""
+          && (
+            selection.length == 0
+              || selection.includes(craft.artifact)
+          )
+      ) {
         describe(`${craft.artifact}`, async () => {
           it("verified?", async () => {
             const request = await WitnetRequest.at(craft.address)
@@ -20,11 +30,8 @@ contract("migrations/witnet/requests", async () => {
           })
           it("responsive?", async () => {
             const request = await WitnetRequest.at(craft.address)
-            const tx = await request.settleRadonSLA([3, 51, "100000000", "1000000000", "10000000"])
-            const logs = tx.logs.filter(log => log.event === "WitnetRequestSettled")
-            const secured = await WitnetRequest.at(logs[0].args.request)
-            const bytecode = await secured.bytecode.call()
-            assert(bytecode, `${craft.artifact}: has no RadonSLA`)
+            const registry = await WitnetBytecodes.at(await request.registry.call())
+            const bytecode = await registry.bytecodeOf.call(await request.radHash.call())
             await dryRunBytecode(bytecode)
           })
         })
