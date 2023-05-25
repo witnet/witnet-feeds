@@ -1,15 +1,17 @@
 const utils = require("../../assets/witnet/utils/js")
 const witnet = require("../../assets/witnet")
 
-const WitnetBytecodes = artifacts.require("WitnetBytecodes")
 const WitnetEncodingLib = artifacts.require("WitnetEncodingLib")
 const WitnetErrorsLib = artifacts.require("WitnetErrorsLib")
+
+const WitnetBytecodes = artifacts.require("WitnetBytecodes")
 const WitnetPriceFeeds = artifacts.require("WitnetPriceFeeds")
 const WitnetRandomness = artifacts.require("WitnetRandomness")
 const WitnetRequestBoard = artifacts.require("WitnetRequestBoard")
 const WitnetRequestFactory = artifacts.require("WitnetRequestFactory")
 
 const WitnetBytecodesDefault = artifacts.require("WitnetBytecodesDefault")
+const WitnetPriceFeedsLib = artifacts.require("WitnetPriceFeedsLib")
 const WitnetPriceFeedsUpgradable = artifacts.require("WitnetPriceFeedsUpgradable")
 const WitnetRandomnessProxiable = artifacts.require("WitnetRandomnessProxiable")
 const WitnetRequestBoardDefault = artifacts.require("WitnetRequestBoardTrustableDefault")
@@ -30,12 +32,6 @@ module.exports = async function (deployer, network, [, from]) {
       WitnetRandomness.address = witnetAddresses.WitnetRandomness
       WitnetRequestBoard.address = witnetAddresses.WitnetRequestBoard
       WitnetRequestFactory.address = witnetAddresses.WitnetRequestFactory
-      utils.traceHeader("Witnet artifacts:")
-      console.info("  ", "> WitnetBytecodes:      ", WitnetBytecodes.address)
-      console.info("  ", "> WitnetPriceFeeds:     ", WitnetPriceFeeds.address)
-      console.info("  ", "> WitnetRandomness:     ", WitnetRandomness.address)
-      console.info("  ", "> WitnetRequestBoard:   ", WitnetRequestBoard.address)
-      console.info("  ", "> WitnetRequestFactory: ", WitnetRequestFactory.address)
     } catch (e) {
       console.error("Fatal: Witnet Foundation addresses were not provided!", e)
       process.exit(1)
@@ -44,14 +40,16 @@ module.exports = async function (deployer, network, [, from]) {
     await deployer.deploy(WitnetEncodingLib, { from })
     await deployer.link(WitnetEncodingLib, WitnetBytecodesDefault)
     await deployer.deploy(WitnetErrorsLib, { from })
-    await deployer.link(WitnetErrorsLib, WitnetRequestBoardDefault)
+    await deployer.link(WitnetErrorsLib, WitnetRequestBoardDefault)    
+    await deployer.deploy(WitnetPriceFeedsLib, { from })
+    await deployer.link(WitnetPriceFeedsLib, WitnetPriceFeedsUpgradable)
     await deployer.deploy(
       WitnetBytecodesDefault,
       false,
       utils.fromAscii(network),
       { from, gas: 6721975 }
     )
-    WitnetBytecodes.address = WitnetBytecodesDefault.address
+    WitnetBytecodes.address = WitnetBytecodesDefault.address    
     await deployer.deploy(
       WitnetRequestFactoryDefault,
       WitnetBytecodes.address,
@@ -59,7 +57,7 @@ module.exports = async function (deployer, network, [, from]) {
       utils.fromAscii(network),
       { from, gas: 6721975 }
     )
-    WitnetRequestFactory.address = WitnetRequestFactoryDefault.address
+    WitnetRequestFactory.address = WitnetRequestFactoryDefault.address    
     await deployer.deploy(
       WitnetRequestBoardDefault,
       WitnetRequestFactory.address,
@@ -68,7 +66,7 @@ module.exports = async function (deployer, network, [, from]) {
       135000,
       { from, gas: 6721975 }
     )
-    WitnetRequestBoard.address = WitnetRequestBoardDefault.address
+    WitnetRequestBoard.address = WitnetRequestBoardDefault.address    
     await deployer.deploy(
       WitnetPriceFeedsUpgradable,
       WitnetRequestBoard.address,
@@ -76,7 +74,7 @@ module.exports = async function (deployer, network, [, from]) {
       utils.fromAscii(network),
       { from, gas: 6721975 }
     )
-    WitnetPriceFeeds.address = WitnetPriceFeedsUpgradable.address
+    WitnetPriceFeeds.address = WitnetPriceFeedsUpgradable.address    
     await deployer.deploy(WitnetRequestRandomness, { from })
     await deployer.deploy(
       WitnetRandomnessProxiable,
@@ -85,11 +83,17 @@ module.exports = async function (deployer, network, [, from]) {
       utils.fromAscii(network),
       { from, gas: 6721975 }
     )
-    WitnetRandomness.address = WitnetRandomnessProxiable.address
+    WitnetRandomness.address = WitnetRandomnessProxiable.address    
     const addresses = require("../witnet/addresses")
     if (addresses[ecosystem] && addresses[ecosystem][network]) {
       delete addresses[ecosystem][network]
       utils.saveAddresses(addresses)
     }
   }
+  utils.traceHeader("Witnet artifacts:")
+    console.info("  ", "> WitnetBytecodes:      ", WitnetBytecodes.address)
+    console.info("  ", "> WitnetPriceFeeds:     ", WitnetPriceFeeds.address)
+    console.info("  ", "> WitnetRandomness:     ", WitnetRandomness.address)
+    console.info("  ", "> WitnetRequestBoard:   ", WitnetRequestBoard.address)
+    console.info("  ", "> WitnetRequestFactory: ", WitnetRequestFactory.address)
 }

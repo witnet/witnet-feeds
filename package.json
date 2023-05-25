@@ -23,7 +23,8 @@
     "test": "npx truffle test"
   },
   "dependencies": {
-    "witnet-solidity-bridge": "https://github.com/guidiaz/witnet-solidity-bridge#77c55e6c6a12f99c4853ca0f264e5cc4bd09d61b"
+    "witnet-solidity-bridge": "https://github.com/guidiaz/witnet-solidity-bridge#e931fe019e6ad5fa89af1b43cda5cc3670c9c509",
+    "witnet-requests": "~0.9.9"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -42,6 +43,6 @@
     "truffle-assertions": "~0.9.2",
     "truffle-flattener": "~1.6.0",
     "truffle-plugin-verify": "~0.6.2",
-    "witnet-solidity": "~0.0.8"
+    "witnet-solidity": "~0.0.10"
   }
 }

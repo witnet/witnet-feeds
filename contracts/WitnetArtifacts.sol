@@ -17,3 +17,4 @@ import "witnet-solidity-bridge/contracts/impls/core/WitnetRequestBoardTrustableD
 import "witnet-solidity-bridge/contracts/impls/core/WitnetRequestFactoryDefault.sol";
 import "witnet-solidity-bridge/contracts/libs/WitnetEncodingLib.sol";
 import "witnet-solidity-bridge/contracts/libs/WitnetErrorsLib.sol";
+import "witnet-solidity-bridge/contracts/libs/WitnetPriceFeedsLib.sol";
