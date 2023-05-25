@@ -21,11 +21,10 @@
                 "WitnetRequestPriceUsdtUsd6": "0x69BEdc0a53Ba8c247FaFd2Afb9e2b3F35a697d2d"
             },
             "solvers": {
-                "WitnetPriceSolverProduct": "0x21466da76A711f09638dfC1fb281b6462D067cBc",
-                "WitnetPriceSolverBnbUsd6": "0x21466da76A711f09638dfC1fb281b6462D067cBc",
-                "WitnetPriceSolverBusdUsd6": "0x21466da76A711f09638dfC1fb281b6462D067cBc",
-                "WitnetPriceSolverElaUsd6": "0x21466da76A711f09638dfC1fb281b6462D067cBc",
-                "WitnetPriceSolverHtUsd6": "0x21466da76A711f09638dfC1fb281b6462D067cBc"
+                "WitnetPriceSolverBnbUsd6": "",
+                "WitnetPriceSolverBusdUsd6": "",
+                "WitnetPriceSolverElaUsd6": "",
+                "WitnetPriceSolverHtUsd6": ""
             },
             "templates": {}
         }
@@ -41,8 +40,7 @@
                 "WitnetRequestPriceUsdtUsd6": "0x16e31D8352C5BA648EAd5a2aE9D50e0a18cd4B81"
             },
             "solvers": {
-                "WitnetPriceSolverProduct": "0xeBd91A65eA5d30536E4b4C97D907cfe08a06358C",
-                "WitnetPriceSolverBnbUsd6": "0xeBd91A65eA5d30536E4b4C97D907cfe08a06358C"
+                "WitnetPriceSolverBnbUsd6": ""
             },
             "templates": {}
         }
@@ -57,14 +55,14 @@
             },
             "templates": {},
             "solvers": {
-                "WitnetPriceSolverProduct": "0x0eC4b055753dF3678c873d451594295381824243",
-                "WitnetPriceSolverMetisUsd6": "0x0eC4b055753dF3678c873d451594295381824243"
+                "WitnetPriceSolverMetisUsd6": ""
             }
         }
     },
     "polygon": {
         "polygon.goerli": {
             "requests": {
+                "WitnetRequestDevopsTest1": "0x9b7c99cbe1FF7fc0801c8a25Ff8F1F8A63B48E34",
                 "WitnetRequestPriceBatUsdt6": "0xB4135eEe05C60676294F35Bf9122Fe098a670774",
                 "WitnetRequestPriceBtcUsd6": "0x8F85FF1FA880886662d055C797E56DeEDD5B5558",
                 "WitnetRequestPriceDaiUsd6": "0xA8Cef47007Ac6606b90f075c5994542A93080A36",
@@ -85,8 +83,8 @@
                 "WitnetRequestTemplateMaticExchange": "0xBD306169fFa6BA09Fc80A4aF921856e34C04FAB1"
             },
             "solvers": {
-                "WitnetPriceSolverBatUsd6": "0x8FA6eF092C678D4A5679c913180fE1cC29a63719",
-                "WitnetPriceSolverQuickUsd6": "0xd00DFd8590b831Cd030Dced2C8D081fa764F3F6C"
+                "WitnetPriceSolverBatUsd6": "",
+                "WitnetPriceSolverQuickUsd6": ""
             }
         }
     }
