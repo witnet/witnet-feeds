@@ -20,9 +20,8 @@ abstract contract WitnetPriceSolverBase
         _;
     }
 
-    constructor(address _delegator) {
-        assert(address(_delegator) != address(0));
-        delegator = _delegator;
+    constructor() {
+        delegator = msg.sender;
     }
 
     function class() external pure returns (bytes4) {

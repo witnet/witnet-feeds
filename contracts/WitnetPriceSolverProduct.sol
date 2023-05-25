@@ -8,9 +8,7 @@ contract WitnetPriceSolverProduct
     is
         WitnetPriceSolverBase
 {
-    constructor(address _delegator)
-        WitnetPriceSolverBase(_delegator)
-    {}
+    constructor(uint256) {}
 
     function solve(bytes4 feedId)
         virtual override
