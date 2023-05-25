@@ -1,8 +1,10 @@
 const addresses = require("../witnet/addresses")
 const utils = require("../../assets/witnet/utils/js")
 
+const WitnetBytecodes = artifacts.require("WitnetBytecodes")
 const WitnetPriceFeeds = artifacts.require("WitnetPriceFeeds")
 const WitnetRequest = artifacts.require("WitnetRequest")
+const WitnetRequestBoard = artifacts.require("WitnetRequestBoard")
 
 module.exports = async function (_deployer, network, [, from]) {
   const ecosystem = utils.getRealmNetworkFromArgs()[0]
@@ -13,7 +15,6 @@ module.exports = async function (_deployer, network, [, from]) {
 async function settlePriceFeedsRadHash (from, addresses) {
   const feeds = await WitnetPriceFeeds.deployed()
   for (const key in addresses) {
-    console.info()
     try {
       if (utils.isNullAddress(addresses[key])) {
         throw "no address."
@@ -28,30 +29,35 @@ async function settlePriceFeedsRadHash (from, addresses) {
         }
         const radHash = await request.radHash.call({ from })
         if (!(await feeds.supportsCaption.call(caption, { from }))) {
-          utils.traceHeader(`Settling new '${caption}' from '${key}':`)
-          console.info("  ", "> feed id:             ", hash)
-          console.info("  ", "> feed request address:", request.address)
-          console.info("  ", "> feed request hash:   ", await request.radHash.call({ from }))
+          utils.traceHeader(`Settling '${caption}':`)
+          console.info("  ", "> ID4 hash:         ", hash)
+          console.info("  ", "> Request data type:", utils.getRequestResultDataTypeString(await request.resultDataType.call()))
+          console.info("  ", "> Request artifact: ", key)
+          console.info("  ", "> Request address:  ", request.address)
+          console.info("  ", "> Request registry: ", await request.registry.call())
+          console.info("  ", "> Request RAD hash: ", radHash)
           const tx = await feeds.methods["settleFeedRequest(string,bytes32)"](
             caption,
             radHash,
             { from }
           )
-          traceTx(tx.receipt)
+          utils.traceTx(tx.receipt)
         } else {
           const currentRadHash = await feeds.lookupRadHash.call(hash, { from })
           if (radHash !== currentRadHash) {
-            utils.traceHeader(`Revisiting '${caption}' from '${key}':`)
-            console.info("  ", "> feed id:                 ", hash)
-            console.info("  ", "> feed new request address:", request.address)
-            console.info("  ", "> feed new request hash:   ", radHash)
-            console.info("  ", "> feed old request hash:   ", currentRadHash)
+            utils.traceHeader(`Revisiting '${caption}':`)
+            console.info("  ", "> ID4 hash:            ", hash)
+            console.info("  ", "> Request data type:   ", utils.getRequestResultDataTypeString(await request.resultDataType.call()))
+            console.info("  ", "> Request artifact:    ", key)
+            console.info("  ", "> NEW request address: ", request.address)
+            console.info("  ", "> NEW request RAD hash:", radHash)
+            console.info("  ", "> OLD request RAD hash:", currentRadHash)
             const tx = await feeds.methods["settleFeedRequest(string,bytes32)"](
               caption,
               radHash,
               { from }
             )
-            traceTx(tx.receipt)
+            utils.traceTx(tx.receipt)
           } else {
             utils.traceHeader(`Skipping '${caption}': already settled w/ RAD hash ${radHash}.`)
           }
@@ -77,10 +83,4 @@ function extractCaptionFromKey (key) {
   }/${
     camels[camels.length - 1].replace(/\d$/, "").toUpperCase()
   }-${decimals}`
-}
-
-function traceTx (receipt) {
-  console.log("  ", "> block number:     ", receipt.blockNumber)
-  console.log("  ", "> transaction hash: ", receipt.transactionHash)
-  console.log("  ", "> transaction gas:  ", receipt.gasUsed)
 }

@@ -5,6 +5,7 @@ const readline = require("readline")
 const web3 = require("web3")
 
 module.exports = {
+  buildWitnetRequestFromTemplate,
   findRadonRetrievalSpecs,
   fromAscii,
   getRealmNetworkFromArgs,
@@ -17,10 +18,21 @@ module.exports = {
   prompt,
   saveAddresses,
   saveHashes,
-  buildWitnetRequestFromTemplate,
   traceHeader,
+  traceTx,
   verifyWitnetRadonReducerByTag,
   verifyWitnetRadonRetrievalByTag,
+}
+
+async function buildWitnetRequestFromTemplate(from, contract, args) {
+  // convert all args values to string
+  args = args.map(subargs => subargs.map(v => v.toString()))
+  var tx = await contract.buildRequest(args, { from })
+  var requestAddress = tx.logs[0].args.request
+  console.info("  ", "> Settlement hash:  ", tx.receipt.transactionHash)
+  console.info("  ", "> Settlement gas:   ", tx.receipt.gasUsed)
+  console.info("  ", "> Request address:  ", requestAddress)
+  return requestAddress
 }
 
 function findRadonRetrievalSpecs(retrievals, tag, headers) {
@@ -207,22 +219,16 @@ function saveHashes(hashes, path) {
   )
 }
 
-async function buildWitnetRequestFromTemplate(from, contract, args) {
-  // convert all args values to string
-  args = args.map(subargs => subargs.map(v => v.toString()))
-  var tx = await contract.buildRequest(args, { from })
-  var requestAddress = tx.logs[0].args.request
-  console.info("  ", "> settlement hash:", tx.receipt.transactionHash)
-  console.info("  ", "> settlement gas: ", tx.receipt.gasUsed)
-  console.info("  ", "> request address:", requestAddress)
-  console.info("  ", "> request radhash:", tx.logs[0].args.radHash)
-  return requestAddress
-}
-
 function traceHeader(header) {
   console.log("")
   console.log("  ", header)
   console.log("  ", `${"-".repeat(header.length)}`)
+}
+
+function traceTx (receipt) {
+  console.log("  ", "> Transaction block:", receipt.blockNumber)
+  console.log("  ", "> Transaction hash: ", receipt.transactionHash)
+  console.log("  ", "> Transaction gas:  ", receipt.gasUsed)
 }
 
 async function verifyWitnetRadonReducerByTag(from, registry, radons, tag) {
@@ -241,17 +247,18 @@ async function verifyWitnetRadonReducerByTag(from, registry, radons, tag) {
       await registry.lookupRadonReducer.call(hash, { from })
     } catch {
       // register new reducer, otherwise:
-      traceHeader(`Verifying radon reducer ['${tag}']...`)
-      console.info(`   > Reducer opcode:      ${reducer.opcode}`)
+      traceHeader(`Verifying Radon Reducer ['${tag}']...`)
+      console.info(`   > Hash:        ${hash}`)
+      console.info(`   > Opcode:      ${reducer.opcode}`)
       if (reducer.filters) {
         reducer.filters = reducer.filters.map(filter => [ 
           filter.opcode, 
           "0x" + filter.args.toString("hex")
         ])
       }
-      console.info(`   > Reducer filters:     ${reducer.filters?.length > 0 ? JSON.stringify(reducer.filters) : '(no filters)'}`)
+      console.info(`   > Filters:     ${reducer.filters?.length > 0 ? JSON.stringify(reducer.filters) : '(no filters)'}`)
       if (reducer.script) {
-        console.info(`   > Reducer script:      ${reducer.script}`)
+        console.info(`   > Script:      ${reducer.script}`)
       }
       const tx = await registry.verifyRadonReducer([
           reducer.opcode,
@@ -259,10 +266,7 @@ async function verifyWitnetRadonReducerByTag(from, registry, radons, tag) {
           reducer.script || "0x",
         ], { from }
       )
-      console.info(`   > transaction hash:    ${tx.receipt.transactionHash}`)
-      console.info(`   > gas used:            ${tx.receipt.gasUsed}`)
-      hash = tx.logs[tx.logs.length - 1].args.hash
-      console.info(`   > radon reducer hash:  ${hash}`)
+      traceTx(tx.receipt)
     }
   } else {
     throw `Witnet Radon Reducer not found: '${tag}'`
@@ -301,27 +305,28 @@ async function verifyWitnetRadonRetrievalByTag(from, registry, radons, tag) {
       await registry.lookupRadonRetrieval.call(hash, { from })
     } catch (ex) {
       // register new retrieval, otherwise:
-      traceHeader(`Verifying radon retrieval ['${tag}']...`)
-      console.info(`   > Request method:    ${getRequestMethodString(await retrieval.requestMethod)}`)
+      traceHeader(`Verifying Radon Retrieval ['${tag}']...`)
+      console.info(`   > Hash:      ${hash}`)
+      console.info(`   > Method:    ${getRequestMethodString(await retrieval.requestMethod)}`)
       if (retrieval.requestSchema) {
-        console.info(`   > Request schema:    ${retrieval.requestSchema}`)
+        console.info(`   > Schema:    ${retrieval.requestSchema}`)
       }
       if (retrieval.requestAuthority) {
-        console.info(`   > Request authority: ${retrieval.requestAuthority}`)
+        console.info(`   > Authority: ${retrieval.requestAuthority}`)
       }
       if (retrieval.requestPath)  {
-        console.info(`   > Request path:      ${retrieval.requestPath}`)
+        console.info(`   > Path:      ${retrieval.requestPath}`)
       }
       if (retrieval.requestQuery) {
-        console.info(`   > Request query:     ${retrieval.requestQuery}`)
+        console.info(`   > Query:     ${retrieval.requestQuery}`)
       }
       if (retrieval.requestBody) {
-        console.info(`   > Request body:      ${retrieval.requestBody}`)
+        console.info(`   > Body:      ${retrieval.requestBody}`)
       }
       if (retrieval.requestHeaders) {
-        console.info(`   > Request headers:   ${retrieval.requestHeaders}`)
+        console.info(`   > Headers:   ${retrieval.requestHeaders}`)
       }
-      console.info(`   > Request script:    ${retrieval.requestScript/*?.script*/ || "0x80"}`)
+      console.info(`   > Script:    ${retrieval.requestScript/*?.script*/ || "0x80"}`)
       const tx = await registry.verifyRadonRetrieval(
         retrieval.requestMethod || 1,
         retrieval.requestSchema || "",
@@ -333,11 +338,7 @@ async function verifyWitnetRadonRetrievalByTag(from, registry, radons, tag) {
         retrieval.requestScript || "0x80",
         { from }
       )
-      console.info(`   > transaction hash:  ${tx.receipt.transactionHash}`)
-      console.info(`   > transaction gas:   ${tx.receipt.gasUsed}`)
-      var logs = tx.logs.filter(log => log.event === 'NewRadonRetrievalHash')
-      hash = logs[0].args.hash
-      console.info(`   > radon retrieval hash: ${hash}`)
+      traceTx(tx.receipt)
     }
   } else {
     throw `Witnet Radon Retrieval not found: '${tag}`

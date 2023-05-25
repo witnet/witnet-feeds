@@ -8,6 +8,7 @@ const requests = require("../witnet/requests")
 const selection = utils.getWitnetRequestArtifactsFromArgs()
 
 const WitnetBytecodes = artifacts.require("WitnetBytecodes")
+const WitnetRequest = artifacts.require("WitnetRequest")
 const WitnetRequestFactory = artifacts.require("WitnetRequestFactory")
 const WitnetRequestTemplate = artifacts.require("WitnetRequestTemplate")
 
@@ -32,7 +33,7 @@ async function deployWitnetRequests (from, isDryRun, ecosystem, network, request
     const request = requests[key]
     if (request?.retrievals || request?.template) {
       const targetAddress = addresses[ecosystem][network].requests[key] ?? null
-      if (!isDryRun || selection.length == 0 || selection.includes(key)) {
+      if (selection.length == 0 || selection.includes(key)) {
         if (isDryRun || targetAddress === "") {
           let requestAddress
           if (request?.retrievals) {
@@ -44,7 +45,7 @@ async function deployWitnetRequests (from, isDryRun, ecosystem, network, request
             }
           } else {
             try {
-              let templateAddr = findArtifactAddress(addresses, request?.template)
+              let templateAddr = findArtifactAddress(addresses[ecosystem][network], request?.template)
               if (
                 utils.isNullAddress(templateAddr) ||
                   (await web3.eth.getCode(templateAddr)).length <= 3
@@ -60,15 +61,15 @@ async function deployWitnetRequests (from, isDryRun, ecosystem, network, request
                 addresses[ecosystem][network].templates[request?.template] = templateAddr
               }
               utils.traceHeader(`Settling '${key}'...`)
-              console.info("  ", "> template artifact:", request?.template)
-              console.info("  ", "> template address: ", templateAddr)
+              console.info("  ", "> Template artifact:", request?.template)
+              console.info("  ", "> Template address: ", templateAddr)
               const contract = await WitnetRequestTemplate.at(templateAddr)
               const args = request?.args
               args.map((subargs, source) => {
                 if (!Array.isArray(subargs)) {
                   args[source] = Object.values(subargs)
                 }
-                console.info("  ", `> template source #${source + 1} params => ${JSON.stringify(args[source])}`)
+                console.info("  ", `> Template source #${source + 1} params => ${JSON.stringify(args[source])}`)
                 return subargs
               })
               requestAddress = await utils.buildWitnetRequestFromTemplate(from, contract, request?.args)
@@ -131,13 +132,12 @@ async function deployWitnetRequest (from, key, request) {
       { from }
     )
     tx.logs = tx.logs.filter(log => log.event === "WitnetRequestTemplateBuilt")
+    utils.traceTx(tx.receipt)
     templateAddr = tx.logs[0].args.template
-    console.info("  ", "> transaction hash:", tx.receipt.transactionHash)
-    console.info("  ", "> transaction gas: ", tx.receipt.gasUsed)
   }
-  console.info("  ", "> template address:", templateAddr)
+  console.info("  ", "> Template address:", templateAddr)
   const contract = await WitnetRequestTemplate.at(templateAddr)
-  console.info("  ", "> request retrievals...")
+  console.info("  ", "> Customizing Radon Retrievals...")
   const args = Object.entries(request?.retrievals).map(entry => {
     let subargs = entry[1]
     if (!Array.isArray(subargs)) {
@@ -184,10 +184,9 @@ async function deployWitnetRequestTemplate (from, key, template) {
       template?.resultDataMaxSize || 0,
       { from }
     )
+    utils.traceTx(tx.receipt)
     tx.logs = tx.logs.filter(log => log.event === "WitnetRequestTemplateBuilt")
     templateAddr = tx.logs[0].args.template
-    console.info("  ", "> transaction hash:", tx.receipt.transactionHash)
-    console.info("  ", "> transaction gas: ", tx.receipt.gasUsed)
     if (!tx.logs[0].args.parameterized) {
       // settle as a WitnetRequest if retrievals require no params
       const args = []
@@ -196,14 +195,16 @@ async function deployWitnetRequestTemplate (from, key, template) {
       }
       const tx = await contract.buildRequest(args, { from })
       tx.logs = tx.logs.filter(log => log.event === "WitnetRequestBuilt")
-      console.debug("  ", "> no-args settlement hash:", tx.receipt.transactionHash)
-      console.debug("  ", "> no-args settlement gas: ", tx.receipt.gasUsed)
-      console.info("  ", "> request address:  ", tx.logs[0].args.request)
-      console.info("  ", "> request radhash:  ", tx.logs[0].args.radHash)
-      console.info("  ", "> request data type:", (await contract.resultDataType.call()).toString())
+      console.debug("  ", "> No-args settlement hash:", tx.receipt.transactionHash)
+      console.debug("  ", "> No-args settlement gas: ", tx.receipt.gasUsed)
+      console.info("  ", "> Request data type:", utils.getRequestResultDataTypeString(await contract.resultDataType.call()))
+      console.info("  ", "> Request address:  ", tx.logs[0].args.request)
+      console.info("  ", "> Request RAD hash: ", tx.logs[0].args.radHash)
     }
   }
-  console.info("  ", "> template address:", templateAddr)
+  const templateContract = await WitnetRequestTemplate.at(templateAddr)
+  console.info("  ", "> Template address: ", templateContract.address)
+  console.info("  ", "> Template registry:", await templateContract.registry.call())
   return templateAddr
 }
 
