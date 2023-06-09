@@ -25,6 +25,14 @@ module.exports = {
         "okx/ticker": ["BNB", "USDT"], // okx.com
       },
     },
+    WitnetRequestPriceBobaUsdt6: {
+      ...priceTicker,
+      retrievals: {
+        "gateio/ticker": ["boba", "usdt"], // gateio.io
+        "huobi/ticker": ["boba", "usdt"], // huobi.pro
+        "mexc/ticker": ["BOBA", "USDT"], // mexc.com
+      },
+    },
     WitnetRequestPriceBtcUsd6: {
       ...priceTicker,
       retrievals: {
