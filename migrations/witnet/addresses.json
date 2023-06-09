@@ -8,6 +8,17 @@
             "solvers": {}
         }
     },
+    "boba": {
+        "boba.bnb.testnet": {
+            "requests": {
+                "WitnetRequestPriceBnbUsdt6": "0xCe07E12eCceCe579Ca50c12EC0531ba1E31100Bf",
+                "WitnetRequestPriceBobaUsdt6": "0x8f0f63d9d7a0eDCb2CdFac8091dD03ACAD35810a",
+                "WitnetRequestPriceWitUsdt6": "0xDF3419CB0b2f785F26D95073A7d79CDbF56401ea"
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
     "elastos": {
         "elastos.testnet": {
             "requests": {
