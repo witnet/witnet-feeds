@@ -170,6 +170,14 @@ module.exports = {
       }],
       template: "WitnetRequestTemplateMaticExchange",
     },
+    WitnetRequestPriceWitUsdt6: {
+      ...priceTicker,
+      retrievals: {
+        "bitmart/ticker": ["WIT", "USDT"], // bitmart.com
+        "gateio/ticker": ["wit", "usdt"], // gateio.io
+        "mexc/ticker": ["WIT", "USDT"], // mexc.com
+      },
+    },
   },
   /// path: { ... path: {
   /// //// FORMULA 1 ////////////////////////////////////////////////////////////////////////
