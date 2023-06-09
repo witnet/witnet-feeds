@@ -3,6 +3,7 @@ const utils = require("../assets/witnet/utils/js")
 
 const addresses = require("../migrations/witnet/addresses")
 const requests = require("../migrations/witnet/requests")
+
 const selection = utils.getWitnetRequestArtifactsFromArgs()
 
 const WitnetBytecodes = artifacts.require("WitnetBytecodes")
@@ -13,10 +14,10 @@ contract("migrations/witnet/requests", async () => {
     const crafts = findWitnetRequestCrafts(requests)
     crafts.forEach(async (craft) => {
       if (
-        craft.address !== ""
-          && (
-            selection.length == 0
-              || selection.includes(craft.artifact)
+        craft.address !== "" &&
+          (
+            selection.length === 0 ||
+              selection.includes(craft.artifact)
           )
       ) {
         describe(`${craft.artifact}`, async () => {

@@ -24,7 +24,7 @@ async function settlePriceFeedsRadHash (from, addresses) {
       const request = await WitnetRequest.at(addresses[key])
       if ((await web3.eth.getCode(request.address)).length > 2) {
         const requestClass = await request.class.call({ from })
-        if (requestClass !== "0x70aa025b") {
+        if (requestClass !== "0x74691a93") {
           throw `contract at ${addresses[key]} not of the WitnetRequest kind.`
         }
         const radHash = await request.radHash.call({ from })

@@ -6,13 +6,17 @@ const web3 = require("web3")
 
 module.exports = {
   buildWitnetRequestFromTemplate,
+  buildWitnetRequestTemplate,
+  findArtifactAddress,
   findRadonRetrievalSpecs,
+  findTemplateArtifact,
   fromAscii,
   getRealmNetworkFromArgs,
   getRealmNetworkFromString,
   getRequestMethodString,
   getRequestResultDataTypeString,
   getWitnetRequestArtifactsFromArgs,
+  getWitnetRequestTemplateArtifactsFromArgs,
   isNullAddress,
   padLeft,
   prompt,
@@ -24,15 +28,85 @@ module.exports = {
   verifyWitnetRadonRetrievalByTag,
 }
 
-async function buildWitnetRequestFromTemplate(from, contract, args) {
+async function buildWitnetRequestFromTemplate(from, template, args) {
   // convert all args values to string
   args = args.map(subargs => subargs.map(v => v.toString()))
-  var tx = await contract.buildRequest(args, { from })
+  var tx = await template.buildRequest(args, { from })
   var requestAddress = tx.logs[0].args.request
   console.info("  ", "> Settlement hash:  ", tx.receipt.transactionHash)
   console.info("  ", "> Settlement gas:   ", tx.receipt.gasUsed)
   console.info("  ", "> Request address:  ", requestAddress)
   return requestAddress
+}
+
+async function buildWitnetRequestTemplate (web3, from, key, template, registry, factory, radons, hashes) {
+  const aggregator = await verifyWitnetRadonReducerByTag(from, registry, radons, template.aggregator)
+  const tally = await verifyWitnetRadonReducerByTag(from, registry, radons, template.tally)
+  const retrievals = []
+  for (let i = 0; i < template.retrievals.length; i++) {
+    const tag = template.retrievals[i]
+    const hash = await verifyWitnetRadonRetrievalByTag(from, registry, radons, tag)
+    hashes.retrievals[tag] = hash
+    retrievals.push(hash)
+  }
+  hashes.reducers[template.aggregator] = aggregator
+  hashes.reducers[template.tally] = tally
+  saveHashes(hashes)
+
+  traceHeader(`Building '${key}'...`)
+  let templateAddr = await factory.buildRequestTemplate.call(
+    retrievals,
+    aggregator,
+    tally,
+    template?.resultDataMaxSize || 0,
+    { from }
+  )
+  if (
+    isNullAddress(templateAddr) 
+      || (await web3.eth.getCode(templateAddr)).length <= 3
+  ) {
+    const tx = await factory.buildRequestTemplate(
+      retrievals,
+      aggregator,
+      tally,
+      template?.resultDataMaxSize || 0,
+      { from }
+    )
+    traceTx(tx.receipt)
+    tx.logs = tx.logs.filter(log => log.event === "WitnetRequestTemplateBuilt")
+    templateAddr = tx.logs[0].args.template
+    if (!tx.logs[0].args.parameterized) {
+      // settle as a WitnetRequest if retrievals require no params
+      const args = []
+      for (let i = 0; i < retrievals?.length; i++) {
+        args.push([])
+      }
+      const tx = await contract.buildRequest(args, { from })
+      tx.logs = tx.logs.filter(log => log.event === "WitnetRequestBuilt")
+      console.debug("  ", "> No-args settlement hash:", tx.receipt.transactionHash)
+      console.debug("  ", "> No-args settlement gas: ", tx.receipt.gasUsed)
+      console.info("  ", "> Request data type:", getRequestResultDataTypeString(await contract.resultDataType.call()))
+      console.info("  ", "> Request address:  ", tx.logs[0].args.request)
+      console.info("  ", "> Request RAD hash: ", tx.logs[0].args.radHash)
+    }
+  }
+  return templateAddr
+}
+
+
+function findArtifactAddress (addresses, artifact) {
+  if (typeof addresses === "object") {
+    for (const key in addresses) {
+      if (key === artifact) {
+        return addresses[key]
+      }
+      if (typeof addresses[key] === "object") {
+        const address = findArtifactAddress(addresses[key], artifact)
+        if (address !== "") return address
+      }
+    }
+  }
+  return ""
 }
 
 function findRadonRetrievalSpecs(retrievals, tag, headers) {
@@ -48,9 +122,9 @@ function findRadonRetrievalSpecs(retrievals, tag, headers) {
           if (retrieval?.requestMethod !== 2) {
             if (!retrieval?.requestAuthority) {
               retrieval.requestAuthority = headers[headers.length - 1]
-            }
-            if (!retrieval?.requestPath) {
-              retrieval.requestPath = tag
+              if (!retrieval?.requestPath) {
+                retrieval.requestPath = tag
+              }
             }
           }
           return retrieval
@@ -65,6 +139,21 @@ function findRadonRetrievalSpecs(retrievals, tag, headers) {
       }
     }
   }
+}
+
+function findTemplateArtifact (templates, artifact) {
+  if (typeof templates === "object") {
+    for (const key in templates) {
+      if (key === artifact) {
+        return templates[key]
+      }
+      if (typeof templates[key] === "object") {
+        const template = findTemplateArtifact(templates[key], artifact)
+        if (template !== "") return template
+      }
+    }
+  }
+  return ""
 }
 
 function fromAscii(str) {
@@ -135,6 +224,17 @@ function getWitnetRequestArtifactsFromArgs() {
   return selection
 }
 
+function getWitnetRequestTemplateArtifactsFromArgs() {
+  let selection = []
+  process.argv.map((argv, index, args) => {
+    if (argv === "--templates") {
+      selection = args[index + 1].split(",")
+    }
+    return argv
+  })
+  return selection
+}
+
 function getRequestMethodString(method) {
   if (method == 0) {
     return "UNKNOWN"
@@ -171,6 +271,7 @@ function getRequestResultDataTypeString(type) {
 
 function isNullAddress(addr) {
   return !addr ||
+    addr === "" ||
     addr === "0x0000000000000000000000000000000000000000" ||
     !web3.utils.isAddress(addr)
 }

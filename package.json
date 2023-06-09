@@ -23,7 +23,7 @@
     "test": "npx truffle test"
   },
   "dependencies": {
-    "witnet-solidity-bridge": "https://github.com/guidiaz/witnet-solidity-bridge#e931fe019e6ad5fa89af1b43cda5cc3670c9c509",
+    "witnet-solidity-bridge": "https://github.com/guidiaz/witnet-solidity-bridge#305e14bab1cae0e2974149b654aea9d635141942",
     "witnet-requests": "~0.9.9"
   },
   "devDependencies": {
