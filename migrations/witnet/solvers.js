@@ -2,7 +2,7 @@
 module.exports = {
   WitnetPriceSolverProduct: {
     "Price-BAT/USD-6": {
-      constructorParams: [],
+      constructorParams: null,
       dependencies: [
         "Price-BAT/USDT-6",
         "Price-USDT/USD-6", 

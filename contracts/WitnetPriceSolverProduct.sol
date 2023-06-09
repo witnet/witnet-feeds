@@ -8,7 +8,7 @@ contract WitnetPriceSolverProduct
     is
         WitnetPriceSolverBase
 {
-    constructor(uint256) {}
+    constructor() {}
 
     function solve(bytes4 feedId)
         virtual override
