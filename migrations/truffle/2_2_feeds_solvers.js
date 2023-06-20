@@ -2,7 +2,7 @@ const addresses = require("../witnet/addresses")
 const solvers = require("../witnet/solvers")
 const utils = require("../../assets/witnet/utils/js")
 
-const selection = utils.getWitnetRequestArtifactsFromArgs()
+const selection = utils.getWitnetArtifactsFromArgs()
 
 const WitnetPriceFeeds = artifacts.require("WitnetPriceFeeds")
 
@@ -20,7 +20,11 @@ module.exports = async function (_deployer, network, [, from]) {
     const solverArtifact = artifacts.require(key)
     for (const caption in solvers[key]) {
       const solverName = extractKeyFromCaption(caption)
-      if (isDryRun || addresses[ecosystem][network].solvers[solverName] !== undefined) {
+      if (
+        isDryRun || 
+        addresses[ecosystem][network].solvers[solverName] !== undefined ||
+        (selection.length > 0 && selection.includes(solverName))
+      ) {
         await settlePriceFeedSolver(
           feeds,
           from,
@@ -98,9 +102,6 @@ async function resolveSolverArtifactAddress(factory, from, artifact, parameters)
 }
 
 async function settlePriceFeedSolver (feeds, from, caption, solverArtifact, solverSpecs) {
-  if (selection.length > 0 && !checkDepsMatchSelection(solverSpecs?.dependencies)) {
-    return
-  }
   try {
     await resolveSolverArtifactAddress(
       feeds,

@@ -4,7 +4,7 @@ const utils = require("../assets/witnet/utils/js")
 const addresses = require("../migrations/witnet/addresses")
 const requests = require("../migrations/witnet/requests")
 
-const selection = utils.getWitnetRequestArtifactsFromArgs()
+const selection = utils.getWitnetArtifactsFromArgs()
 
 const WitnetBytecodes = artifacts.require("WitnetBytecodes")
 const WitnetRequest = artifacts.require("WitnetRequest")

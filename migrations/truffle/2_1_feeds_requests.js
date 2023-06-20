@@ -1,10 +1,8 @@
 const addresses = require("../witnet/addresses")
 const utils = require("../../assets/witnet/utils/js")
 
-const WitnetBytecodes = artifacts.require("WitnetBytecodes")
 const WitnetPriceFeeds = artifacts.require("WitnetPriceFeeds")
 const WitnetRequest = artifacts.require("WitnetRequest")
-const WitnetRequestBoard = artifacts.require("WitnetRequestBoard")
 
 module.exports = async function (_deployer, network, [, from]) {
   const ecosystem = utils.getRealmNetworkFromArgs()[0]
@@ -24,7 +22,7 @@ async function settlePriceFeedsRadHash (from, addresses) {
       const request = await WitnetRequest.at(addresses[key])
       if ((await web3.eth.getCode(request.address)).length > 2) {
         const requestClass = await request.class.call({ from })
-        if (requestClass !== "0x74691a93") {
+        if (requestClass !== "0xcfcd3875") {
           throw `contract at ${addresses[key]} not of the WitnetRequest kind.`
         }
         const radHash = await request.radHash.call({ from })
