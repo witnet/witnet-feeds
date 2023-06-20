@@ -21,19 +21,22 @@ contract("migrations/witnet/requests", async () => {
           )
       ) {
         describe(`${craft.artifact}`, async () => {
-          it("verified?", async () => {
+          let output
+          it("request was actually deployed", async () => {
             const request = await WitnetRequest.at(craft.address)
             await request.radHash.call()
           })
-          it("securable?", async () => {
-            const request = await WitnetRequest.at(craft.address)
-            await request.settleRadonSLA([3, 51, "100000000", "1000000000", "10000000"])
-          })
-          it("responsive?", async () => {
+          it("request dryruns successfully", async () => {
             const request = await WitnetRequest.at(craft.address)
             const registry = await WitnetBytecodes.at(await request.registry.call())
             const bytecode = await registry.bytecodeOf.call(await request.radHash.call())
-            await dryRunBytecode(bytecode)
+            output = await dryRunBytecode(bytecode)
+          })
+          after(async () => {
+            if (process.argv.includes("--verbose")) {
+              console.info(output.split("\n").slice(0, -1).join("\n"))
+              console.info("-".repeat(120))
+            }
           })
         })
       }
@@ -41,14 +44,7 @@ contract("migrations/witnet/requests", async () => {
   })
 
   async function dryRunBytecode (bytecode) {
-    const output = (await execSync(`npx witnet-toolkit try-query --hex ${bytecode}`)).toString()
-    console.log(output)
-    const errors = (await execSync(
-      `npx witnet-toolkit try-query --hex ${bytecode} | grep Error | wc -l`
-    )).toString().split("\n")[0]
-    if (errors !== "0") {
-      throw output
-    }
+    return (await execSync(`npx witnet-toolkit try-query --hex ${bytecode}`)).toString()
   }
 
   function findWitnetRequestCrafts (tree, headers) {

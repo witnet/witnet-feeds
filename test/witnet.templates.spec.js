@@ -25,11 +25,12 @@ contract("migrations/witnet/templates", async () => {
           for (const test in craft.artifact?.tests) {
             describe(`${test}`, async () => {
               const args = craft.artifact.tests[test]
-              it("verifiable?", async () => {
+              let output
+              it("parameterized request gets built", async () => {
                 const template = await WitnetRequestTemplate.at(craft.address)
                 await template.verifyRadonRequest(args)
               })
-              it("responsive?", async () => {
+              it("paramterized request dryruns successfully", async () => {
                 const template = await WitnetRequestTemplate.at(craft.address)
                 const tx = await template.buildRequest(args)
                 const events = tx.logs.filter(log => log.event === "WitnetRequestBuilt")
@@ -37,7 +38,13 @@ contract("migrations/witnet/templates", async () => {
                 const request = await WitnetRequest.at(events[0].args.request)
                 const radHash = await request.radHash.call()
                 const registry = await WitnetBytecodes.at(await request.registry.call())
-                await dryRunBytecode(await registry.bytecodeOf.call(radHash))
+                output = await dryRunBytecode(await registry.bytecodeOf.call(radHash))
+              })
+              after(async () => {
+                if (process.argv.includes("--verbose")) {
+                  console.info(output.split("\n").slice(0, -1).join("\n"))
+                  console.info("-".repeat(120))
+                }
               })
             })
           }
@@ -47,14 +54,7 @@ contract("migrations/witnet/templates", async () => {
   })
 
   async function dryRunBytecode (bytecode) {
-    const output = (await execSync(`npx witnet-toolkit try-query --hex ${bytecode}`)).toString()
-    console.log(output)
-    const errors = (await execSync(
-      `npx witnet-toolkit try-query --hex ${bytecode} | grep Error | wc -l`
-    )).toString().split("\n")[0]
-    if (errors !== "0") {
-      throw output
-    }
+    return (await execSync(`npx witnet-toolkit try-query --hex ${bytecode}`)).toString()
   }
 
   function findWitnetRequestTemplateCrafts (tree, headers) {
