@@ -1,6 +1,6 @@
 {
   "name": "witnet-feeds",
-  "version": "0.0.5",
+  "version": "0.7.8",
   "description": "Public data feeds currently sustained by the Witnet Foundation",
   "main": "",
   "repository": "https://github.com/witnet/witnet-solidity-feeds",
@@ -20,11 +20,9 @@
     "fmt": "solhint --max-warnings 0 \"contracts/**/*.sol\" && eslint ./test && eslint ./migrations/**/*.js && solhint \"test/**/*.sol\"",
     "fmt!": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix && eslint ./test --fix && eslint ./migrations/**/*.js --fix && solhint \"test/**/*.sol\" --fix",
     "migrate": "npm run clean:build && node ./scripts/migrate.js 2>&1",
-    "test": "npx truffle test"
+    "test": "npx witnet test"
   },
   "dependencies": {
-    "witnet-solidity-bridge": "https://github.com/guidiaz/witnet-solidity-bridge#305e14bab1cae0e2974149b654aea9d635141942",
-    "witnet-requests": "~0.9.9"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -43,6 +41,7 @@
     "truffle-assertions": "~0.9.2",
     "truffle-flattener": "~1.6.0",
     "truffle-plugin-verify": "~0.6.2",
-    "witnet-solidity": "^0.0.20"
+    "witnet-solidity": "^0.0.35",
+    "witnet-solidity-bridge": "https://github.com/guidiaz/witnet-solidity-bridge#ef859fad4196e60c755e9ea02d80a14648c6ed63"
   }
 }

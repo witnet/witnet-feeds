@@ -14,8 +14,8 @@ if (!settings.networks[realm] || !settings.networks[realm][network]) {
   }
 }
 console.info(`
-Targetting "${realm.toUpperCase()}" realm
-===================${"=".repeat(realm.length)}`)
+Targetting "${realm.toUpperCase()}" ecosystem
+=======================${"=".repeat(realm.length)}`)
 
 module.exports = {
   build_directory: `./build/`,
@@ -40,6 +40,7 @@ module.exports = {
   },
   plugins: ['truffle-plugin-verify'],
   api_keys: {
+    elastos: process.env.ELASTOS_API_KEY,
     etherscan: process.env.ETHERSCAN_API_KEY,
     polygonscan: process.env.POLYGONSCAN_API_KEY,
   },
