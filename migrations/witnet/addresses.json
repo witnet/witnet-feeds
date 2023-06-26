@@ -17,6 +17,15 @@
             },
             "templates": {},
             "solvers": {}
+        },
+        "boba.bnb.mainnet": {
+            "requests": {
+                "WitnetRequestPriceBnbUsdt6": "0x9Af382C13Ae32148Dd28FAAfDF348677e73E9b8C",
+                "WitnetRequestPriceBobaUsdt6": "0x468e2559Ba6eBcDD13fCF5448B41d539C996943a",
+                "WitnetRequestPriceWitUsdt6": "0x079D3069959af084828DE8c7ffa3e8acCC22F0a6"
+            },
+            "templates": {},
+            "solvers": {}
         }
     },
     "elastos": {
