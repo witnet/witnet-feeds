@@ -18,6 +18,8 @@ const WitnetRequestBoardDefault = artifacts.require("WitnetRequestBoardTrustable
 const WitnetRequestFactoryDefault = artifacts.require("WitnetRequestFactoryDefault")
 const WitnetRequestRandomness = artifacts.require("WitnetRequestRandomness")
 
+const WitnetUpgradableBase = artifacts.require("WitnetUpgradableBase")
+
 module.exports = async function (deployer, network, [, from]) {
   const isDryRun = network === "test" || network.split("-")[1] === "fork" || network.split("-")[0] === "develop"
   const ecosystem = utils.getRealmNetworkFromArgs()[0]
@@ -91,9 +93,24 @@ module.exports = async function (deployer, network, [, from]) {
     }
   }
   utils.traceHeader("Witnet artifacts:")
-    console.info("  ", "> WitnetBytecodes:      ", WitnetBytecodes.address)
-    console.info("  ", "> WitnetPriceFeeds:     ", WitnetPriceFeeds.address)
-    console.info("  ", "> WitnetRandomness:     ", WitnetRandomness.address)
-    console.info("  ", "> WitnetRequestBoard:   ", WitnetRequestBoard.address)
-    console.info("  ", "> WitnetRequestFactory: ", WitnetRequestFactory.address)
+  if (WitnetBytecodes.address) {
+    console.info("  ", "> WitnetBytecodes:      ", WitnetBytecodes.address, `(v${await readUpgradableArtifactVersion(WitnetBytecodes)})`)
+  }
+  if (WitnetPriceFeeds.address) {
+    console.info("  ", "> WitnetPriceFeeds:     ", WitnetPriceFeeds.address, `(v${await readUpgradableArtifactVersion(WitnetPriceFeeds)})`)
+  }
+  if (WitnetRandomness.address) {
+    console.info("  ", "> WitnetRandomness:     ", WitnetRandomness.address, `(v${await readUpgradableArtifactVersion(WitnetRandomness)})`)
+  }
+  if (WitnetRequestBoard.address) {
+    console.info("  ", "> WitnetRequestBoard:   ", WitnetRequestBoard.address, `(v${await readUpgradableArtifactVersion(WitnetRequestBoard)})`)
+  }
+  if (WitnetRequestFactory.address) {
+    console.info("  ", "> WitnetRequestFactory: ", WitnetRequestFactory.address, `(v${await readUpgradableArtifactVersion(WitnetRequestFactory)})`)
+  }
+}
+
+async function readUpgradableArtifactVersion(artifact) {
+  const upgradable = await WitnetUpgradableBase.at(artifact.address)
+  return await upgradable.version()
 }

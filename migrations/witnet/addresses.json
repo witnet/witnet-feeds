@@ -17,7 +17,18 @@
             },
             "templates": {},
             "solvers": {}
+        },
+        "boba.bnb.mainnet": {
+            "requests": {
+                "WitnetRequestPriceBnbUsdt6": "0x9Af382C13Ae32148Dd28FAAfDF348677e73E9b8C",
+                "WitnetRequestPriceBobaUsdt6": "0x468e2559Ba6eBcDD13fCF5448B41d539C996943a",
+                "WitnetRequestPriceWitUsdt6": "0x079D3069959af084828DE8c7ffa3e8acCC22F0a6"
+            },
+            "templates": {},
+            "solvers": {}
         }
+    },
+    "default": {
     },
     "elastos": {
         "elastos.testnet": {
@@ -38,6 +49,20 @@
                 "WitnetPriceSolverHtUsd6": ""
             },
             "templates": {}
+        },
+        "elastos.mainnet": {
+            "requests": {
+                "WitnetRequestPriceBnbUsdt6": "0x217c9E0b51B58B50fCc6C988aEE635218115b727",
+                "WitnetRequestPriceElaUsdt6": "0xe4b4F6d2D3F9628f40c65C5296e20b9BeedBacC5",
+                "WitnetRequestPriceEthUsd6": "0xb39868BE2Da2E2c6D8c3f51820fdAE6B3f47c3ad",
+                "WitnetRequestPriceHtUsdt6": "0xDafdAB9D070508009F708f5472c480Fa80BE20DD",
+                "WitnetRequestPriceUsdtUsd6": "0x2c33454a40D86E81dd33385c730C0bB6501525B2"
+            },
+            "templates": {},
+            "solvers": {
+                "WitnetPriceSolverHtUsd6": "0x10C5041c49d8B12B0a1675947100C45Df71A8E7e",
+                "WitnetPriceSolverBnbUsd6": "0x10C5041c49d8B12B0a1675947100C45Df71A8E7e"
+            }
         }
     },
     "fuse": {
@@ -54,6 +79,16 @@
                 "WitnetPriceSolverBnbUsd6": ""
             },
             "templates": {}
+        }
+    },
+    "gnosis": {
+        "gnosis.testnet": {
+            "requests": {
+                "WitnetRequestPriceDaiUsd6": "0x28929A569Ba3ed908cC66D4D0701D0287fF22115",
+                "WitnetRequestPriceWitUsdt6": "0xF2D2eE952934B866b8400EA33ab00C76FE5ACDF8"
+            },
+            "templates": {},
+            "solvers": {}
         }
     },
     "metis": {

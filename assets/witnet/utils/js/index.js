@@ -1,8 +1,10 @@
 require("dotenv").config()
 
+const cbor = require('cbor')
 const fs = require("fs")
 const readline = require("readline")
 const web3 = require("web3")
+const Witnet = require("witnet-requests");
 
 module.exports = {
   buildWitnetRequestFromTemplate,
@@ -11,10 +13,12 @@ module.exports = {
   findRadonRetrievalSpecs,
   findTemplateArtifact,
   fromAscii,
+  getChainFromProcessArgv,
   getRealmNetworkFromArgs,
   getRealmNetworkFromString,
   getRequestMethodString,
   getRequestResultDataTypeString,
+  getWitnetArtifactsFromArgs,
   getWitnetRequestArtifactsFromArgs,
   getWitnetRequestTemplateArtifactsFromArgs,
   isNullAddress,
@@ -22,21 +26,27 @@ module.exports = {
   prompt,
   saveAddresses,
   saveHashes,
+  splitSelectionFromProcessArgv,
+  stringifyWitnetFilterOperator,
+  stringifyWitnetReducerOperator,
+  stringifyWitnetReducerFilter,
+  stringifyWitnetRequestMethod,  
   traceHeader,
   traceTx,
   verifyWitnetRadonReducerByTag,
   verifyWitnetRadonRetrievalByTag,
 }
 
-async function buildWitnetRequestFromTemplate(from, template, args) {
+async function buildWitnetRequestFromTemplate(web3, from, template, args) {
   // convert all args values to string
   args = args.map(subargs => subargs.map(v => v.toString()))
-  var tx = await template.buildRequest(args, { from })
-  var requestAddress = tx.logs[0].args.request
-  console.info("  ", "> Settlement hash:  ", tx.receipt.transactionHash)
-  console.info("  ", "> Settlement gas:   ", tx.receipt.gasUsed)
-  console.info("  ", "> Request address:  ", requestAddress)
-  return requestAddress
+  let requestAddr = await template.buildRequest.call(args, { from })
+  if ((await web3.eth.getCode(requestAddr)).length <= 3) {
+    const tx = await template.buildRequest(args, { from })
+    console.info("  ", "> Template settlement hash:", tx.receipt.transactionHash)
+    console.info("  ", "> Template settlement gas: ", tx.receipt.gasUsed)
+  }
+  return requestAddr
 }
 
 async function buildWitnetRequestTemplate (web3, from, key, template, registry, factory, radons, hashes) {
@@ -115,10 +125,7 @@ function findRadonRetrievalSpecs(retrievals, tag, headers) {
     if (typeof retrievals[key] === 'object') {
       var retrieval = retrievals[key]
       if (key === tag || key === retrieval?.alias) {
-        if (retrieval.requestScript) {
-          if (typeof retrieval.requestScript === 'object') {
-            retrieval.requestScript = "0x" + retrieval.requestScript.encode().toString('hex')
-          }
+        if (retrieval.requestMethod) {
           if (retrieval?.requestMethod !== 2) {
             if (!retrieval?.requestAuthority) {
               retrieval.requestAuthority = headers[headers.length - 1]
@@ -127,10 +134,8 @@ function findRadonRetrievalSpecs(retrievals, tag, headers) {
               }
             }
           }
-          return retrieval
-        } else {
-          throw `Witnet Radon Retrieval found with no script: '${key}'`
         }
+        return retrieval
       } else {
         retrieval = findRadonRetrievalSpecs(retrievals[key], tag, [...headers, key])
         if (retrieval) {
@@ -163,6 +168,19 @@ function fromAscii(str) {
     arr1.push(hex)
   }
   return "0x" + arr1.join("")
+}
+
+function getChainFromProcessArgv() {
+  let network = process.env.WITNET_SIDECHAIN
+  process.argv.map((argv, index, args) => {
+      if (argv === "--chain") {
+          network = args[index + 1]
+      }
+  })
+  if (network) {
+    network = network.replaceAll(":", ".")
+      return getRealmNetworkFromString(network)
+  }
 }
 
 function getRealmNetworkFromArgs() {
@@ -211,6 +229,17 @@ function getRealmNetworkFromString(network) {
     }
   }
   return [realm, network]
+}
+
+function getWitnetArtifactsFromArgs() {
+  let selection = []
+  process.argv.map((argv, index, args) => {
+    if (argv === "--artifacts") {
+      selection = args[index + 1].split(",")
+    }
+    return argv
+  })
+  return selection
 }
 
 function getWitnetRequestArtifactsFromArgs() {
@@ -320,6 +349,64 @@ function saveHashes(hashes, path) {
   )
 }
 
+function splitSelectionFromProcessArgv(operand) {
+  let selection = []
+  if (process.argv.includes(operand)) {
+      process.argv.map((argv, index, args) => {
+          if (argv === operand) {
+              if (index < process.argv.length - 1 && !args[index + 1].startsWith("--")) {
+                  selection = args[index + 1].replaceAll(":", ".").split(",")
+              }
+          }
+      })
+  }
+  return selection
+}
+
+function stringifyWitnetReducerOperator(opcode) {
+  if (opcode === Witnet.Types.REDUCERS.mode) {
+      return "Mode"
+  } else if (opcode === Witnet.Types.REDUCERS.averageMean) {
+      return "MeanAverage"
+  } else if (opcode === Witnet.Types.REDUCERS.averageMedian) {
+      return "MedianAverage"
+  } else if (opcode === Witnet.Types.REDUCERS.deviationStandard) {
+      return "StandardDeviation"
+  } else if (opcode === Witnet.Types.REDUCERS.concatenateAndHash) {
+      return "ConcatHash"
+  } else {
+      return opcode
+  }
+}
+
+function stringifyWitnetReducerFilter(filter) {
+  return `${stringifyWitnetFilterOperator(filter?.opcode)}${filter?.args ? `( ${cbor.decode(filter.args)} )` : ""}`
+}
+
+function stringifyWitnetFilterOperator(opcode) {
+  if (opcode === Witnet.Types.FILTERS.mode) {
+      return "Mode"
+  } else if (opcode === Witnet.Types.FILTERS.deviationStandard) {
+      return "StandardDeviation"
+  } else {
+      return opcode
+  }
+}
+
+function stringifyWitnetRequestMethod(method) {
+  if (method === Witnet.Types.RETRIEVAL_METHODS.HttpGet) {
+    return "HTTP/GET"
+  } else if (method === Witnet.Types.RETRIEVAL_METHODS.HttpPost) {
+    return "HTTP/POST"
+  } else if (method === Witnet.Types.RETRIEVAL_METHODS.Rng) {
+    return "RNG"
+  } else {
+    return method
+  }
+
+  
+}
+
 function traceHeader(header) {
   console.log("")
   console.log("  ", header)
@@ -380,10 +467,7 @@ async function verifyWitnetRadonRetrievalByTag(from, registry, radons, tag) {
   // get actual hash for this data source
   var hash
   if (retrieval) {
-    // var requestScriptBytecode
-    // if (retrieval.requestScript === 'object') {
-    //   requestScriptBytecode = "0x" + retrieval.requestScript.encode().toString('hex')
-    // }
+    const requestScriptBytecode = "0x" + retrieval.requestScript?.encode().toString('hex') || "80"
     try {
       hash = await registry.verifyRadonRetrieval.call(
         await retrieval.requestMethod || 1,
@@ -393,13 +477,11 @@ async function verifyWitnetRadonRetrievalByTag(from, registry, radons, tag) {
         retrieval.requestQuery || "",
         retrieval.requestBody || "",
         retrieval.requestHeaders || [],
-        retrieval.requestScript || "0x80",
+        requestScriptBytecode,
         { from }
       )
     } catch (e) {
-      console.log(retrieval.requestScript)
-      console.log(e)
-      throw e
+      throw `Cannot verify radon retrieval: ${e}`
     }
     // checks whether hash is already registered
     try {
@@ -427,7 +509,7 @@ async function verifyWitnetRadonRetrievalByTag(from, registry, radons, tag) {
       if (retrieval.requestHeaders) {
         console.info(`   > Headers:   ${retrieval.requestHeaders}`)
       }
-      console.info(`   > Script:    ${retrieval.requestScript/*?.script*/ || "0x80"}`)
+      console.info(`   > Script:    ${requestScriptBytecode}`)
       const tx = await registry.verifyRadonRetrieval(
         retrieval.requestMethod || 1,
         retrieval.requestSchema || "",
@@ -436,7 +518,7 @@ async function verifyWitnetRadonRetrievalByTag(from, registry, radons, tag) {
         retrieval.requestQuery || "",
         retrieval.requestBody || "",
         retrieval.requestHeaders || [],
-        retrieval.requestScript || "0x80",
+        requestScriptBytecode,
         { from }
       )
       traceTx(tx.receipt)
