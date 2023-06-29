@@ -28,6 +28,8 @@
             "solvers": {}
         }
     },
+    "default": {
+    },
     "elastos": {
         "elastos.testnet": {
             "requests": {
@@ -79,6 +81,16 @@
             "templates": {}
         }
     },
+    "gnosis": {
+        "gnosis.testnet": {
+            "requests": {
+                "WitnetRequestPriceDaiUsd6": "0x28929A569Ba3ed908cC66D4D0701D0287fF22115",
+                "WitnetRequestPriceWitUsdt6": "0xF2D2eE952934B866b8400EA33ab00C76FE5ACDF8"
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
     "metis": {
         "metis.goerli": {
             "requests": {
@@ -119,57 +131,6 @@
             "solvers": {
                 "WitnetPriceSolverBatUsd6": "",
                 "WitnetPriceSolverQuickUsd6": ""
-            }
-        }
-    },
-    "default": {
-        "develop": {
-            "templates": {
-                "WitnetRequestTemplateDoDao1": "0xeC294ee3582BC4AfB471EC674Fe025D7E1e13054",
-                "WitnetRequestTemplateQuickswap": "0x413083b3076272cfbc68D938C32317BEBC4a9677",
-                "WitnetRequestTemplateQuickswap_9": "0xF01Da052F5b00731326916cE0a72654c3df23E9e",
-                "WitnetRequestTemplateMaticExchange": "0x1f99C1Ac3125FEc1093c30CC0162829C48a70497"
-            },
-            "requests": {
-                "WitnetRequestPriceBatUsdt6": "0xbd9D372d97176B84272386dDC62f96C731b6CeF7",
-                "WitnetRequestPriceBnbUsdt6": "0x18d8A4e167C4B28Da36aB3d4Fc61EAA6c835C2a8",
-                "WitnetRequestPriceBtcUsd6": "0x08cC523C793bd21783Edd2e84b6fCe7fb2B0d76a",
-                "WitnetRequestPriceBusdUsdt6": "0x8DF3677D3B119Ac3e7a80f8230F0411a0DEc5415",
-                "WitnetRequestPriceDaiUsd6": "0x934582f889E285c76E4cF7c01B399D9c4F05bAe6",
-                "WitnetRequestPriceElaUsdt6": "0xA38BE4F345Fa30b5d3523057c89bB4a843D8F35b",
-                "WitnetRequestPriceEthUsd6": "0x62E43129c994dBcE96E68EADf6b3F9a84C703cEC",
-                "WitnetRequestPriceFuseUsdt6": "0x3b7D318b70eFFa8696d9caa108ef83F7c3a23D81",
-                "WitnetRequestPriceHtUsdt6": "0x836A31efDfA2b0466e4EfaaC890fE1837F0E37Cc",
-                "WitnetRequestPriceMaticUsd6": "0xa1805b13D91F3AD98a87fC9ADe6CE4f1B68B4d88",
-                "WitnetRequestPriceMetisUsdt6": "0xeED2c0d48535d1453a41DEe1448ED4b7921403C6",
-                "WitnetRequestPriceQuickUsdc6": "0x13Cc6AE47ccB4018cB825C2c7D81DF67F144B047",
-                "WitnetRequestPriceQuickWeth9": "0x9B42E3dE19DCFB27D3bf34fBa617048f9C9B7FA6",
-                "WitnetRequestPriceQuickWmatic6": "0x5b3FF08893081E840E0Ddb4e6F83A252816930b3",
-                "WitnetRequestPriceUsdcUsd6": "0xDCf307C32D3CfA722a9630EbFAA09c02557ce041",
-                "WitnetRequestPriceUsdtUsd6": "0x7381E2C79677EE43450622deE61D218A38829d1b",
-                "WitnetRequestPriceVsqDai6": "0x11dCd4f1572C0746d1CEbB2f553acdF72eDedCB0"
-            },
-            "solvers": {
-                "WitnetPriceSolverBatUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719",
-                "WitnetPriceSolverBnbUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719",
-                "WitnetPriceSolverBusdUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719",
-                "WitnetPriceSolverElaUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719",
-                "WitnetPriceSolverHtUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719",
-                "WitnetPriceSolverQuickUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719",
-                "WitnetPriceSolverMetisUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719"
-            }
-        },
-        "test": {
-            "templates": {},
-            "requests": {},
-            "solvers": {
-                "WitnetPriceSolverBatUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719",
-                "WitnetPriceSolverBnbUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719",
-                "WitnetPriceSolverBusdUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719",
-                "WitnetPriceSolverElaUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719",
-                "WitnetPriceSolverHtUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719",
-                "WitnetPriceSolverQuickUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719",
-                "WitnetPriceSolverMetisUsd6": "0xabB685D8eb9744D4F18f7F8109D74AC61A36f719"
             }
         }
     }
