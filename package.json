@@ -1,6 +1,6 @@
 {
   "name": "witnet-feeds",
-  "version": "0.7.8",
+  "version": "0.7.9",
   "description": "Public data feeds currently sustained by the Witnet Foundation",
   "main": "",
   "repository": "https://github.com/witnet/witnet-solidity-feeds",
@@ -39,6 +39,6 @@
     "truffle-flattener": "~1.6.0",
     "truffle-plugin-verify": "~0.6.2",
     "witnet-solidity": "^0.0.37",
-    "witnet-solidity-bridge": "https://github.com/guidiaz/witnet-solidity-bridge#a7f40ec7b839b2566d213f2795fc3b72e0b95ae3"
+    "witnet-solidity-bridge": "https://github.com/guidiaz/witnet-solidity-bridge#1ce8ab29fcb4fc1dd1c8e4acaa818c1ea7629cbb"
   }
 }
