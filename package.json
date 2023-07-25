@@ -19,7 +19,8 @@
     "flatten": "npm run clean:flattened && node ./scripts/flatten.js contracts/ 2>&1",
     "fmt": "solhint --max-warnings 0 \"contracts/**/*.sol\" && eslint ./test && eslint ./migrations/**/*.js && solhint \"test/**/*.sol\"",
     "fmt!": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix && eslint ./test --fix && eslint ./migrations/**/*.js --fix && solhint \"test/**/*.sol\" --fix",
-    "migrate": "npm run clean:build && node ./scripts/migrate.js 2>&1",
+    "ops:get:sla": "truffle migrate --reset --migrations_directory ./migrations/ops/get-default-sla/ --network",
+    "ops:set:sla": "truffle migrate --reset --migrations_directory ./migrations/ops/set-default-sla/ --network",
     "test": "npx witnet test"
   },
   "dependencies": {
