@@ -31,7 +31,7 @@ async function deployWitnetRequestTemplates (from, isDryRun, ecosystem, network,
     const template = templates[key]
     if (template?.retrievals) {
       if (
-        isDryRun ||
+        (selection.length == 0 && isDryRun) ||
         (selection.length > 0 && selection.includes(key)) ||
         addresses[ecosystem][network].templates[key] !== undefined
       ) {

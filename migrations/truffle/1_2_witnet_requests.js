@@ -33,8 +33,8 @@ async function deployWitnetRequests (from, isDryRun, ecosystem, network, request
     if (request?.retrievals || request?.template) {
       const targetAddress = addresses[ecosystem][network].requests[key] ?? null
       if (
-        isDryRun ||
         targetAddress === "" ||
+        (selection.length == 0 & isDryRun) ||
         (selection.length > 0 && selection.includes(key))
       ) {
         let requestAddress
@@ -155,7 +155,7 @@ async function deployWitnetRequest (from, key, request) {
     if (!Array.isArray(subargs)) {
       subargs = Object.values(subargs)
     }
-    console.info("  ", " ", `=> ${entry[0]}: \t<${subargs.map(v => `"${v}"`)}>`)
+    console.info("  ", " ", `=> ${entry[0]}: <${subargs.map(v => `"${v}"`)}>`)
     return subargs
   })
   const requestAddr = await utils.buildWitnetRequestFromTemplate(
