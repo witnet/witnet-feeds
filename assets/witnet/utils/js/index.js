@@ -420,7 +420,7 @@ async function verifyWitnetRadonReducerByTag(from, registry, radons, tag) {
       await registry.lookupRadonReducer.call(hash, { from })
     } catch {
       // register new reducer, otherwise:
-      traceHeader(`Verifying Radon Reducer ['${tag}']...`)
+      traceHeader(`Verifying Radon Reducer ['\x1b[35m${tag}\x1b[0m']...`)
       console.info(`   > Hash:        ${hash}`)
       console.info(`   > Opcode:      ${reducer.opcode}`)
       if (reducer.filters) {
@@ -473,7 +473,7 @@ async function verifyWitnetRadonRetrievalByTag(from, registry, radons, tag) {
       await registry.lookupRadonRetrieval.call(hash, { from })
     } catch (ex) {
       // register new retrieval, otherwise:
-      traceHeader(`Verifying Radon Retrieval ['${tag}']...`)
+      traceHeader(`Verifying Radon Retrieval ['\x1b[32m${tag}\x1b[0m']...`)
       console.info(`   > Hash:      ${hash}`)
       console.info(`   > Method:    ${getRequestMethodString(await retrieval.requestMethod)}`)
       if (retrieval.requestSchema) {

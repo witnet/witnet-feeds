@@ -98,6 +98,16 @@ module.exports = {
       }],
       template: "WitnetRequestTemplateBeamswap",
     },
+    WitnetRequestPriceGlmrUsdt6: {
+      ...priceTicker,
+      retrievals: {
+        "binance.com/ticker": [ "GLMR", "USDT"], // binance.com
+        "gateio/ticker": [ "glmr", "usdt" ], // gate.io
+        "kucoin/ticker": [ "GLMR", "USDT" ], // kucoin.com
+        "mexc/ticker": [ "GLMR", "USDT" ], // mexc.com
+        "okx/ticker": [ "GLMR", "USDT" ], // okx.com
+      },
+    }, 
     WitnetRequestPriceHtUsdt6: {
       ...priceTicker,
       retrievals: {
@@ -144,6 +154,13 @@ module.exports = {
         token_id: "0",
       }],
       template: "WitnetRequestTemplateQuickswap",
+    },
+    WitnetRequestPriceStellaUsdt6: {
+      args: [{
+        pair_id: "0x81e11a9374033d11cc7e7485a7192ae37d0795d6",
+        token_id: "1"
+      }],
+      template: "WitnetRequestTemplateStellaSwap"
     },
     WitnetRequestPriceUsdcUsd6: {
       ...priceTicker,
