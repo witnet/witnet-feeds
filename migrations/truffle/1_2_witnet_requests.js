@@ -155,7 +155,7 @@ async function deployWitnetRequest (from, key, request) {
     if (!Array.isArray(subargs)) {
       subargs = Object.values(subargs)
     }
-    console.info("  ", " ", `<${subargs.map(v => `"${v}"`)}> => \x1b[32m${entry[0]}\x1b[0m`)
+    console.info("  ", " ", `<${subargs.map(v => `"\x1b[1;33m${v}\x1b[0m"`)}> => \x1b[32m${entry[0]}\x1b[0m`)
     return subargs
   })
   const requestAddr = await utils.buildWitnetRequestFromTemplate(
