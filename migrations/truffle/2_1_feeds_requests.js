@@ -27,7 +27,7 @@ async function settlePriceFeedsRadHash (from, addresses) {
         }
         const radHash = await request.radHash.call({ from })
         if (!(await feeds.supportsCaption.call(caption, { from }))) {
-          utils.traceHeader(`Settling '${caption}':`)
+          utils.traceHeader(`Settling '\x1b[34m${caption}\x1b[0m':`)
           console.info("  ", "> ID4 hash:         ", hash)
           console.info("  ", "> Request data type:", utils.getRequestResultDataTypeString(await request.resultDataType.call()))
           console.info("  ", "> Request artifact: ", key)
@@ -43,7 +43,7 @@ async function settlePriceFeedsRadHash (from, addresses) {
         } else {
           const currentRadHash = await feeds.lookupRadHash.call(hash, { from })
           if (radHash !== currentRadHash) {
-            utils.traceHeader(`Revisiting '${caption}':`)
+            utils.traceHeader(`Revisiting '\x1b[34m${caption}\x1b[0m':`)
             console.info("  ", "> ID4 hash:            ", hash)
             console.info("  ", "> Request data type:   ", utils.getRequestResultDataTypeString(await request.resultDataType.call()))
             console.info("  ", "> Request artifact:    ", key)
@@ -57,11 +57,11 @@ async function settlePriceFeedsRadHash (from, addresses) {
             )
             utils.traceTx(tx.receipt)
           } else {
-            utils.traceHeader(`Skipping '${caption}': already settled w/ RAD hash ${radHash}.`)
+            utils.traceHeader(`Skipping '\x1b[34m${caption}\x1b[0m': already settled w/ RAD hash ${radHash}.`)
           }
         }
       } else {
-        utils.traceHeader(`Skipping '${caption}': no code for ${key} at ${addresses[key]}.`)
+        utils.traceHeader(`Skipping '\x1b[34m${caption}\x1b[0m': no code for ${key} at ${addresses[key]}.`)
       }
     } catch (ex) {
       console.info(`Couldn't handle '${key}': ${ex}`)

@@ -62,7 +62,6 @@ async function buildWitnetRequestTemplate (web3, from, key, template, registry, 
   hashes.reducers[template.aggregator] = aggregator
   hashes.reducers[template.tally] = tally
   saveHashes(hashes)
-
   traceHeader(`Building '${key}'...`)
   let templateAddr = await factory.buildRequestTemplate.call(
     retrievals,
@@ -85,20 +84,6 @@ async function buildWitnetRequestTemplate (web3, from, key, template, registry, 
     traceTx(tx.receipt)
     tx.logs = tx.logs.filter(log => log.event === "WitnetRequestTemplateBuilt")
     templateAddr = tx.logs[0].args.template
-    if (!tx.logs[0].args.parameterized) {
-      // settle as a WitnetRequest if retrievals require no params
-      const args = []
-      for (let i = 0; i < retrievals?.length; i++) {
-        args.push([])
-      }
-      const tx = await contract.buildRequest(args, { from })
-      tx.logs = tx.logs.filter(log => log.event === "WitnetRequestBuilt")
-      console.debug("  ", "> No-args settlement hash:", tx.receipt.transactionHash)
-      console.debug("  ", "> No-args settlement gas: ", tx.receipt.gasUsed)
-      console.info("  ", "> Request data type:", getRequestResultDataTypeString(await contract.resultDataType.call()))
-      console.info("  ", "> Request address:  ", tx.logs[0].args.request)
-      console.info("  ", "> Request RAD hash: ", tx.logs[0].args.radHash)
-    }
   }
   return templateAddr
 }

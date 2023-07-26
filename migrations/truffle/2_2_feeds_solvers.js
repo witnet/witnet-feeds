@@ -116,13 +116,13 @@ async function settlePriceFeedSolver (feeds, from, caption, solverArtifact, solv
       solverArtifact.address === currentSolver[0] &&
         JSON.stringify(solverSpecs?.dependencies) === JSON.stringify(currentSolver[1])
     ) {
-      utils.traceHeader(`Skipping '${caption}':`)
+      utils.traceHeader(`Skipping '\x1b[34m${caption}\x1b[0m':`)
     } else {
       doSettlement = true
       if (!(await feeds.supportsCaption.call(caption, { from }))) {
-        utils.traceHeader(`Settling '${caption}':`)
+        utils.traceHeader(`Settling '\x1b[34m${caption}\x1b[0m':`)
       } else {
-        utils.traceHeader(`Revisiting '${caption}':`)
+        utils.traceHeader(`Revisiting '\x1b[34m${caption}\x1b[0m':`)
       }
       console.info("  ", "> Routed feed ID4:            ", hash)
       console.info("  ", "> Routed feed solver artifact:", `${solverArtifact.contractName}${
@@ -147,7 +147,7 @@ async function settlePriceFeedSolver (feeds, from, caption, solverArtifact, solv
       console.info("  ", "> Routed feed solver address:", solverArtifact.address)
     }
   } catch (ex) {
-    utils.traceHeader(`Failed '${caption}:`)
+    utils.traceHeader(`Failed '\x1b[31m${caption}\x1b[0m:`)
     console.info("  ", unescape(ex))
     process.exit(1)
   }
