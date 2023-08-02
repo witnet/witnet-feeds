@@ -1,8 +1,26 @@
 {
     "arbitrum": {
+        "arbitrum.goerli": {
+            "requests": {
+                "WitnetRequestPriceEthUsd6": "0x1701dBaB592c79AC22b269187a86799cD7a15a5c"
+            },
+            "templates": {},
+            "solvers": {}
+        },
         "arbitrum.one": {
             "requests": {
                 "WitnetRequestPriceEthUsd6": "0x64AbbDd8356CA5d0af5b309F7672BEd847906fC3"
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
+    "avalanche": {
+        "avalanche.testnet": {
+            "requests": {
+                "WitnetRequestPriceAvaxUsd6": "0x77ec2760D1f9f19141723561D85A8E5a0B69032A",
+                "WitnetRequestPriceBtcUsd6": "0xB274291e1f30563C732fb4D238438A4FD581620F",
+                "WitnetRequestPriceEthUsd6": "0x48E12652a08D3A4A39Ad50085f97474A9cEADa6B"
             },
             "templates": {},
             "solvers": {}
@@ -26,9 +44,114 @@
             },
             "templates": {},
             "solvers": {}
+        },
+        "boba.ethereum.goerli": {
+            "requests": {
+                "WitnetRequestPriceBobaUsdt6": "0xA206aeDB17acf5587c8670F2bA940641bFDCdD23",
+                "WitnetRequestPriceDaiUsd6": "0x605FF512AF84B78205866D1cd0a4e31670d5F943",
+                "WitnetRequestPriceFraxUsdt6": "0x7B2aC3de28c713A036dCC716dED959b1eE2806AC",
+                "WitnetRequestPriceOloUsdc6": "0x796733DE3f6dcb0a128A50680e61F8b935608260"
+            },
+            "templates": {
+                "WitnetRequestTemplateOolongswap": "0x6e5de2f8e3158DA16768d6942e85d0d9C31F0243"
+            },
+            "solvers": {}
         }
     },
-    "default": {},
+    "celo": {
+        "celo.alfajores": {
+            "requests": {
+                "WitnetRequestPriceBtcUsd6": "0xac5c1943794cbb2Ac3CC70C06691EFF34f6A903D",
+                "WitnetRequestPriceCeloEur6": "0x956013550eDb71D413baE70d6489B25Fb6dBF5e7",
+                "WitnetRequestPriceCeloUsd6": "0xC53094Db7ae2ff2E752943A626FBcA39FD31c22c",
+                "WitnetRequestPriceEthUsd6": "0xEA2D45d676ff391965e7fC48DA509F8916Fe2Fc6",
+                "WitnetRequestPriceImmoMcusd6": "0x1825dFF27738242b9f90D32506F9737b6403E70b",
+                "WitnetRequestPriceNctCelo6": "0xD7Db78066BA35b049286e20c7158a5E177041b1d"
+            },
+            "solvers": {
+                "WitnetPriceSolverNctUsd6": "0x58a5f70AC49C353823f5537443D9475EA1e627cb"
+            },
+            "templates": {
+                "WitnetRequestTemplateOolongswap": "0x7B527C69d89aB408665063e4977623194A0f0645",
+                "WitnetRequestTemplateUniswapCelo": "0x719AAF8258234B6dd50a5b64b504D8762d485ab0"
+            }
+        }
+    },
+    "conflux": {
+        "conflux.core.testnet": {
+            "requests": {
+                "WitnetRequestPriceBtcUsd6": "0x87D688A25fc30e9Fa4510bA71F9392dDF362A2e8",
+                "WitnetRequestPriceCfxUsdt6": "0x8D53c0B5CE68766465a0d2665496Fb3C2B463220",
+                "WitnetRequestPriceEthUsd6": "0x82e3eE006C5c472235923099Ce020E5Fdd63Ac04"
+            },
+            "templates": {},
+            "solvers": {}
+        },
+        "conflux.espace.testnet": {
+            "requests": {
+                "WitnetRequestPriceBtcUsd6": "0xC6fB09529F5BBC58AedB03714c6a959bfcA172F7",
+                "WitnetRequestPriceCfxUsdt6": "0xf54d0831eD2c459f48a05f17e7f2ca82A234525e",
+                "WitnetRequestPriceEthUsd6": "0x89F894cdFef5F0f55EA5FBFC5c7E6442296b70cf",
+                "WitnetRequestPriceUsdcUsd6": "0x9dA7C55428800Cf107C94130A0fFf9B6348a41bb",
+                "WitnetRequestPriceUsdtUsd6": "0x88b95fcf60B4be6841BB05e5036F5901aD014CA7"
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
+    "cronos": {
+        "cronos.testnet": {
+            "requests": {
+                "WitnetRequestPriceAdaUsd6": "0xcFbB2B3C79f6009D0636e18709Bd23165A1f9A94",
+                "WitnetRequestPriceAlgoUsd6": "0x56147446b6820011A94A5c60Fb9535fa51F4345B",
+                "WitnetRequestPriceApeUsd6": "0x7874F8e9f530A3EEBf5c36dD839108fB879d3dFD",
+                "WitnetRequestPriceAtomUsd6": "0x26B6A90dE724F2AeF7F089B9690c50427E4539D2",
+                "WitnetRequestPriceAvaxUsd6": "0xb49E266dDb395288F80Da20C8A29c23768C2b2FB",
+                "WitnetRequestPriceBtcUsd6": "0xd656E76816BB4d691A15239fF9Ea2f12D46aFEC0",
+                "WitnetRequestPriceCroUsdt6": "0xd719A84e6EF9B2C4Afd80c9a661f09008c465B9c",
+                "WitnetRequestPriceDaiUsd6": "0xb086F58369c203Eb2c63C09D839Ac980800BaCae",
+                "WitnetRequestPriceDogeUsd6": "0x0D4D7d14187426536C5C93a8635B415E84f90a88",
+                "WitnetRequestPriceDotUsd6": "0xACF0bB96dC9424950Cf4D64537BE2B139BeFEef8",
+                "WitnetRequestPriceElonUsdt9": "0xfE03c9261fa688C5f26F31a4f8740a23c41799C2",
+                "WitnetRequestPriceEosUsd6": "0x61315730fb64B562D489Cf37D6b324c39468C233",
+                "WitnetRequestPriceEthUsd6": "0x55Cd10ce43389c76614d4ABdAE0aC0E7339F7798",
+                "WitnetRequestPriceLinkUsd6": "0xE4a02F314cE73AabaB7d32f08b6bd5EA401E9591",
+                "WitnetRequestPriceMaticUsd6": "0x1D658028600Ba8285Af7D87De5706b6b319Bee7E",
+                "WitnetRequestPriceShibUsd9": "0x2cd9A3344c653410E8d9fFc79b8617da2a14eA40",
+                "WitnetRequestPriceSolUsd6": "0xb471E815434cB1c6240AfBd427020354608aFe2a",
+                "WitnetRequestPriceTusdUsdt6": "0x5b6377d408Adf906676dd39Cf4ec4Bbf45765A3B",
+                "WitnetRequestPriceUsdcUsd6": "0x7bd343104Ede305Cd5069dB74a9f640B886F14ac",
+                "WitnetRequestPriceUsdtUsd6": "0x218CF50D7b023c7d58eE6fBEC181E9Cca3D7557F",
+                "WitnetRequestPriceWbtcUsd6": "0xC57e77F78D2a2b98Cc75aBeC6f407CB03BC23163",
+                "WitnetRequestPriceXlmUsd6": "0xa9e58eEdbB101ABEC5F809323A5C454f460f3e59"
+            },
+            "solvers": {
+                "WitnetPriceSolverCroUsd6": "0x58a5f70AC49C353823f5537443D9475EA1e627cb",
+                "WitnetPriceSolverElonUsd9": "0x58a5f70AC49C353823f5537443D9475EA1e627cb",
+                "WitnetPriceSolverTusdUsd6": "0x58a5f70AC49C353823f5537443D9475EA1e627cb"
+            },
+            "templates": {}
+        }
+    },
+    "default": {
+        "ethereum.goerli": {
+            "requests": {
+                "WitnetRequestPriceBtcUsd6": "0x7022bA6231d88Aeaa8EDCFd02741E3bD24727823",
+                "WitnetRequestPriceEthUsd6": "0x13aDe95cB954B9e3B880fb273AbdE5905DcDA320"
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
+    "dogechain": {
+        "dogechain.testnet": {
+            "requests": {
+                "WitnetRequestPriceDogeUsd6": "0xe2F52f37A9ba298050aC7fB709E08f27A002bf78"
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
     "elastos": {
         "elastos.testnet": {
             "requests": {
@@ -90,6 +213,56 @@
             "solvers": {}
         }
     },
+    "kava": {
+        "kava.testnet": {
+            "requests": {
+                "WitnetRequestPriceAtomUsd6": "0xFF26E1329EcfeE51B6B7Bbc3a548F79ccDAf1034",
+                "WitnetRequestPriceBtcUsd6": "0xc28c278FD27759cE68E6c9B104393C977B02df3c",
+                "WitnetRequestPriceDaiUsd6": "0xCFBe5CDeB3b9B4fbBf405FC4C473c6f29d4Ec050",
+                "WitnetRequestPriceEthUsd6": "0xfEb6C8EB4eB149394c613106d9B89f1CAe22eb20",
+                "WitnetRequestPriceKavaUsdt6": "0x4c07a43FD75bC1385df6A489d97CCB9f7588f61f",
+                "WitnetRequestPriceUsdcUsd6": "0x504Cdae6D13574eB5ACBa926A2011102068AB3BC",
+                "WitnetRequestPriceUsdtUsd6": "0x5308b43e740F277f10d79F2C9e49FBaa7EEf1c5E"
+            },
+            "solvers": {
+                "WitnetPriceSolverKavaUsd6": "0x58a5f70AC49C353823f5537443D9475EA1e627cb"
+            },
+            "templates": {}
+        }
+    },
+    "kcc": {
+        "kcc.testnet": {
+            "requests": {
+                "WitnetRequestPriceBoringUsdt6": "0x4F3d0c86364143f3DeCA2eFD89e37d1D6735A726",
+                "WitnetRequestPriceBtcUsd6": "0x930Ad76e351bC69d298c4DF8842e4df41A01EF0C",
+                "WitnetRequestPriceDaiUsd6": "0x40C22157f3E1389587C351a60bf241E229f73A5d",
+                "WitnetRequestPriceEthUsd6": "0x31de17eba8b456BF8fCc53AF4E7A86c6421c7544",
+                "WitnetRequestPriceKcsUsdt6": "0xD5DFd0bb2Bb139e3dfce3A0B020ff9063fcB22D9",
+                "WitnetRequestPriceKswUsd6": "0xE0c7745Ef784a6caeC8a76f22857e174ac74b96e",
+                "WitnetRequestPriceMjtKcs9": "0xe0DA4c49D5a60e3D81fce8927b1688382A951944",
+                "WitnetRequestPriceSaxUsdt6": "0x76ac70D728Afd5B05b2CB7D5a30F9aB20320698D",
+                "WitnetRequestPriceUsdcUsd6": "0x2f15F8137F0e4799fA8cb07c37BF0C158aE84c24",
+                "WitnetRequestPriceUsdtUsd6": "0xde11E745aCCD18f690E334F8F231D6970290f866"
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
+    "klaytn": {
+        "klaytn.testnet": {
+            "requests": {
+                "WitnetRequestPriceKlayUsdt6": "0xC1f1fc607D3E8b44E3628e27B2b0edDa9FE40530",
+                "WitnetRequestPriceKrwUsd9": "0x09D525Da955584575969205186cFCD89e30ED32f",
+                "WitnetRequestPriceKspKrw6": "0x88D9E1d6080ad1c5E47dcD070440F7bedc1B5b7b",
+                "WitnetRequestPriceUsdtUsd6": "0x12d03a9DB40C691b48aba5f7aEd5b4eBB477C13B"
+            },
+            "solvers": {
+                "WitnetPriceSolverKlayUsd6": "0x58a5f70AC49C353823f5537443D9475EA1e627cb",
+                "WitnetPriceSolverKspUsd6": "0x58a5f70AC49C353823f5537443D9475EA1e627cb"
+            },
+            "templates": {}
+        }
+    },
     "metis": {
         "metis.goerli": {
             "requests": {
@@ -102,6 +275,57 @@
             "solvers": {
                 "WitnetPriceSolverMetisUsd6": "0x10C5041c49d8B12B0a1675947100C45Df71A8E7e"
             }
+        }
+    },
+    "meter": {
+        "meter.testnet": {
+            "requests": {
+                "WitnetRequestPriceMtrgUsdt6": "0x65D4B2822cF250310cB1F7Bef2ee759f0eAFe66e",
+                "WitnetRequestPriceMtrUsdt6": "0x0730a089419B89e91AD2b276B95d36e704125767"
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
+    "moonbeam": {
+        "moonbeam.moonbase": {
+            "templates": {
+                "WitnetRequestTemplateStellaSwap": "0x827230f4b951db4E371a039f54F3aD4814995BaD",
+                "WitnetRequestTemplateBeamswap": "0x80a72a88666A76A01dD7F47f8e391E2857A6D0bd"
+            },
+            "requests": {
+                "WitnetRequestPriceBtcUsd6": "0x749aD5caA76cb8A876cb2E8E3e14E164674E0aC3",
+                "WitnetRequestPriceEthUsd6": "0x619c7EaC4A4f32611DffDd1F96337De368b7b164",
+                "WitnetRequestPriceGlintUsdc6": "0xE8dA181e5Ff2FDBF618DE3503A2857f6A03A400b",
+                "WitnetRequestPriceGlmrUsdt6": "0x1d45660bbDf3154642f6FadAfcFf8ad40797431a",
+                "WitnetRequestPriceStellaUsdt6": "0x5CE12E381763d4Fa8a3384a2b94f66DB8F3a74Fa",
+                "WitnetRequestPriceUsdcUsd6": "0xb753f437C5e87D605C226d1Bfd65C926a96fF333",
+                "WitnetRequestPriceUsdtUsd6": "0xef446bbF8072eF4F8CDC45f71ef0f2dFCE3c9cC0"
+            },
+            "solvers": {
+                "WitnetPriceSolverGlintUsd6": "0xC30B154Ff236Fa2fc0fb4F57AE6cec2398341315",
+                "WitnetPriceSolverGlmrUsd6": "0xC30B154Ff236Fa2fc0fb4F57AE6cec2398341315",
+                "WitnetPriceSolverStellaUsd6": "0xC30B154Ff236Fa2fc0fb4F57AE6cec2398341315"
+            }
+        }
+    },
+    "okxchain": {
+        "okxchain.testnet": {
+            "requests": {
+                "WitnetRequestPriceOktUsdt6": "0xd6370a1d899c6a31e448Ea50902e87a228644299",
+                "WitnetRequestPriceUsdtUsd6": "0x809b4171605D687BDE002e68A01eeDa9a1B3Cd5A"
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
+    "optimism": {
+        "optimism.goerli": {
+            "requests": {
+                "WitnetRequestPriceOpUsdt6": "0x393c6a9f131bF57A8d2B53c7aA8E58B8668B716d"
+            },
+            "templates": {},
+            "solvers": {}
         }
     },
     "polygon": {
@@ -137,37 +361,50 @@
                 "WitnetRequestTemplateQuickswap_9": "0x5725c663d76a852577AaB7E015DcF571c4668171"
             },
             "requests": {
-                "WitnetRequestPriceEthUsd6": "0xba0B15fb1051e44b1edEAe4c914A53404d59f583",
-                "WitnetRequestPriceQuickUsdc6": "0xb6dAB12778106dD34B64e98Fd40114Dd281Cfcd8",
-                "WitnetRequestPriceQuickWeth9": "0x07aA3BA586bccBF7d7ec5bd4f58E19ce3d03F3E6",
-                "WitnetRequestPriceQuickWmatic6": "0xb6dAB12778106dD34B64e98Fd40114Dd281Cfcd8",
-                "WitnetRequestPriceUsdcUsd6": "0xe8996D82F5B0c4a34BCE8dB03bB16d6f467DEBE2"
+                "WitnetRequestPriceEthUsd6": "0x493F0bFf7491dC57bdA2Fb85369e7FD7cf295AE1",
+                "WitnetRequestPriceQuickUsdc6": "0xA3DE3587912325C9B7469E76F2AfB60207C5Efc4",
+                "WitnetRequestPriceQuickWeth9": "0x83B6FEF46f6A38b24e2304915674Aae54FC707c4",
+                "WitnetRequestPriceQuickWmatic6": "0xeF8723a71bf2cD6787525c0031581cdAb6381DF4",
+                "WitnetRequestPriceUsdcUsd6": "0x0B4f0ccE470d7D59Dea9a3a8355602d60Df8b59b"
             },
             "solvers": {
                 "WitnetPriceSolverQuickUsd6": "0xC30B154Ff236Fa2fc0fb4F57AE6cec2398341315"
             }
         }
     },
-    "moonbeam": {
-        "moonbeam.moonbase": {
-            "templates": {
-                "WitnetRequestTemplateStellaSwap": "0x827230f4b951db4E371a039f54F3aD4814995BaD",
-                "WitnetRequestTemplateBeamswap": "0x80a72a88666A76A01dD7F47f8e391E2857A6D0bd"
-            },
+    "reef": {
+        "reef.testnet": {
             "requests": {
-                "WitnetRequestPriceBtcUsd6": "0x749aD5caA76cb8A876cb2E8E3e14E164674E0aC3",
-                "WitnetRequestPriceEthUsd6": "0x619c7EaC4A4f32611DffDd1F96337De368b7b164",
-                "WitnetRequestPriceGlintUsdc6": "0xE8dA181e5Ff2FDBF618DE3503A2857f6A03A400b",
-                "WitnetRequestPriceGlmrUsdt6": "0x1d45660bbDf3154642f6FadAfcFf8ad40797431a",
-                "WitnetRequestPriceStellaUsdt6": "0x5CE12E381763d4Fa8a3384a2b94f66DB8F3a74Fa",
-                "WitnetRequestPriceUsdcUsd6": "0xb753f437C5e87D605C226d1Bfd65C926a96fF333",
-                "WitnetRequestPriceUsdtUsd6": "0xef446bbF8072eF4F8CDC45f71ef0f2dFCE3c9cC0"
-            },
-            "solvers": {
-                "WitnetPriceSolverGlintUsd6": "0xC30B154Ff236Fa2fc0fb4F57AE6cec2398341315",
-                "WitnetPriceSolverGlmrUsd6": "0xC30B154Ff236Fa2fc0fb4F57AE6cec2398341315",
-                "WitnetPriceSolverStellaUsd6": "0xC30B154Ff236Fa2fc0fb4F57AE6cec2398341315"
+                "WitnetRequestPriceReefUsdt6": ""
             }
+        }
+    },
+    "scroll": {
+        "scroll.goerli": {
+            "requests": {
+                "WitnetRequestPriceBtcUsd6": "0x2Debda8c35be8B68603ca091074DC21E639fD0e5",
+                "WitnetRequestPriceEthUsd6": "0x974799f7bEEe904838199541f110a8cE4b515F18",
+                "WitnetRequestPriceUniUsd6": "0x62CB33c92DE842da11d3bAe3421383a871fbD6d8",
+                "WitnetRequestPriceUsdcUsd6": "0x0b6C27B84B218370E267a2130643e0751F301eE0"
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
+    "ultron": {
+        "ultron.testnet": {
+            "requests": {
+                "WitnetRequestPriceAvaxUsd6": "0xb9F6442b35878F41f6B4f0e2A0596d2B8FaffFAA",
+                "WitnetRequestPriceBtcUsd6": "0x9aeD095999ACA64FDf143521f52ad03A8cA12755",
+                "WitnetRequestPriceEthUsd6": "0xCed7FB1C9167f521BB75cdEf387e36010bc963ce",
+                "WitnetRequestPriceFtmUsdt6": "0x978529D571D868927585Ed1AE278F7dc56d56927",
+                "WitnetRequestPriceMaticUsd6": "0x845b418c8c27B701d64E190E36E4006ccC15D7b0",
+                "WitnetRequestPriceUlxUsdt6": "0x758CF08Ef28d369D4A297106A34971D38064E23a",
+                "WitnetRequestPriceWbtcWulx6": "0x44aB1bC376Ed7F874c340Ca90b58cd272E4fDC9a",
+                "WitnetRequestPriceWethWulx6": "0xE7Ac07ccAcCF3558C594e54f553950a9Efdb2463"
+            },
+            "templates": {},
+            "solvers": {}
         }
     }
 }
