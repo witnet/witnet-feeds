@@ -112,29 +112,31 @@ async function settlePriceFeedSolver (feeds, from, caption, solverArtifact, solv
     const hash = await feeds.hash.call(caption, { from })
     const currentSolver = await feeds.lookupPriceSolver.call(hash, { from })
     let doSettlement = false
+    utils.traceHeader(`\x1b[1;34m${caption}\x1b[0m`)
+      console.info("  ", `> ID4 hash:          \x1b[34m${hash}\x1b[0m`)
     if (
       solverArtifact.address === currentSolver[0] &&
         JSON.stringify(solverSpecs?.dependencies) === JSON.stringify(currentSolver[1])
     ) {
-      utils.traceHeader(`Skipping '\x1b[34m${caption}\x1b[0m':`)
+      // utils.traceHeader(`Skipping '\x1b[34m${caption}\x1b[0m':`)
     } else {
       doSettlement = true
       if (!(await feeds.supportsCaption.call(caption, { from }))) {
-        utils.traceHeader(`Settling '\x1b[34m${caption}\x1b[0m':`)
+        // utils.traceHeader(`Settling '\x1b[34m${caption}\x1b[0m':`)
       } else {
-        utils.traceHeader(`Revisiting '\x1b[34m${caption}\x1b[0m':`)
+        // utils.traceHeader(`Revisiting '\x1b[34m${caption}\x1b[0m':`)
       }
-      console.info("  ", "> Routed feed ID4:            ", hash)
-      console.info("  ", "> Routed feed solver artifact:", `${solverArtifact.contractName}${
+      // console.info("  ", "> Routed feed ID4:            ", hash)
+      console.info("  ", "> Feed solver artifact: ", `${solverArtifact.contractName}${
         solverSpecs?.parameters && solverSpecs?.parameters.length > 0
           ? `<${JSON.stringify(solverSpecs.parameters)}>` 
           : ""
       }`)
-      console.info("  ", "> Routed feed solver deps:    ", solverSpecs?.dependencies || "(no dependencies)")
+      console.info("  ", "> Feed solver deps:    ", solverSpecs?.dependencies || "(no dependencies)")
     }
     if (doSettlement) {
       if (solverArtifact.address ) {
-        console.info("  ", "> Routed feed solver address: ", `${currentSolver[0]} => ${solverArtifact.address}`)
+        console.info("  ", "> Feed solver address: ", `${currentSolver[0]} => ${solverArtifact.address}`)
       }
       const tx = await feeds.settleFeedSolver(
         caption,
@@ -144,10 +146,10 @@ async function settlePriceFeedSolver (feeds, from, caption, solverArtifact, solv
       )
       utils.traceTx(tx.receipt)
     } else {
-      console.info("  ", "> Routed feed solver address:", solverArtifact.address)
+      console.info("  ", "> Feed solver address: ", solverArtifact.address)
     }
   } catch (ex) {
-    utils.traceHeader(`Failed '\x1b[31m${caption}\x1b[0m:`)
+    console.info("  ", "> Exception:")
     console.info("  ", unescape(ex))
     process.exit(1)
   }

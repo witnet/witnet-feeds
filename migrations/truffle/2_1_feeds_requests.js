@@ -26,14 +26,14 @@ async function settlePriceFeedsRadHash (from, addresses) {
           throw `contract at ${addresses[key]} not of the WitnetRequest kind.`
         }
         const radHash = await request.radHash.call({ from })
-        if (!(await feeds.supportsCaption.call(caption, { from }))) {
-          utils.traceHeader(`Settling '\x1b[34m${caption}\x1b[0m':`)
-          console.info("  ", "> ID4 hash:         ", hash)
-          console.info("  ", "> Request data type:", utils.getRequestResultDataTypeString(await request.resultDataType.call()))
+        utils.traceHeader(`\x1b[1;34m${caption}\x1b[0m`)
+        console.info("  ", `> ID4 hash:          \x1b[34m${hash}\x1b[0m`)
+        console.info("  ", "> Request data type:", utils.getRequestResultDataTypeString(await request.resultDataType.call()))
+        if (!(await feeds.supportsCaption.call(caption, { from }))) {  
           console.info("  ", "> Request artifact: ", key)
           console.info("  ", "> Request address:  ", request.address)
-          console.info("  ", "> Request registry: ", await request.registry.call())
-          console.info("  ", "> Request RAD hash: ", radHash)
+          console.info("  ", "> Request registry: ", await request.registry.call())  
+          console.info("  ", `> Request RAD hash:  \x1b[1;36m${radHash.slice(2)}\x1b[0m`)
           const tx = await feeds.methods["settleFeedRequest(string,bytes32)"](
             caption,
             radHash,
@@ -43,13 +43,10 @@ async function settlePriceFeedsRadHash (from, addresses) {
         } else {
           const currentRadHash = await feeds.lookupRadHash.call(hash, { from })
           if (radHash !== currentRadHash) {
-            utils.traceHeader(`Revisiting '\x1b[34m${caption}\x1b[0m':`)
-            console.info("  ", "> ID4 hash:            ", hash)
-            console.info("  ", "> Request data type:   ", utils.getRequestResultDataTypeString(await request.resultDataType.call()))
             console.info("  ", "> Request artifact:    ", key)
-            console.info("  ", "> NEW request address: ", request.address)
-            console.info("  ", "> NEW request RAD hash:", radHash)
-            console.info("  ", "> OLD request RAD hash:", currentRadHash)
+            console.info("  ", "> Request address: ", request.address)
+            console.info("  ", `> OLD request RAD hash: \x1b[36m${currentRadHash.slice(2)}\x1b[0m`)
+            console.info("  ", `> NEW request RAD hash: \x1b[1;36m${radHash.slice(2)}\x1b[0m`)
             const tx = await feeds.methods["settleFeedRequest(string,bytes32)"](
               caption,
               radHash,
@@ -57,11 +54,12 @@ async function settlePriceFeedsRadHash (from, addresses) {
             )
             utils.traceTx(tx.receipt)
           } else {
-            utils.traceHeader(`Skipping '\x1b[34m${caption}\x1b[0m': already settled w/ RAD hash ${radHash}.`)
+            console.info("  ", `> Request RAD hash:  \x1b[1;33m${radHash.slice(2)}\x1b[0m`)
           }
         }
       } else {
-        utils.traceHeader(`Skipping '\x1b[34m${caption}\x1b[0m': no code for ${key} at ${addresses[key]}.`)
+        utils.traceHeader(`\x1b[1;31m${caption}\x1b[0m`)
+        console.info("  ", `> No code for ${key} at ${addresses[key]}`)
       }
     } catch (ex) {
       console.info(`Couldn't handle '${key}': ${ex}`)

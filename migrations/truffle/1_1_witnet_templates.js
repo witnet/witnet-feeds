@@ -11,7 +11,7 @@ const WitnetBytecodes = artifacts.require("WitnetBytecodes")
 const WitnetRequestFactory = artifacts.require("WitnetRequestFactory")
 const WitnetRequestTemplate = artifacts.require("WitnetRequestTemplate")
 
-module.exports = async function (_deployer, network, [from, ]) {
+module.exports = async function (_deployer, network, [, from, ]) {
   const isDryRun = network === "test" || network.split("-")[1] === "fork" || network.split("-")[0] === "develop"
   const ecosystem = utils.getRealmNetworkFromArgs()[0]
   network = network.split("-")[0]
@@ -54,14 +54,14 @@ async function deployWitnetRequestTemplates (from, isDryRun, ecosystem, network,
             throw `artifact '${key}' could not get deployed`
           } else {
             const templateContract = await WitnetRequestTemplate.at(templateAddr)
-            console.info("  ", "> Template address: ", templateContract.address)
+            console.info("  ", `> Template address:  \x1b[1;37m${templateContract.address}\x1b[0m`)
             console.info("  ", "> Template registry:", await templateContract.registry.call())
           }
           addresses[ecosystem][network].templates[key] = templateAddr
           utils.saveAddresses(addresses)
         } else {
           utils.traceHeader(`Skipping '${key}'`)
-          console.info("  ", "> Template address:", templateAddr)
+          console.info("  ", `> Template address:  \x1b[1;37m${templateAddr}\x1b[0m`)
         }
       }
     } else {

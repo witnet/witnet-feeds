@@ -62,7 +62,7 @@ async function buildWitnetRequestTemplate (web3, from, key, template, registry, 
   hashes.reducers[template.aggregator] = aggregator
   hashes.reducers[template.tally] = tally
   saveHashes(hashes)
-  traceHeader(`Building '${key}'...`)
+  traceHeader(`Building '\x1b[1;37m${key}\x1b[0m'...`)
   let templateAddr = await factory.buildRequestTemplate.call(
     retrievals,
     aggregator,
@@ -420,8 +420,8 @@ async function verifyWitnetRadonReducerByTag(from, registry, radons, tag) {
       await registry.lookupRadonReducer.call(hash, { from })
     } catch {
       // register new reducer, otherwise:
-      traceHeader(`Verifying Radon Reducer ['\x1b[35m${tag}\x1b[0m']...`)
-      console.info(`   > Hash:        ${hash}`)
+      traceHeader(`Verifying Radon Reducer ['\x1b[1;35m${tag}\x1b[0m']...`)
+      console.info(`   > Hash:        \x1b[35m${hash}\x1b[0m`)
       console.info(`   > Opcode:      ${reducer.opcode}`)
       if (reducer.filters) {
         reducer.filters = reducer.filters.map(filter => [ 
@@ -473,8 +473,8 @@ async function verifyWitnetRadonRetrievalByTag(from, registry, radons, tag) {
       await registry.lookupRadonRetrieval.call(hash, { from })
     } catch (ex) {
       // register new retrieval, otherwise:
-      traceHeader(`Verifying Radon Retrieval ['\x1b[32m${tag}\x1b[0m']...`)
-      console.info(`   > Hash:      ${hash}`)
+      traceHeader(`Verifying Radon Retrieval ['\x1b[1;32m${tag}\x1b[0m']...`)
+      console.info(`   > Hash:      \x1b[32m${hash}\x1b[0m`)
       console.info(`   > Method:    ${getRequestMethodString(await retrieval.requestMethod)}`)
       if (retrieval.requestSchema) {
         console.info(`   > Schema:    ${retrieval.requestSchema}`)
@@ -509,7 +509,7 @@ async function verifyWitnetRadonRetrievalByTag(from, registry, radons, tag) {
       traceTx(tx.receipt)
     }
   } else {
-    throw `Witnet Radon Retrieval not found: '${tag}`
+    throw `Witnet Radon Retrieval not found: '${tag}'`
   }
   return hash
 }

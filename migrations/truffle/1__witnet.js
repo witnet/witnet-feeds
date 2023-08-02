@@ -29,11 +29,11 @@ module.exports = async function (deployer, network, [, from]) {
   if (!isDryRun) {
     try {
       witnetAddresses = witnet.addresses[ecosystem][network]
-      WitnetBytecodes.address = witnetAddresses.WitnetBytecodes
-      WitnetPriceFeeds.address = witnetAddresses.WitnetPriceFeeds
-      WitnetRandomness.address = witnetAddresses.WitnetRandomness
-      WitnetRequestBoard.address = witnetAddresses.WitnetRequestBoard
-      WitnetRequestFactory.address = witnetAddresses.WitnetRequestFactory
+      WitnetBytecodes.address = witnetAddresses?.WitnetBytecodes
+      WitnetPriceFeeds.address = witnetAddresses?.WitnetPriceFeeds
+      WitnetRandomness.address = witnetAddresses?.WitnetRandomness
+      WitnetRequestBoard.address = witnetAddresses?.WitnetRequestBoard
+      WitnetRequestFactory.address = witnetAddresses?.WitnetRequestFactory
     } catch (e) {
       console.error("Fatal: Witnet Foundation addresses were not provided!", e)
       process.exit(1)
@@ -111,6 +111,10 @@ module.exports = async function (deployer, network, [, from]) {
 }
 
 async function readUpgradableArtifactVersion(artifact) {
-  const upgradable = await WitnetUpgradableBase.at(artifact.address)
-  return await upgradable.version()
+  try {
+    const upgradable = await WitnetUpgradableBase.at(artifact.address)
+    return await upgradable.version()
+  } catch {
+    return "???"
+  }
 }
