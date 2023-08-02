@@ -12,6 +12,7 @@
     "compile": "npx truffle compile --all",
     "console": "npx witnet console",
     "deploy": "npx witnet deploy",
+    "migrate": "npx witnet deploy",
     "flatten": "node ./scripts/flatten.js contracts/ 2>&1",
     "fmt": "solhint --max-warnings 0 \"contracts/**/*.sol\" && eslint ./test && eslint ./migrations/**/*.js && solhint \"test/**/*.sol\"",
     "fmt!": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix && eslint ./test --fix && eslint ./migrations/**/*.js --fix && solhint \"test/**/*.sol\" --fix",
@@ -38,7 +39,7 @@
     "truffle-assertions": "~0.9.2",
     "truffle-flattener": "~1.6.0",
     "truffle-plugin-verify": "~0.6.2",
-    "witnet-solidity": "^0.0.37",
+    "witnet-solidity": "^0.0.39",
     "witnet-solidity-bridge": "https://github.com/guidiaz/witnet-solidity-bridge#947aecbc8c996cc5bc005653be7394f1cf178f4a"
   }
 }
