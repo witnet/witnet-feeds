@@ -31,9 +31,9 @@ async function deployWitnetRequestTemplates (from, isDryRun, ecosystem, network,
     const template = templates[key]
     if (template?.retrievals) {
       if (
-        (selection.length == 0 && isDryRun) ||
-        (selection.length > 0 && selection.includes(key)) ||
-        addresses[ecosystem][network].templates[key] !== undefined
+        addresses[ecosystem][network].templates[key] !== undefined ||
+        selection.includes(key) ||
+        (selection.length == 0 && isDryRun)        
       ) {
         let templateAddr = utils.findArtifactAddress(addresses[ecosystem][network].templates, key)
         if (

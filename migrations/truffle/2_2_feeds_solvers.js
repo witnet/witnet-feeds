@@ -22,8 +22,8 @@ module.exports = async function (_deployer, network, [, from]) {
       const solverName = extractKeyFromCaption(caption)
       if (
         addresses[ecosystem][network].solvers[solverName] !== undefined ||
-        (selection.length == 0 && isDryRun) || 
-        (selection.length > 0 && selection.includes(solverName))
+        selection.includes(solverName) ||
+        (selection.length == 0 && isDryRun)
       ) {
         await settlePriceFeedSolver(
           feeds,
