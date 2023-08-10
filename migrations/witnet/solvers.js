@@ -32,12 +32,6 @@ module.exports = {
         "Price-USDT/USD-6", 
       ],
     },
-    "Price-ELON/USD-6": {
-      dependencies: [ 
-        "Price-ELON/USDT-6", 
-        "Price-USDT/USD-6", 
-      ],
-    },
     "Price-ELON/USD-9": {
       dependencies: [ 
         "Price-ELON/USDT-9", 

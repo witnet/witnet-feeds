@@ -1,7 +1,7 @@
 {
     "reducers": {
-        "price-aggregator": "0xf18a522de467fdc0cb2712b0c5b3d827ab894ca11caa09a21404aaea10a5eca5",
-        "price-tally": "0xdf914428d1026f5cbcf22755326712d32fc7b72a5921883d8a4dc38b89e695fc"
+        "price-aggregator": "0x6a081425ff7310b9054f526efb83c473a14cfdef4b85042681c55377dd479edb",
+        "price-tally": "0xe2215677957a41e257e25d8d86108130a53502d370c68772f5dbab9c1c21da15",
     },
     "retrievals": {
         "binance.us/ticker": "0xbbd02d00d9df07d6dc7968f8ab903e0af2c41524336a75ca9326ab0dcd2c39e8",
@@ -45,6 +45,11 @@
         "bkex/ticker": "0xbf54a7813f8c9961228c9282a66fefe0308f15b1c3296ce040ba8f3544ad580f",
         "digifinex/ticker": "0x9469999014e3110f0273fc76fd141705441b4f27e04856aab5b66fd5bdf5e533",
         "ultron-dev/ticker": "0xcbb26c5f6990ea6fba6c9f898b58544c6161ec37a9962d9fa61395d45eae720a",
-        "ultron-dev/ticker#inverse": "0xb454e09a857b3201271f2e0a10f9473514f55bc264aa65dd11ea1bc052b639fd"
+        "ultron-dev/ticker#inverse": "0xb454e09a857b3201271f2e0a10f9473514f55bc264aa65dd11ea1bc052b639fd",
+        "kucoin/ticker#9": "0x66ad25081bea9ec7d12fceb34bf0936e3115cca8282088f62fc29fb7b3092fd0",
+        "subgraphs/name/mojito/swap#9": "0xdc06628dc366b6178e6b88e5581bde4bf178a3554a4a0618e370842e3b9497fa",
+        "huobi/ticker#9": "0x20438deae9cbadc8434d05ef1846e1d2107af54c3c507ef2292fd07919bc7817",
+        "mexc/ticker#9": "0x788f344fb3afb1e58a4bae5f51fcb9e0b095e2940a4dacd7e8b9b022eceaa95e",
+        "okx/ticker#9": "0xf4b6d24ed7990e812a6b0d320f9817fa9d174f31f7f408f47a5c052e97d8b0be"
     }
 }

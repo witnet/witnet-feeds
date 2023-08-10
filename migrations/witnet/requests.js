@@ -177,11 +177,11 @@ module.exports = {
     WitnetRequestPriceElonUsdt9: {
       ...priceTicker,
       retrievals: {
-        "gateio/ticker": ["elon", "usdt"], // gateio.io
-        "huobi/ticker": ["elon", "usdt"], // huobi.pro
-        "kucoin/ticker": [ "ELON", "USDT" ], // kucoin.com
-        "mexc/ticker": ["ELON", "USDT"], // mexc.com
-        "okx/ticker": [ "ELON", "USDT" ], // okx.com
+        "gateio/ticker#9": ["elon", "usdt"], // gateio.io
+        "huobi/ticker#9": ["elon", "usdt"], // huobi.pro
+        "kucoin/ticker#9": [ "ELON", "USDT" ], // kucoin.com
+        "mexc/ticker#9": ["ELON", "USDT"], // mexc.com
+        "okx/ticker#9": [ "ELON", "USDT" ], // okx.com
       },
     },
     WitnetRequestPriceEosUsd6: {
@@ -335,8 +335,8 @@ module.exports = {
     WitnetRequestPriceMjtKcs9: {
       ...priceTicker,
       retrievals: {
-        "kucoin/ticker": ["MJT", "KCS"], // kucoin.com
-        "subgraphs/name/mojito/swap": ["0xa0d7c8aa789362cdf4faae24b9d1528ed5a3777f", "1"], // MojitoSwap
+        "kucoin/ticker#9": ["MJT", "KCS"], // kucoin.com
+        "subgraphs/name/mojito/swap#9": ["0xa0d7c8aa789362cdf4faae24b9d1528ed5a3777f", "1"], // MojitoSwap
       },
     },
     WitnetRequestPriceMtrUsdt6: {
