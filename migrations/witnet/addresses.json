@@ -355,6 +355,27 @@
                 "WitnetPriceSolverQuickUsd6": "0x10C5041c49d8B12B0a1675947100C45Df71A8E7e"
             }
         },
+        "polygon.mainnet": {
+            "requests": {
+                "WitnetRequestPriceBtcUsd6": "0xa8323695E2b7f26c09D1e88E15c3376d9DF1C90c",
+                "WitnetRequestPriceDaiUsd6": "0x31Ef6c6bb8d13FE3CF50a9cfA9e901786dBA7c2b",
+                "WitnetRequestPriceEthUsd6": "0xB6096f01DFE44A405BED3E0A9f1a64D8c7b17e9E",
+                "WitnetRequestPriceMaticUsd6": "0x9B7391F6D639F3d0342cb9EB28ccE9A181443D09",
+                "WitnetRequestPriceQuickUsdc6": "0xbDdD4955f165fBE8d7235Ccc785Ee3e12A9c7105",
+                "WitnetRequestPriceQuickWeth9": "0x4Db10C0290E2372739e0402F6Bd4381B8f525e57",
+                "WitnetRequestPriceQuickWmatic6": "0x2415663287B95DDF66127F880ac537667d0067b3",
+                "WitnetRequestPriceUsdcUsd6": "0xA14754b2BE3d04FA9B0b7c13c4E773A1F54980eA",
+                "WitnetRequestPriceVsqDai6": "0x606e3D39B9CF538816f2a1a2D8166970e8d4db22"
+            },
+            "templates": {
+                "WitnetRequestTemplateQuickswap": "0x8b3fb8B6001aBd7a7F2184971B4757FFE159b930",
+                "WitnetRequestTemplateQuickswap_9": "0x817769Aa8d01F9a3D8A38578e8cEEA9b60a002fc",
+                "WitnetRequestTemplateMaticExchange": "0x32028B190DeC5d993e2F9511775CB30B8F8b4a60"
+            },
+            "solvers": {
+                "WitnetPriceSolverQuickUsd6": "0xF00032cc6227f85eb151678D5F531dB78Be0Ba69"
+            }
+        },
         "polygon.zkevm.goerli": {
             "templates": {
                 "WitnetRequestTemplateQuickswap": "0x29AA8442AA389F0A14168d400983789B1A9BEBC9",

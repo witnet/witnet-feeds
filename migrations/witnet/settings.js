@@ -16,6 +16,9 @@ module.exports = {
         "polygon.goerli": {
           confirmations: 2,
         },
+        "polygon.mainnet": {
+          confirmations: 2,
+        },
       },
     },
   ),
