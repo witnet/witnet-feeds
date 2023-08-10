@@ -16,7 +16,6 @@ const WitnetPriceFeedsUpgradable = artifacts.require("WitnetPriceFeedsUpgradable
 const WitnetRandomnessProxiable = artifacts.require("WitnetRandomnessProxiable")
 const WitnetRequestBoardDefault = artifacts.require("WitnetRequestBoardTrustableDefault")
 const WitnetRequestFactoryDefault = artifacts.require("WitnetRequestFactoryDefault")
-const WitnetRequestRandomness = artifacts.require("WitnetRequestRandomness")
 
 const WitnetUpgradableBase = artifacts.require("WitnetUpgradableBase")
 
@@ -77,11 +76,9 @@ module.exports = async function (deployer, network, [, from]) {
       { from, gas: 6721975 }
     )
     WitnetPriceFeeds.address = WitnetPriceFeedsUpgradable.address    
-    await deployer.deploy(WitnetRequestRandomness, { from })
     await deployer.deploy(
       WitnetRandomnessProxiable,
       WitnetRequestBoard.address,
-      WitnetRequestRandomness.address,
       utils.fromAscii(network),
       { from, gas: 6721975 }
     )

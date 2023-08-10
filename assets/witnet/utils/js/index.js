@@ -1,6 +1,7 @@
 require("dotenv").config()
 
 const cbor = require('cbor')
+const { execSync } = require("child_process")
 const fs = require("fs")
 const readline = require("readline")
 const web3 = require("web3")
@@ -9,6 +10,9 @@ const Witnet = require("witnet-requests");
 module.exports = {
   buildWitnetRequestFromTemplate,
   buildWitnetRequestTemplate,
+  dryRunBytecode,
+  dryRunBytecodeVerbose,
+  extractErc2362CaptionFromKey,
   findArtifactAddress,
   findRadonRetrievalSpecs,
   findTemplateArtifact,
@@ -23,6 +27,7 @@ module.exports = {
   getWitnetRequestTemplateArtifactsFromArgs,
   isNullAddress,
   padLeft,
+  processDryRunJson,
   prompt,
   saveAddresses,
   saveHashes,
@@ -86,6 +91,26 @@ async function buildWitnetRequestTemplate (web3, from, key, template, registry, 
     templateAddr = tx.logs[0].args.template
   }
   return templateAddr
+}
+async function dryRunBytecode (bytecode) {
+  return (await execSync(`npx witnet-toolkit try-data-request --hex ${bytecode}`)).toString()
+}
+
+async function dryRunBytecodeVerbose (bytecode) {
+  return (await execSync(`npx witnet-toolkit try-query --hex ${bytecode}`)).toString()
+}
+
+function extractErc2362CaptionFromKey (prefix, key) {
+  const decimals = key.match(/\d+$/)[0]
+  const camels = key
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, function (str) { return str.toUpperCase() })
+    .split(" ")
+  return `${prefix}-${
+    camels[camels.length - 2].toUpperCase()
+  }/${
+    camels[camels.length - 1].replace(/\d$/, "").toUpperCase()
+  }-${decimals}`
 }
 
 
@@ -290,11 +315,57 @@ function isNullAddress(addr) {
     !web3.utils.isAddress(addr)
 }
 
+function mapObjectRecursively(obj, callback) {
+  let newObj = {};
+  for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+          if (typeof obj[key] === "object") {
+              newObj[key] = mapObjectRecursively(obj[key], callback);
+          } else {
+              newObj[key] = callback(key, obj[key]);
+          }
+      }
+  }
+  return newObj;
+}
+
 function padLeft(str, char, size) {
   if (str.length < size) {
     return char.repeat((size - str.length) / char.length) + str
   } else {
     return str
+  }
+}
+
+function processDryRunJson(dryrun) {
+  let error = ""
+  let nanos = []
+  mapObjectRecursively(dryrun, (key, value) => {
+    if (key === "nanos") nanos.push(value || 0);
+  })
+  const itWorks = !("RadonError" in dryrun?.aggregate?.result)
+  if (!itWorks) {
+    error = `Aggregatation failed: ${dryrun?.aggregate?.result?.RadonError}`
+  }
+  const nokRetrievals = Object.values(
+    dryrun?.retrieve.filter((retrieval, index) => {
+      const nok = "RadonError" in retrieval.result
+      if (nok && !error) {
+        error = `Retrieval #${index + 1}: ${retrieval.result?.RadonError}`
+      }
+      return nok
+    })
+  ).length;
+  const totalRetrievals = Object.values(dryrun?.retrieve).length
+  const status = itWorks ? (nokRetrievals > 0 ? "WARN": "OK") : "FAIL"
+  return {
+    error,
+    itWorks: itWorks,
+    nokRetrievals,
+    totalRetrievals,
+    runningTime: `${nanos.reduce((a, b) => a + b) / 1000} ms`,
+    status,
+    tally: dryrun?.tally.result
   }
 }
 
@@ -409,10 +480,16 @@ async function verifyWitnetRadonReducerByTag(from, registry, radons, tag) {
   var hash
   if (reducer) {
     // get actual reducer hash
+    if (reducer?.filters) {
+      reducer.filters = reducer.filters.map(filter => Array.isArray(filter)
+        ? filter 
+        : [ filter.opcode, `0x${filter?.args ? filter.args.toString("hex") : ""}` ]
+      )
+    }
     hash = await registry.verifyRadonReducer.call([
         reducer.opcode,
         reducer.filters || [],
-        reducer.script || "0x"
+        reducer?.script || "0x"
       ], { from }
     )
     // checks whether hash was already registered
@@ -423,12 +500,6 @@ async function verifyWitnetRadonReducerByTag(from, registry, radons, tag) {
       traceHeader(`Verifying Radon Reducer ['\x1b[1;35m${tag}\x1b[0m']...`)
       console.info(`   > Hash:        \x1b[35m${hash}\x1b[0m`)
       console.info(`   > Opcode:      ${reducer.opcode}`)
-      if (reducer.filters) {
-        reducer.filters = reducer.filters.map(filter => [ 
-          filter.opcode, 
-          "0x" + filter.args.toString("hex")
-        ])
-      }
       console.info(`   > Filters:     ${reducer.filters?.length > 0 ? JSON.stringify(reducer.filters) : '(no filters)'}`)
       if (reducer.script) {
         console.info(`   > Script:      ${reducer.script}`)
@@ -442,7 +513,7 @@ async function verifyWitnetRadonReducerByTag(from, registry, radons, tag) {
       traceTx(tx.receipt)
     }
   } else {
-    throw `Witnet Radon Reducer not found: '${tag}'`
+    throw `Witnet Radon Reducer not found: '\x1b[1;31m${tag}\x1b[0m'`
   }
   return hash
 }

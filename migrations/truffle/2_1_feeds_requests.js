@@ -17,7 +17,7 @@ async function settlePriceFeedsRadHash (from, addresses) {
       if (utils.isNullAddress(addresses[key])) {
         throw "no address."
       }
-      const caption = extractCaptionFromKey(key)
+      const caption = utils.extractErc2362CaptionFromKey("Price", key)
       const hash = await feeds.hash.call(caption, { from })
       const request = await WitnetRequest.at(addresses[key])
       if ((await web3.eth.getCode(request.address)).length > 2) {
@@ -68,15 +68,15 @@ async function settlePriceFeedsRadHash (from, addresses) {
   }
 }
 
-function extractCaptionFromKey (key) {
-  const decimals = key.match(/\d+$/)[0]
-  const camels = key
-    .replace(/([A-Z])/g, " $1")
-    .replace(/^./, function (str) { return str.toUpperCase() })
-    .split(" ")
-  return `Price-${
-    camels[camels.length - 2].toUpperCase()
-  }/${
-    camels[camels.length - 1].replace(/\d$/, "").toUpperCase()
-  }-${decimals}`
-}
+// function extractCaptionFromKey (key) {
+//   const decimals = key.match(/\d+$/)[0]
+//   const camels = key
+//     .replace(/([A-Z])/g, " $1")
+//     .replace(/^./, function (str) { return str.toUpperCase() })
+//     .split(" ")
+//   return `Price-${
+//     camels[camels.length - 2].toUpperCase()
+//   }/${
+//     camels[camels.length - 1].replace(/\d$/, "").toUpperCase()
+//   }-${decimals}`
+// }
