@@ -1,9 +1,7 @@
-const utils = require("../assets/witnet/utils/js")
-
+const Witnet = require("witnet-utils")
 const addresses = require("../migrations/witnet/addresses")
+const selection = Witnet.Utils.getWitnetArtifactsFromArgs()
 const templates = require("../migrations/witnet/templates")
-
-const selection = utils.getWitnetArtifactsFromArgs()
 
 const WitnetBytecodes = artifacts.require("WitnetBytecodes")
 const WitnetRequest = artifacts.require("WitnetRequest")
@@ -29,7 +27,7 @@ contract("migrations/witnet/templates", async () => {
                 const template = await WitnetRequestTemplate.at(craft.address)
                 await template.verifyRadonRequest(args)
               })
-              it("paramterized request dryruns successfully", async () => {
+              it("parameterized request dryruns successfully", async () => {
                 const template = await WitnetRequestTemplate.at(craft.address)
                 const tx = await template.buildRequest(args)
                 const events = tx.logs.filter(log => log.event === "WitnetRequestBuilt")
@@ -37,22 +35,22 @@ contract("migrations/witnet/templates", async () => {
                 const request = await WitnetRequest.at(events[0].args.request)
                 const radHash = await request.radHash.call()
                 const registry = await WitnetBytecodes.at(await request.registry.call())
-                const bytecode = (await registry.bytecodeOf.call(radHash)).slice(2)
-                const output = await utils.dryRunBytecode(bytecode)
+                bytecode = (await registry.bytecodeOf.call(radHash)).slice(2)
+                const output = await Witnet.Utils.dryRunBytecode(bytecode)
                 let json
                 try {
                   json = JSON.parse(output)
                 } catch {
                   assert(false, "Invalid JSON: " + output)
                 }
-                const result = utils.processDryRunJson(json)
+                const result = Witnet.Utils.processDryRunJson(JSON.parse(output))
                 if (result.status !== "OK") {
-                  throw Error(result?.error || "Dry-run failed!")
+                  throw Error(result?.error || "Dry-run-failed!")
                 }
               })
               after(async () => {
                 if (process.argv.includes("--verbose")) {
-                  const output = await utils.dryRunBytecodeVerbose(bytecode)
+                  const output = await Witnet.Utils.dryRunBytecodeVerbose(bytecode)
                   console.info(output.split("\n").slice(0, -1).join("\n"))
                   console.info("-".repeat(120))
                 }
@@ -68,7 +66,7 @@ contract("migrations/witnet/templates", async () => {
     if (!headers) headers = []
     const matches = []
     for (const key in tree) {
-      if (tree[key]?.retrievals || tree[key]?.aggregator || tree[key]?.tally) {
+      if (tree[key]?.specs) {
         matches.push({
           key,
           artifact: tree[key],
