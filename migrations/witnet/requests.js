@@ -206,7 +206,7 @@ module.exports = {
             }
         ),
         WitnetRequestPriceGlintUsdc6: Witnet.RequestFromTemplate(
-            templates['WitnetRequestTemplateKuswapTicker6'], [
+            templates['WitnetRequestTemplateBeamswapTicker6'], [
                 ["0x61b4cec9925b1397b64dece8f898047eed0f7a07", "0"]
             ]
         ),
