@@ -1,14 +1,13 @@
+const Witnet = require("witnet-utils")
 const addresses = require("../witnet/addresses")
+const selection = Witnet.Utils.getWitnetArtifactsFromArgs()
 const solvers = require("../witnet/solvers")
-const utils = require("../../assets/witnet/utils/js")
-
-const selection = utils.getWitnetArtifactsFromArgs()
 
 const WitnetPriceFeeds = artifacts.require("WitnetPriceFeeds")
 
 module.exports = async function (_deployer, network, [, from]) {
   const isDryRun = network === "test" || network.split("-")[1] === "fork" || network.split("-")[0] === "develop"
-  const ecosystem = utils.getRealmNetworkFromArgs()[0]
+  const ecosystem = Witnet.Utils.getRealmNetworkFromArgs()[0]
   network = network.split("-")[0]
 
   if (!addresses[ecosystem]) addresses[ecosystem] = {}
@@ -35,7 +34,7 @@ module.exports = async function (_deployer, network, [, from]) {
         addresses[ecosystem][network].solvers[solverName] = solverArtifact.address
       }
     }
-    utils.saveAddresses(addresses)
+    Witnet.Utils.saveAddresses(addresses)
   }
 }
 
@@ -76,7 +75,7 @@ async function resolveSolverArtifactAddress(factory, from, artifact, parameters)
   )
   if ((await web3.eth.getCode(solverAddr)).length <= 3) {
     try {
-      utils.traceHeader(`Instantiating '${artifact.contractName}${parameters.length > 0 
+      Witnet.Utils.traceHeader(`Instantiating '${artifact.contractName}${parameters.length > 0 
         ? `<${JSON.stringify(parameters)}>` 
         : ""
       }':`)
@@ -95,7 +94,7 @@ async function resolveSolverArtifactAddress(factory, from, artifact, parameters)
       web3.eth.abi.encodeParameters(solverTypesArray, parameters),
       { from }
     )
-    utils.traceTx(tx.receipt)
+    Witnet.Utils.traceTx(tx.receipt)
   }
   artifact.address = solverAddr
   return solverAddr
@@ -112,19 +111,19 @@ async function settlePriceFeedSolver (feeds, from, caption, solverArtifact, solv
     const hash = await feeds.hash.call(caption, { from })
     const currentSolver = await feeds.lookupPriceSolver.call(hash, { from })
     let doSettlement = false
-    utils.traceHeader(`\x1b[1;34m${caption}\x1b[0m`)
+    Witnet.Utils.traceHeader(`\x1b[1;34m${caption}\x1b[0m`)
       console.info("  ", `> ID4 hash:          \x1b[34m${hash}\x1b[0m`)
     if (
       solverArtifact.address === currentSolver[0] &&
         JSON.stringify(solverSpecs?.dependencies) === JSON.stringify(currentSolver[1])
     ) {
-      // utils.traceHeader(`Skipping '\x1b[34m${caption}\x1b[0m':`)
+      // Witnet.Utils.traceHeader(`Skipping '\x1b[34m${caption}\x1b[0m':`)
     } else {
       doSettlement = true
       if (!(await feeds.supportsCaption.call(caption, { from }))) {
-        // utils.traceHeader(`Settling '\x1b[34m${caption}\x1b[0m':`)
+        // Witnet.Utils.traceHeader(`Settling '\x1b[34m${caption}\x1b[0m':`)
       } else {
-        // utils.traceHeader(`Revisiting '\x1b[34m${caption}\x1b[0m':`)
+        // Witnet.Utils.traceHeader(`Revisiting '\x1b[34m${caption}\x1b[0m':`)
       }
       // console.info("  ", "> Routed feed ID4:            ", hash)
       console.info("  ", "> Feed solver artifact: ", `${solverArtifact.contractName}${
@@ -144,7 +143,7 @@ async function settlePriceFeedSolver (feeds, from, caption, solverArtifact, solv
         solverSpecs?.dependencies,
         { from }
       )
-      utils.traceTx(tx.receipt)
+      Witnet.Utils.traceTx(tx.receipt)
     } else {
       console.info("  ", "> Feed solver address: ", solverArtifact.address)
     }

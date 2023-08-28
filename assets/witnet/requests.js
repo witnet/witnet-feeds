@@ -1,5 +1,7 @@
-
+const { merge } = require("lodash")
 module.exports = {
-    ...require("witnet-solidity/migrations/witnet/requests"),
-    ...require("../../migrations/witnet/requests"),
+    ...merge(
+        require("witnet-solidity/migrations/witnet/requests"),
+        require("../../migrations/witnet/requests"),
+    ),
 };
