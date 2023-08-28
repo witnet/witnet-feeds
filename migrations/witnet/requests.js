@@ -96,7 +96,7 @@ module.exports = {
         ),
         WitnetRequestPriceCeloEur6: Witnet.PriceTickerRequest(
             retrievals, { 
-                "bittrex.com/ticker": ["CELO", "EUR"], 
+                "bitvavo.com/ticker": ["CELO", "EUR"], 
                 "coinbase.com/ticker": ["CGLD", "EUR"] 
             }
         ),

@@ -62,14 +62,14 @@
         "celo.alfajores": {
             "requests": {
                 "WitnetRequestPriceBtcUsd6": "0xac5c1943794cbb2Ac3CC70C06691EFF34f6A903D",
-                "WitnetRequestPriceCeloEur6": "0x956013550eDb71D413baE70d6489B25Fb6dBF5e7",
+                "WitnetRequestPriceCeloEur6": "0x49653D8AFb551498EE1C8aCa37e2581B573E4344",
                 "WitnetRequestPriceCeloUsd6": "0xC53094Db7ae2ff2E752943A626FBcA39FD31c22c",
                 "WitnetRequestPriceEthUsd6": "0xEA2D45d676ff391965e7fC48DA509F8916Fe2Fc6",
                 "WitnetRequestPriceImmoMcusd6": "0x1825dFF27738242b9f90D32506F9737b6403E70b",
                 "WitnetRequestPriceNctCelo6": "0xD7Db78066BA35b049286e20c7158a5E177041b1d"
             },
             "solvers": {
-                "WitnetPriceSolverNctUsd6": "0x58a5f70AC49C353823f5537443D9475EA1e627cb"
+                "WitnetPriceSolverNctUsd6": "0xF00032cc6227f85eb151678D5F531dB78Be0Ba69"
             },
             "templates": {
                 "WitnetRequestTemplateOolongswap": "0x7B527C69d89aB408665063e4977623194A0f0645",
