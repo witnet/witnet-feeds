@@ -298,6 +298,13 @@ module.exports = {
                 "mojitoswap/ticker#9": ["0xa0d7c8aa789362cdf4faae24b9d1528ed5a3777f", "1"] 
             }
         ),
+        WitnetRequestPriceMntUsdt6: Witnet.PriceTickerRequest(
+            retrievals, {
+                "bitmart.com/ticker": ["MNT", "USDT"], 
+                "gateapi.io/ticker": ["mnt", "usdt"],
+                "mexc.com/ticker": ["MNT", "USDT"], 
+            }
+        ),
         WitnetRequestPriceMtrUsdt6: Witnet.PriceTickerRequest(
             retrievals, { 
                 "gateapi.io/ticker": ["mtr", "usdt"], 
