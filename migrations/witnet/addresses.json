@@ -141,6 +141,13 @@
             },
             "templates": {},
             "solvers": {}
+        },
+        "test": {
+            "templates": {},
+            "requests": {
+                "WitnetRequestPriceWbtcUsd6": "0x2378d6dCf43Fa96963149369F54B54a76e8403f8"
+            },
+            "solvers": {}
         }
     },
     "dogechain": {
@@ -261,6 +268,19 @@
                 "WitnetPriceSolverKspUsd6": "0x58a5f70AC49C353823f5537443D9475EA1e627cb"
             },
             "templates": {}
+        }
+    },
+    "mantle": {
+        "mantle.testnet": {
+            "requests": {
+                "WitnetRequestPriceBtcUsd6": "0x20Ce33bf59092EBB53fAC39f5108b5e54D35C608",
+                "WitnetRequestPriceEthUsd6": "0x2f36A2b5EF5Cd6B1E3479EAaffE5d9A12b36624C",
+                "WitnetRequestPriceMntUsdt6": "0x3574B795aF5055A6b70CC799f7bF587aBa99a310",
+                "WitnetRequestPriceUsdcUsd6": "0xEaaD98812314867BE0228c9B27719cBA3deeb723",
+                "WitnetRequestPriceUsdtUsd6": "0xD87f459c43887B1cC42A3Ae2936BEf1B3341C8a7"
+            },
+            "templates": {},
+            "solvers": {}
         }
     },
     "metis": {
