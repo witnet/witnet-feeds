@@ -318,11 +318,6 @@ module.exports = {
                 "mexc.com/ticker": ["MTRG", "USDT"] 
             }
         ),
-        WitnetRequestPriceNationUsdt6: Witnet.PriceTickerRequest(
-            retrievals, { 
-                "mexc.com/ticker": ["NATION", "USDT"] 
-            }
-        ),
         WitnetRequestPriceNctCelo6: Witnet.RequestFromTemplate(
             templates['WitnetRequestTemplateUniswapCeloTicker6'], [
                 ["0xdb24905b1b080f65dedb0ad978aad5c76363d3c6", "1"]
