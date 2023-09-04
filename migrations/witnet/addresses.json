@@ -298,6 +298,17 @@
             },
             "templates": {},
             "solvers": {}
+        },
+        "mantle.mainnet": {
+            "requests": {
+                "WitnetRequestPriceBtcUsd6": "0x97931719f52B8F5f513BD295Dc283350c2036cf9",
+                "WitnetRequestPriceEthUsd6": "0x66C998d98448E1772748835A3Ba068353E8901F4",
+                "WitnetRequestPriceMntUsdt6": "0x234e57f543eb915F81C0b2F4DDd669e677C21685",
+                "WitnetRequestPriceUsdcUsd6": "0x9fd0d111E8860fE9D415d45462c436C40728e423",
+                "WitnetRequestPriceUsdtUsd6": "0xDB0E3AdADCb6605108225a30bdba7E48547988D6"
+            },
+            "templates": {},
+            "solvers": {}
         }
     },
     "metis": {
