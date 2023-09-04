@@ -75,6 +75,23 @@
                 "WitnetRequestTemplateOolongswap": "0x7B527C69d89aB408665063e4977623194A0f0645",
                 "WitnetRequestTemplateUniswapCelo": "0x719AAF8258234B6dd50a5b64b504D8762d485ab0"
             }
+        },
+        "celo.mainnet": {
+            "requests": {
+                "WitnetRequestPriceBtcUsd6": "0x8da6Fd2aC201e4a885EDD1c41C001b4C6EB2ea29",
+                "WitnetRequestPriceCeloEur6": "0x2896C5F29bB14Fd4a1B39F5E62F0216613fA6bF5",
+                "WitnetRequestPriceCeloUsd6": "0xa9BB0010c6A02186b1af0c5B7eC940717567F6D5",
+                "WitnetRequestPriceEthUsd6": "0x7B50161128eeb4b11314eaf8c18801ae1Bf50E9F",
+                "WitnetRequestPriceImmoMcusd6": "0xF7b11935eBca3739F704e87bC491E50904E61Ba6",
+                "WitnetRequestPriceNctCelo6": "0xcE6EaF1c0384D3D1C4e75dF616Bc78EB38F92Ed4"
+            },
+            "solvers": {
+                "WitnetPriceSolverNctUsd6": "0xF00032cc6227f85eb151678D5F531dB78Be0Ba69"
+            },
+            "templates": {
+                "WitnetRequestTemplateOolongTicker6": "0x194052241478aeF3bb4a117410f50b5e0DEa2338",
+                "WitnetRequestTemplateUniswapCeloTicker6": "0x9fb1193AEe4c9876616ff32e283d7b5DeED24C67"
+            }
         }
     },
     "conflux": {
