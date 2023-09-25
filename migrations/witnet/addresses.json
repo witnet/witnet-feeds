@@ -139,7 +139,7 @@
                 "WitnetRequestPriceTusdUsdt6": "0x5b6377d408Adf906676dd39Cf4ec4Bbf45765A3B",
                 "WitnetRequestPriceUsdcUsd6": "0x7bd343104Ede305Cd5069dB74a9f640B886F14ac",
                 "WitnetRequestPriceUsdtUsd6": "0x218CF50D7b023c7d58eE6fBEC181E9Cca3D7557F",
-                "WitnetRequestPriceWbtcUsd6": "0xC57e77F78D2a2b98Cc75aBeC6f407CB03BC23163",
+                "WitnetRequestPriceWbtcUsd6": "",
                 "WitnetRequestPriceXlmUsd6": "0xa9e58eEdbB101ABEC5F809323A5C454f460f3e59"
             },
             "solvers": {

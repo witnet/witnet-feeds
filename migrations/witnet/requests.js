@@ -338,7 +338,7 @@ module.exports = {
         WitnetRequestPriceOpUsdt6: Witnet.PriceTickerRequest(
             retrievals, { 
                 "binance.com/ticker": ["OP", "USDT"], 
-                "bkex.com/ticker": ["OP", "USDT"], 
+                // "bkex.com/ticker": ["OP", "USDT"], 
                 "digifinex.com/ticker": ["op", "usdt"], 
                 "gateapi.io/ticker": ["op", "usdt"], 
                 "kucoin.com/ticker": ["OP", "USDT"], 
@@ -426,8 +426,7 @@ module.exports = {
             ]
         ),
         WitnetRequestPriceWbtcUsd6: Witnet.PriceTickerRequest(
-            retrievals, { 
-                "bitfinex.com/ticker": ["wbtc", "usd"], 
+            retrievals, {
                 "coinbase.com/ticker": ["WBTC", "USD"], 
                 "kraken.com/ticker": ["WBTC", "USD"] 
             }
