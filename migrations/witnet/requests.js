@@ -166,7 +166,8 @@ module.exports = {
         ),
         WitnetRequestPriceEosUsd6: Witnet.PriceTickerRequest(
             retrievals, { 
-                "bittrex.com/ticker": ["EOS", "USD"], 
+                "ascendex.com/ticker": ["EOS", "USD"],
+                "bitfinex.com/ticker": ["eos", "usd"], 
                 "coinbase.com/ticker": ["EOS", "USD"], 
                 "kraken.com/ticker": ["EOS", "USD"] 
             }
