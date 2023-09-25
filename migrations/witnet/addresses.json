@@ -130,7 +130,7 @@
                 "WitnetRequestPriceDogeUsd6": "0x0D4D7d14187426536C5C93a8635B415E84f90a88",
                 "WitnetRequestPriceDotUsd6": "0xACF0bB96dC9424950Cf4D64537BE2B139BeFEef8",
                 "WitnetRequestPriceElonUsdt9": "0x143aa074636c2970Ea84CFdbd84Fb0961998686b",
-                "WitnetRequestPriceEosUsd6": "",
+                "WitnetRequestPriceEosUsd6": "0x1C349336E43D26Aa1085Ae37A4aa3587450f9368",
                 "WitnetRequestPriceEthUsd6": "0x55Cd10ce43389c76614d4ABdAE0aC0E7339F7798",
                 "WitnetRequestPriceLinkUsd6": "0xE4a02F314cE73AabaB7d32f08b6bd5EA401E9591",
                 "WitnetRequestPriceMaticUsd6": "0x1D658028600Ba8285Af7D87De5706b6b319Bee7E",
@@ -139,7 +139,7 @@
                 "WitnetRequestPriceTusdUsdt6": "0x5b6377d408Adf906676dd39Cf4ec4Bbf45765A3B",
                 "WitnetRequestPriceUsdcUsd6": "0x7bd343104Ede305Cd5069dB74a9f640B886F14ac",
                 "WitnetRequestPriceUsdtUsd6": "0x218CF50D7b023c7d58eE6fBEC181E9Cca3D7557F",
-                "WitnetRequestPriceWbtcUsd6": "",
+                "WitnetRequestPriceWbtcUsd6": "0xb8B85085610d2C04aEC38D05DFd1C59b56E5AF24",
                 "WitnetRequestPriceXlmUsd6": "0xa9e58eEdbB101ABEC5F809323A5C454f460f3e59"
             },
             "solvers": {
