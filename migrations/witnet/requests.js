@@ -384,6 +384,16 @@ module.exports = {
                 ["0x81e11a9374033d11cc7e7485a7192ae37d0795d6", "1"]
             ]
         ),
+        WitnetRequestPriceSysUsdt6: Witnet.PriceTickerRequest(
+            retrievals, { 
+                "binance.com/ticker": ["SYS", "USDT"],
+                "bitget.com/ticker": ["SYSUSDT_SPBL"], 
+                "digifinex.com/ticker": ["sys", "usdt"],
+                "gateapi.io/ticker#9": ["sys", "usdt"],
+                "kucoin.com/ticker": ["SYS", "USDT"], 
+                "mexc.com/ticker": ["SYS", "USDT"] 
+            }
+        ),
         WitnetRequestPriceTusdUsdt6: Witnet.PriceTickerRequest(
             retrievals, { 
                 "binance.com/ticker": ["TUSD", "USDT"], 
