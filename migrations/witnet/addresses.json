@@ -476,6 +476,15 @@
             "solvers": {}
         }
     },
+    "syscoin": {
+        "syscoin.rollux.testnet": {
+            "requests": {
+                "WitnetRequestPriceSysUsdt6": "0x8C4574fcA7176120210110dED0C97E8341F73Fb9"
+            },
+            "templates": {},
+            "solvers": {}
+        }
+    },
     "ultron": {
         "ultron.testnet": {
             "requests": {
