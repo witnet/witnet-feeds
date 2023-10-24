@@ -474,6 +474,16 @@
             },
             "templates": {},
             "solvers": {}
+        },
+        "scroll.mainnet": {
+            "requests": {
+                "WitnetRequestPriceBtcUsd6": "0x0A4007DdeFECd13964183d2FDE38a63f6Af69B15",
+                "WitnetRequestPriceEthUsd6": "0xb1582f9a9CB402781C02558289989ff27b63d320",
+                "WitnetRequestPriceUniUsd6": "0xce77F28d65D1A52B354e32325C977C016D534812",
+                "WitnetRequestPriceUsdcUsd6": "0x627A6A49d2bBbdd71D3C89A672319F3FF77bA1fb"
+            },
+            "templates": {},
+            "solvers": {}
         }
     },
     "syscoin": {
