@@ -1,7 +1,7 @@
 require("dotenv").config()
 
 const addresses = require("../../witnet/addresses")
-const utils = require("../../../assets/witnet/utils/js")
+const utils = require("witnet-utils").Utils;
 
 const WitnetPriceFeeds = artifacts.require("WitnetPriceFeeds")
 
