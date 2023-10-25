@@ -159,6 +159,13 @@
             "templates": {},
             "solvers": {}
         },
+        "ethereum.sepolia": {
+            "requests": {
+                "WitnetRequestPriceEthUsd6": "0xafBA9B8375fCF9f320BFCd376DF3496e47B7E88d"
+            },
+            "templates": {},
+            "solvers": {}
+        },
         "test": {
             "templates": {},
             "requests": {
