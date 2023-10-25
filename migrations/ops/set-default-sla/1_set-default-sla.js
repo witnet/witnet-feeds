@@ -27,7 +27,7 @@ module.exports = async function (_deployer, network, [, from]) {
     console.log("> minConsensusPercentage:", `${oldSLA.minConsensusPercentage} % ${newSLA.minConsensusPercentage !== oldSLA.minConsensusPercentage ? `=> ${newSLA.minConsensusPercentage} %` : ""}`)
     console.log("> witnessReward:         ", `${oldSLA.witnessReward / 10 ** 9} WIT ${newSLA.witnessReward !== oldSLA.witnessReward ? `=> ${newSLA.witnessReward / 10 ** 9} WIT` : ""}`)
     console.log("> witnessCollateral:     ", `${oldSLA.witnessCollateral / 10 ** 9} WIT ${newSLA.witnessCollateral !== oldSLA.witnessCollateral ? `=> ${newSLA.witnessCollateral / 10 ** 9} WIT` : ""}`)
-    console.log("> minerCommitRevealFee:  ", `${oldSLA.minerCommitRevealFee / 10 ** 9} WIT ${newSLA.minerCommitRevealFee !== oldSLA.minerCommitRevealFee ? `=> ${newSLA.witnessCollateral / 10 ** 9} WIT` : ""}`)
+    console.log("> minerCommitRevealFee:  ", `${oldSLA.minerCommitRevealFee / 10 ** 9} WIT ${newSLA.minerCommitRevealFee !== oldSLA.minerCommitRevealFee ? `=> ${newSLA.minerCommitRevealFee / 10 ** 9} WIT` : ""}`)
     let answer = (await utils.prompt(`\nSettle new SLA for price updates? [y/N] `)).toLowerCase().trim()
     if (["y", "yes"].includes(answer)) {
         const tx = await pfs.settleDefaultRadonSLA(newSLA, { from })
