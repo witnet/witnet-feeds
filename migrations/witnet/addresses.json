@@ -472,12 +472,12 @@
         }
     },
     "scroll": {
-        "scroll.goerli": {
+        "scroll.sepolia": {
             "requests": {
-                "WitnetRequestPriceBtcUsd6": "0x2Debda8c35be8B68603ca091074DC21E639fD0e5",
-                "WitnetRequestPriceEthUsd6": "0x974799f7bEEe904838199541f110a8cE4b515F18",
-                "WitnetRequestPriceUniUsd6": "0x62CB33c92DE842da11d3bAe3421383a871fbD6d8",
-                "WitnetRequestPriceUsdcUsd6": "0x0b6C27B84B218370E267a2130643e0751F301eE0"
+                "WitnetRequestPriceBtcUsd6": "0x065086e05A7C653aBDe2dA9816aDCe699eAD6178",
+                "WitnetRequestPriceEthUsd6": "0xE98e30660D7fD75D254A6C73a0A7ad8AF5da5bcb",
+                "WitnetRequestPriceUniUsd6": "0xB078BBC8548cD7ecbEe24D361fc30605Ba806d5e",
+                "WitnetRequestPriceUsdcUsd6": "0xa7916115e42F8297A75208d1791d4D77278C07Fa"
             },
             "templates": {},
             "solvers": {}
