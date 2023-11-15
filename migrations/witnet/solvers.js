@@ -86,6 +86,12 @@ module.exports = {
         "Price-USDT/USD-6",
       ],
     },
+    "Price-MTRG/USD-6": {
+      dependencies: [
+        "Price-MTRG/USDT-6",
+        "Price-USDT/USD-6",
+      ]
+    },
     "Price-NCT/USD-6": {
       dependencies: [
         "Price-NCT/CELO-6",
