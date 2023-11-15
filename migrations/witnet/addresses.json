@@ -336,7 +336,10 @@
         "meter.testnet": {
             "requests": {
                 "WitnetRequestPriceMtrgUsdt6": "0x65D4B2822cF250310cB1F7Bef2ee759f0eAFe66e",
-                "WitnetRequestPriceMtrUsdt6": "0x0730a089419B89e91AD2b276B95d36e704125767"
+                "WitnetRequestPriceMtrUsdt6": "0x0730a089419B89e91AD2b276B95d36e704125767",
+                "WitnetRequestPriceBtcUsd6": "0xFeb5DB998306E129C0B40d77Ef1ceDfaf1f16bA1",
+                "WitnetRequestPriceEthUsd6": "0xa553B0b18FB0699bA129CF77C3a7876Ab52B802A",
+                "WitnetRequestPriceUsdcUsd6": "0x648598603eCcabEdFd1A58cE29fcc2AD1C3E7928"
             },
             "templates": {},
             "solvers": {}
