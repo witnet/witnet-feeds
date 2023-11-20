@@ -283,13 +283,13 @@
         "klaytn.testnet": {
             "requests": {
                 "WitnetRequestPriceKlayUsdt6": "0xC1f1fc607D3E8b44E3628e27B2b0edDa9FE40530",
-                "WitnetRequestPriceKrwUsd9": "0x09D525Da955584575969205186cFCD89e30ED32f",
+                "WitnetRequestPriceKrwUsd9": "0xA3562A68f5bab969C9D24163a1C922d28d2e55c3",
                 "WitnetRequestPriceKspKrw6": "0x88D9E1d6080ad1c5E47dcD070440F7bedc1B5b7b",
                 "WitnetRequestPriceUsdtUsd6": "0x12d03a9DB40C691b48aba5f7aEd5b4eBB477C13B"
             },
             "solvers": {
-                "WitnetPriceSolverKlayUsd6": "0x58a5f70AC49C353823f5537443D9475EA1e627cb",
-                "WitnetPriceSolverKspUsd6": "0x58a5f70AC49C353823f5537443D9475EA1e627cb"
+                "WitnetPriceSolverKlayUsd6": "0xc96e7D916f7183fD740c42F73C9CC793Cfd4e9DB",
+                "WitnetPriceSolverKspUsd6": "0xc96e7D916f7183fD740c42F73C9CC793Cfd4e9DB"
             },
             "templates": {}
         }
