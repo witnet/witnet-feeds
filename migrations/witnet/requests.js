@@ -90,7 +90,6 @@ module.exports = {
             retrievals, { 
                 "binance.com/ticker": ["BUSD", "USDT"], 
                 "bitmart.com/ticker": ["BUSD", "USDT"], 
-                "kucoin.com/ticker": ["BUSD", "USDT"], 
                 "indoex.io/ticker": ["BUSD", "USDT"] 
             }
         ),
@@ -260,7 +259,6 @@ module.exports = {
         ),
         WitnetRequestPriceKrwUsd9: Witnet.PriceTickerRequest(
             retrievals, { 
-                "exchangerate.host/ticker#9": ["KRW", "USD"], 
                 "fastforex.io/ticker#9": ["KRW", "USD"], 
                 "jsdelivr.net/ticker#9": ["krw", "usd"] 
             }
