@@ -347,6 +347,20 @@
             "solvers": {
                 "WitnetPriceSolverMtrgUsd6": "0x9c2329867A3946C20e9E000895A590fbbD888aCB"
             }
+        },
+        "meter.mainnet": {
+            "templates": {},
+            "requests": {
+                "WitnetRequestPriceMtrgUsdt6": "0xa2F9879b8149A5e27182F0A60Fd8c91ae717E3Ad",
+                "WitnetRequestPriceMtrUsdt6": "0x5b38e45920bd9082F21363404F734430Eb0ab932",
+                "WitnetRequestPriceBtcUsd6": "0x6eA9D42D59B9a200B46077aF4040B62007DeA083",
+                "WitnetRequestPriceEthUsd6": "0x9446Bd4f1ad9f602eDFE86c2CcED8cd10749836d",
+                "WitnetRequestPriceUsdcUsd6": "0x7a162A2929C5e39C50fe9356305FFF5F03eE09bF",
+                "WitnetRequestPriceUsdtUsd6": "0xa46F30597aB71A19e53895366b94C498233B8d54"
+            },
+            "solvers": {
+                "WitnetPriceSolverMtrgUsd6": "0x50c2abB34d17669347630748674c05984DB4CFBb"
+            }
         }
     },
     "moonbeam": {
