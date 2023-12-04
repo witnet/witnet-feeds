@@ -322,6 +322,13 @@ module.exports = {
                 ["0xdb24905b1b080f65dedb0ad978aad5c76363d3c6", "1"]
             ]
         ),
+        WitnetRequestPriceOkbUsdt6: Witnet.PriceTickerRequest(
+            retrievals, { 
+                "gateapi.io/ticker": ["okb", "usdt"], 
+                "okx.com/ticker": ["OKB", "USDT"], 
+                "mexc.com/ticker": ["OKB", "USDT"] 
+            }
+        ),
         WitnetRequestPriceOktUsdt6: Witnet.PriceTickerRequest(
             retrievals, { 
                 "gateapi.io/ticker": ["okt", "usdt"], 

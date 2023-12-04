@@ -385,11 +385,21 @@
             }
         }
     },
-    "okxchain": {
-        "okxchain.testnet": {
+    "okx": {
+        "okx.okxchain.testnet": {
             "requests": {
                 "WitnetRequestPriceOktUsdt6": "0xd6370a1d899c6a31e448Ea50902e87a228644299",
                 "WitnetRequestPriceUsdtUsd6": "0x809b4171605D687BDE002e68A01eeDa9a1B3Cd5A"
+            },
+            "templates": {},
+            "solvers": {}
+        },
+        "okx.x1.sepolia": {
+            "requests": {
+                "WitnetRequestPriceOkbUsdt6": "0xF28D6A1f943dA678D22BF749691d1E17b1A0A6Bb",
+                "WitnetRequestPriceBtcUsd6": "0x098d83c3F4a682f47A40F40512615Ba05f511237",
+                "WitnetRequestPriceEthUsd6": "0xbB3C9b1E35EB0A03068437923b4d5c5b5dc0b7C8",
+                "WitnetRequestPriceUsdtUsd6": "0xD9513433787194C40C8F27Cb27a1a3d64571B075"
             },
             "templates": {},
             "solvers": {}
