@@ -424,22 +424,20 @@
                 "WitnetRequestPriceEthUsd6": "0xcFe16fE1AE33924F1093AdF70b017b47F1Fc1321",
                 "WitnetRequestPriceGlintUsdc6": "0xBB8E41aEA2F6eAE6d8d91a92B3e94f46A0313faD",
                 "WitnetRequestPriceMaticUsd6": "0x8048B00317c8eDEDf572EF93381ee6A90d28E0Ab",
-                "WitnetRequestPriceQuickUsdc6": "0xb6551fd81202e3418Cc1dC62f6E10a8E77416166",
-                "WitnetRequestPriceQuickWeth9": "0xAE0fd942c7AD0CCCC5c488BE97289029a52F33EC",
-                "WitnetRequestPriceQuickWmatic6": "0x4bBDD67B952476215dFeF59aA634115A211b4226",
+                "WitnetRequestPriceQuickUsdc6": "0x32b0FcaABd2B673160AdA24A0F456027FA6b8201",
+                "WitnetRequestPriceQuickWeth9": "0x944be42e5B7D49680eEE929396f22Ba98Bead9b0",
+                "WitnetRequestPriceQuickWmatic6": "0x05394Be955E819f39C3581DE7466b374a0B1f21a",
                 "WitnetRequestPriceUsdcUsd6": "0x69efDeA183F3f1d23537a1e90062AAd84B9ffeef",
                 "WitnetRequestPriceUsdtUsd6": "0x0C746672016bE6Eb254707F1de27af5f78b048E0",
                 "WitnetRequestPriceVsqDai6": "0x8D8475c4A7Dd885544a4387de0BEEbA0ba1227E8"
             },
             "templates": {
                 "WitnetRequestTemplateBeamswap": "0xAD55A748e494bD84836920a7D787fc2cDe404694",
-                "WitnetRequestTemplateQuickswap": "0xdb49bec8377DD284a99d7ff6ed4c83d9d35D3A78",
-                "WitnetRequestTemplateQuickswap_9": "0xbD1eA24Dc9FB36c05a83C3E341921d468dC86DC7",
                 "WitnetRequestTemplateMaticExchange": "0x0D742f2793D2Af1025074EFb27EF3ab5189AcF72"
             },
             "solvers": {
-                "WitnetPriceSolverBatUsd6": "0xc96e7D916f7183fD740c42F73C9CC793Cfd4e9DB",
-                "WitnetPriceSolverQuickUsd6": "0xc96e7D916f7183fD740c42F73C9CC793Cfd4e9DB"
+                "WitnetPriceSolverBatUsd6": "0xF1d53AC88c70a7B3FE142C595A15044755fd5233",
+                "WitnetPriceSolverQuickUsd6": "0xF1d53AC88c70a7B3FE142C595A15044755fd5233"
             }
         },
         "polygon.mainnet": {
