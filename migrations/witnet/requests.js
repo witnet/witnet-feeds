@@ -443,6 +443,7 @@ module.exports = {
         ),
         WitnetRequestPriceWbtcUsd6: Witnet.PriceTickerRequest(
             retrievals, {
+                "bitfinex.com/ticker": ["wbt", "usd"], 
                 "coinbase.com/ticker": ["WBTC", "USD"], 
                 "kraken.com/ticker": ["WBTC", "USD"] 
             }
