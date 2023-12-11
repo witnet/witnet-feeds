@@ -90,7 +90,6 @@ module.exports = {
             retrievals, { 
                 "binance.com/ticker": ["BUSD", "USDT"], 
                 "bitmart.com/ticker": ["BUSD", "USDT"], 
-                "kucoin.com/ticker": ["BUSD", "USDT"], 
                 "indoex.io/ticker": ["BUSD", "USDT"] 
             }
         ),
@@ -260,7 +259,6 @@ module.exports = {
         ),
         WitnetRequestPriceKrwUsd9: Witnet.PriceTickerRequest(
             retrievals, { 
-                "exchangerate.host/ticker#9": ["KRW", "USD"], 
                 "fastforex.io/ticker#9": ["KRW", "USD"], 
                 "jsdelivr.net/ticker#9": ["krw", "usd"] 
             }
@@ -323,6 +321,13 @@ module.exports = {
             templates['WitnetRequestTemplateUniswapCeloTicker6'], [
                 ["0xdb24905b1b080f65dedb0ad978aad5c76363d3c6", "1"]
             ]
+        ),
+        WitnetRequestPriceOkbUsdt6: Witnet.PriceTickerRequest(
+            retrievals, { 
+                "gateapi.io/ticker": ["okb", "usdt"], 
+                "okx.com/ticker": ["OKB", "USDT"], 
+                "mexc.com/ticker": ["OKB", "USDT"] 
+            }
         ),
         WitnetRequestPriceOktUsdt6: Witnet.PriceTickerRequest(
             retrievals, { 
@@ -438,6 +443,7 @@ module.exports = {
         ),
         WitnetRequestPriceWbtcUsd6: Witnet.PriceTickerRequest(
             retrievals, {
+                "bitfinex.com/ticker": ["wbt", "usd"], 
                 "coinbase.com/ticker": ["WBTC", "USD"], 
                 "kraken.com/ticker": ["WBTC", "USD"] 
             }
