@@ -66,14 +66,13 @@
                 "WitnetRequestPriceCeloUsd6": "0xC53094Db7ae2ff2E752943A626FBcA39FD31c22c",
                 "WitnetRequestPriceEthUsd6": "0xEA2D45d676ff391965e7fC48DA509F8916Fe2Fc6",
                 "WitnetRequestPriceImmoMcusd6": "0x1825dFF27738242b9f90D32506F9737b6403E70b",
-                "WitnetRequestPriceNctCelo6": "0xD7Db78066BA35b049286e20c7158a5E177041b1d"
+                "WitnetRequestPriceNctCelo6": "0x62a0727f3331d48fb9e7C95E9e76c39db602B1bc"
             },
             "solvers": {
-                "WitnetPriceSolverNctUsd6": "0xF00032cc6227f85eb151678D5F531dB78Be0Ba69"
+                "WitnetPriceSolverNctUsd6": "0xF1d53AC88c70a7B3FE142C595A15044755fd5233"
             },
             "templates": {
-                "WitnetRequestTemplateOolongswap": "0x7B527C69d89aB408665063e4977623194A0f0645",
-                "WitnetRequestTemplateUniswapCelo": "0x719AAF8258234B6dd50a5b64b504D8762d485ab0"
+                "WitnetRequestTemplateOolongswap": "0x7B527C69d89aB408665063e4977623194A0f0645"
             }
         },
         "celo.mainnet": {
@@ -83,14 +82,14 @@
                 "WitnetRequestPriceCeloUsd6": "0xa9BB0010c6A02186b1af0c5B7eC940717567F6D5",
                 "WitnetRequestPriceEthUsd6": "0x7B50161128eeb4b11314eaf8c18801ae1Bf50E9F",
                 "WitnetRequestPriceImmoMcusd6": "0xF7b11935eBca3739F704e87bC491E50904E61Ba6",
-                "WitnetRequestPriceNctCelo6": "0xcE6EaF1c0384D3D1C4e75dF616Bc78EB38F92Ed4"
+                "WitnetRequestPriceNctCelo6": "0xb99b2Ef36463c9E668157b9Aa51859B1c1596730"
             },
             "solvers": {
-                "WitnetPriceSolverNctUsd6": "0xF00032cc6227f85eb151678D5F531dB78Be0Ba69"
+                "WitnetPriceSolverNctUsd6": "0xF1d53AC88c70a7B3FE142C595A15044755fd5233"
             },
             "templates": {
                 "WitnetRequestTemplateOolongTicker6": "0x194052241478aeF3bb4a117410f50b5e0DEa2338",
-                "WitnetRequestTemplateUniswapCeloTicker6": "0x9fb1193AEe4c9876616ff32e283d7b5DeED24C67"
+                "WitnetRequestTemplateUniswapCeloTicker6": "0xa96451Ee38d5E77EA012e85ff6CB1EDEf49e8247"
             }
         }
     },
