@@ -6,14 +6,12 @@ const WitnetErrorsLib = artifacts.require("WitnetErrorsLib")
 
 const WitnetBytecodes = artifacts.require("WitnetBytecodes")
 const WitnetPriceFeeds = artifacts.require("WitnetPriceFeeds")
-const WitnetRandomness = artifacts.require("WitnetRandomness")
 const WitnetRequestBoard = artifacts.require("WitnetRequestBoard")
 const WitnetRequestFactory = artifacts.require("WitnetRequestFactory")
 
 const WitnetBytecodesDefault = artifacts.require("WitnetBytecodesDefault")
 const WitnetPriceFeedsLib = artifacts.require("WitnetPriceFeedsLib")
 const WitnetPriceFeedsUpgradable = artifacts.require("WitnetPriceFeedsUpgradable")
-const WitnetRandomnessProxiable = artifacts.require("WitnetRandomnessProxiable")
 const WitnetRequestBoardDefault = artifacts.require("WitnetRequestBoardTrustableDefault")
 const WitnetRequestFactoryDefault = artifacts.require("WitnetRequestFactoryDefault")
 
@@ -30,7 +28,6 @@ module.exports = async function (deployer, network, [, from]) {
       witnetAddresses = addresses[ecosystem][network]
       WitnetBytecodes.address = witnetAddresses?.WitnetBytecodes
       WitnetPriceFeeds.address = witnetAddresses?.WitnetPriceFeeds
-      WitnetRandomness.address = witnetAddresses?.WitnetRandomness
       WitnetRequestBoard.address = witnetAddresses?.WitnetRequestBoard
       WitnetRequestFactory.address = witnetAddresses?.WitnetRequestFactory
     } catch (e) {
@@ -76,13 +73,6 @@ module.exports = async function (deployer, network, [, from]) {
       { from, gas: 6721975 }
     )
     WitnetPriceFeeds.address = WitnetPriceFeedsUpgradable.address    
-    await deployer.deploy(
-      WitnetRandomnessProxiable,
-      WitnetRequestBoard.address,
-      Witnet.Utils.fromAscii(network),
-      { from, gas: 6721975 }
-    )
-    WitnetRandomness.address = WitnetRandomnessProxiable.address    
     const addresses = require("../witnet/addresses")
     if (addresses[ecosystem] && addresses[ecosystem][network]) {
       delete addresses[ecosystem][network]
@@ -95,9 +85,6 @@ module.exports = async function (deployer, network, [, from]) {
   }
   if (WitnetPriceFeeds.address) {
     console.info("  ", "> WitnetPriceFeeds:     ", WitnetPriceFeeds.address, `(v${await readUpgradableArtifactVersion(WitnetPriceFeeds)})`)
-  }
-  if (WitnetRandomness.address) {
-    console.info("  ", "> WitnetRandomness:     ", WitnetRandomness.address, `(v${await readUpgradableArtifactVersion(WitnetRandomness)})`)
   }
   if (WitnetRequestBoard.address) {
     console.info("  ", "> WitnetRequestBoard:   ", WitnetRequestBoard.address, `(v${await readUpgradableArtifactVersion(WitnetRequestBoard)})`)
