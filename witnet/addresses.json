@@ -1,0 +1,13 @@
+{
+    "ten:testnet": {
+        "requests": {
+            "WitnetRequestPriceBtcUsd6": "0xCC255a333b576172287BE5209F7cAba388Ce5216",
+            "WitnetRequestPriceEthUsd6": "0x74FfEe285fA365A7CF75135792Ca70fe5521E191",
+            "WitnetRequestPriceUsdtUsd6": "0x2B1c2D10b941DB05f8115087f928359B4AC1E197",
+            "WitnetRequestPriceWitUsdt6": "0x5Fc837dD39528291B7ef1fCcBBBeD38D0aBF3Ee2"
+        },
+        "routes": {
+            "WitnetPriceFeedRouteWitUsd6": "0xA3ABD21F41CA84AaC0326863007894245E612AF9"
+        }
+    }
+}
