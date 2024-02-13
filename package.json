@@ -1,44 +1,47 @@
 {
   "name": "witnet-feeds",
-  "version": "0.7.14",
-  "description": "Public data feeds currently sustained by the Witnet Foundation",
-  "main": "",
-  "repository": "https://github.com/witnet/witnet-solidity-feeds",
+  "version": "2.0.1",
+  "description": "Public data feeds sustained by the Witnet Foundation",
+  "repository": "https://github.com/witnet/witnet-feeds",
   "author": "Guillermo Diaz <guillermo@otherplane.com>",
   "license": "MIT",
   "private": false,
   "scripts": {
     "avail": "npx witnet avail",
-    "compile": "npx truffle compile --all",
+    "compile": "npx truffle compile --all && npx hardhat compile",
     "console": "npx witnet console",
     "deploy": "npx witnet deploy",
     "migrate": "npx witnet deploy",
     "flatten": "node ./scripts/flatten.js contracts/ 2>&1",
-    "fmt": "solhint --max-warnings 0 \"contracts/**/*.sol\" && eslint ./test && eslint ./migrations/**/*.js && solhint \"test/**/*.sol\"",
-    "fmt!": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix && eslint ./test --fix && eslint ./migrations/**/*.js --fix && solhint \"test/**/*.sol\" --fix",
-    "ops:get:sla": "truffle migrate --reset --migrations_directory ./migrations/ops/get-default-sla/ --network",
-    "ops:set:sla": "truffle migrate --reset --migrations_directory ./migrations/ops/set-default-sla/ --network",
-    "test": "npx witnet test --compile-none"
+    "fmt": "eslint ./scripts/**/*.js",
+    "fmt!": "eslint ./scripts/**/*.js --fix",
+    "test": "npx witnet test"
   },
   "dependencies": {
-    "witnet-solidity": "^1.1.2"
+    "witnet-solidity": "^2.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.15.0",
-    "dotenv": "8.2.0",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.0",
+    "@nomicfoundation/hardhat-web3-v4": "^1.0.0",
+    "@typechain/ethers-v6": "^0.5.0",
+    "@typechain/hardhat": "^9.0.0",
+    "chai": "^4.2.0",
+    "dotenv": "^16.4.1",
     "eslint": "8.15.0",
     "eslint-config-standard": "17.0.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-n": "15.2.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "6.0.0",
-    "eth-gas-reporter": "0.2.25",
-    "solhint": "~3.4.1",
-    "truffle": "~5.8.2",
-    "truffle-assertions": "~0.9.2",
-    "truffle-flattener": "~1.6.0",
-    "truffle-plugin-verify": "~0.6.2"
+    "ethers": "^6.4.0",
+    "hardhat": "^2.19.5",
+    "hardhat-gas-reporter": "^1.0.8",
+    "solidity-coverage": "^0.8.0",
+    "typechain": "^8.3.0",
+    "web3": "^4.5.0"
   }
 }
