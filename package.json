@@ -6,9 +6,19 @@
   "author": "Guillermo Diaz <guillermo@otherplane.com>",
   "license": "MIT",
   "private": false,
+  "bin": {},
+  "exports": {
+    ".": "./witnet/assets/index.js",
+    "./assets": "./witnet/assets/index.js",
+    "./utils": "./scripts/utils.js"
+  },
+  "files":[
+    "scripts",
+    "witnet"
+  ],
   "scripts": {
     "avail": "npx witnet avail",
-    "compile": "npx truffle compile --all && npx hardhat compile",
+    "compile": "npx hardhat compile",
     "console": "npx witnet console",
     "deploy": "npx witnet deploy",
     "migrate": "npx witnet deploy",
