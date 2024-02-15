@@ -25,6 +25,7 @@
     "flatten": "node ./scripts/flatten.js contracts/ 2>&1",
     "fmt": "eslint ./scripts/**/*.js",
     "fmt!": "eslint ./scripts/**/*.js --fix",
+    "prepare": "npx hardhat compile --force",
     "test": "npx witnet test"
   },
   "dependencies": {
