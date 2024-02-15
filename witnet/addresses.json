@@ -1,13 +1,20 @@
 {
     "ten:testnet": {
         "requests": {
-            "WitnetRequestPriceBtcUsd6": "0xCC255a333b576172287BE5209F7cAba388Ce5216",
-            "WitnetRequestPriceEthUsd6": "0x74FfEe285fA365A7CF75135792Ca70fe5521E191",
-            "WitnetRequestPriceUsdtUsd6": "0x2B1c2D10b941DB05f8115087f928359B4AC1E197",
-            "WitnetRequestPriceWitUsdt6": "0x5Fc837dD39528291B7ef1fCcBBBeD38D0aBF3Ee2"
+            "WitnetRequestPriceBtcUsd6": "0x16f09C534BA84E966b57A40C4A1E248f50B83878",
+            "WitnetRequestPriceEthUsd6": "0x1F2437ba8493AF5d5D7Ed7f4Bc35FC51Cf9f2d91",
+            "WitnetRequestPriceUsdtUsd6": "0xd4F5b7b8382b0eB4c7Bd2f6134a198118735Da03",
+            "WitnetRequestPriceWitUsdt6": "0x11Ea28eC9ea75832A8814ae9BAa1bbB24c17E860"
         },
         "routes": {
-            "WitnetPriceFeedRouteWitUsd6": "0xA3ABD21F41CA84AaC0326863007894245E612AF9"
+            "WitnetPriceFeedRouteWitUsd6": "0x59337C6ADE43B5C81D29177f780D8184c75E4f32"
+        }
+    },
+    "ethereum:sepolia": {
+        "requests": {
+            "WitnetRequestPriceBtcUsd6": "0x5A9222A6D654638A79D9339470f87170451e9bA2",
+            "WitnetRequestPriceEthUsd6": "0xf99b17e0afcf90b4316bC4ADC81d98c2cE23EdBB",
+            "WitnetRequestPriceWitUsdt6": "0x401f8ab616225B4f94DC57e810f191D634037a37"
         }
     }
 }
