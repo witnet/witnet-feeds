@@ -1,3 +1,4 @@
+const hre = require("hardhat");
 const utils = require("../utils")
 
 module.exports = { run };
@@ -14,15 +15,24 @@ async function run(args) {
 
     if (args?.collateralFee || args?.committeeSize) {
         console.info()        
-        console.info("  ", "\x1b[30;48;5;208m Setting SLA... \x1b[0m")
+        console.info("  ", "\x1b[30;48;5;208m Setting SLA...  \x1b[0m")
+        const gasPrice = hre.network.config.gasPrice === "auto" 
+                ? await hre.web3.eth.getGasPrice()
+                : hre.network.config.gasPrice
+            ;
         await pfs.settleDefaultRadonSLA([
             committeeSize,
-            (witnessReward * (committeeSize + 3)).toString()
-        ])
-    
+            (witnessReward * (committeeSize + 3)).toString(),
+        ], {
+            gasPrice, 
+            gas: 500000 
+        }).wait();
+        const receipt = await hre.ethers.provider.getTransactionReceipt(tx.hash) 
+        utils.traceTx(receipt)
+
     } else {
         console.info()
-        console.info("  ", "\x1b[30;48;5;13m Default SLA \x1b[0m")
+        console.info("  ", "\x1b[30;48;5;13m  Default SLA    \x1b[0m")
     }
         
     console.info("  ", "- Committee size:", committeeSize)

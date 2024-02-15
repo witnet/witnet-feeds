@@ -15,31 +15,25 @@ task("pfs:deploy", "Upgrade price feeds")
   }
 );
 
-task("pfs:status", "List currently supported price feeds.")
-  .setAction(async (taskArgs) => {
-    const script = require("./scripts/hardhat/pfs-status");
-    await script.run(taskArgs).catch((error) => {
-      console.error(error);
-      process.exitCode = 1;
-    })
-  }
-);
-
-task("pfs:routes", "List currently routed price feeds.")
-  .setAction(async (taskArgs) => {
-    const script = require("./scripts/hardhat/pfs-routes");
-    await script.run(taskArgs).catch((error) => {
-      console.error(error);
-      process.exitCode = 1;
-    })
-  }
-);
-
 task("pfs:sla", "Get default Witnet SLA")
   .addOptionalParam("committeeSize", "Minimum number of witnesses required for every price update.")
   .addOptionalParam("collateralFee", "Minimum collateral in $nanoWIT required for witnessing nodes.")
   .setAction(async (taskArgs) => {
     const script = require("./scripts/hardhat/pfs-sla");
+    await script.run(taskArgs).catch((error) => {
+      console.error(error);
+      process.exitCode = 1;
+    })
+  }
+);
+
+task("pfs:status", "Show current status of supported price feeds.")
+  .addFlag("update", "Update listed price feeds, only if idle.")
+  .addFlag("forceUpdate", "Force the update of listed price feeds, even if in awaiting status.")
+  .addOptionalParam("from", "EVM address from which contracts will be interacted with.")
+  .addOptionalVariadicPositionalParam("captions", "Captions of the price feeds to be listed, or updated (e.g. eth/usd-6).")
+  .setAction(async (taskArgs) => {
+    const script = require("./scripts/hardhat/pfs-status");
     await script.run(taskArgs).catch((error) => {
       console.error(error);
       process.exitCode = 1;
@@ -53,8 +47,8 @@ module.exports = {
     .map(([network, config]) => {
       return [network, {
         chainId: config.network_id,
-        gas: config?.gas || "auto",
-        gasPrice: config?.gasPrice || "auto",
+        gasLimit: config?.gas,
+        gasPrice: config?.gasPrice,
         url: `http://${config?.host || "localhost"}:${config?.port || 8545}`
       }]
     })

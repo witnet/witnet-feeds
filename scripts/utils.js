@@ -10,7 +10,7 @@ module.exports = {
     extractErc2362CaptionFromKey,
     extractKeyFromErc2362Caption,
     getWitnetPriceFeedsContract,
-    getWitnetPriceSolverContract,
+    getWitnetPriceRouteSolverContract,
     getWitnetRequestContract,
     getWitnetRequestResultDataTypeString,
     getWitnetResultStatusString,
@@ -79,7 +79,7 @@ function extractKeyFromErc2362Caption (caption) {
     return `WitnetPriceFeedRoute${camelize(parts[0])}${camelize(parts[1])}${decimals}`
   }
 
-async function getWitnetPriceFeedsContract() {
+async function getWitnetPriceFeedsContract(from) {
     if (!addresses?.WitnetPriceFeeds) {
         throw Error(`No WitnetPriceFeeds on network "${hre.network.name}"`)
     }
@@ -88,40 +88,43 @@ async function getWitnetPriceFeedsContract() {
     console.info("  ", `\x1b[1;96m${header}\x1b[0m`)
     console.info("  ", "=".repeat(header.length))
 
-    process.stdout.write("   \x1b[97mWitnetPriceFeeds:     ")
+    process.stdout.write("   \x1b[97mWitnetPriceFeeds:\x1b[0m       ")
     const WitnetPriceFeeds = await hre.ethers.getContractAt(
         witnet.artifacts.WitnetPriceFeeds.abi,
         addresses.WitnetPriceFeeds,
-        (await hre.ethers.getSigners())[3]
+        from ? (await hre.ethers.getSigner(from)) : (await hre.ethers.getSigners())[3]
     );
-    process.stdout.write("\x1b[96m" + addresses.WitnetPriceFeeds + "\x1b[0m\n");
+    process.stdout.write("\x1b[96m" 
+        + await _readUpgradableArtifactVersion(WitnetPriceFeeds)
+        + "\x1b[0m\n"
+    );
 
-    process.stdout.write("   \x1b[97mWitnetRequestBoard:   ")
-    const WitnetRequestBoard = await hre.ethers.getContractAt(
-        witnet.artifacts.WitnetRequestBoard.abi,
+    process.stdout.write("   \x1b[97mWitnetOracle:\x1b[0m           ")
+    const WitnetOracle = await hre.ethers.getContractAt(
+        witnet.artifacts.WitnetOracle.abi,
         await WitnetPriceFeeds.witnet()
     ); 
     process.stdout.write("\x1b[36m"
-        + await _readUpgradableArtifactVersion(WitnetRequestBoard) 
+        + await _readUpgradableArtifactVersion(WitnetOracle) 
         + "\x1b[0m\n"
     );
 
-    process.stdout.write("   \x1b[97mWitnetBytecodes:      ")
-    const WitnetBytecodes = await hre.ethers.getContractAt(
-        witnet.artifacts.WitnetBytecodes.abi,
-        await WitnetRequestBoard.registry()
+    process.stdout.write("   \x1b[97mWitnetRequestBytecodes:\x1b[0m ")
+    const WitnetRequestBytecodes = await hre.ethers.getContractAt(
+        witnet.artifacts.WitnetRequestBytecodes.abi,
+        await WitnetOracle.registry()
     );
-    const WitnetBytecodesAddr = await WitnetBytecodes.getAddress()
+    const WitnetRequestBytecodesAddr = await WitnetRequestBytecodes.getAddress()
     process.stdout.write("\x1b[36m"
-        + await _readUpgradableArtifactVersion(WitnetBytecodes)
+        + await _readUpgradableArtifactVersion(WitnetRequestBytecodes)
         + "\x1b[0m\n"
     );
 
-    return [WitnetPriceFeeds, WitnetBytecodesAddr]
+    return [WitnetPriceFeeds, WitnetRequestBytecodesAddr]
 }
 
-async function getWitnetPriceSolverContract(address) {
-    return hre.ethers.getContractAt(witnet.artifacts.IWitnetPriceSolver.abi, address)
+async function getWitnetPriceRouteSolverContract(address) {
+    return hre.ethers.getContractAt(witnet.artifacts.WitnetPriceRouteSolver.abi, address)
 }
 
 async function getWitnetRequestContract(address) {
@@ -174,35 +177,37 @@ function secondsToTime(secs) {
     return obj;
 }
 
-function traceTx (tx) {
+function traceTx (receipt) {
     var txCost = (
-        parseFloat(BigInt(tx.gasPrice))
-            * parseFloat(BigInt(tx.gasUsed))
+        parseFloat(BigInt(receipt?.gasPrice || 0))
+            * parseFloat(BigInt(receipt?.gasUsed || receipt?.gasLimit || 0))
             / 10 ** 18
     );
-    console.info("  ", "> Transaction block:", tx.blockNumber)
-    console.info("  ", "> Transaction hash: ", tx.hash)
-    console.info("  ", "> Transaction gas:  ", numberWithCommas(parseInt(BigInt(tx.gasUsed).toString())))
-    console.info("  ", "> Transaction cost: \x1b[38;5;208m", txCost.toFixed(3), "\x1b[0mETH")
+    console.info("  ", "> Transaction block:", receipt?.blockNumber)
+    console.info("  ", "> Transaction hash: ", receipt?.hash)
+    console.info("  ", "> Transaction gas:  ", numberWithCommas(parseInt(BigInt(receipt?.gasUsed || receipt?.gasLimit).toString())))
+    if (txCost) console.info("  ", "> Transaction cost: \x1b[90m", txCost.toFixed(3), "\x1b[0mETH")
 }
 
-function traceWitnetPriceFeed(caption, hash, radHash, latestStatus, latestTimestamp) {
+function traceWitnetPriceFeed(caption, hash, radHash, latestTimestamp) {
     console.info()
     console.info("  ", `\x1b[1;94m${caption}\x1b[0m`)
     console.info("  ", "=".repeat(caption.length))
 
-    console.info("  ", `> ID4 hash:       \x1b[34m${hash}\x1b[39m`)
-    console.info("  ", `> RAD hash:       \x1b[32m${radHash.slice(2)}\x1b[39m`)
-    console.info("  ", "> Latest status: ", getWitnetResultStatusString(latestStatus))
+    console.info("  ", `> ID4 hash:       \x1b[34m${hash}\x1b[0m`)
+    console.info("  ", `> RAD hash:       \x1b[32m${radHash.slice(2)}\x1b[0m`)
     if (latestTimestamp) {
-        console.info("  ", "> Latest update: ", secondsToTime(Date.now() / 1000 - latestTimestamp), "ago")
+        console.info("  ", "> Latest update: ",
+            secondsToTime(Date.now() / 1000 - parseInt(latestTimestamp.toString())), 
+            "ago",
+        );
     }
 }
 
 function traceWitnetPriceRoute(
         caption, hash, 
         solverAddr, solverClass, solverDeps, 
-        latestStatus, latestTimestamp
+        latestTimestamp
 ) {
     console.info()
     console.info("  ", `\x1b[1;38;5;128m${caption}\x1b[0m`)
@@ -212,7 +217,6 @@ function traceWitnetPriceRoute(
     console.info("  ", "> Solver address:", `\x1b[36m${solverAddr}\x1b[0m`)
     console.info("  ", "> Solver class:  ", `\x1b[96m${solverClass}\x1b[0m`)
     console.info("  ", "> Solver deps:   ", `\x1b[32m${solverDeps}\x1b[0m` || "(no dependencies)")
-    console.info("  ", "> Latest status: ", getWitnetResultStatusString(latestStatus))
     if (latestTimestamp) {
         console.info("  ", "> Latest update: ", secondsToTime(Date.now() / 1000 - latestTimestamp), "ago")
     }

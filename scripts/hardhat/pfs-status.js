@@ -1,32 +1,91 @@
+const hre = require("hardhat");
 const utils = require("../utils")
 
 module.exports = { run };
 
-async function run() {
+async function run(args) {
 
-    const [ pfs, ] = await utils.getWitnetPriceFeedsContract();
+    const todo = args.captions?.map(caption => {
+        return "Price-" + caption.toUpperCase()
+    }) || [];
+
+    const [ pfs, ] = await utils.getWitnetPriceFeedsContract(args?.from);
     
     const feeds = await pfs.supportedFeeds()
-    const id4s = [], caps = [];
-    const rads = feeds[2].filter((radHash, index) => {
-        if (!radHash.endsWith("000000000000000000000000")) {
-            id4s.push(feeds[0][index])
-            caps.push(feeds[1][index])
-            return true
-        } else {
-            return false
-        }
+    const id4s = [], caps = []; rads = [];
+    feeds[0].forEach((id4, index) => {
+        id4s.push(id4)
+        caps.push(feeds[1][index])
+        rads.push(feeds[2][index])
     });
-
+    
     const status = await pfs.latestPrices(id4s)
     for (const index in caps) {
-        utils.traceWitnetPriceFeed(
-            caps[index],
-            id4s[index],
-            rads[index],
-            status[index][0],
-            parseInt(BigInt(status[index][1]).toString()),
-        );
+        if (
+            todo.length > 0 
+            && !todo.includes(caps[index])
+        ) continue;
+
+        if (rads[index].endsWith("000000000000000000000000")) {
+            const solver = await pfs.lookupPriceSolver(id4s[index])
+            const solverAddr = solver[0]
+            const solverDeps = solver[1]
+            const solverContract = await utils.getWitnetPriceRouteSolverContract(solverAddr)
+            const solverClass = await solverContract.class()
+            utils.traceWitnetPriceRoute(
+                caps[index],
+                id4s[index],
+                solverAddr,
+                solverClass,
+                solverDeps,
+                parseInt(BigInt(status[index][1]).toString()),
+            );
+            const routeStatus = utils.getWitnetRequestResultDataTypeString(
+                await pfs.latestResult(id4s[index])
+            );
+            continue;
+
+        } else {
+            utils.traceWitnetPriceFeed(
+                caps[index],
+                id4s[index],
+                rads[index],
+                parseInt(BigInt(status[index][1]).toString()),
+            );
+        }
+        
+        const queryStatus = utils.getWitnetResultStatusString(
+            await pfs.latestUpdateResultStatus(id4s[index])
+        )
+        if (queryStatus !== "Ready" && !args.forceUpdate) {
+            if (queryStatus !== "Ready") {
+                const queryId = await pfs.latestUpdateQueryId(id4s[index])
+                console.info("  ", `> Witnet Query:   #\x1b[33m${queryId}\x1b[0m`)
+                if (queryStatus === "Error") {
+                    const queryError = await pfs.latestUpdateResultError(id4s[index])
+                    console.info("  ", `> Query error:    \x1b[31m${queryError}\x1b[0m`)
+                } else {
+                    console.info("  ", `> Query status:   \x1b[33m${queryStatus}\x1b[0m`)
+                }
+            }
+        } else if (args.forceUpdate || args.update) {
+            const gasPrice = hre.network.config.gasPrice === "auto" 
+                ? await hre.web3.eth.getGasPrice()
+                : hre.network.config.gasPrice
+            ;
+            const updateFee = (await pfs.estimateUpdateBaseFee(gasPrice))
+            process.stdout.write("   > Requesting update ... ")
+            const tx = await pfs["requestUpdate(bytes4)"](id4s[index], {
+                gasLimit: null,
+                gasPrice,
+                value: updateFee
+            });
+            process.stdout.write(`${tx.hash} ... `)
+            await tx.wait()
+            const queryId = await pfs.latestUpdateQueryId(id4s[index])
+            process.stdout.write(`witnetQuery => #\x1b[33m${queryId}\x1b[0m\n`)
+            const receipt = await hre.ethers.provider.getTransactionReceipt(tx.hash) 
+            utils.traceTx(receipt)
+        }
     }
 }
-
