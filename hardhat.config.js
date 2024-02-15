@@ -4,10 +4,10 @@ require("@nomicfoundation/hardhat-web3-v4");
 const { settings, utils } = require("witnet-solidity-bridge")
 const [, target ] = utils.getRealmNetworkFromString();
 
-task("pfs:upgrade", "Upgrade price feeds")
+task("pfs:deploy", "Upgrade price feeds")
   .addOptionalParam("artifacts", "Optional list of price artifacts to revisit.")
   .setAction(async (taskArgs) => {
-    const deploy = require("./scripts/hardhat/pfs-upgrade");
+    const deploy = require("./scripts/hardhat/pfs-deploy");
     await deploy.run(taskArgs).catch((error) => {
       console.error(error);
       process.exitCode = 1;

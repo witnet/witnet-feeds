@@ -107,7 +107,7 @@ async function settlePriceFeedRoute (pfs, caption, solverKey) {
   try {
     const solverSpecs = routes[solverKey][caption]
     solverAddr = await resolveSolverArtifactAddress(pfs, solverKey, solverSpecs) 
-    const solverContract = await utils.getWitnetPriceSolverContract(solverAddr)
+    const solverContract = await utils.getWitnetPriceRouteSolverContract(solverAddr)
     const solverClass = await solverContract.class()
     
     const hash = await pfs.hash(caption)
