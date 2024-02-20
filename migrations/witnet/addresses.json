@@ -293,6 +293,19 @@
                 "WitnetPriceSolverKspUsd6": "0xc96e7D916f7183fD740c42F73C9CC793Cfd4e9DB"
             },
             "templates": {}
+        },
+        "klaytn.mainnet": {
+            "requests": {
+                "WitnetRequestPriceKlayUsdt6": "0xa5b268bcf5d4cB053919AB4aB99b9d1A37F69176",
+                "WitnetRequestPriceKrwUsd9": "0x17dca2474C69CA530D88289B76FD45b2b20e06D1",
+                "WitnetRequestPriceKspKrw6": "0x33D97d36bC163EeD4632Bd8e01fa2E6046c7ac44",
+                "WitnetRequestPriceUsdtUsd6": "0xeF258b839A8d7fFd54De646A24a58e34E5f65CD8"
+            },
+            "solvers": {
+                "WitnetPriceSolverKlayUsd6": "0x7A0D2a875219B604C258Fff8a71B4a4A0c91F277",
+                "WitnetPriceSolverKspUsd6": "0x7A0D2a875219B604C258Fff8a71B4a4A0c91F277"
+            },
+            "templates": {}
         }
     },
     "mantle": {
