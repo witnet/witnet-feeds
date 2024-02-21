@@ -21,8 +21,11 @@ async function run(args) {
 
 async function settlePriceFeedsRadHash (pfs, selection) {
   const addresses = witnet.getAddresses(network)?.requests;  
-  // TODO: flatten artifacts within witnet.requests.price
-  for (const key in witnet.requests.price.cryptos) {
+  const prices = Object.fromEntries(
+    utils.flattenWitnetArtifacts(witnet.requests.price)
+      .map(value => [ value.key, value.artifact ])
+  )
+  for (const key in prices) {
     const caption = utils.extractErc2362CaptionFromKey("Price", key)
     try {
       if (
@@ -46,11 +49,11 @@ async function settlePriceFeedsRadHash (pfs, selection) {
       console.info("  ", `\x1b[1;94m${caption}\x1b[0m`)
       console.info("  ", "=".repeat(caption.length))
       if (!(await pfs.supportsCaption(caption))) {
-        console.info("  ", `> ID4 hash:          \x1b[94m${hash}\x1b[39m`)
-        console.info("  ", `> Request artifact:  \x1b[1;37m${key}\x1b[39m`)
+        console.info("  ", `> ID4 hash:          \x1b[94m${hash}\x1b[0m`)
+        console.info("  ", `> Request artifact:  \x1b[1;37m${key}\x1b[0m`)
         console.info("  ", "> Request address:  ", addresses[key])
-        console.info("  ", "> Request registry: ", await request.registry())
-        console.info("  ", `> Request RAD hash:  \x1b[32m${radHash.slice(2)}\x1b[39m`)
+        // console.info("  ", "> Request registry: ", await request.registry())
+        console.info("  ", `> Request RAD hash:  \x1b[32m${radHash.slice(2)}\x1b[0m`)
         const balance = BigInt(await hre.ethers.provider.getBalance(pfs.runner.address))
         const tx = await pfs["settleFeedRequest(string,bytes32)"](caption, radHash)
         await tx.wait()
@@ -59,13 +62,13 @@ async function settlePriceFeedsRadHash (pfs, selection) {
           balance - BigInt(await hre.ethers.provider.getBalance(pfs.runner.address)),
         );
       } else {
-        console.info("  ", `> ID4 hash:          \x1b[34m${hash}\x1b[39m`)
+        console.info("  ", `> ID4 hash:          \x1b[34m${hash}\x1b[0m`)
         const currentRadHash = await pfs.lookupWitnetRadHash(hash)
         if (radHash !== currentRadHash) {
           console.info("  ", "> Request artifact: ", key)  
           console.info("  ", "> Request address:  ", addresses[key])
-          console.info("  ", `> OLD RAD hash:      \x1b[32m${currentRadHash.slice(2)}\x1b[39m`)
-          console.info("  ", `> NEW RAD hash:      \x1b[1;32m${radHash.slice(2)}\x1b[39m`)
+          console.info("  ", `> OLD RAD hash:      \x1b[32m${currentRadHash.slice(2)}\x1b[0m`)
+          console.info("  ", `> NEW RAD hash:      \x1b[1;32m${radHash.slice(2)}\x1b[0m`)
           const balance = BigInt(await hre.ethers.provider.getBalance(pfs.runner.address))
           const tx = await pfs["settleFeedRequest(string,bytes32)"](caption, radHash)
           utils.traceTx(
@@ -73,7 +76,7 @@ async function settlePriceFeedsRadHash (pfs, selection) {
             balance - BigInt(await hre.ethers.provider.getBalance(pfs.runner.address)),
           );
         } else {
-          console.info("  ", `> RAD hash:          \x1b[32m${radHash.slice(2)}\x1b[39m`)
+          console.info("  ", `> RAD hash:          \x1b[32m${radHash.slice(2)}\x1b[0m`)
           const latest = await pfs.latestPrice(hash)
           if (latest[2] !== "0x0000000000000000000000000000000000000000000000000000000000000000") {
             console.info("  ", "> Latest status:    ", utils.getWitnetResultStatusString(latest[3]))
@@ -101,8 +104,8 @@ async function settlePriceFeedsRoutes (pfs, selection) {
     for (const caption in routes[solverKey]) {
       const routeKey = utils.extractRouteKeyFromErc2362Caption(caption)
       if (
-        addresses[network].routes[routeKey] !== undefined
-          || selection.includes(caption)
+        (selection.length == 0 && !utils.isNullAddress(addresses[routeKey]))
+          || (selection.length > 0 && selection.includes(caption))
       ) {
         const routeAddr = await settlePriceFeedRoute(pfs, caption, solverKey);
         if (routeAddr) {
@@ -135,7 +138,7 @@ async function settlePriceFeedRoute (pfs, caption, solverKey) {
       solverAddr !== currentSolver[0]
         || JSON.stringify(solverSpecs?.dependencies) !== JSON.stringify(currentSolver[1])
     ) {
-      console.info("  ", "> ID4 hash:      ", `\x1b[94m${hash}\x1b[39m`)
+      console.info("  ", "> ID4 hash:      ", `\x1b[94m${hash}\x1b[0m`)
       console.info("  ", "> Solver address:", `\x1b[96m${solverAddr}\x1b[0m`)
       console.info("  ", "> Solver class:  ", `\x1b[1;96m${solverClass}\x1b[0m`)
       console.info("  ", "> Solver deps:   ", `\x1b[92m${solverSpecs?.dependencies}\x1b[0m` || "(no dependencies)")
@@ -143,7 +146,7 @@ async function settlePriceFeedRoute (pfs, caption, solverKey) {
       utils.traceTx(await hre.ethers.provider.getTransactionReceipt(tx.hash))
 
     } else {
-      console.info("  ", "> ID4 hash:         ", `\x1b[34m${hash}\x1b[39m`)
+      console.info("  ", "> ID4 hash:         ", `\x1b[34m${hash}\x1b[0m`)
       console.info("  ", "> Solver address:   ", `\x1b[36m${solverAddr}\x1b[0m`)
       console.info("  ", "> Solver class:     ", `\x1b[96m${solverClass}\x1b[0m`)
       console.info("  ", "> Solver deps:      ", `\x1b[32m${solverSpecs?.dependencies}\x1b[0m` || "(no dependencies)")

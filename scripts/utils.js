@@ -10,6 +10,7 @@ module.exports = {
     extractErc2362CaptionFromKey,
     extractRequestKeyFromErc2362Caption,
     extractRouteKeyFromErc2362Caption,
+    flattenWitnetArtifacts: utils.flattenWitnetArtifacts,
     getWitnetPriceFeedsContract,
     getWitnetPriceRouteSolverContract,
     getWitnetRequestContract,
