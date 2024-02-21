@@ -12,9 +12,22 @@
     },
     "ethereum:sepolia": {
         "requests": {
-            "WitnetRequestPriceBtcUsd6": "0x5A9222A6D654638A79D9339470f87170451e9bA2",
-            "WitnetRequestPriceEthUsd6": "0xf99b17e0afcf90b4316bC4ADC81d98c2cE23EdBB",
-            "WitnetRequestPriceWitUsdt6": "0x401f8ab616225B4f94DC57e810f191D634037a37"
+            "WitnetRequestPriceBtcUsd6": "0x150Ec486f9A8Bf6aEAC0F0BE6Fe7E1A9D12794EA",
+            "WitnetRequestPriceEthUsd6": "0x0Bbd752Ee1F62DBa6b02D12b67050ed07DA2eC37",
+            "WitnetRequestPriceUsdtUsd6": "0x04A714869516Ad4442a55390ad0B15a263AE9d05",
+            "WitnetRequestPriceWitUsdt6": "0x5D89Ebf2c57d71747e75473ece253743C77a4f31"
+        }
+    },
+    "optimism:sepolia": {
+        "requests": {
+            "WitnetRequestPriceEthUsd6": "0x1178738ecBd168f2Dad061032593c4Cd28eeBcc9",
+            "WitnetRequestPriceHkdUsd6": "0xf488A4867377148630d338b6025609483168A82e",
+            "WitnetRequestPriceOpUsdt6": "0x085256d41F1cA3700ac15D5b94915abb7ee420c4",
+            "WitnetRequestPriceUsdtUsd6": "0x9FCEc46d0C6317ff17F60D86557675e6f0574839",
+            "WitnetRequestPriceWitUsdt6": "0x697CE34d4AeD9d716123DC58404dCE448C7e779c"
+        },
+        "routes": {
+            "WitnetPriceFeedRouteWitUsd6": "0x5B093E1A659cA7D9cAEeDA2496D90Fb3dE2DFA69"
         }
     }
 }
