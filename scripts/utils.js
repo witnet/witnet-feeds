@@ -8,7 +8,8 @@ module.exports = {
     camelize,
     extractArtifactConstructorArgsTypes,
     extractErc2362CaptionFromKey,
-    extractKeyFromErc2362Caption,
+    extractRequestKeyFromErc2362Caption,
+    extractRouteKeyFromErc2362Caption,
     getWitnetPriceFeedsContract,
     getWitnetPriceRouteSolverContract,
     getWitnetRequestContract,
@@ -72,12 +73,19 @@ function extractErc2362CaptionFromKey (prefix, key) {
     } else return null;
 } 
 
-function extractKeyFromErc2362Caption (caption) {
+function extractRequestKeyFromErc2362Caption (caption) {
+    let parts = caption.split("-")
+    const decimals = parts[parts.length - 1]
+    parts = parts[1].split("/")
+    return `WitnetRequestPrice${camelize(parts[0])}${camelize(parts[1])}${decimals}`
+}
+
+function extractRouteKeyFromErc2362Caption (caption) {
     let parts = caption.split("-")
     const decimals = parts[parts.length - 1]
     parts = parts[1].split("/")
     return `WitnetPriceFeedRoute${camelize(parts[0])}${camelize(parts[1])}${decimals}`
-  }
+}
 
 async function getWitnetPriceFeedsContract(from) {
     if (!addresses?.WitnetPriceFeeds) {
