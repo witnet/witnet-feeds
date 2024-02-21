@@ -17,6 +17,8 @@ async function run(args) {
   
   await settlePriceFeedsRadHash(pfs, selection)
   await settlePriceFeedsRoutes(pfs, selection)
+
+  console.info()
 }
 
 async function settlePriceFeedsRadHash (pfs, selection) {

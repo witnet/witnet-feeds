@@ -37,5 +37,7 @@ async function run(args) {
     console.info("  ", "- Committee size:", committeeSize)
     console.info("  ", "- Collateral fee:", (collateralFee / 10 ** 9).toFixed(1), "WIT")
     console.info("  ", "- Witness reward:", (witnessReward / 10 ** 9).toFixed(1), "WIT")
+    console.info()
+
 }
 

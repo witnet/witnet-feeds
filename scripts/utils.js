@@ -232,7 +232,7 @@ function traceWitnetPriceRoute(
     console.info("  ", `\x1b[1;38;5;128m${caption}\x1b[0m`)
     console.info("  ", "=".repeat(caption.length))
 
-    console.info("  ", `> ID4 hash:       \x1b[34m${hash}\x1b[39m`)
+    console.info("  ", `> ID4 hash:       \x1b[34m${hash}\x1b[0m`)
     console.info("  ", "> Solver address:", `\x1b[36m${solverAddr}\x1b[0m`)
     console.info("  ", "> Solver class:  ", `\x1b[96m${solverClass}\x1b[0m`)
     console.info("  ", "> Solver deps:   ", `\x1b[32m${solverDeps}\x1b[0m` || "(no dependencies)")
