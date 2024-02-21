@@ -120,6 +120,16 @@ async function getWitnetPriceFeedsContract(from) {
         + "\x1b[0m\n"
     );
 
+    process.stdout.write("   \x1b[97mWitnetRequestFactory:  \x1b[0m ")
+    const WitnetRequestFactory = await hre.ethers.getContractAt(
+        witnet.artifacts.WitnetRequestFactory.abi,
+        await WitnetOracle.factory()
+    );
+    process.stdout.write("\x1b[36m"
+        + await _readUpgradableArtifactVersion(WitnetRequestFactory)
+        + "\x1b[0m\n"
+    );
+
     return [WitnetPriceFeeds, WitnetRequestBytecodesAddr]
 }
 
@@ -177,16 +187,16 @@ function secondsToTime(secs) {
     return obj;
 }
 
-function traceTx (receipt) {
-    var txCost = (
-        parseFloat(BigInt(receipt?.gasPrice || 0))
-            * parseFloat(BigInt(receipt?.gasUsed || receipt?.gasLimit || 0))
-            / 10 ** 18
-    );
+function traceTx (receipt, cost) {
     console.info("  ", "> Transaction block:", receipt?.blockNumber)
     console.info("  ", "> Transaction hash: ", receipt?.hash)
     console.info("  ", "> Transaction gas:  ", numberWithCommas(parseInt(BigInt(receipt?.gasUsed || receipt?.gasLimit).toString())))
-    if (txCost) console.info("  ", "> Transaction cost: \x1b[90m", txCost.toFixed(3), "\x1b[0mETH")
+    if (cost) {
+        console.info("  ", "> Transaction cost: \x1b[90m", 
+            (parseFloat(cost || 0.0) / 10 ** 18).toFixed(3), 
+            "\x1b[0mETH"
+        );
+    }
 }
 
 function traceWitnetPriceFeed(caption, hash, radHash, latestTimestamp) {

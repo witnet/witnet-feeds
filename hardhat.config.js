@@ -5,7 +5,7 @@ const { settings, utils } = require("witnet-solidity-bridge")
 const [, target ] = utils.getRealmNetworkFromString();
 
 task("pfs:deploy", "Upgrade price feeds")
-  .addOptionalParam("artifacts", "Optional list of price artifacts to revisit.")
+  .addOptionalVariadicPositionalParam("captions", "Captions of the price feeds to be either deployed or have data sources upgraded (e.g. eth/usd-6).")
   .setAction(async (taskArgs) => {
     const deploy = require("./scripts/hardhat/pfs-deploy");
     await deploy.run(taskArgs).catch((error) => {
@@ -28,9 +28,9 @@ task("pfs:sla", "Get default Witnet SLA")
 );
 
 task("pfs:status", "Show current status of supported price feeds.")
-  .addFlag("update", "Update listed price feeds, only if idle.")
-  .addFlag("forceUpdate", "Force the update of listed price feeds, even if in awaiting status.")
-  .addOptionalParam("from", "EVM address from which contracts will be interacted with.")
+  .addFlag("update", "Trigger an update on the price feeds, if currently idle.")
+  .addFlag("updateForce", "Trigger an update on idle price feeds, or potentially increase the reward if already awaiting an update.")
+  .addOptionalParam("from", "EVM address from which contracts will be interacted.")
   .addOptionalVariadicPositionalParam("captions", "Captions of the price feeds to be listed, or updated (e.g. eth/usd-6).")
   .setAction(async (taskArgs) => {
     const script = require("./scripts/hardhat/pfs-status");

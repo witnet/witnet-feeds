@@ -8,13 +8,18 @@ const utils = require("../utils")
 module.exports = { run };
 
 async function run(args) {
+
+  const selection = args.captions?.map(caption => {
+    return "Price-" + caption.toUpperCase()
+  }) || [];
+
   const [ pfs, ] = await utils.getWitnetPriceFeedsContract();
-  const targets = args?.artifacts ? args.artifacts.split(",") : [];
-  await settlePriceFeedsRadHash(pfs, targets)
-  await settlePriceFeedsRoutes(pfs, targets)
+  
+  await settlePriceFeedsRadHash(pfs, selection)
+  await settlePriceFeedsRoutes(pfs, selection)
 }
 
-async function settlePriceFeedsRadHash (pfs, targets) {
+async function settlePriceFeedsRadHash (pfs, selection) {
   const addresses = witnet.getAddresses(network)?.requests;  
   // TODO: flatten artifacts within witnet.requests.price
   for (const key in witnet.requests.price.cryptos) {
@@ -22,12 +27,11 @@ async function settlePriceFeedsRadHash (pfs, targets) {
     try {
       if (
         !caption 
-        || (targets.length == 0 && utils.isNullAddress(addresses[key]))
-        || (targets.length > 0 && !targets.includes(key))
+          || (selection.length == 0 && utils.isNullAddress(addresses[key]))
+          || (selection.length > 0 && !selection.includes(caption))
       ) {
         continue;
       }
-      if (!caption || (targets.length > 0 && !targets.includes(key))) continue;
       if (utils.isNullAddress(addresses[key])) {
         throw "Not deployed."
       }
@@ -47,25 +51,34 @@ async function settlePriceFeedsRadHash (pfs, targets) {
         console.info("  ", "> Request address:  ", addresses[key])
         console.info("  ", "> Request registry: ", await request.registry())
         console.info("  ", `> Request RAD hash:  \x1b[32m${radHash.slice(2)}\x1b[39m`)
+        const balance = BigInt(await hre.ethers.provider.getBalance(pfs.runner.address))
         const tx = await pfs["settleFeedRequest(string,bytes32)"](caption, radHash)
-        utils.traceTx(await hre.ethers.provider.getTransactionReceipt(tx.hash))
+        await tx.wait()
+        utils.traceTx(
+          await hre.ethers.provider.getTransactionReceipt(tx.hash),
+          balance - BigInt(await hre.ethers.provider.getBalance(pfs.runner.address)),
+        );
       } else {
         console.info("  ", `> ID4 hash:          \x1b[34m${hash}\x1b[39m`)
-        const currentRadHash = await pfs.lookupRadHash(hash)
+        const currentRadHash = await pfs.lookupWitnetRadHash(hash)
         if (radHash !== currentRadHash) {
           console.info("  ", "> Request artifact: ", key)  
           console.info("  ", "> Request address:  ", addresses[key])
           console.info("  ", `> OLD RAD hash:      \x1b[32m${currentRadHash.slice(2)}\x1b[39m`)
           console.info("  ", `> NEW RAD hash:      \x1b[1;32m${radHash.slice(2)}\x1b[39m`)
+          const balance = BigInt(await hre.ethers.provider.getBalance(pfs.runner.address))
           const tx = await pfs["settleFeedRequest(string,bytes32)"](caption, radHash)
-          utils.traceTx(await hre.ethers.provider.getTransactionReceipt(tx.hash))
+          utils.traceTx(
+            await hre.ethers.provider.getTransactionReceipt(tx.hash),
+            balance - BigInt(await hre.ethers.provider.getBalance(pfs.runner.address)),
+          );
         } else {
           console.info("  ", `> RAD hash:          \x1b[32m${radHash.slice(2)}\x1b[39m`)
           const latest = await pfs.latestPrice(hash)
           if (latest[2] !== "0x0000000000000000000000000000000000000000000000000000000000000000") {
             console.info("  ", "> Latest status:    ", utils.getWitnetResultStatusString(latest[3]))
             if (latest[1]) {
-              console.info("  ", "> Latest update:    ", new Date(parseInt(BigInt(latest[1]).toString())).toLocaleTimeString())
+              console.info("  ", "> Latest update:    ", utils.secondsToTime(Date.now() / 1000 - parseInt(latest[1].toString())), "ago")
             }
           }
         }
@@ -79,17 +92,17 @@ async function settlePriceFeedsRadHash (pfs, targets) {
   }
 };
 
-async function settlePriceFeedsRoutes (pfs, targets) {
+async function settlePriceFeedsRoutes (pfs, selection) {
   const addresses = await utils.readJsonFromFile("./witnet/addresses.json");
   if (!addresses[network]) addresses[network] = {}
   if (!addresses[network].routes) addresses[network].routes = {}
 
   for (const solverKey in routes) {
     for (const caption in routes[solverKey]) {
-      const routeKey = utils.extractKeyFromErc2362Caption(caption)
+      const routeKey = utils.extractRouteKeyFromErc2362Caption(caption)
       if (
         addresses[network].routes[routeKey] !== undefined
-          || targets.includes(routeKey)
+          || selection.includes(caption)
       ) {
         const routeAddr = await settlePriceFeedRoute(pfs, caption, solverKey);
         if (routeAddr) {

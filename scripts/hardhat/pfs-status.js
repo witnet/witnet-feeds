@@ -55,9 +55,9 @@ async function run(args) {
         }
         
         const queryStatus = utils.getWitnetResultStatusString(
-            await pfs.latestUpdateResultStatus(id4s[index])
+            await pfs.latestUpdateResponseStatus(id4s[index])
         )
-        if (queryStatus !== "Ready" && !args.forceUpdate) {
+        if (queryStatus !== "Ready" && !args.updateForce) {
             if (queryStatus !== "Ready") {
                 const queryId = await pfs.latestUpdateQueryId(id4s[index])
                 console.info("  ", `> Witnet Query:   #\x1b[33m${queryId}\x1b[0m`)
@@ -68,13 +68,14 @@ async function run(args) {
                     console.info("  ", `> Query status:   \x1b[33m${queryStatus}\x1b[0m`)
                 }
             }
-        } else if (args.forceUpdate || args.update) {
+        } else if (args.updateForce || args.update) {
             const gasPrice = hre.network.config.gasPrice === "auto" 
                 ? await hre.web3.eth.getGasPrice()
                 : hre.network.config.gasPrice
             ;
-            const updateFee = (await pfs.estimateUpdateBaseFee(gasPrice))
-            process.stdout.write("   > Requesting update ... ")
+            const balance = BigInt(await hre.ethers.provider.getBalance(pfs.runner.address))
+            const updateFee = (await pfs["estimateUpdateBaseFee(uint256)"](gasPrice))
+            process.stdout.write(`   > Requesting update (fee: ${parseFloat(updateFee.toString()) / 10 ** 18})... `)
             const tx = await pfs["requestUpdate(bytes4)"](id4s[index], {
                 gasLimit: null,
                 gasPrice,
@@ -85,7 +86,7 @@ async function run(args) {
             const queryId = await pfs.latestUpdateQueryId(id4s[index])
             process.stdout.write(`witnetQuery => #\x1b[33m${queryId}\x1b[0m\n`)
             const receipt = await hre.ethers.provider.getTransactionReceipt(tx.hash) 
-            utils.traceTx(receipt)
+            utils.traceTx(receipt, balance - BigInt(await hre.ethers.provider.getBalance(pfs.runner.address)))
         }
     }
 }
