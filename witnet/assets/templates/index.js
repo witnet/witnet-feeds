@@ -1,5 +1,5 @@
 module.exports = {
     price: {
-        cryptos: require("./price/cryptos.js"),
+        crypto: require("./price/crypto.js"),
     },
 };

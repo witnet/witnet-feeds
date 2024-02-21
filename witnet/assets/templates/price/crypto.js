@@ -49,6 +49,16 @@ module.exports = {
         },
     }),
 
+    WitnetRequestTemplatePancakeBscExchangeTicker6: Witnet.PriceTickerTemplate({
+        retrieve: sources['pancake-v2/ticker'],
+        tests: {
+            "HKD/USDT-6 works": [[
+                "6a00e82398d210b36bf28094edf8ae96c543606b",
+                "1"
+            ]],
+        }
+    }),
+
     WitnetRequestTemplateQuickswapTicker6: Witnet.PriceTickerTemplate({
         retrieve: sources['quickswap-v3/ticker'],
         tests: { 
