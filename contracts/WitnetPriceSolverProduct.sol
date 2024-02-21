@@ -30,12 +30,12 @@ contract WitnetPriceSolverProduct
                 _latestPrice.tallyHash = _price.tallyHash;
             }
             if (
-                _price.status != WitnetV2.ResultStatus.Ready
-                    && _latestPrice.status == WitnetV2.ResultStatus.Ready
+                _price.status != WitnetV2.ResponseStatus.Ready
+                    && _latestPrice.status == WitnetV2.ResponseStatus.Ready
             ) {
                 // a routed price fee will be set as awaiting if at least one dependency is 
                 // in awaiting status
-                _latestPrice.status = WitnetV2.ResultStatus.Awaiting;
+                _latestPrice.status = WitnetV2.ResponseStatus.Awaiting;
             }
             if (_ix == 0) {
                 _latestPrice.value = _price.value;
