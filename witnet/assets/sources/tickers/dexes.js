@@ -37,6 +37,11 @@ module.exports = {
         query: `{ pairs ( where: { token0: "\\0\\", token1: "\\1\\" }) { token1Price } }`,
         script: Witnet.Script().parseJSONMap().getMap("data").getArray("pairs").getMap(0).getFloat("token1Price").multiply(1e6).round(),
     }),
+    "pancake-v2/ticker": Witnet.Sources.GraphQLQuery({
+        url: "https://open-platform.nodereal.io/6eed3770d9874b5ca666625eb0628e9a/pancakeswap-free/graphql",
+        ...defaultQuery,
+        ...defaultScript,
+    }),
     "quickswap-v3/ticker": Witnet.Sources.GraphQLQuery({
         url: "https://api-next.thegraph.com/subgraphs/name/sameepsi/quickswap-v3",
         query: `{ pool (id: "\\0\\") { token\\1\\Price } }`,

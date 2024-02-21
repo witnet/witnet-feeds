@@ -198,6 +198,10 @@ module.exports = {
                 )
             ).getMap(0).getFloat("rate").power(-1).multiply(1e9).round()
     }),
+    "mastercard.us/ticker": Witnet.Sources.HttpGet({
+        url: "https://www.mastercard.us/settlement/currencyrate/conversion-rate?fxDate=0000-00-00&transCurr=\\0\\&crdhldBillCurr=\\1\\&bankFee=0&transAmt=1",
+        script: Witnet.Script().parseJSONMap().getMap("data").getFloat("conversionRate").multiply(1e6).round(),
+    }),
     "messari.io/ticker#9": Witnet.Sources.HttpGet({
         url: "https://data.messari.io/api/v1/assets/\\0\\/metrics/market-data?fields=market_data/price_\\1\\",
         script: Witnet.Script().parseJSONMap().getMap("data").getMap("market_data").getFloat("price_\\1\\").multiply(1e9).round(),
@@ -225,6 +229,11 @@ module.exports = {
     "pancakeswap.info/ticker": Witnet.Sources.HttpGet({
         url: "https://api.pancakeswap.info/api/v2/tokens/\\0\\",
         script: Witnet.Script().parseJSONMap().getMap("data").getFloat("price").multiply(1e6).round(),
+    }),
+    "revolut.com/ticker": Witnet.Sources.HttpGet({
+        url: "https://www.revolut.com/api/exchange/quote?amount=1&country=\\2\\&fromCurrency=\\0\\&isRecipientAmount=false&toCurrency=\\1\\",
+        headers: { "Accept-language": "en", }, 
+        script: Witnet.Script().parseJSONMap().getMap("rate").getFloat("rate").multiply(1e6).round(),
     }),
     "ultron-dev.net/ticker": Witnet.Sources.HttpGet({
         url: "https://exchange-info.ultron-dev.net/api/v1/ultronswap",
