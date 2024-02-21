@@ -13,7 +13,8 @@
     "./utils": "./scripts/utils.js"
   },
   "files":[
-    "scripts",
+    "artifacts/contracts/",
+    "scripts/utils.js",
     "witnet"
   ],
   "scripts": {
