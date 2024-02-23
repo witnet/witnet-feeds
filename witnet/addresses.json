@@ -1,15 +1,4 @@
 {
-    "ten:testnet": {
-        "requests": {
-            "WitnetRequestPriceBtcUsd6": "0x16f09C534BA84E966b57A40C4A1E248f50B83878",
-            "WitnetRequestPriceEthUsd6": "0x1F2437ba8493AF5d5D7Ed7f4Bc35FC51Cf9f2d91",
-            "WitnetRequestPriceUsdtUsd6": "0xd4F5b7b8382b0eB4c7Bd2f6134a198118735Da03",
-            "WitnetRequestPriceWitUsdt6": "0x11Ea28eC9ea75832A8814ae9BAa1bbB24c17E860"
-        },
-        "routes": {
-            "WitnetPriceFeedRouteWitUsd6": "0x59337C6ADE43B5C81D29177f780D8184c75E4f32"
-        }
-    },
     "ethereum:sepolia": {
         "requests": {
             "WitnetRequestPriceBtcUsd6": "0x150Ec486f9A8Bf6aEAC0F0BE6Fe7E1A9D12794EA",

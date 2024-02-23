@@ -41,9 +41,6 @@ async function run(args) {
                 solverDeps,
                 parseInt(BigInt(status[oixs[index]][1]).toString()),
             );
-            // const routeStatus = utils.getWitnetRequestResultDataTypeString(
-            //     await pfs.latestResult(id4s[index])
-            // );
             continue;
 
         } else {

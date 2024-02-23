@@ -5,18 +5,18 @@ const os = require("os")
 const utils = require("./utils")
 const Witnet = require("witnet-toolkit")
 
-const addresses = require("../witnet/addresses.json")
 const assets = require("../witnet/assets")
 const requests = Witnet.Dictionary(Witnet.Artifacts.Class, assets?.requests)
 
 function cmd(...command) {
     let p = spawn(command[0], command.slice(1));
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         p.stdout.on("data", (x) => {
             process.stdout.write(x.toString());
         });
         p.stderr.on("data", (x) => {
             process.stderr.write(x.toString());
+            reject()
         });
         p.on("exit", (code) => {
             resolve(code);
@@ -31,7 +31,8 @@ async function main() {
         process.exit(0)
     }
     const network = process.argv[2]
-    if (!addresses[network]) {
+    const addresses = assets.getAddresses(process.argv[2])
+    if (!addresses?.WitnetPriceFeeds) {
         console.error("\nUnsupported network:", network)
         process.exit(0)
     }
