@@ -32,6 +32,7 @@
     "pfs:sla": "node ./scripts/hardhat-task.js pfs:sla",
     "pfs:status": "node ./scripts/hardhat-task.js pfs:status",
     "prepare": "npx hardhat compile --force",
+    "postinstall": "npx witnet-toolkit update",
     "test": "npx witnet test"
   },
   "dependencies": {
