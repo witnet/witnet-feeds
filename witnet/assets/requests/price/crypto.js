@@ -203,8 +203,8 @@ module.exports = {
             "bitfinex.com/ticker": ["eth", "usd"], 
             "bitstamp.net/ticker": ["eth", "usd"], 
             "coinbase.com/ticker": ["ETH", "USD"], 
-            "gemini.com/ticker": ["eth", "usd"], 
-            "kraken.com/ticker": ["ETH", "USD"] 
+            "kraken.com/ticker": ["ETH", "USD"],
+            "gemini.com/ticker": ["eth", "usd"],  
         }
     ),
     
@@ -293,13 +293,6 @@ module.exports = {
             "gateapi.io/ticker": ["klay", "usdt"], 
             "kucoin.com/ticker": ["KLAY", "USDT"], 
             "okx.com/ticker": ["KLAY", "USDT"] 
-        }
-    ),
-    
-    WitnetRequestPriceKrwUsd9: Witnet.PriceTickerRequest(
-        sources, { 
-            "fastforex.io/ticker#9": ["KRW", "USD"], 
-            "jsdelivr.net/ticker#9": ["krw", "usd"] 
         }
     ),
     
@@ -395,12 +388,11 @@ module.exports = {
     
     WitnetRequestPriceOpUsdt6: Witnet.PriceTickerRequest(
         sources, { 
+            "okx.com/ticker": ["OP", "USDT"],
             "binance.com/ticker": ["OP", "USDT"], 
-            // "bkex.com/ticker": ["OP", "USDT"], 
             "digifinex.com/ticker": ["op", "usdt"], 
             "gateapi.io/ticker": ["op", "usdt"], 
-            "kucoin.com/ticker": ["OP", "USDT"], 
-            "okx.com/ticker": ["OP", "USDT"] 
+            "kucoin.com/ticker": ["OP", "USDT"],  
         }
     ),
     
@@ -493,11 +485,11 @@ module.exports = {
     
     WitnetRequestPriceUsdtUsd6: Witnet.PriceTickerRequest(
         sources, { 
+            "kraken.com/ticker": ["USDT", "USD"],
             "binance.us/ticker": ["USDT", "USD"], 
             "bitstamp.net/ticker": ["usdt", "usd"], 
             "coinbase.com/ticker": ["USDT", "USD"], 
             "gemini.com/ticker": ["usdt", "usd"], 
-            "kraken.com/ticker": ["USDT", "USD"],
         }
     ),
     
@@ -529,9 +521,9 @@ module.exports = {
     
     WitnetRequestPriceWitUsdt6: Witnet.PriceTickerRequest(
         sources, { 
+            "mexc.com/ticker": ["WIT", "USDT"],
             "bitmart.com/ticker": ["WIT", "USDT"], 
-            "gateapi.io/ticker": ["wit", "usdt"], 
-            "mexc.com/ticker": ["WIT", "USDT"] 
+            "gateapi.io/ticker": ["wit", "usdt"],  
         }
     ),
     
