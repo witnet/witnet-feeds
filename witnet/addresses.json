@@ -9,14 +9,15 @@
     },
     "optimism:sepolia": {
         "requests": {
-            "WitnetRequestPriceEthUsd6": "0x1178738ecBd168f2Dad061032593c4Cd28eeBcc9",
-            "WitnetRequestPriceHkdUsd6": "0xf488A4867377148630d338b6025609483168A82e",
-            "WitnetRequestPriceOpUsdt6": "0x085256d41F1cA3700ac15D5b94915abb7ee420c4",
-            "WitnetRequestPriceUsdtUsd6": "0x9FCEc46d0C6317ff17F60D86557675e6f0574839",
-            "WitnetRequestPriceWitUsdt6": "0x697CE34d4AeD9d716123DC58404dCE448C7e779c"
+            "WitnetRequestPriceEthUsd6": "0x6994ce2b5B6C8cF4Aee02B2Afb3a35c26e2780A5",
+            "WitnetRequestPriceOpUsdt6": "0x28a1723C6b740EEac13c81ae1195474b38677955"
         },
         "routes": {
             "WitnetPriceFeedRouteWitUsd6": "0x5B093E1A659cA7D9cAEeDA2496D90Fb3dE2DFA69"
+        }
+    },
+    "ten:testnet": {
+        "requests": {
         }
     }
 }
