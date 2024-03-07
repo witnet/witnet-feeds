@@ -20,7 +20,18 @@ async function run(args) {
     });
     const oixs = [ ...caps].sort().map(caption => feeds[1].indexOf(caption))
     
-    const status = await pfs.latestPrices(id4s)
+    let status = []
+    try {
+        status = await pfs.latestPrices(id4s)
+    } catch {
+        id4s.forEach(() => status.push([
+            BigInt("0"),
+            BigInt("0"),
+            "",
+            BigInt("0"),
+        ]))
+    }
+    
     for (const index in caps) {
         if (
             todo.length > 0 
@@ -55,7 +66,7 @@ async function run(args) {
         const queryStatus = utils.getWitnetResultStatusString(
             await pfs.latestUpdateResponseStatus(id4s[oixs[index]])
         )
-        if (queryStatus !== "Ready" && !args.updateForce) {
+        if (queryStatus !== "Ready" && queryStatus !== "Unknown" && !args.updateForce) {
             if (queryStatus !== "Ready") {
                 const queryId = await pfs.latestUpdateQueryId(id4s[oixs[index]])
                 console.info("  ", `> Witnet Query:   #\x1b[33m${queryId}\x1b[0m`)
