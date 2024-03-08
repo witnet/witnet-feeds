@@ -30,7 +30,7 @@ task("pfs:sla", "Get default Witnet SLA")
 task("pfs:status", "Show current status of supported price feeds.")
   .addFlag("update", "Trigger an update on the price feeds, if currently idle.")
   .addFlag("updateForce", "Trigger an update on idle price feeds, or potentially increase the reward if already awaiting an update.")
-  .addOptionalParam("from", "EVM address from which contracts will be interacted.")
+  .addOptionalParam("from", "EVM address used for interacting with the WitnetPriceFeeds contract.")
   .addOptionalVariadicPositionalParam("captions", "Captions of the price feeds to be listed, or updated (e.g. eth/usd-6).")
   .setAction(async (taskArgs) => {
     const script = require("./scripts/hardhat/pfs-status");
