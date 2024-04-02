@@ -1,4 +1,11 @@
 {
+    "base:sepolia": {
+        "requests": {
+            "WitnetRequestPriceEthUsd6": "0xc5ED3E0F4f259fba9d00b44bBAF96cf99170D2e3",
+            "WitnetRequestPriceUsdtUsd6": "0x5a6c8658Bba923936DdfbE2A507b6746d6EA0A76",
+            "WitnetRequestPriceWitUsdt6": "0x89e73968c7F496180d9420A8158d686d3beaC0C2"
+        }
+    },
     "ethereum:sepolia": {
         "requests": {
             "WitnetRequestPriceBtcUsd6": "0x150Ec486f9A8Bf6aEAC0F0BE6Fe7E1A9D12794EA",
@@ -17,7 +24,6 @@
         }
     },
     "ten:testnet": {
-        "requests": {
-        }
+        "requests": {}
     }
 }

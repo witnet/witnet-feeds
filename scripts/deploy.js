@@ -37,7 +37,6 @@ async function main() {
         process.exit(0)
     }
     const artifacts = []
-    const captions = []
     for (let index = 3; index < process.argv.length; index ++) {
         if (process.argv[index].startsWith("-")) break;
         const caption = "Price-" + process.argv[index].toUpperCase()
