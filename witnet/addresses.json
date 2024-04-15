@@ -14,6 +14,11 @@
             "WitnetRequestPriceWitUsdt6": "0x5D89Ebf2c57d71747e75473ece253743C77a4f31"
         }
     },
+    "mantle:sepolia": {
+        "requests": {
+            "WitnetRequestPriceBtcUsd6": "0xF74125e4D31aB351E0C960687d009D8fDde44bA0"
+        }
+    },
     "optimism:sepolia": {
         "requests": {
             "WitnetRequestPriceEthUsd6": "0x6994ce2b5B6C8cF4Aee02B2Afb3a35c26e2780A5",
