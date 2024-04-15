@@ -19,6 +19,11 @@
             "WitnetRequestPriceBtcUsd6": "0xF74125e4D31aB351E0C960687d009D8fDde44bA0"
         }
     },
+    "optimism:mainnet": {
+        "requests": {
+            "WitnetRequestPriceOpUsdt6": "0x6a50D217388b10f5bFcce7136Bd8ebc63afcdC38"
+        }
+    },
     "optimism:sepolia": {
         "requests": {
             "WitnetRequestPriceEthUsd6": "0x6994ce2b5B6C8cF4Aee02B2Afb3a35c26e2780A5",
