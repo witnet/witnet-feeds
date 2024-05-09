@@ -145,8 +145,16 @@ async function settlePriceFeedRoute (pfs, caption, solverKey) {
       console.info("  ", "> Solver class:  ", `\x1b[1;96m${solverClass}\x1b[0m`)
       console.info("  ", "> Solver deps:   ", `\x1b[92m${solverSpecs?.dependencies}\x1b[0m` || "(no dependencies)")
       const tx = await pfs.settleFeedSolver(caption, solverAddr, solverSpecs?.dependencies || [])
-      utils.traceTx(await hre.ethers.provider.getTransactionReceipt(tx.hash))
-
+      do {
+        const receipt = await hre.ethers.provider.getTransactionReceipt(tx.hash)
+        if (!receipt) {
+          await sleep(2000)
+          continue;
+        } else {
+          utils.traceTx(receipt)
+          break;
+        }
+      } while (true);
     } else {
       console.info("  ", "> ID4 hash:         ", `\x1b[34m${hash}\x1b[0m`)
       console.info("  ", "> Solver address:   ", `\x1b[36m${solverAddr}\x1b[0m`)
@@ -186,3 +194,6 @@ async function resolveSolverArtifactAddress(pfs, solverKey, solverSpecs) {
   return solverAddr
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
