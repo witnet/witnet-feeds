@@ -255,10 +255,10 @@ module.exports = {
     
     WitnetRequestPriceHtUsdt6: Witnet.PriceTickerRequest(
         sources, { 
-            "ascendex.com/ticker": ["HT", "USDT"], 
+            // "ascendex.com/ticker": ["HT", "USDT"], 
             "gateapi.io/ticker": ["ht", "usdt"], 
-            "huobi.pro/ticker": ["ht", "usdt"], 
-            "mexc.com/ticker": ["HT", "USDT"] 
+            // "huobi.pro/ticker": ["ht", "usdt"], 
+            // "mexc.com/ticker": ["HT", "USDT"] 
         }
     ),
     
