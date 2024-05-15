@@ -77,6 +77,22 @@
             "WitnetPriceFeedRouteCroUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
         }
     },
+    "elastos:testnet": {
+        "requests": {
+            "WitnetRequestPriceBnbUsdt6": "0x1F520e8d1Bc50Dd0a71f2EB8726567704055D546",
+            "WitnetRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
+            "WitnetRequestPriceElaUsdt6": "0x1a4F81948dA25d43431C6f28b0c19767D2fFe9e9",
+            "WitnetRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
+            "WitnetRequestPriceHtUsdt6": "0xc4c974A561e0c06544c7AAB61ada7ed3823dAd2e",
+            "WitnetRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
+            "WitnetRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
+        },
+        "routes": {
+            "WitnetPriceFeedRouteBnbUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+            "WitnetPriceFeedRouteElaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+            "WitnetPriceFeedRouteHtUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+        }
+    },
     "ethereum:sepolia": {
         "requests": {
             "WitnetRequestPriceBtcUsd6": "0x150Ec486f9A8Bf6aEAC0F0BE6Fe7E1A9D12794EA",
