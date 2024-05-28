@@ -5,7 +5,8 @@ const { settings, utils } = require("witnet-solidity-bridge")
 const [, target ] = utils.getRealmNetworkFromString();
 
 task("pfs:deploy", "Upgrade price feeds")
-  .addOptionalVariadicPositionalParam("captions", "Captions of the price feeds to be either deployed or have data sources upgraded (e.g. eth/usd-6).")
+.addOptionalParam("from", "EVM address used for interacting with the WitnetPriceFeeds contract.")  
+.addOptionalVariadicPositionalParam("captions", "Captions of the price feeds to be either deployed or have data sources upgraded (e.g. eth/usd-6).")
   .setAction(async (taskArgs) => {
     const deploy = require("./scripts/hardhat/pfs-deploy");
     await deploy.run(taskArgs).catch((error) => {
@@ -18,6 +19,7 @@ task("pfs:deploy", "Upgrade price feeds")
 task("pfs:sla", "Get default Witnet SLA")
   .addOptionalParam("committeeSize", "Minimum number of witnesses required for every price update.")
   .addOptionalParam("collateralFee", "Minimum collateral in $nanoWIT required for witnessing nodes.")
+  .addOptionalParam("from", "EVM address used for interacting with the WitnetPriceFeeds contract.")
   .setAction(async (taskArgs) => {
     const script = require("./scripts/hardhat/pfs-sla");
     await script.run(taskArgs).catch((error) => {

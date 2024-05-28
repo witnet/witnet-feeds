@@ -13,7 +13,7 @@ async function run(args) {
     return "Price-" + caption.toUpperCase()
   }) || [];
 
-  const [ pfs, ] = await utils.getWitnetPriceFeedsContract();
+  const [ pfs, ] = await utils.getWitnetPriceFeedsContract(args?.from);
   
   await settlePriceFeedsRadHash(pfs, selection)
   await settlePriceFeedsRoutes(pfs, selection)
@@ -189,7 +189,16 @@ async function resolveSolverArtifactAddress(pfs, solverKey, solverSpecs) {
     console.info("  ", "> Constructor args: ", `\x1b[1;33m${args.slice(2)}\x1b[0m`)
     console.info("  ", "> Contract address: ", `\x1b[96m${solverAddr}\x1b[0m`)
     const tx = await pfs.deployPriceSolver(solverArtifact.bytecode, args)
-    utils.traceTx(await hre.ethers.provider.getTransactionReceipt(tx.hash))
+    do {
+      const receipt = await hre.ethers.provider.getTransactionReceipt(tx.hash)
+      if (!receipt) {
+        await sleep(2000)
+        continue;
+      } else {
+        utils.traceTx(receipt)
+        break;
+      }
+    } while (true);
   }
   return solverAddr
 }

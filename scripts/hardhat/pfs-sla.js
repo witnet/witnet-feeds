@@ -5,7 +5,7 @@ module.exports = { run };
 
 async function run(args) {
 
-    const [ pfs, ] = await utils.getWitnetPriceFeedsContract();
+    const [ pfs, ] = await utils.getWitnetPriceFeedsContract(args?.from);
     
     const sla = await pfs.defaultRadonSLA()
     
