@@ -5,6 +5,9 @@ node_modules/
 /cache
 /artifacts
 
+# Truffle files
+/build
+
 # TypeChain files
 /typechain
 /typechain-types
