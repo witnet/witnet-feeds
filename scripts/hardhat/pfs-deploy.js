@@ -1,20 +1,19 @@
-const hre = require("hardhat");
+const hre = require("hardhat")
 
 const witnet = require("../../witnet/assets")
 const network = hre.network.name
 const routes = require("../../witnet/routes/price")
 const utils = require("../utils")
 
-module.exports = { run };
+module.exports = { run }
 
-async function run(args) {
-
+async function run (args) {
   const selection = args.captions?.map(caption => {
     return "Price-" + caption.toUpperCase()
-  }) || [];
+  }) || []
 
-  const [ pfs, ] = await utils.getWitnetPriceFeedsContract(args?.from);
-  
+  const [pfs] = await utils.getWitnetPriceFeedsContract(args?.from)
+
   await settlePriceFeedsRadHash(pfs, selection)
   await settlePriceFeedsRoutes(pfs, selection)
 
@@ -22,20 +21,20 @@ async function run(args) {
 }
 
 async function settlePriceFeedsRadHash (pfs, selection) {
-  const addresses = witnet.getAddresses(network)?.requests;  
+  const addresses = witnet.getAddresses(network)?.requests
   const prices = Object.fromEntries(
     utils.flattenWitnetArtifacts(witnet.requests.price)
-      .map(value => [ value.key, value.artifact ])
+      .map(value => [value.key, value.artifact])
   )
   for (const key in prices) {
     const caption = utils.extractErc2362CaptionFromKey("Price", key)
     try {
       if (
-        !caption 
-          || (selection.length == 0 && utils.isNullAddress(addresses[key]))
-          || (selection.length > 0 && !selection.includes(caption))
+        !caption ||
+          (selection.length === 0 && utils.isNullAddress(addresses[key])) ||
+          (selection.length > 0 && !selection.includes(caption))
       ) {
-        continue;
+        continue
       }
       if (utils.isNullAddress(addresses[key])) {
         throw "Not deployed."
@@ -62,12 +61,12 @@ async function settlePriceFeedsRadHash (pfs, selection) {
         utils.traceTx(
           await hre.ethers.provider.getTransactionReceipt(tx.hash),
           balance - BigInt(await hre.ethers.provider.getBalance(pfs.runner.address)),
-        );
+        )
       } else {
         console.info("  ", `> ID4 hash:          \x1b[34m${hash}\x1b[0m`)
         const currentRadHash = await pfs.lookupWitnetRadHash(hash)
         if (radHash !== currentRadHash) {
-          console.info("  ", "> Request artifact: ", key)  
+          console.info("  ", "> Request artifact: ", key)
           console.info("  ", "> Request address:  ", addresses[key])
           console.info("  ", `> OLD RAD hash:      \x1b[32m${currentRadHash.slice(2)}\x1b[0m`)
           console.info("  ", `> NEW RAD hash:      \x1b[1;32m${radHash.slice(2)}\x1b[0m`)
@@ -76,14 +75,17 @@ async function settlePriceFeedsRadHash (pfs, selection) {
           utils.traceTx(
             await hre.ethers.provider.getTransactionReceipt(tx.hash),
             balance - BigInt(await hre.ethers.provider.getBalance(pfs.runner.address)),
-          );
+          )
         } else {
           console.info("  ", `> RAD hash:          \x1b[32m${radHash.slice(2)}\x1b[0m`)
           const latest = await pfs.latestPrice(hash)
           if (latest[2] !== "0x0000000000000000000000000000000000000000000000000000000000000000") {
             console.info("  ", "> Latest status:    ", utils.getWitnetResultStatusString(latest[3]))
             if (latest[1]) {
-              console.info("  ", "> Latest update:    ", utils.secondsToTime(Date.now() / 1000 - parseInt(latest[1].toString())), "ago")
+              console.info(
+                "  ", "> Latest update:    ",
+                utils.secondsToTime(Date.now() / 1000 - parseInt(latest[1].toString())), "ago"
+              )
             }
           }
         }
@@ -98,7 +100,7 @@ async function settlePriceFeedsRadHash (pfs, selection) {
 };
 
 async function settlePriceFeedsRoutes (pfs, selection) {
-  const addresses = await utils.readJsonFromFile("./witnet/addresses.json");
+  const addresses = await utils.readJsonFromFile("./witnet/addresses.json")
   if (!addresses[network]) addresses[network] = {}
   if (!addresses[network].routes) addresses[network].routes = {}
 
@@ -106,10 +108,10 @@ async function settlePriceFeedsRoutes (pfs, selection) {
     for (const caption in routes[solverKey]) {
       const routeKey = utils.extractRouteKeyFromErc2362Caption(caption)
       if (
-        (selection.length == 0 && !utils.isNullAddress(addresses[routeKey]))
-          || (selection.length > 0 && selection.includes(caption))
+        (selection.length === 0 && !utils.isNullAddress(addresses[routeKey])) ||
+          (selection.length > 0 && selection.includes(caption))
       ) {
-        const routeAddr = await settlePriceFeedRoute(pfs, caption, solverKey);
+        const routeAddr = await settlePriceFeedRoute(pfs, caption, solverKey)
         if (routeAddr) {
           addresses[network].routes[routeKey] = routeAddr
           utils.overwriteJsonFile("./witnet/addresses.json", addresses)
@@ -120,14 +122,13 @@ async function settlePriceFeedsRoutes (pfs, selection) {
 };
 
 async function settlePriceFeedRoute (pfs, caption, solverKey) {
-
   let solverAddr
   try {
     const solverSpecs = routes[solverKey][caption]
-    solverAddr = await resolveSolverArtifactAddress(pfs, solverKey, solverSpecs) 
+    solverAddr = await resolveSolverArtifactAddress(pfs, solverKey, solverSpecs)
     const solverContract = await utils.getWitnetPriceRouteSolverContract(solverAddr)
     const solverClass = await solverContract.class()
-    
+
     const hash = await pfs.hash(caption)
     const currentSolver = await pfs.lookupPriceSolver(hash)
 
@@ -135,10 +136,10 @@ async function settlePriceFeedRoute (pfs, caption, solverKey) {
     console.info()
     console.info("  ", `\x1b[1;38;5;128m${caption}\x1b[0m`)
     console.info("  ", "=".repeat(header.length))
-    
+
     if (
-      solverAddr !== currentSolver[0]
-        || JSON.stringify(solverSpecs?.dependencies) !== JSON.stringify(currentSolver[1])
+      solverAddr !== currentSolver[0] ||
+        JSON.stringify(solverSpecs?.dependencies) !== JSON.stringify(currentSolver[1])
     ) {
       console.info("  ", "> ID4 hash:      ", `\x1b[94m${hash}\x1b[0m`)
       console.info("  ", "> Solver address:", `\x1b[96m${solverAddr}\x1b[0m`)
@@ -149,12 +150,12 @@ async function settlePriceFeedRoute (pfs, caption, solverKey) {
         const receipt = await hre.ethers.provider.getTransactionReceipt(tx.hash)
         if (!receipt) {
           await sleep(2000)
-          continue;
+          continue
         } else {
           utils.traceTx(receipt)
-          break;
+          break
         }
-      } while (true);
+      } while (true)
     } else {
       console.info("  ", "> ID4 hash:         ", `\x1b[34m${hash}\x1b[0m`)
       console.info("  ", "> Solver address:   ", `\x1b[36m${solverAddr}\x1b[0m`)
@@ -167,18 +168,18 @@ async function settlePriceFeedRoute (pfs, caption, solverKey) {
   return solverAddr
 }
 
-async function resolveSolverArtifactAddress(pfs, solverKey, solverSpecs) {  
-  
-  const solverArtifact = await hre.artifacts.readArtifact(solverKey);
+async function resolveSolverArtifactAddress (pfs, solverKey, solverSpecs) {
+  const solverArtifact = await hre.artifacts.readArtifact(solverKey)
   const argsValues = solverSpecs?.constructorArgs || []
   const argsTypes = utils.extractArtifactConstructorArgsTypes(solverArtifact) || []
   const args = hre.web3.eth.abi.encodeParameters(argsTypes, argsValues)
-  
+
   const solverAddr = await pfs.determinePriceSolverAddress(solverArtifact.bytecode, args)
-  
+
   if ((await hre.web3.eth.getCode(solverAddr)).length <= 3) {
-    const header = `${solverKey}${argsValues.length > 0 ? 
-      `<${JSON.stringify(argsValues)}>` : ""
+    const header = `${solverKey}${argsValues.length > 0
+      ? `<${JSON.stringify(argsValues)}>`
+      : ""
     }`
     console.info()
     console.info("  ", `\x1b[1;96m${header}\x1b[0m`)
@@ -193,16 +194,16 @@ async function resolveSolverArtifactAddress(pfs, solverKey, solverSpecs) {
       const receipt = await hre.ethers.provider.getTransactionReceipt(tx.hash)
       if (!receipt) {
         await sleep(2000)
-        continue;
+        continue
       } else {
         utils.traceTx(receipt)
-        break;
+        break
       }
-    } while (true);
+    } while (true)
   }
   return solverAddr
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+function sleep (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
