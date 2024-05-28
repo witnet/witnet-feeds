@@ -9,7 +9,7 @@ const assets = require("../witnet/assets")
 const requests = Witnet.Dictionary(Witnet.Artifacts.Class, assets?.requests)
 
 function cmd(...command) {
-    let p = spawn(command[0], command.slice(1));
+    let p = spawn(command[0], command.slice(1), { shell: true });
     return new Promise((resolve, reject) => {
         p.stdout.on("data", (x) => {
             process.stdout.write(x.toString());

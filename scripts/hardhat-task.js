@@ -13,8 +13,8 @@ const shell = spawn(os.type() === "Windows_NT" ? "npx.cmd" : "npx", [
     "--network",
     process.argv[3],
     process.argv[2],
-    ...process.argv.slice(4)
-]);
+    ...process.argv.slice(4),  
+], { shell: true });
 
 shell.stdout.on('data', (data) => {
     process.stdout.write(data.toString())
