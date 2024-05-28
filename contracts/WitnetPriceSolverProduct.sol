@@ -33,12 +33,13 @@ contract WitnetPriceSolverProduct
                 _price.status != WitnetV2.ResponseStatus.Ready
                     && _latestPrice.status == WitnetV2.ResponseStatus.Ready
             ) {
-                // a routed price fee will be set as awaiting if at least one dependency is 
+                // a routed price feed will be set as awaiting if at least one dependency is 
                 // in awaiting status
                 _latestPrice.status = WitnetV2.ResponseStatus.Awaiting;
             }
             if (_ix == 0) {
                 _latestPrice.value = _price.value;
+                _latestPrice.status = _price.status;
             } else {
                 _latestPrice.value *= _price.value;
             }
