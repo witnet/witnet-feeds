@@ -36,7 +36,7 @@
     "test": "npx witnet test"
   },
   "dependencies": {
-    "witnet-solidity": "^2.0.1-beta.1"
+    "witnet-solidity": "^2.0.3"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
