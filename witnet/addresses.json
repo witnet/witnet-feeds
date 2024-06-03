@@ -43,6 +43,18 @@
             "WitnetRequestPriceWitUsdt6": "0x23a351E2b47e7886126BC1C1B3090eDEde1a9857"
         }
     },
+    "boba:bnb:testnet": {
+        "requests": {
+            "WitnetRequestPriceBobaUsdt6": "0xc3D0957EF70573d8b2d25e15E02bDdD300bD9196",
+            "WitnetRequestPriceBtcUsd6": "0x31A191cA86db760f0A6Bb209685f989A2e1f0E6b",
+            "WitnetRequestPriceDaiUsd6": "0xAf30fFCcE7830aCE039C1F7FA532725530512Fbb",
+            "WitnetRequestPriceEthUsd6": "0xDB02647361Ac8fbf37792c338C709bA25516D509",
+            "WitnetRequestPriceFraxUsdt6": "0x4100A830ee65970B264B4c65e05E827803f92806",
+            "WitnetRequestPriceOloUsdc6": "0xa41A43E1104702564B5e7939700dD59Fe4c679e5",
+            "WitnetRequestPriceUsdcUsd6": "0x75d9c7580067E300efc83C6CDd240B0c9aE91161",
+            "WitnetRequestPriceUsdtUsd6": "0xdE6E90C1209d050701Ca368C07272E1820126362"
+        }
+    },
     "boba:eth:mainnet": {
         "requests": {
             "WitnetRequestPriceBobaUsdt6": "0x479156fC74920991694559453d31917Fa43Ea5Aa",
