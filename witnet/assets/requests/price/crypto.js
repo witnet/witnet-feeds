@@ -211,7 +211,7 @@ module.exports = {
     WitnetRequestPriceFraxUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "gateapi.io/ticker": ["frax", "usdt"], 
-            "uniswap-v3/ticker": ["0xc2a856c3aff2110c1171b8f942256d40e980c726", "1"] 
+            // "uniswap-v3/ticker": ["0xc2a856c3aff2110c1171b8f942256d40e980c726", "1"] 
         }
     ), 
     
@@ -412,6 +412,16 @@ module.exports = {
         templates['WitnetRequestTemplateQuickswapTicker6'], [
             ["0x9f1a8caf3c8e94e43aa64922d67dff4dc3e88a42", "0"]
         ]
+    ),
+
+    WitnetRequestPriceReefUsdt6: Witnet.PriceTickerRequest(
+        sources, { 
+            "binance.com/ticker": ["REEF", "USDT"],
+            "bitrue.com/ticker": ["REEFUSDT"], 
+            "digifinex.com/ticker": ["reef", "usdt"],
+            "gateapi.io/ticker": ["reef", "usdt"], 
+            "kucoin.com/ticker": ["REEF", "USDT"], 
+        }
     ),
     
     WitnetRequestPriceSaxUsdt6: Witnet.PriceTickerRequest(
