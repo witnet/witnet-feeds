@@ -13,7 +13,7 @@ const defaultScript = {
 
 module.exports = {
     "beamswap/ticker": Witnet.Sources.GraphQLQuery({
-        url: "https://api.thegraph.com/subgraphs/name/beamswap/beamswap-dex",
+        url: "https://graph.beamswap.io/subgraphs/name/beamswap/beamswap-amm-v2",
         ...defaultQuery,
         ...defaultScript,
     }),
@@ -53,7 +53,7 @@ module.exports = {
         script: Witnet.Script().parseJSONMap().getMap("data").getMap("pool").getFloat("token\\1\\Price").multiply(1e9).round(),
     }),
     "stellaswap/ticker": Witnet.Sources.GraphQLQuery({
-        url: "https://api.thegraph.com/subgraphs/name/stellaswap/stella-swap",
+        url: "https://analytics.stellaswap.com/api/graphql/stella-swap",
         ...defaultQuery,
         ...defaultScript,
     }),

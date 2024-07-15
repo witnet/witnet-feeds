@@ -318,9 +318,9 @@
         "requests": {
             "WitnetRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
             "WitnetRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitnetRequestPriceGlintUsdc6": "0xf6580D2DA462c64d1A79218E4B9DCc7CbA4f22Ad",
+            "WitnetRequestPriceGlintUsdc6": "",
             "WitnetRequestPriceGlmrUsdt6": "0xa0C5F12A2B370EF226D08377CBE7593677c41993",
-            "WitnetRequestPriceStellaUsdt6": "0xf7a2Bc4fc1e8C50516b8902f09310a5A354e4031",
+            "WitnetRequestPriceStellaUsdt6": "",
             "WitnetRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
             "WitnetRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
         },
@@ -334,9 +334,9 @@
         "requests": {
             "WitnetRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
             "WitnetRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
-            "WitnetRequestPriceGlintUsdc6": "0xA96E5cc1f76906681798cF98976d73F7a22D46bB",
+            "WitnetRequestPriceGlintUsdc6": "",
             "WitnetRequestPriceGlmrUsdt6": "0xeD8C564b668AB8174bBAf6Af68B0C0dAE93d3ce5",
-            "WitnetRequestPriceStellaUsdt6": "0xCc77AA966a456BC6799c8533EeDC57aAed4A8A0A",
+            "WitnetRequestPriceStellaUsdt6": "",
             "WitnetRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
             "WitnetRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
         },
