@@ -318,9 +318,9 @@
         "requests": {
             "WitnetRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
             "WitnetRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitnetRequestPriceGlintUsdc6": "",
+            "WitnetRequestPriceGlintUsdc6": "0x8F479AF225F1E62469083E03f8fe3503800333f7",
             "WitnetRequestPriceGlmrUsdt6": "0xa0C5F12A2B370EF226D08377CBE7593677c41993",
-            "WitnetRequestPriceStellaUsdt6": "",
+            "WitnetRequestPriceStellaUsdt6": "0x517BAee8725bD4130780BC9fE941f3C9a85a65C4",
             "WitnetRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
             "WitnetRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
         },
