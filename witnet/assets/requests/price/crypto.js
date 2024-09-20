@@ -210,8 +210,7 @@ module.exports = {
     
     WitnetRequestPriceFraxUsdt6: Witnet.PriceTickerRequest(
         sources, { 
-            "gateapi.io/ticker": ["frax", "usdt"], 
-            // "uniswap-v3/ticker": ["0xc2a856c3aff2110c1171b8f942256d40e980c726", "1"] 
+            "gateapi.io/ticker": ["frax", "usdt"],
         }
     ), 
     
