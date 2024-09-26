@@ -394,7 +394,8 @@
             "WitnetRequestPriceQuickWeth9": "0x177AADE2636070fE98d6bA3DC2219215a4074eCE",
             "WitnetRequestPriceQuickWmatic6": "0xaFa6450c9db75A74B60261Fe44b0b7F20059A8A0",
             "WitnetRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
-            "WitnetRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
+            "WitnetRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c",
+            "WitnetRequestPriceWitUsdt6": "0xCF9E70545aF28669262A22C9e1AaedaD85b0C0b2"
         },
         "routes": {
             "WitnetPriceFeedRouteBatUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
