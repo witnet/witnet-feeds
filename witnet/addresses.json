@@ -462,5 +462,16 @@
             "WitnetRequestPriceWbtcWulx6": "0x4662F19A0E454f2aC16D9ce612Df6C13b4c06166",
             "WitnetRequestPriceWethWulx6": "0xB1Ce22C0d076Edb53Ac8F77e69717c4c99FE4d84"
         }
+    },
+    "worldchain:sepolia": {
+        "requests": {
+            "WitnetRequestPriceUsdtUsd6": "0x69Ac8C5ee6F724545d0f78C3fF5042F162d67b24",
+            "WitnetRequestPriceWitUsdt6": "0x93aBcFf00999a39ed2162844b89A09a6DDd4a8e5",
+            "WitnetRequestPriceWldUsdt6": "0xC9BeF4284f74577e430707Ed4EEee8226782C665"
+        },
+        "routes": {
+            "WitnetPriceFeedRouteWitUsd6": "0x302A3c97fB29fA3494747945a58aD0724ad0e12E",
+            "WitnetPriceFeedRouteWldUsd6": "0x302A3c97fB29fA3494747945a58aD0724ad0e12E"
+        }
     }
 }
