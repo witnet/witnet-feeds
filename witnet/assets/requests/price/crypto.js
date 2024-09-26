@@ -534,6 +534,19 @@ module.exports = {
             "gateapi.io/ticker": ["wit", "usdt"],  
         }
     ),
+
+    WitnetRequestPriceWldUsdt6: Witnet.PriceTickerRequest(
+        sources, {
+            "binance.com/ticker": ["WLD", "USDT"],
+            "bitget.com/ticker": ["WLDUSDT_SPBL"], 
+            "bitmart.com/ticker": ["WLD", "USDT"], 
+            "bybit.com/ticker": ["WLD", "USDT"], 
+            "gateapi.io/ticker": ["wld", "usdt"], 
+            "kucoin.com/ticker": ["WLD", "USDT"], 
+            "mexc.com/ticker": ["WLD", "USDT"],
+            "okx.com/ticker": ["WLD", "USDT"], 
+        }
+    ),
     
     WitnetRequestPriceXlmUsd6: Witnet.PriceTickerRequest(
         sources, { 
