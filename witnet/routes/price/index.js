@@ -115,6 +115,12 @@ module.exports = {
           "Price-USDT/USD-6",
         ],
       },
+      "Price-WLD/USD-6": {
+        dependencies: [
+          "Price-WLD/USDT-6",
+          "Price-USDT/USD-6",
+        ],
+      },
     },
   }
   
