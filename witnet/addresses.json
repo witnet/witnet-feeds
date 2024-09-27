@@ -465,6 +465,7 @@
     },
     "worldchain:sepolia": {
         "requests": {
+            "WitnetRequestPriceEthUsd6": "0x5ACE51bf01726094C123375a5E6EE3E50358Ec95",
             "WitnetRequestPriceUsdtUsd6": "0x69Ac8C5ee6F724545d0f78C3fF5042F162d67b24",
             "WitnetRequestPriceWitUsdt6": "0x93aBcFf00999a39ed2162844b89A09a6DDd4a8e5",
             "WitnetRequestPriceWldUsdt6": "0xC9BeF4284f74577e430707Ed4EEee8226782C665"
