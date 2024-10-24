@@ -421,6 +421,7 @@
             "WitnetRequestPriceEthUsd6": "0x3692bCac5CD3dabCfAc18108593541aBcC4AAeb9"
         }
     },
+    "reef:mainnet": {},
     "scroll:sepolia": {
         "requests": {
             "WitnetRequestPriceBtcUsd6": "0xA374c3b93AFfe310B97B2e68AeF65FF2E7059724",
@@ -473,6 +474,18 @@
         "routes": {
             "WitnetPriceFeedRouteWitUsd6": "0x302A3c97fB29fA3494747945a58aD0724ad0e12E",
             "WitnetPriceFeedRouteWldUsd6": "0x302A3c97fB29fA3494747945a58aD0724ad0e12E"
+        }
+    },
+    "worldchain:mainnet": {
+        "requests": {
+            "WitnetRequestPriceEthUsd6": "0xf999B4d5F9Ae51999A0a7a7c4627Edbf8879bC66",
+            "WitnetRequestPriceUsdtUsd6": "0xDb08320142e3c713F350549273B9170D23CA57Df",
+            "WitnetRequestPriceWitUsdt6": "0x77aDE3936eCAf1ED57f6c4814a09a3483dCb3655",
+            "WitnetRequestPriceWldUsdt6": "0x3744BA3d6Ab75074F35a78Ad19FDe21217F410f6"
+        },
+        "routes": {
+            "WitnetPriceFeedRouteWitUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
+            "WitnetPriceFeedRouteWldUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
         }
     }
 }
