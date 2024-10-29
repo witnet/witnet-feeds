@@ -257,7 +257,7 @@
     },
     "klaytn:mainnet": {
         "requests": {
-            "WitnetRequestPriceKlayUsdt6": "0xE1F66352736963F1e008DD21bd594A96Fb1fb913",
+            "WitnetRequestPriceKlayUsdt6": "0x87f9A58b5E15c855815f2A4D82F2f0Ea4ba8fc0d",
             "WitnetRequestPriceKrwUsd9": "0xBD6f9D54ab043071A25AE1026B9C1cc0D1661a1c",
             "WitnetRequestPriceKspKrw6": "0x6aB85A81ac7E1b2a364fD1EDc4644017d82D278a",
             "WitnetRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
