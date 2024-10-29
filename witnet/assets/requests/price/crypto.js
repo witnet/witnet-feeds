@@ -66,7 +66,7 @@ module.exports = {
     WitnetRequestPriceBnbUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["BNB", "USDT"], 
-            "bybit.com/ticker": ["BNB", "USDT"], 
+            "bybit.com/ticker": ["BNB", "USDT", "inverse"], 
             "gateapi.io/ticker": ["bnb", "usdt"], 
             "huobi.pro/ticker": ["bnb", "usdt"], 
             "kucoin.com/ticker": ["BNB", "USDT"], 
@@ -217,7 +217,7 @@ module.exports = {
     WitnetRequestPriceFtmUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["FTM", "USDT"], 
-            "bybit.com/ticker": ["FTM", "USDT"], 
+            "bybit.com/ticker": ["FTM", "USDT", "inverse"], 
             "digifinex.com/ticker": ["ftm", "usdt"], 
             "gateapi.io/ticker": ["ftm", "usdt"], 
             "huobi.pro/ticker": ["ftm", "usdt"], 
@@ -289,9 +289,7 @@ module.exports = {
     WitnetRequestPriceKlayUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["KLAY", "USDT"], 
-            "gateapi.io/ticker": ["klay", "usdt"], 
-            "kucoin.com/ticker": ["KLAY", "USDT"], 
-            "okx.com/ticker": ["KLAY", "USDT"] 
+            "bybit.com/ticker": ["KLAY", "USDT", "spot"], 
         }
     ),
     
@@ -540,7 +538,7 @@ module.exports = {
             "binance.com/ticker": ["WLD", "USDT"],
             "bitget.com/ticker": ["WLDUSDT_SPBL"], 
             "bitmart.com/ticker": ["WLD", "USDT"], 
-            "bybit.com/ticker": ["WLD", "USDT"], 
+            "bybit.com/ticker": ["WLD", "USDT", "inverse"], 
             "gateapi.io/ticker": ["wld", "usdt"], 
             "kucoin.com/ticker": ["WLD", "USDT"], 
             "mexc.com/ticker": ["WLD", "USDT"],

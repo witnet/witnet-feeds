@@ -60,7 +60,7 @@ module.exports = {
         script: Witnet.Script().parseJSONMap().getFloat("price").multiply(1e6).round(),
     }),
     "bybit.com/ticker": Witnet.Sources.HttpGet({
-        url: "https://api.bybit.com/v5/market/tickers?category=inverse&symbol=\\0\\\\1\\",
+        url: "https://api.bybit.com/v5/market/tickers?category=\\2\\&symbol=\\0\\\\1\\",
         script: Witnet.Script().parseJSONMap().getMap("result").getArray("list").getMap(0).getFloat("lastPrice").multiply(1e6).round(),
     }),
     "coinbase.com/ticker": Witnet.Sources.HttpGet({
