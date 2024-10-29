@@ -269,7 +269,7 @@
     },
     "klaytn:testnet": {
         "requests": {
-            "WitnetRequestPriceKlayUsdt6": "0xd571543C3b46efC2CB7d259848c457E11BeFb17E",
+            "WitnetRequestPriceKlayUsdt6": "0x3224c882c859B3D061c11131b1372497f4b8F624",
             "WitnetRequestPriceKrwUsd9": "0x4B3Ca1f331f01dc11761fB92E25209fA131B2e94",
             "WitnetRequestPriceKspKrw6": "0xBc9ab8B2E30cB95E8230Ad28bf100271A96F4eAC",
             "WitnetRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
