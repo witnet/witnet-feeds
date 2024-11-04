@@ -39,6 +39,11 @@ module.exports = {
         script: Witnet.Script().parseJSONMap().getMap("data").getFloat("close").multiply(1e6).round(),
         tuples: { "SYS/USDT-6": [ "SYSUSDT_SPBL" ], }
     }),
+    "bitget.com/ticker/v2": Witnet.Sources.HttpGet({
+        url: "https://api.bitget.com/api/v2/spot/market/tickers?symbol=\\0\\\\1\\",
+        script: Witnet.Script().parseJSONMap().getArray("data").getMap(0).getFloat("lastPr").multiply(1e6).round(),
+        tuples: { "KAIA/USDT-6": [ "KAIA", "USDT", ], }
+    }),
     "bitmart.com/ticker": Witnet.Sources.HttpGet({
         url: "https://api-cloud.bitmart.com/spot/v1/ticker?symbol=\\0\\_\\1\\",
         script: Witnet.Script().parseJSONMap().getMap("data").getArray("tickers").getMap(0).getFloat("last_price").multiply(1e6).round(),
