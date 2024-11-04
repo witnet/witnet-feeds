@@ -266,6 +266,16 @@ module.exports = {
             ["0x7d63809ebf83ef54c7ce8ded3591d4e8fc2102ee", "0"]
         ]
     ),
+
+    WitnetRequestPriceKaiaUsdt6: Witnet.PriceTickerRequest(
+        sources, { 
+            "binance.com/ticker": ["KAIA", "USDT"], 
+            "bitget.com/ticker/v2": ["KAIA", "USDT"],
+            "bybit.com/ticker": ["KAIA", "USDT", "spot"], 
+            "okx.com/ticker": ["KAIA", "USDT"], 
+            "gateapi.io/ticker": ["kaia", "usdt"], 
+        }
+    ),
     
     WitnetRequestPriceKavaUsdt6: Witnet.PriceTickerRequest(
         sources, { 
@@ -283,13 +293,6 @@ module.exports = {
             "kucoin.com/ticker": ["KCS", "USDT"], 
             "mexc.com/ticker": ["KCS", "USDT"], 
             "mojitoswap/ticker": ["0xb3b92d6b2656f9ceb4a381718361a21bf9b82bd9", "0"] 
-        }
-    ),
-    
-    WitnetRequestPriceKlayUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.com/ticker": ["KLAY", "USDT"], 
-            "bybit.com/ticker": ["KLAY", "USDT", "spot"], 
         }
     ),
     
