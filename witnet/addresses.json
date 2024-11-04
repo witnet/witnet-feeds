@@ -257,6 +257,7 @@
     },
     "klaytn:mainnet": {
         "requests": {
+            "WitnetRequestPriceKaiaUsdt6": "0x4C6DE77A07B1dc912c1C9e0a91513ED0831E2e76",
             "WitnetRequestPriceKlayUsdt6": "0x87f9A58b5E15c855815f2A4D82F2f0Ea4ba8fc0d",
             "WitnetRequestPriceKrwUsd9": "0xBD6f9D54ab043071A25AE1026B9C1cc0D1661a1c",
             "WitnetRequestPriceKspKrw6": "0x6aB85A81ac7E1b2a364fD1EDc4644017d82D278a",
@@ -269,6 +270,7 @@
     },
     "klaytn:testnet": {
         "requests": {
+            "WitnetRequestPriceKaiaUsdt6": "0x53D0e5A045c7C048897aA806b35B2eEA2C0d4054",
             "WitnetRequestPriceKlayUsdt6": "0x3224c882c859B3D061c11131b1372497f4b8F624",
             "WitnetRequestPriceKrwUsd9": "0x4B3Ca1f331f01dc11761fB92E25209fA131B2e94",
             "WitnetRequestPriceKspKrw6": "0xBc9ab8B2E30cB95E8230Ad28bf100271A96F4eAC",
