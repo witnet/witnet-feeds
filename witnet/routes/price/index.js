@@ -1,5 +1,5 @@
 module.exports = {
-    WitnetPriceSolverProduct: {
+    WitPriceSolverProduct: {
       "Price-BAT/USD-6": {
         constructorArgs: null,
         dependencies: [
