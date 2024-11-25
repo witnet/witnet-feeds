@@ -55,7 +55,7 @@ Instead, if you are willing to build (and sustain) your own set of price feeds, 
 - Use the bundled Solidity Wizard tool:
   `npx witnet wizard`
 
-Either if you opt to import the [witnet-solidty](https://npmjs.com/witnet-solidity) or the [witnet-feeds](https://npmjs.com/witnet-feeds) package, the Witnet Solidity Wizard will help you to create Solidity mockup contracts showing how to interact with the global `WitnetPriceFeeds` contract as to:
+Either if you opt to import the [witnet-solidty](https://npmjs.com/witnet-solidity) or the [witnet-feeds](https://npmjs.com/witnet-feeds) package, the Witnet Solidity Wizard will help you to create Solidity mockup contracts showing how to interact with the global `WitPriceFeeds` contract as to:
 - List currently supported price feeds.
 - Introspect actual data sources being used for each price feed.
 - Read the last price updates, and metadata, including the timestamp and the hash of the transaction in the Witnet blockchain that actually solved every price update.

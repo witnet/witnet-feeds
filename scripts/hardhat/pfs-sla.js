@@ -4,7 +4,7 @@ const utils = require("../utils")
 module.exports = { run }
 
 async function run (args) {
-  const [pfs] = await utils.getWitnetPriceFeedsContract(args?.from)
+  const [pfs] = await utils.getWitPriceFeedsContract(args?.from)
 
   const sla = await pfs.defaultRadonSLA()
 

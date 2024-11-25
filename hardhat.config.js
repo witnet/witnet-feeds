@@ -5,7 +5,7 @@ const { settings, utils } = require("witnet-solidity-bridge")
 const [, target ] = utils.getRealmNetworkFromString();
 
 task("pfs:deploy", "Upgrade price feeds")
-.addOptionalParam("from", "EVM address used for interacting with the WitnetPriceFeeds contract.")  
+.addOptionalParam("from", "EVM address used for interacting with the WitPriceFeeds contract.")  
 .addOptionalVariadicPositionalParam("captions", "Captions of the price feeds to be either deployed or have data sources upgraded (e.g. eth/usd-6).")
   .setAction(async (taskArgs) => {
     const deploy = require("./scripts/hardhat/pfs-deploy");
@@ -19,7 +19,7 @@ task("pfs:deploy", "Upgrade price feeds")
 task("pfs:sla", "Get default Witnet SLA")
   .addOptionalParam("committeeSize", "Minimum number of witnesses required for every price update.")
   .addOptionalParam("collateralFee", "Minimum collateral in $nanoWIT required for witnessing nodes.")
-  .addOptionalParam("from", "EVM address used for interacting with the WitnetPriceFeeds contract.")
+  .addOptionalParam("from", "EVM address used for interacting with the WitPriceFeeds contract.")
   .setAction(async (taskArgs) => {
     const script = require("./scripts/hardhat/pfs-sla");
     await script.run(taskArgs).catch((error) => {
@@ -32,7 +32,7 @@ task("pfs:sla", "Get default Witnet SLA")
 task("pfs:status", "Show current status of supported price feeds.")
   .addFlag("update", "Trigger an update on the price feeds, if currently idle.")
   .addFlag("updateForce", "Trigger an update on idle price feeds, or potentially increase the reward if already awaiting an update.")
-  .addOptionalParam("from", "EVM address used for interacting with the WitnetPriceFeeds contract.")
+  .addOptionalParam("from", "EVM address used for interacting with the WitPriceFeeds contract.")
   .addOptionalVariadicPositionalParam("captions", "Captions of the price feeds to be listed, or updated (e.g. eth/usd-6).")
   .setAction(async (taskArgs) => {
     const script = require("./scripts/hardhat/pfs-status");

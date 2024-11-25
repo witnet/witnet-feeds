@@ -8,7 +8,7 @@ async function run (args) {
     return "Price-" + caption.toUpperCase()
   }) || []
 
-  const [pfs] = await utils.getWitnetPriceFeedsContract(args?.from)
+  const [pfs] = await utils.getWitPriceFeedsContract(args?.from)
   const feeds = await pfs.supportedFeeds()
 
   const caps = []; const id4s = []; const rads = []
@@ -41,7 +41,7 @@ async function run (args) {
       const solver = await pfs.lookupPriceSolver(id4s[oixs[index]])
       const solverAddr = solver[0]
       const solverDeps = solver[1]
-      const solverContract = await utils.getWitnetPriceRouteSolverContract(solverAddr)
+      const solverContract = await utils.getWitPriceFeedsSolverContract(solverAddr)
       const solverClass = await solverContract.class()
       utils.traceWitnetPriceRoute(
         caps[oixs[index]],

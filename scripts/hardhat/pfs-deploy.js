@@ -12,7 +12,7 @@ async function run (args) {
     return "Price-" + caption.toUpperCase()
   }) || []
 
-  const [pfs] = await utils.getWitnetPriceFeedsContract(args?.from)
+  const [pfs] = await utils.getWitPriceFeedsContract(args?.from)
 
   await settlePriceFeedsRadHash(pfs, selection)
   await settlePriceFeedsRoutes(pfs, selection)
@@ -126,7 +126,7 @@ async function settlePriceFeedRoute (pfs, caption, solverKey) {
   try {
     const solverSpecs = routes[solverKey][caption]
     solverAddr = await resolveSolverArtifactAddress(pfs, solverKey, solverSpecs)
-    const solverContract = await utils.getWitnetPriceRouteSolverContract(solverAddr)
+    const solverContract = await utils.getWitPriceFeedsSolverContract(solverAddr)
     const solverClass = await solverContract.class()
 
     const hash = await pfs.hash(caption)

@@ -11,8 +11,8 @@ module.exports = {
   extractRequestKeyFromErc2362Caption,
   extractRouteKeyFromErc2362Caption,
   flattenWitnetArtifacts: utils.flattenWitnetArtifacts,
-  getWitnetPriceFeedsContract,
-  getWitnetPriceRouteSolverContract,
+  getWitPriceFeedsContract,
+  getWitPriceFeedsSolverContract,
   getWitnetRequestContract,
   getWitnetRequestResultDataTypeString,
   getWitnetResultStatusString,
@@ -88,30 +88,30 @@ function extractRouteKeyFromErc2362Caption (caption) {
   return `WitnetPriceFeedRoute${camelize(parts[0])}${camelize(parts[1])}${decimals}`
 }
 
-async function getWitnetPriceFeedsContract (from) {
-  if (!addresses?.WitnetPriceFeeds) {
-    throw Error(`No WitnetPriceFeeds on network "${hre.network.name}"`)
+async function getWitPriceFeedsContract (from) {
+  if (!addresses?.WitPriceFeeds) {
+    throw Error(`No WitPriceFeeds on network "${hre.network.name}"`)
   }
   const header = `${hre.network.name.toUpperCase()}`
   console.info()
   console.info("  ", `\x1b[1;96m${header}\x1b[0m`)
   console.info("  ", "=".repeat(header.length))
 
-  process.stdout.write("   \x1b[97mWitnetPriceFeeds:\x1b[0m       ")
-  const WitnetPriceFeeds = await hre.ethers.getContractAt(
-    witnet.artifacts.WitnetPriceFeeds.abi,
-    addresses.WitnetPriceFeeds,
+  process.stdout.write("   \x1b[97mWitPriceFeeds:\x1b[0m       ")
+  const WitPriceFeeds = await hre.ethers.getContractAt(
+    witnet.artifacts.WitPriceFeeds.abi,
+    addresses.WitPriceFeeds,
     from ? (await hre.ethers.getSigner(from)) : (await hre.ethers.getSigners())[3]
   )
   process.stdout.write("\x1b[96m" +
-        await _readUpgradableArtifactVersion(WitnetPriceFeeds) +
+        await _readUpgradableArtifactVersion(WitPriceFeeds) +
         "\x1b[0m\n"
   )
 
   process.stdout.write("   \x1b[97mWitnetOracle:\x1b[0m           ")
   const WitnetOracle = await hre.ethers.getContractAt(
     witnet.artifacts.WitnetOracle.abi,
-    await WitnetPriceFeeds.witnet()
+    await WitPriceFeeds.witnet()
   )
   process.stdout.write("\x1b[36m" +
         await _readUpgradableArtifactVersion(WitnetOracle) +
@@ -139,11 +139,11 @@ async function getWitnetPriceFeedsContract (from) {
         "\x1b[0m\n"
   )
 
-  return [WitnetPriceFeeds, WitnetRequestBytecodesAddr]
+  return [WitPriceFeeds, WitnetRequestBytecodesAddr]
 }
 
-async function getWitnetPriceRouteSolverContract (address) {
-  return hre.ethers.getContractAt(witnet.artifacts.WitnetPriceRouteSolver.abi, address)
+async function getWitPriceFeedsSolverContract (address) {
+  return hre.ethers.getContractAt(witnet.artifacts.WitPriceFeedsSolver.abi, address)
 }
 
 async function getWitnetRequestContract (address) {
