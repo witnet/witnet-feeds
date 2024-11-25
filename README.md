@@ -34,7 +34,7 @@ If no feed captions are specified, status of all feeds supported on specified ch
 
 Captions must have a matching request artifact name declared within `witnet/assets/requests`, or a matching entry within the `witnet/routes/price/index.js` file. 
 
-> Corresponding Witnet data request artifact names follow the pattern `WitnetRequestPrice<Base><Quote><Exponent>` (e.g. "eth/usd-6" => "WitnetRequestPriceEthUsd6").
+> Corresponding Witnet data request artifact names follow the pattern `WitOracleRequestPrice<Base><Quote><Exponent>` (e.g. "eth/usd-6" => "WitOracleRequestPriceEthUsd6").
 
 ## Contribute
 

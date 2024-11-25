@@ -40,9 +40,9 @@ async function settlePriceFeedsRadHash (pfs, selection) {
         throw "Not deployed."
       }
       const hash = await pfs.hash(caption)
-      const request = await utils.getWitnetRequestContract(addresses[key])
+      const request = await utils.getWitOracleRequestContract(addresses[key])
       const requestClass = await request.class()
-      if (requestClass !== "WitnetRequest") {
+      if (requestClass !== "WitOracleRequest") {
         throw `Uncompliant request at ${addresses[key]}`
       }
       const radHash = await request.radHash()

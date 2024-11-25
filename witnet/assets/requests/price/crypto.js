@@ -12,7 +12,7 @@ const templates = Witnet.Dictionary(
 
 module.exports = {
 
-    WitnetRequestPriceAdaUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceAdaUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "bitstamp.net/ticker": ["ada", "usd"], 
             "coinbase.com/ticker": ["ADA", "USD"], 
@@ -20,7 +20,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceAlgoUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceAlgoUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "bitstamp.net/ticker": ["algo", "usd"], 
             "coinbase.com/ticker": ["ALGO", "USD"], 
@@ -28,7 +28,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceApeUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceApeUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.us/ticker": ["APE", "USD"], 
             "coinbase.com/ticker": ["APE", "USD"], 
@@ -36,14 +36,14 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceAtomUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceAtomUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "coinbase.com/ticker": ["ATOM", "USD"], 
             "kraken.com/ticker": ["ATOM", "USD"],
         }
     ),
     
-    WitnetRequestPriceAvaxUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceAvaxUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.us/ticker": ["AVAX", "USD"], 
             "bitstamp.net/ticker": ["avax", "usd"], 
@@ -53,7 +53,7 @@ module.exports = {
             }
         ),
     
-    WitnetRequestPriceBatUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceBatUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.us/ticker": ["BAT", "USDT"], 
             "bitrue.com/ticker": ["BATUSDT"], 
@@ -63,7 +63,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceBnbUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceBnbUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["BNB", "USDT"], 
             "bybit.com/ticker": ["BNB", "USDT", "inverse"], 
@@ -74,7 +74,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceBobaUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceBobaUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "gateapi.io/ticker": ["boba", "usdt"], 
             "huobi.pro/ticker": ["boba", "usdt"], 
@@ -82,7 +82,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceBoringUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceBoringUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "gateapi.io/ticker": ["boring", "usdt"], 
             "huobi.pro/ticker": ["boring", "usdt"], 
@@ -91,7 +91,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceBtcUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceBtcUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.us/ticker": ["BTC", "USD"], 
             "bitfinex.com/ticker": ["btc", "usd"], 
@@ -102,20 +102,20 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceBusdUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceBusdUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["BUSD", "USDT"], 
         }
     ),
     
-    WitnetRequestPriceCeloEur6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceCeloEur6: Witnet.PriceTickerRequest(
         sources, { 
             "bitvavo.com/ticker": ["CELO", "EUR"], 
             "coinbase.com/ticker": ["CGLD", "EUR"] 
         }
     ),
     
-    WitnetRequestPriceCeloUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceCeloUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.us/ticker": ["CELO", "USD"], 
             "coinbase.com/ticker": ["CGLD", "USD"], 
@@ -123,7 +123,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceCfxUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceCfxUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["CFX", "USDT"], 
             "gateapi.io/ticker": ["cfx", "usdt"], 
@@ -133,7 +133,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceCroUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceCroUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "coinbase.com/ticker": ["CRO", "USDT"], 
             "gateapi.io/ticker": ["cro", "usdt"], 
@@ -143,7 +143,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceDaiUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceDaiUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.us/ticker": ["DAI", "USD"], 
             "bitstamp.net/ticker": ["dai", "usd"], 
@@ -154,7 +154,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceDogeUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceDogeUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.us/ticker": ["DOGE", "USD"], 
             "coinbase.com/ticker": ["DOGE", "USD"], 
@@ -162,7 +162,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceDotUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceDotUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "bittrex.com/ticker": ["DOT", "USD"], 
             "coinbase.com/ticker": ["DOT", "USD"], 
@@ -170,7 +170,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceElaUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceElaUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "gateapi.io/ticker": ["ela", "usdt"], 
             "huobi.pro/ticker": ["ela", "usdt"], 
@@ -178,7 +178,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceElonUsdt9: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceElonUsdt9: Witnet.PriceTickerRequest(
         sources, { 
             "gateapi.io/ticker#9": ["elon", "usdt"], 
             "huobi.pro/ticker#9": ["elon", "usdt"], 
@@ -188,7 +188,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceEosUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceEosUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "ascendex.com/ticker": ["EOS", "USD"],
             "bitfinex.com/ticker": ["eos", "usd"], 
@@ -197,7 +197,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceEthUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceEthUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.us/ticker": ["ETH", "USD"], 
             "bitfinex.com/ticker": ["eth", "usd"], 
@@ -208,13 +208,13 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceFraxUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceFraxUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "gateapi.io/ticker": ["frax", "usdt"],
         }
     ), 
     
-    WitnetRequestPriceFtmUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceFtmUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["FTM", "USDT"], 
             "bybit.com/ticker": ["FTM", "USDT", "inverse"], 
@@ -227,7 +227,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceFuseUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceFuseUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "ascendex.com/ticker": ["FUSE", "USDT"], 
             "gateapi.io/ticker": ["fuse", "usdt"],
@@ -236,13 +236,13 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceGlintUsdc6: Witnet.RequestFromTemplate(
-        templates['WitnetRequestTemplateBeamswapTicker6'], [
+    WitOracleRequestPriceGlintUsdc6: Witnet.RequestFromTemplate(
+        templates['WitOracleRequestTemplateBeamswapTicker6'], [
             ["0x61b4cec9925b1397b64dece8f898047eed0f7a07", "0"]
         ]
     ),
     
-    WitnetRequestPriceGlmrUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceGlmrUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["GLMR", "USDT"], 
             "gateapi.io/ticker": ["glmr", "usdt"], 
@@ -252,7 +252,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceHtUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceHtUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             // "ascendex.com/ticker": ["HT", "USDT"], 
             "gateapi.io/ticker": ["ht", "usdt"], 
@@ -261,13 +261,13 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceImmoMcusd6: Witnet.RequestFromTemplate(
-        templates['WitnetRequestTemplateUbeswapTicker6'], [
+    WitOracleRequestPriceImmoMcusd6: Witnet.RequestFromTemplate(
+        templates['WitOracleRequestTemplateUbeswapTicker6'], [
             ["0x7d63809ebf83ef54c7ce8ded3591d4e8fc2102ee", "0"]
         ]
     ),
 
-    WitnetRequestPriceKaiaUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceKaiaUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["KAIA", "USDT"], 
             "bitget.com/ticker/v2": ["KAIA", "USDT"],
@@ -277,7 +277,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceKavaUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceKavaUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["KAVA", "USDT"], 
             "gateapi.io/ticker": ["kava", "usdt"], 
@@ -287,7 +287,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceKcsUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceKcsUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "ascendex.com/ticker": ["KCS", "USDT"], 
             "kucoin.com/ticker": ["KCS", "USDT"], 
@@ -296,14 +296,14 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceKspKrw6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceKspKrw6: Witnet.PriceTickerRequest(
         sources, { 
             "coinone.co.kr/ticker": ["krw", "ksp"], 
             "korbit.co.kr/ticker": ["ksp", "krw"] 
         }
     ),
     
-    WitnetRequestPriceLinkUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceLinkUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "bitstamp.net/ticker": ["link", "usd"], 
             "coinbase.com/ticker": ["LINK", "USD"], 
@@ -311,7 +311,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceMaticUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceMaticUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.us/ticker": ["MATIC", "USD"], 
             "bitstamp.net/ticker": ["matic", "usd"], 
@@ -320,7 +320,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceMetisUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceMetisUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "gateapi.io/ticker": ["metis", "usdt"], 
             "kucoin.com/ticker": ["METIS", "USDT"], 
@@ -328,13 +328,13 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceMjtKcs9: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceMjtKcs9: Witnet.PriceTickerRequest(
         sources, { 
             "mojitoswap/ticker#9": ["0xa0d7c8aa789362cdf4faae24b9d1528ed5a3777f", "1"] 
         }
     ),
     
-    WitnetRequestPriceMntUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceMntUsdt6: Witnet.PriceTickerRequest(
         sources, {
             "bitmart.com/ticker": ["MNT", "USDT"], 
             "gateapi.io/ticker": ["mnt", "usdt"],
@@ -342,14 +342,14 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceMtrUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceMtrUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "gateapi.io/ticker": ["mtr", "usdt"], 
             "mexc.com/ticker": ["MTR", "USDT"] 
         }
     ),
     
-    WitnetRequestPriceMtrgUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceMtrgUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "gateapi.io/ticker": ["mtrg", "usdt"], 
             "kucoin.com/ticker": ["MTRG", "USDT"], 
@@ -357,13 +357,13 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceNctCelo6: Witnet.RequestFromTemplate(
-        templates['WitnetRequestTemplateUniswapCeloTicker6'], [
+    WitOracleRequestPriceNctCelo6: Witnet.RequestFromTemplate(
+        templates['WitOracleRequestTemplateUniswapCeloTicker6'], [
             ["0xdb24905b1b080f65dedb0ad978aad5c76363d3c6", "1"]
         ]
     ),
     
-    WitnetRequestPriceOkbUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceOkbUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "gateapi.io/ticker": ["okb", "usdt"], 
             "okx.com/ticker": ["OKB", "USDT"], 
@@ -371,7 +371,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceOktUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceOktUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "gateapi.io/ticker": ["okt", "usdt"], 
             "okx.com/ticker": ["OKT", "USDT"], 
@@ -379,13 +379,13 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceOloUsdc6: Witnet.RequestFromTemplate(
-        templates['WitnetRequestTemplateOolongTicker6'], [
+    WitOracleRequestPriceOloUsdc6: Witnet.RequestFromTemplate(
+        templates['WitOracleRequestTemplateOolongTicker6'], [
             ["0x5008f837883ea9a07271a1b5eb0658404f5a9610", "0x66a2a913e447d6b4bf33efbec43aaef87890fbbc"]
         ]
     ),
     
-    WitnetRequestPriceOpUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceOpUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "okx.com/ticker": ["OP", "USDT"],
             "binance.com/ticker": ["OP", "USDT"], 
@@ -395,25 +395,25 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceQuickUsdc6: Witnet.RequestFromTemplate(
-        templates['WitnetRequestTemplateQuickswapTicker6'], [
+    WitOracleRequestPriceQuickUsdc6: Witnet.RequestFromTemplate(
+        templates['WitOracleRequestTemplateQuickswapTicker6'], [
             ["0x022df0b3341b3a0157eea97dd024a93f7496d631", "0"]
         ]
     ),
     
-    WitnetRequestPriceQuickWeth9: Witnet.RequestFromTemplate(
-        templates['WitnetRequestTemplateQuickswapTicker9'], [
+    WitOracleRequestPriceQuickWeth9: Witnet.RequestFromTemplate(
+        templates['WitOracleRequestTemplateQuickswapTicker9'], [
             ["0xde2d1fd2e8238aba80a5b80c7262e4833d92f624", "0"]
         ]
     ),
     
-    WitnetRequestPriceQuickWmatic6: Witnet.RequestFromTemplate(
-        templates['WitnetRequestTemplateQuickswapTicker6'], [
+    WitOracleRequestPriceQuickWmatic6: Witnet.RequestFromTemplate(
+        templates['WitOracleRequestTemplateQuickswapTicker6'], [
             ["0x9f1a8caf3c8e94e43aa64922d67dff4dc3e88a42", "0"]
         ]
     ),
 
-    WitnetRequestPriceReefUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceReefUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["REEF", "USDT"],
             "bitrue.com/ticker": ["REEFUSDT"], 
@@ -423,13 +423,13 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceSaxUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceSaxUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "mojitoswap/ticker": ["0x1162131b63d95210acf5b3419d38c68492f998cc", "0"] 
         }
     ),
     
-    WitnetRequestPriceShibUsd9: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceShibUsd9: Witnet.PriceTickerRequest(
         sources, { 
             "coinbase.com/ticker#9": ["SHIB", "USD"], 
             "gateapi.io/ticker#9": ["shib", "usd"], 
@@ -437,20 +437,20 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceSolUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceSolUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "coinbase.com/ticker": ["SOL", "USD"], 
             "kraken.com/ticker": ["SOL", "USD"] 
         }
     ),
     
-    WitnetRequestPriceStellaUsdt6: Witnet.RequestFromTemplate(
-        templates['WitnetRequestTemplateStellaswapTicker6'], [
+    WitOracleRequestPriceStellaUsdt6: Witnet.RequestFromTemplate(
+        templates['WitOracleRequestTemplateStellaswapTicker6'], [
             ["0x81e11a9374033d11cc7e7485a7192ae37d0795d6", "1"]
         ]
     ),
     
-    WitnetRequestPriceSysUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceSysUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["SYS", "USDT"],
             "bitget.com/ticker": ["SYSUSDT_SPBL"], 
@@ -461,20 +461,20 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceTusdUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceTusdUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "binance.com/ticker": ["TUSD", "USDT"], 
             "huobi.pro/ticker": ["tusd", "usdt"],
         }
     ),
     
-    WitnetRequestPriceUlxUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceUlxUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "uniswap-v3/ticker": ["0x9adf4617804c762f86fc4e706ad0424da3b100a7", "1"] 
         }
     ),
     
-    WitnetRequestPriceUniUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceUniUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "bitfinex.com/ticker": ["uni", "usd"], 
             "bitstamp.net/ticker": ["uni", "usd"], 
@@ -484,7 +484,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceUsdcUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceUsdcUsd6: Witnet.PriceTickerRequest(
         sources, {
             "bitstamp.net/ticker": ["usdc", "usd"], 
             "gemini.com/ticker": ["usdc", "usd"], 
@@ -492,7 +492,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceUsdtUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceUsdtUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "kraken.com/ticker": ["USDT", "USD"],
             "binance.us/ticker": ["USDT", "USD"], 
@@ -502,13 +502,13 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceVsqDai6: Witnet.RequestFromTemplate(
-        templates['WitnetRequestTemplateSushiswapTicker6'], [
+    WitOracleRequestPriceVsqDai6: Witnet.RequestFromTemplate(
+        templates['WitOracleRequestTemplateSushiswapTicker6'], [
             ["0x5cf66ceaf7f6395642cd11b5929499229edef531", "1"]
         ]
     ),
     
-    WitnetRequestPriceWbtcUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceWbtcUsd6: Witnet.PriceTickerRequest(
         sources, {
             "bitfinex.com/ticker": ["wbt", "usd"], 
             "coinbase.com/ticker": ["WBTC", "USD"], 
@@ -516,19 +516,19 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceWbtcWulx6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceWbtcWulx6: Witnet.PriceTickerRequest(
         sources, { 
             "ultron-dev.net/ticker": ["0xd2b86a80a8f30b83843e247a50ecdc8d843d87dd", "0x3a4f06431457de873b588846d139ec0d86275d54"] 
         }
     ),
     
-    WitnetRequestPriceWethWulx6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceWethWulx6: Witnet.PriceTickerRequest(
         sources, { 
             "ultron-dev.net/ticker#inverse": ["0x2318bf5809a72aabadd15a3453a18e50bbd651cd", "0x3a4f06431457de873b588846d139ec0d86275d54"] 
         }
     ),
     
-    WitnetRequestPriceWitUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceWitUsdt6: Witnet.PriceTickerRequest(
         sources, { 
             "mexc.com/ticker": ["WIT", "USDT"],
             "bitmart.com/ticker": ["WIT", "USDT"], 
@@ -536,7 +536,7 @@ module.exports = {
         }
     ),
 
-    WitnetRequestPriceWldUsdt6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceWldUsdt6: Witnet.PriceTickerRequest(
         sources, {
             "binance.com/ticker": ["WLD", "USDT"],
             "bitget.com/ticker": ["WLDUSDT_SPBL"], 
@@ -549,7 +549,7 @@ module.exports = {
         }
     ),
     
-    WitnetRequestPriceXlmUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceXlmUsd6: Witnet.PriceTickerRequest(
         sources, { 
             "bitstamp.net/ticker": ["xlm", "usd"], 
             "coinbase.com/ticker": ["XLM", "USD"], 

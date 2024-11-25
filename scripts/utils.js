@@ -78,7 +78,7 @@ function extractRequestKeyFromErc2362Caption (caption) {
   let parts = caption.split("-")
   const decimals = parts[parts.length - 1]
   parts = parts[1].split("/")
-  return `WitnetRequestPrice${camelize(parts[0])}${camelize(parts[1])}${decimals}`
+  return `WitOracleRequestPrice${camelize(parts[0])}${camelize(parts[1])}${decimals}`
 }
 
 function extractRouteKeyFromErc2362Caption (caption) {

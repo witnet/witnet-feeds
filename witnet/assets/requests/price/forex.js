@@ -12,7 +12,7 @@ const templates = Witnet.Dictionary(
 
 module.exports = {
 
-    WitnetRequestPriceHkdUsd6: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceHkdUsd6: Witnet.PriceTickerRequest(
         sources, {
             "coinbase.com/ticker": ["HKD", "USD"],
             "mastercard.us/ticker": ["HKD", "USD"],
@@ -20,7 +20,7 @@ module.exports = {
         }
     ),
 
-    WitnetRequestPriceKrwUsd9: Witnet.PriceTickerRequest(
+    WitOracleRequestPriceKrwUsd9: Witnet.PriceTickerRequest(
         sources, { 
             "fastforex.io/ticker#9": ["KRW", "USD"], 
             "revolut.com/ticker#9": ["KRW", "USD", "KR"],
