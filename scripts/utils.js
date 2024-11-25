@@ -15,7 +15,6 @@ module.exports = {
   getWitPriceFeedsSolverContract,
   getWitOracleRequestContract,
   getWitOracleRequestResultDataTypeString,
-  getWitnetResultStatusString,
   isDryRun: utils.isDryRun,
   isNullAddress: utils.isNullAddress,
   numberWithCommas,
@@ -85,7 +84,7 @@ function extractRouteKeyFromErc2362Caption (caption) {
   let parts = caption.split("-")
   const decimals = parts[parts.length - 1]
   parts = parts[1].split("/")
-  return `WitPriceFeedsSolver${camelize(parts[0])}${camelize(parts[1])}${decimals}`
+  return `WitPriceFeedSolver${camelize(parts[0])}${camelize(parts[1])}${decimals}`
 }
 
 async function getWitPriceFeedsContract (from) {

@@ -5,7 +5,7 @@ pragma solidity >=0.8.0 <0.9.0;
 import "witnet-solidity-bridge/contracts/interfaces/IWitPriceFeeds.sol";
 import "witnet-solidity-bridge/contracts/mockups/WitPriceFeedsSolverBase.sol";
 
-contract WitPriceSolverProduct 
+contract WitPriceFeedsSolverProduct 
     is
         WitPriceFeedsSolverBase
 {
@@ -14,7 +14,7 @@ contract WitPriceSolverProduct
     constructor () {}
 
     function class() virtual override external pure returns (string memory) {
-        return type(WitPriceSolverProduct).name;
+        return type(WitPriceFeedsSolverProduct).name;
     }
 
     function solve(bytes4 feedId)

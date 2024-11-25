@@ -73,8 +73,8 @@
             "WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
             "WitOracleRequestPriceNctCelo6": "0x06D2DdbDf886B0720e2039fB778090fa1CC29848"
         },
-        "routes": {
-            "WitPriceFeedsSolverNctUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+        "solvers": {
+            "WitPriceFeedSolverNctUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
         }
     },
     "celo:mainnet": {
@@ -85,8 +85,8 @@
             "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
             "WitOracleRequestPriceNctCelo6": "0xAf7C3d202C13a4463FB243cc6f3Fe95CB2F82E76"
         },
-        "routes": {
-            "WitPriceFeedsSolverNctUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+        "solvers": {
+            "WitPriceFeedSolverNctUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
         }
     },
     "conflux:core:mainnet": {
@@ -147,10 +147,10 @@
             "WitOracleRequestPriceWbtcUsd6": "0xe86664236Be6267B8e0F0F526D9a05D401155D15",
             "WitOracleRequestPriceXlmUsd6": "0x9F314b8Aad413c9D3A3361300B96E568784d93eC"
         },
-        "routes": {
-            "WitPriceFeedsSolverElonUsd9": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedsSolverTusdUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedsSolverCroUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+        "solvers": {
+            "WitPriceFeedSolverElonUsd9": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+            "WitPriceFeedSolverTusdUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+            "WitPriceFeedSolverCroUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
         }
     },
     "dogechain:mainnet": {
@@ -166,9 +166,9 @@
             "WitOracleRequestPriceHtUsdt6": "0x7E146075992C245c4E2E8626c04D31F71A87aCfc",
             "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
         },
-        "routes": {
-            "WitPriceFeedsSolverBnbUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
-            "WitPriceFeedsSolverHtUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+        "solvers": {
+            "WitPriceFeedSolverBnbUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
+            "WitPriceFeedSolverHtUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
         }
     },
     "elastos:testnet": {
@@ -181,10 +181,10 @@
             "WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
             "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
         },
-        "routes": {
-            "WitPriceFeedsSolverBnbUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedsSolverElaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedsSolverHtUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+        "solvers": {
+            "WitPriceFeedSolverBnbUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+            "WitPriceFeedSolverElaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+            "WitPriceFeedSolverHtUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
         }
     },
     "ethereum:sepolia": {
@@ -211,8 +211,8 @@
             "WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
             "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
         },
-        "routes": {
-            "WitPriceFeedsSolverKavaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+        "solvers": {
+            "WitPriceFeedSolverKavaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
         }
     },
     "kava:mainnet": {
@@ -225,8 +225,8 @@
             "WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
             "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
         },
-        "routes": {
-            "WitPriceFeedsSolverKavaUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+        "solvers": {
+            "WitPriceFeedSolverKavaUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
         }
     },
     "kcc:mainnet": {
@@ -263,9 +263,9 @@
             "WitOracleRequestPriceKspKrw6": "0x6aB85A81ac7E1b2a364fD1EDc4644017d82D278a",
             "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
         },
-        "routes": {
-            "WitPriceFeedsSolverKlayUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
-            "WitPriceFeedsSolverKspUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+        "solvers": {
+            "WitPriceFeedSolverKlayUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
+            "WitPriceFeedSolverKspUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
         }
     },
     "klaytn:testnet": {
@@ -276,8 +276,8 @@
             "WitOracleRequestPriceKspKrw6": "0xBc9ab8B2E30cB95E8230Ad28bf100271A96F4eAC",
             "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
         },
-        "routes": {
-            "WitPriceFeedsSolverKspUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+        "solvers": {
+            "WitPriceFeedSolverKspUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
         }
     },
     "mantle:mainnet": {
@@ -312,8 +312,8 @@
             "WitOracleRequestPriceMetisUsdt6": "0x29c7c221a1b6a3eDF4AD448e4Eaa6e2bC2095A15",
             "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
         },
-        "routes": {
-            "WitPriceFeedsSolverMetisUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+        "solvers": {
+            "WitPriceFeedSolverMetisUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
         }
     },
     "moonbeam:mainnet": {
@@ -326,10 +326,10 @@
             "WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
             "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
         },
-        "routes": {
-            "WitPriceFeedsSolverGlintUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
-            "WitPriceFeedsSolverGlmrUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
-            "WitPriceFeedsSolverStellaUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+        "solvers": {
+            "WitPriceFeedSolverGlintUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
+            "WitPriceFeedSolverGlmrUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
+            "WitPriceFeedSolverStellaUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
         }
     },
     "moonbeam:moonbase": {
@@ -342,10 +342,10 @@
             "WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
             "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
         },
-        "routes": {
-            "WitPriceFeedsSolverGlintUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedsSolverGlmrUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedsSolverStellaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+        "solvers": {
+            "WitPriceFeedSolverGlintUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+            "WitPriceFeedSolverGlmrUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+            "WitPriceFeedSolverStellaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
         }
     },
     "moonbeam:moonriver": {
@@ -381,8 +381,8 @@
             "WitOracleRequestPriceOpUsdt6": "0x28a1723C6b740EEac13c81ae1195474b38677955",
             "WitOracleRequestPriceWitUsdt6": "0x08DFe984d779F74342afCcdBa0db86c3a18a3916"
         },
-        "routes": {
-            "WitPriceFeedsSolverWitUsd6": "0x5B093E1A659cA7D9cAEeDA2496D90Fb3dE2DFA69"
+        "solvers": {
+            "WitPriceFeedSolverWitUsd6": "0x5B093E1A659cA7D9cAEeDA2496D90Fb3dE2DFA69"
         }
     },
     "polygon:amoy": {
@@ -399,9 +399,9 @@
             "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c",
             "WitOracleRequestPriceWitUsdt6": "0xCF9E70545aF28669262A22C9e1AaedaD85b0C0b2"
         },
-        "routes": {
-            "WitPriceFeedsSolverBatUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedsSolverQuickUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+        "solvers": {
+            "WitPriceFeedSolverBatUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+            "WitPriceFeedSolverQuickUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
         }
     },
     "polygon:mainnet": {
@@ -414,8 +414,8 @@
             "WitOracleRequestPriceQuickWmatic6": "0xa784431236F37195B197719Bf374A7a513b041Cf",
             "WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2"
         },
-        "routes": {
-            "WitPriceFeedsSolverQuickUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+        "solvers": {
+            "WitPriceFeedSolverQuickUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
         }
     },
     "polygon:zkevm:mainnet": {
@@ -473,9 +473,9 @@
             "WitOracleRequestPriceWitUsdt6": "0x93aBcFf00999a39ed2162844b89A09a6DDd4a8e5",
             "WitOracleRequestPriceWldUsdt6": "0xC9BeF4284f74577e430707Ed4EEee8226782C665"
         },
-        "routes": {
-            "WitPriceFeedsSolverWitUsd6": "0x302A3c97fB29fA3494747945a58aD0724ad0e12E",
-            "WitPriceFeedsSolverWldUsd6": "0x302A3c97fB29fA3494747945a58aD0724ad0e12E"
+        "solvers": {
+            "WitPriceFeedSolverWitUsd6": "0x302A3c97fB29fA3494747945a58aD0724ad0e12E",
+            "WitPriceFeedSolverWldUsd6": "0x302A3c97fB29fA3494747945a58aD0724ad0e12E"
         }
     },
     "worldchain:mainnet": {
@@ -485,9 +485,9 @@
             "WitOracleRequestPriceWitUsdt6": "0x77aDE3936eCAf1ED57f6c4814a09a3483dCb3655",
             "WitOracleRequestPriceWldUsdt6": "0x3744BA3d6Ab75074F35a78Ad19FDe21217F410f6"
         },
-        "routes": {
-            "WitPriceFeedsSolverWitUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
-            "WitPriceFeedsSolverWldUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+        "solvers": {
+            "WitPriceFeedSolverWitUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
+            "WitPriceFeedSolverWldUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
         }
     }
 }

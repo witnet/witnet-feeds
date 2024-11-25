@@ -15,7 +15,7 @@ async function run (args) {
   const [pfs] = await utils.getWitPriceFeedsContract(args?.from)
 
   await settlePriceFeedsRadHash(pfs, selection)
-  await settlePriceFeedsRoutes(pfs, selection)
+  await settlePriceFeedsSolvers(pfs, selection)
 
   console.info()
 }
@@ -99,21 +99,21 @@ async function settlePriceFeedsRadHash (pfs, selection) {
   }
 };
 
-async function settlePriceFeedsRoutes (pfs, selection) {
+async function settlePriceFeedsSolvers (pfs, selection) {
   const addresses = await utils.readJsonFromFile("./witnet/addresses.json")
   if (!addresses[network]) addresses[network] = {}
-  if (!addresses[network].routes) addresses[network].routes = {}
+  if (!addresses[network].solvers) addresses[network].solvers = {}
 
   for (const solverKey in routes) {
     for (const caption in routes[solverKey]) {
       const routeKey = utils.extractRouteKeyFromErc2362Caption(caption)
       if (
-        (selection.length === 0 && !utils.isNullAddress(addresses[routeKey])) ||
+        (selection.length === 0 /*&& !utils.isNullAddress(addresses[routeKey])*/) ||
           (selection.length > 0 && selection.includes(caption))
       ) {
-        const routeAddr = await settlePriceFeedRoute(pfs, caption, solverKey)
+        const routeAddr = await settlePriceFeedSolver(pfs, caption, solverKey)
         if (routeAddr) {
-          addresses[network].routes[routeKey] = routeAddr
+          addresses[network].solvers[routeKey] = routeAddr
           utils.overwriteJsonFile("./witnet/addresses.json", addresses)
         }
       }
@@ -121,7 +121,7 @@ async function settlePriceFeedsRoutes (pfs, selection) {
   }
 };
 
-async function settlePriceFeedRoute (pfs, caption, solverKey) {
+async function settlePriceFeedSolver (pfs, caption, solverKey) {
   let solverAddr
   try {
     const solverSpecs = routes[solverKey][caption]

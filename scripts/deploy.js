@@ -31,7 +31,7 @@ async function main () {
   }
   const network = process.argv[2]
   const addresses = assets.getAddresses(process.argv[2])
-  if (!addresses?.WitPriceFeeds) {
+  if (!addresses.apps?.WitPriceFeeds) {
     console.error("\nUnsupported network:", network)
     process.exit(0)
   }
