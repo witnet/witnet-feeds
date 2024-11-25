@@ -13,8 +13,8 @@ module.exports = {
   flattenWitnetArtifacts: utils.flattenWitnetArtifacts,
   getWitPriceFeedsContract,
   getWitPriceFeedsSolverContract,
-  getWitnetRequestContract,
-  getWitnetRequestResultDataTypeString,
+  getWitOracleRequestContract,
+  getWitOracleRequestResultDataTypeString,
   getWitnetResultStatusString,
   isDryRun: utils.isDryRun,
   isNullAddress: utils.isNullAddress,
@@ -89,7 +89,7 @@ function extractRouteKeyFromErc2362Caption (caption) {
 }
 
 async function getWitPriceFeedsContract (from) {
-  if (!addresses?.WitPriceFeeds) {
+  if (!addresses.apps?.WitPriceFeeds) {
     throw Error(`No WitPriceFeeds on network "${hre.network.name}"`)
   }
   const header = `${hre.network.name.toUpperCase()}`
@@ -97,10 +97,10 @@ async function getWitPriceFeedsContract (from) {
   console.info("  ", `\x1b[1;96m${header}\x1b[0m`)
   console.info("  ", "=".repeat(header.length))
 
-  process.stdout.write("   \x1b[97mWitPriceFeeds:\x1b[0m       ")
+  process.stdout.write("   \x1b[97mWitPriceFeeds:\x1b[0m           ")
   const WitPriceFeeds = await hre.ethers.getContractAt(
     witnet.artifacts.WitPriceFeeds.abi,
-    addresses.WitPriceFeeds,
+    addresses.apps?.WitPriceFeeds,
     from ? (await hre.ethers.getSigner(from)) : (await hre.ethers.getSigners())[3]
   )
   process.stdout.write("\x1b[96m" +
@@ -108,49 +108,49 @@ async function getWitPriceFeedsContract (from) {
         "\x1b[0m\n"
   )
 
-  process.stdout.write("   \x1b[97mWitnetOracle:\x1b[0m           ")
-  const WitnetOracle = await hre.ethers.getContractAt(
-    witnet.artifacts.WitnetOracle.abi,
-    await WitPriceFeeds.witnet()
+  process.stdout.write("   \x1b[97mWitOracle:\x1b[0m               ")
+  const WitOracle = await hre.ethers.getContractAt(
+    witnet.artifacts.WitOracle.abi,
+    addresses.core?.WitOracle,
   )
   process.stdout.write("\x1b[36m" +
-        await _readUpgradableArtifactVersion(WitnetOracle) +
+        await _readUpgradableArtifactVersion(WitOracle) +
         "\x1b[0m\n"
   )
 
-  process.stdout.write("   \x1b[97mWitnetRequestBytecodes:\x1b[0m ")
-  const WitnetRequestBytecodes = await hre.ethers.getContractAt(
-    witnet.artifacts.WitnetRequestBytecodes.abi,
-    await WitnetOracle.registry()
+  process.stdout.write("   \x1b[97mWitOracleRadonRegistry:\x1b[0m  ")
+  const WitOracleRadonRegistry = await hre.ethers.getContractAt(
+    witnet.artifacts.WitOracleRadonRegistry.abi,
+    addresses.core?.WitOracleRadonRegistry,
   )
-  const WitnetRequestBytecodesAddr = await WitnetRequestBytecodes.getAddress()
+  const WitOracleRadonRegistryAddr = await WitOracleRadonRegistry.getAddress()
   process.stdout.write("\x1b[36m" +
-        await _readUpgradableArtifactVersion(WitnetRequestBytecodes) +
+        await _readUpgradableArtifactVersion(WitOracleRadonRegistry) +
         "\x1b[0m\n"
   )
 
-  process.stdout.write("   \x1b[97mWitnetRequestFactory:  \x1b[0m ")
-  const WitnetRequestFactory = await hre.ethers.getContractAt(
-    witnet.artifacts.WitnetRequestFactory.abi,
-    await WitnetOracle.factory()
+  process.stdout.write("   \x1b[97mWitOracleRequestFactory:\x1b[0m ")
+  const WitOracleRequestFactory = await hre.ethers.getContractAt(
+    witnet.artifacts.WitOracleRequestFactory.abi,
+    addresses.core?.WitOracleRequestFactory,
   )
   process.stdout.write("\x1b[36m" +
-        await _readUpgradableArtifactVersion(WitnetRequestFactory) +
+        await _readUpgradableArtifactVersion(WitOracleRequestFactory) +
         "\x1b[0m\n"
   )
 
-  return [WitPriceFeeds, WitnetRequestBytecodesAddr]
+  return [WitPriceFeeds, WitOracleRadonRegistryAddr]
 }
 
 async function getWitPriceFeedsSolverContract (address) {
   return hre.ethers.getContractAt(witnet.artifacts.WitPriceFeedsSolver.abi, address)
 }
 
-async function getWitnetRequestContract (address) {
-  return hre.ethers.getContractAt(witnet.artifacts.WitnetRequest.abi, address)
+async function getWitOracleRequestContract (address) {
+  return hre.ethers.getContractAt(witnet.artifacts.WitOracleRequest.abi, address)
 }
 
-function getWitnetRequestResultDataTypeString (type) {
+function getWitOracleRequestResultDataTypeString (type) {
   const types = {
     1: "Array",
     2: "Bool",
@@ -161,17 +161,6 @@ function getWitnetRequestResultDataTypeString (type) {
     7: "String",
   }
   return types[type] || "(Undetermined)"
-}
-
-function getWitnetResultStatusString (status) {
-  const literals = {
-    1: "Awaiting",
-    2: "Ready",
-    3: "Error",
-    4: "Finalizing",
-    5: "Finalizing",
-  }
-  return literals[status] || "Unknown"
 }
 
 function numberWithCommas (x) {
@@ -219,7 +208,7 @@ function traceWitnetPriceFeed (caption, hash, radHash, latestTimestamp) {
   console.info("  ", `> ID4 hash:       \x1b[34m${hash}\x1b[0m`)
   console.info("  ", `> RAD hash:       \x1b[32m${radHash.slice(2)}\x1b[0m`)
   if (latestTimestamp) {
-    console.info("  ", "> Latest update: ",
+    console.info("  ", "> Last update:   ",
       secondsToTime(Date.now() / 1000 - parseInt(latestTimestamp.toString())),
       "ago",
     )
