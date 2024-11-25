@@ -24,7 +24,7 @@ module.exports = {
   traceHeader: utils.traceHeader,
   traceTx,
   traceWitnetPriceFeed,
-  traceWitnetPriceRoute,
+  traceWitnetPriceSolver,
 }
 
 function camelize (str) {
@@ -96,17 +96,6 @@ async function getWitPriceFeedsContract (from) {
   console.info("  ", `\x1b[1;96m${header}\x1b[0m`)
   console.info("  ", "=".repeat(header.length))
 
-  process.stdout.write("   \x1b[97mWitPriceFeeds:\x1b[0m           ")
-  const WitPriceFeeds = await hre.ethers.getContractAt(
-    witnet.artifacts.WitPriceFeeds.abi,
-    addresses.apps?.WitPriceFeeds,
-    from ? (await hre.ethers.getSigner(from)) : (await hre.ethers.getSigners())[3]
-  )
-  process.stdout.write("\x1b[96m" +
-        await _readUpgradableArtifactVersion(WitPriceFeeds) +
-        "\x1b[0m\n"
-  )
-
   process.stdout.write("   \x1b[97mWitOracle:\x1b[0m               ")
   const WitOracle = await hre.ethers.getContractAt(
     witnet.artifacts.WitOracle.abi,
@@ -135,6 +124,17 @@ async function getWitPriceFeedsContract (from) {
   )
   process.stdout.write("\x1b[36m" +
         await _readUpgradableArtifactVersion(WitOracleRequestFactory) +
+        "\x1b[0m\n"
+  )
+
+  process.stdout.write("   \x1b[97mWitPriceFeeds:\x1b[0m           ")
+  const WitPriceFeeds = await hre.ethers.getContractAt(
+    witnet.artifacts.WitPriceFeeds.abi,
+    addresses.apps?.WitPriceFeeds,
+    from ? (await hre.ethers.getSigner(from)) : (await hre.ethers.getSigners())[3]
+  )
+  process.stdout.write("\x1b[96m" +
+        await _readUpgradableArtifactVersion(WitPriceFeeds) +
         "\x1b[0m\n"
   )
 
@@ -202,7 +202,6 @@ function traceTx (receipt, cost) {
 function traceWitnetPriceFeed (caption, hash, radHash, latestTimestamp) {
   console.info()
   console.info("  ", `\x1b[1;94m${caption}\x1b[0m`)
-  console.info("  ", "=".repeat(caption.length))
 
   console.info("  ", `> ID4 hash:       \x1b[34m${hash}\x1b[0m`)
   console.info("  ", `> RAD hash:       \x1b[32m${radHash.slice(2)}\x1b[0m`)
@@ -211,17 +210,17 @@ function traceWitnetPriceFeed (caption, hash, radHash, latestTimestamp) {
       secondsToTime(Date.now() / 1000 - parseInt(latestTimestamp.toString())),
       "ago",
     )
+    // todo: trace last value
   }
 }
 
-function traceWitnetPriceRoute (
+function traceWitnetPriceSolver (
   caption, hash,
   solverAddr, solverClass, solverDeps,
   latestTimestamp
 ) {
   console.info()
   console.info("  ", `\x1b[1;38;5;128m${caption}\x1b[0m`)
-  console.info("  ", "=".repeat(caption.length))
 
   console.info("  ", `> ID4 hash:       \x1b[34m${hash}\x1b[0m`)
   console.info("  ", "> Solver address:", `\x1b[36m${solverAddr}\x1b[0m`)

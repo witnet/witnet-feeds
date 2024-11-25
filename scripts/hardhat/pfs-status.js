@@ -43,7 +43,7 @@ async function run (args) {
       const solverDeps = solver[1]
       const solverContract = await utils.getWitPriceFeedsSolverContract(solverAddr)
       const solverClass = await solverContract.class()
-      utils.traceWitnetPriceRoute(
+      utils.traceWitnetPriceSolver(
         caps[oixs[index]],
         id4s[oixs[index]],
         solverAddr,
@@ -61,20 +61,12 @@ async function run (args) {
       )
     }
 
-    const queryStatus = utils.getWitnetResultStatusString(
-      await pfs.latestUpdateResponseStatus(id4s[oixs[index]])
-    )
-    if (queryStatus !== "Ready" && queryStatus !== "Unknown" && !args.updateForce) {
-      if (queryStatus !== "Ready") {
-        const queryId = await pfs.latestUpdateQueryId(id4s[oixs[index]])
-        console.info("  ", `> Witnet Query:   #\x1b[33m${queryId}\x1b[0m`)
-        if (queryStatus === "Error") {
-          const queryError = await pfs.latestUpdateResultError(id4s[oixs[index]])
-          console.info("  ", `> Query error:    \x1b[31m${queryError}\x1b[0m`)
-        } else {
-          console.info("  ", `> Query status:   \x1b[33m${queryStatus}\x1b[0m`)
-        }
-      }
+    const queryStatus = (await pfs.latestUpdateQueryResultStatusDescription(id4s[oixs[index]])).split(" ")[0]
+    if (queryStatus !== "No errors." && !args.updateForce) {
+      const queryId = await pfs.latestUpdateQueryId(id4s[oixs[index]])
+      console.info("  ", `> Latest attempt: #\x1b[33m${queryId}\x1b[0m`)
+      console.info("  ", `> Current status: \x1b[33m${queryStatus}\x1b[0m`)
+
     } else if (args.updateForce || args.update) {
       const gasPrice = hre.network.config.gasPrice === "auto"
         ? await hre.web3.eth.getGasPrice()
