@@ -6,11 +6,11 @@ module.exports = { run }
 async function run (args) {
   const [pfs] = await utils.getWitPriceFeedsContract(args?.from)
 
-  const sla = await pfs.defaultRadonSLA()
+  const sla = await pfs.defaultUpdateSLA()
 
   const committeeSize = parseInt(args?.committeeSize || sla[0])
-  const collateralFee = parseInt(args?.collateralFee || BigInt(sla[3]).toString())
-  const witnessReward = collateralFee / 100.0
+  const collateralFee = parseInt(args?.collateralFee || BigInt(sla[1]).toString()) * 100
+  const witnessReward = parseInt(args?.collateralFee / 100.0 || sla[1])
 
   if (args?.collateralFee || args?.committeeSize) {
     console.info()
@@ -20,7 +20,7 @@ async function run (args) {
       : hre.network.config.gasPrice
 
     const balance = BigInt(await hre.ethers.provider.getBalance(pfs.runner.address))
-    const tx = await pfs.settleDefaultRadonSLA([committeeSize, witnessReward], {
+    const tx = await pfs.settleDefaultUpdateSLA(committeeSize.toString(), witnessReward.toString(), {
       gasPrice,
       gas: 500000,
     })
@@ -34,6 +34,6 @@ async function run (args) {
 
   console.info("  ", "- Committee size:", committeeSize)
   console.info("  ", "- Collateral fee:", (collateralFee / 10 ** 9).toFixed(1), "WIT")
-  console.info("  ", "- Witness reward:", (witnessReward / 10 ** 9).toFixed(1), "WIT")
+  console.info("  ", "- Unitary reward:", (witnessReward / 10 ** 9).toFixed(1), "WIT")
   console.info()
 }
