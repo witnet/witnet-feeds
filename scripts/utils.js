@@ -11,10 +11,11 @@ module.exports = {
   extractRequestKeyFromErc2362Caption,
   extractRouteKeyFromErc2362Caption,
   flattenWitnetArtifacts: utils.flattenWitnetArtifacts,
-  getWitPriceFeedsContract,
-  getWitPriceFeedsSolverContract,
   getWitOracleRequestContract,
   getWitOracleRequestResultDataTypeString,
+  getWitPriceFeedsContract,
+  getWitPriceFeedsLatestUpdateStatus,
+  getWitPriceFeedsSolverContract,
   isDryRun: utils.isDryRun,
   isNullAddress: utils.isNullAddress,
   numberWithCommas,
@@ -142,7 +143,7 @@ async function getWitPriceFeedsContract (from) {
 }
 
 async function getWitPriceFeedsSolverContract (address) {
-  return hre.ethers.getContractAt(witnet.artifacts.WitPriceFeedsSolver.abi, address)
+  return hre.ethers.getContractAt(witnet.artifacts.IWitPriceFeedsSolver.abi, address)
 }
 
 async function getWitOracleRequestContract (address) {
@@ -158,6 +159,16 @@ function getWitOracleRequestResultDataTypeString (type) {
     5: "Float",
     6: "Map",
     7: "String",
+  }
+  return types[type] || "(Undetermined)"
+}
+
+function getWitPriceFeedsLatestUpdateStatus (type) {
+  const types = {
+    0: "Void",
+    1: "Awaiting",
+    2: "Ready",
+    3: "Error",
   }
   return types[type] || "(Undetermined)"
 }
@@ -199,18 +210,32 @@ function traceTx (receipt, cost) {
   }
 }
 
-function traceWitnetPriceFeed (caption, hash, radHash, latestTimestamp) {
+async function traceWitnetPriceFeed (pfs, caption, id4, radHash, latest) {
   console.info()
   console.info("  ", `\x1b[1;94m${caption}\x1b[0m`)
 
-  console.info("  ", `> ID4 hash:       \x1b[34m${hash}\x1b[0m`)
-  console.info("  ", `> RAD hash:       \x1b[32m${radHash.slice(2)}\x1b[0m`)
-  if (latestTimestamp) {
-    console.info("  ", "> Last update:   ",
-      secondsToTime(Date.now() / 1000 - parseInt(latestTimestamp.toString())),
-      "ago",
-    )
-    // todo: trace last value
+  console.info("  ", `> ID4 hash:          \x1b[34m${id4}\x1b[0m`)
+  console.info("  ", `> RAD hash:          \x1b[32m${radHash.slice(2)}\x1b[0m`)
+  if (latest[2] !== "0x0000000000000000000000000000000000000000000000000000000000000000") {
+    if (latest[1]) {
+      console.info(
+        "  ", "> Last update:      ",
+        secondsToTime(Date.now() / 1000 - parseInt(latest[1].toString())), "ago"
+      )
+      const parts = caption.split("-")
+      const exponent = parseInt(parts[parts.length - 1])
+      console.info(
+        "  ", "> Last known price: ",
+        parseInt(latest[0].toString()) / 10 ** exponent
+      )
+    }
+  }
+  const latestStatus = getWitPriceFeedsLatestUpdateStatus(latest[3])
+  if (latestStatus === "Error") {
+    console.info("  ", "> Latest attempt:   ", await pfs.latestUpdateQueryResultStatusDescription(id4))
+  
+  } else if (latestStatus === "Awaiting") {
+    console.info("  ", `> Awaiting query:    #${(await pfs.latestUpdateQueryId(id4)).toString()}`)
   }
 }
 

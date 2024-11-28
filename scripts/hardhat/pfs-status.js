@@ -53,27 +53,21 @@ async function run (args) {
       )
       continue
     } else {
-      utils.traceWitnetPriceFeed(
+      await utils.traceWitnetPriceFeed(
+        pfs,
         caps[oixs[index]],
         id4s[oixs[index]],
         rads[oixs[index]],
-        parseInt(BigInt(status[oixs[index]][1]).toString()),
+        status[oixs[index]],
       )
     }
-
-    const queryStatus = (await pfs.latestUpdateQueryResultStatusDescription(id4s[oixs[index]])).split(" ")[0]
-    if (queryStatus !== "No errors." && !args.updateForce) {
-      const queryId = await pfs.latestUpdateQueryId(id4s[oixs[index]])
-      console.info("  ", `> Latest attempt: #\x1b[33m${queryId}\x1b[0m`)
-      console.info("  ", `> Current status: \x1b[33m${queryStatus}\x1b[0m`)
-
-    } else if (args.updateForce || args.update) {
+    if (args.updateForce || args.update) {
       const gasPrice = hre.network.config.gasPrice === "auto"
         ? await hre.web3.eth.getGasPrice()
         : hre.network.config.gasPrice
 
       const balance = BigInt(await hre.ethers.provider.getBalance(pfs.runner.address))
-      const updateFee = (await pfs["estimateUpdateBaseFee(uint256)"](gasPrice))
+      const updateFee = (await pfs["estimateUpdateRequestFee(uint256)"](gasPrice))
       process.stdout.write(`   > Requesting update (fee: ${parseFloat(updateFee.toString()) / 10 ** 18})... `)
       const tx = await pfs["requestUpdate(bytes4)"](id4s[oixs[index]], {
         gasLimit: null,

@@ -53,8 +53,6 @@ async function main () {
   const npx = os.type() === "Windows_NT" ? "npx.cmd" : "npx"
   if (artifacts.length > 0) {
     await cmd(npx, "witnet", "deploy", network, "--artifacts", artifacts.join(","))
-  } else {
-    await cmd(npx, "witnet", "deploy", network)
   }
   cmd(npx, "hardhat", "--network", network, "pfs:deploy", ...process.argv.slice(3))
 };

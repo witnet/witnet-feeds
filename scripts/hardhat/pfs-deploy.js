@@ -42,18 +42,18 @@ async function settlePriceFeedsRadHash (pfs, selection) {
       const hash = await pfs.hash(caption)
       const request = await utils.getWitOracleRequestContract(addresses[key])
       const requestClass = await request.class()
-      if (requestClass !== "WitOracleRequest") {
+      const requestSpecs = await request.specs()
+      if (requestSpecs !== "0xd210485c") {
         throw `Uncompliant request at ${addresses[key]}`
       }
       const radHash = await request.radHash()
       console.info()
       console.info("  ", `\x1b[1;94m${caption}\x1b[0m`)
-      console.info("  ", "=".repeat(caption.length))
       if (!(await pfs.supportsCaption(caption))) {
         console.info("  ", `> ID4 hash:          \x1b[94m${hash}\x1b[0m`)
         console.info("  ", `> Request artifact:  \x1b[1;37m${key}\x1b[0m`)
         console.info("  ", "> Request address:  ", addresses[key])
-        // console.info("  ", "> Request registry: ", await request.registry())
+        console.info("  ", "> Request class:    ", requestClass)
         console.info("  ", `> Request RAD hash:  \x1b[32m${radHash.slice(2)}\x1b[0m`)
         const balance = BigInt(await hre.ethers.provider.getBalance(pfs.runner.address))
         const tx = await pfs["settleFeedRequest(string,bytes32)"](caption, radHash)
@@ -64,10 +64,11 @@ async function settlePriceFeedsRadHash (pfs, selection) {
         )
       } else {
         console.info("  ", `> ID4 hash:          \x1b[34m${hash}\x1b[0m`)
-        const currentRadHash = await pfs.lookupWitnetRadHash(hash)
+        const currentRadHash = await pfs.lookupWitOracleRequestRadHash(hash)
         if (radHash !== currentRadHash) {
           console.info("  ", "> Request artifact: ", key)
           console.info("  ", "> Request address:  ", addresses[key])
+          console.info("  ", "> Request class:    ", requestClass)
           console.info("  ", `> OLD RAD hash:      \x1b[32m${currentRadHash.slice(2)}\x1b[0m`)
           console.info("  ", `> NEW RAD hash:      \x1b[1;32m${radHash.slice(2)}\x1b[0m`)
           const balance = BigInt(await hre.ethers.provider.getBalance(pfs.runner.address))
@@ -80,12 +81,23 @@ async function settlePriceFeedsRadHash (pfs, selection) {
           console.info("  ", `> RAD hash:          \x1b[32m${radHash.slice(2)}\x1b[0m`)
           const latest = await pfs.latestPrice(hash)
           if (latest[2] !== "0x0000000000000000000000000000000000000000000000000000000000000000") {
-            console.info("  ", "> Latest status:    ", utils.getWitnetResultStatusString(latest[3]))
             if (latest[1]) {
               console.info(
-                "  ", "> Latest update:    ",
+                "  ", "> Last update:      ",
                 utils.secondsToTime(Date.now() / 1000 - parseInt(latest[1].toString())), "ago"
               )
+              const parts = caption.split("-")
+              const exponent = parseInt(parts[parts.length - 1])
+              console.info(
+                "  ", "> Last known price: ",
+                parseInt(latest[0].toString()) / 10 ** exponent
+              )
+            }
+            const latestStatus = utils.getWitPriceFeedsLatestUpdateStatus(latest[3])
+            if (latestStatus === "Error") {
+              console.info("  ", "> Latest attempt:   ", await pfs.latestUpdateQueryResultStatusDescription(hash))
+            } else if (latestStatus === "Awaiting") {
+              console.info("  ", `> Awaiting query:    #${(await pfs.latestUpdateQueryId(hash)).toString()}`)
             }
           }
         }
@@ -108,7 +120,7 @@ async function settlePriceFeedsSolvers (pfs, selection) {
     for (const caption in routes[solverKey]) {
       const routeKey = utils.extractRouteKeyFromErc2362Caption(caption)
       if (
-        (selection.length === 0 /*&& !utils.isNullAddress(addresses[routeKey])*/) ||
+        (selection.length === 0 && !utils.isNullAddress(addresses[routeKey])) ||
           (selection.length > 0 && selection.includes(caption))
       ) {
         const routeAddr = await settlePriceFeedSolver(pfs, caption, solverKey)
@@ -135,7 +147,6 @@ async function settlePriceFeedSolver (pfs, caption, solverKey) {
     const header = `${caption}`
     console.info()
     console.info("  ", `\x1b[1;38;5;128m${caption}\x1b[0m`)
-    console.info("  ", "=".repeat(header.length))
 
     if (
       solverAddr !== currentSolver[0] ||
@@ -183,7 +194,6 @@ async function resolveSolverArtifactAddress (pfs, solverKey, solverSpecs) {
     }`
     console.info()
     console.info("  ", `\x1b[1;96m${header}\x1b[0m`)
-    console.info("  ", "=".repeat(header.length))
     if (argsTypes.length > 0) {
       console.info("  ", "> Constructor types array:", argsTypes)
     }
