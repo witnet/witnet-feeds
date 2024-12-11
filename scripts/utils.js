@@ -212,32 +212,40 @@ function traceTx (receipt, cost) {
   }
 }
 
-async function traceWitnetPriceFeed (pfs, caption, id4, radHash, latest) {
+async function traceWitnetPriceFeed (pfs, caption, id4, radHash, latest, liveResult) {
   console.info()
   console.info("  ", `\x1b[1;94m${caption}\x1b[0m`)
 
-  console.info("  ", `> ID4 hash:          \x1b[34m${id4}\x1b[0m`)
-  console.info("  ", `> RAD hash:          \x1b[32m${radHash.slice(2)}\x1b[0m`)
+  console.info("  ", `> ID4 hash:          \x1b[94m${id4}\x1b[0m`)
+  console.info("  ", `> RAD hash:          \x1b[92m${radHash.slice(2)}\x1b[0m`)
+  const parts = caption.split("-")
+  const exponent = parseInt(parts[parts.length - 1])
+  const quote = parts[1].split("/")[1]
+  let lastKnownPrice
   if (latest[2] !== "0x0000000000000000000000000000000000000000000000000000000000000000") {
     if (latest[1]) {
       console.info(
         "  ", "> Last update:      ",
         secondsToTime(Date.now() / 1000 - parseInt(latest[1].toString())), "ago"
-      )
-      const parts = caption.split("-")
-      const exponent = parseInt(parts[parts.length - 1])
-      console.info(
-        "  ", "> Last known price: ",
-        parseInt(latest[0].toString()) / 10 ** exponent
-      )
+      )    
+      lastKnownPrice = parseInt(latest[0].toString()) / 10 ** exponent
+      console.info("  ", `> Last known price:  \x1b[1;38m${lastKnownPrice} ${quote}\x1b[0m`)
+    }
+  }
+  if (lastKnownPrice && liveResult && liveResult?.RadonInteger) {
+    const livePrice = parseInt(liveResult?.RadonInteger) / 10 ** exponent
+    const deviation = (100 * (livePrice - lastKnownPrice) / lastKnownPrice).toFixed(2)
+    if (Math.abs(deviation).toString() !== "0") {
+      const symbol = deviation > 0 ? "+" : "-"
+      console.info("  ", `> Current deviation: \x1b[1;93m${symbol} ${Math.abs(deviation)}\x1b[33m%\x1b[0m`)
     }
   }
   const latestStatus = getWitPriceFeedsLatestUpdateStatus(latest[3])
   if (latestStatus === "Error") {
-    console.info("  ", "> Latest attempt:   ", await pfs.latestUpdateQueryResultStatusDescription(id4))
+    console.info("  ", "> Latest attempt:   \x1b[31m", await pfs.latestUpdateQueryResultStatusDescription(id4), "\x1b[0m")
   
   } else if (latestStatus === "Awaiting") {
-    console.info("  ", `> Awaiting query:    #${(await pfs.latestUpdateQueryId(id4)).toString()}`)
+    console.info("  ", `> Awaiting query:    \x1b[33m# ${(await pfs.latestUpdateQueryId(id4)).toString()}\x1b[0m`)
   }
 }
 
@@ -249,9 +257,9 @@ function traceWitnetPriceSolver (
   console.info()
   console.info("  ", `\x1b[1;38;5;128m${caption}\x1b[0m`)
 
-  console.info("  ", `> ID4 hash:       \x1b[34m${hash}\x1b[0m`)
-  console.info("  ", "> Solver address:", `\x1b[36m${solverAddr}\x1b[0m`)
-  console.info("  ", "> Solver class:  ", `\x1b[96m${solverClass}\x1b[0m`)
+  console.info("  ", `> ID4 hash:       \x1b[94m${hash}\x1b[0m`)
+  console.info("  ", "> Solver address:", `\x1b[96m${solverAddr}\x1b[0m`)
+  console.info("  ", "> Solver class:  ", `\x1b[1;96m${solverClass}\x1b[0m`)
   console.info("  ", "> Solver deps:   ", `\x1b[32m${solverDeps}\x1b[0m` || "(no dependencies)")
   if (latestTimestamp) {
     console.info("  ", "> Latest update: ", secondsToTime(Date.now() / 1000 - latestTimestamp), "ago")
