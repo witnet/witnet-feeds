@@ -6,6 +6,8 @@ const utils = require("witnet-solidity/utils")
 
 module.exports = {
   camelize,
+  dryRunBytecode: utils.dryRunBytecode,
+  dryRunBytecodeVerbose: utils.dryRunBytecodeVerbose,
   extractArtifactConstructorArgsTypes,
   extractErc2362CaptionFromKey,
   extractRequestKeyFromErc2362Caption,

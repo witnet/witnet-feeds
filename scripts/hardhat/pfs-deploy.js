@@ -51,10 +51,10 @@ async function settlePriceFeedsRadHash (pfs, selection) {
       console.info("  ", `\x1b[1;94m${caption}\x1b[0m`)
       if (!(await pfs.supportsCaption(caption))) {
         console.info("  ", `> ID4 hash:          \x1b[94m${hash}\x1b[0m`)
+        console.info("  ", `> RAD hash:          \x1b[32m${radHash.slice(2)}\x1b[0m`)
         console.info("  ", `> Request artifact:  \x1b[1;37m${key}\x1b[0m`)
         console.info("  ", "> Request address:  ", addresses[key])
         console.info("  ", "> Request class:    ", requestClass)
-        console.info("  ", `> Request RAD hash:  \x1b[32m${radHash.slice(2)}\x1b[0m`)
         const balance = BigInt(await hre.ethers.provider.getBalance(pfs.runner.address))
         const tx = await pfs["settleFeedRequest(string,bytes32)"](caption, radHash)
         await tx.wait()
@@ -63,14 +63,14 @@ async function settlePriceFeedsRadHash (pfs, selection) {
           balance - BigInt(await hre.ethers.provider.getBalance(pfs.runner.address)),
         )
       } else {
-        console.info("  ", `> ID4 hash:          \x1b[34m${hash}\x1b[0m`)
+        console.info("  ", `> ID4 hash:          \x1b[94m${hash}\x1b[0m`)
         const currentRadHash = await pfs.lookupWitOracleRequestRadHash(hash)
         if (radHash !== currentRadHash) {
+          console.info("  ", `> OLD RAD hash:      \x1b[32m${currentRadHash.slice(2)}\x1b[0m`)
+          console.info("  ", `> NEW RAD hash:      \x1b[1;32m${radHash.slice(2)}\x1b[0m`)
           console.info("  ", "> Request artifact: ", key)
           console.info("  ", "> Request address:  ", addresses[key])
           console.info("  ", "> Request class:    ", requestClass)
-          console.info("  ", `> OLD RAD hash:      \x1b[32m${currentRadHash.slice(2)}\x1b[0m`)
-          console.info("  ", `> NEW RAD hash:      \x1b[1;32m${radHash.slice(2)}\x1b[0m`)
           const balance = BigInt(await hre.ethers.provider.getBalance(pfs.runner.address))
           const tx = await pfs["settleFeedRequest(string,bytes32)"](caption, radHash)
           utils.traceTx(
@@ -79,27 +79,16 @@ async function settlePriceFeedsRadHash (pfs, selection) {
           )
         } else {
           console.info("  ", `> RAD hash:          \x1b[32m${radHash.slice(2)}\x1b[0m`)
-          const latest = await pfs.latestPrice(hash)
-          if (latest[2] !== "0x0000000000000000000000000000000000000000000000000000000000000000") {
-            if (latest[1]) {
-              console.info(
-                "  ", "> Last update:      ",
-                utils.secondsToTime(Date.now() / 1000 - parseInt(latest[1].toString())), "ago"
-              )
-              const parts = caption.split("-")
-              const exponent = parseInt(parts[parts.length - 1])
-              console.info(
-                "  ", "> Last known price: ",
-                parseInt(latest[0].toString()) / 10 ** exponent
-              )
-            }
-            const latestStatus = utils.getWitPriceFeedsLatestUpdateStatus(latest[3])
-            if (latestStatus === "Error") {
-              console.info("  ", "> Latest attempt:   ", await pfs.latestUpdateQueryResultStatusDescription(hash))
-            } else if (latestStatus === "Awaiting") {
-              console.info("  ", `> Awaiting query:    #${(await pfs.latestUpdateQueryId(hash)).toString()}`)
-            }
-          }
+          const retrievals = await pfs.lookupWitOracleRadonRetrievals(hash)
+          const bytecode = await pfs.lookupWitOracleRequestBytecode(hash)
+          const report = JSON.parse(await utils.dryRunBytecode(bytecode.slice(2)))
+          const partials = report.retrieve?.map(retrieve => retrieve?.result)
+          retrievals
+            .map(retrieve => new URL(retrieve[3]).host.split(".").slice(-2, -1).join())
+            .forEach((source, index) => {
+              console.info("  ", `> Data source #${index + 1}:    \x1b[92m${source.toUpperCase()}\x1b[0m${" ".repeat(10 - source.length)} -> \x1b[33m${JSON.stringify(partials[index])}\x1b[0m`)
+            })
+          console.info("  ", `> Tally result:                 => \x1b[93m${JSON.stringify(report?.tally.result)}\x1b[0m`)
         }
       }
     } catch (ex) {
