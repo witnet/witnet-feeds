@@ -241,11 +241,15 @@ async function traceWitnetPriceFeed (pfs, caption, id4, radHash, latest, liveRes
     }
   }
   const latestStatus = getWitPriceFeedsLatestUpdateStatus(latest[3])
-  if (latestStatus === "Error") {
-    console.info("  ", "> Latest attempt:   \x1b[31m", await pfs.latestUpdateQueryResultStatusDescription(id4), "\x1b[0m")
-  
-  } else if (latestStatus === "Awaiting") {
-    console.info("  ", `> Awaiting query:    \x1b[33m# ${(await pfs.latestUpdateQueryId(id4)).toString()}\x1b[0m`)
+  try {
+    if (latestStatus === "Error") {
+      console.info("  ", "> Latest attempt:   \x1b[31m", await pfs.latestUpdateQueryResultStatusDescription(id4), "\x1b[0m")
+    
+    } else if (latestStatus === "Awaiting") {
+      console.info("  ", `> Awaiting query:    \x1b[33m# ${(await pfs.latestUpdateQueryId(id4)).toString()}\x1b[0m`)
+    }
+  } catch (e) {
+    console.info("  ", "> Cannot get latest update info:", e)
   }
 }
 
