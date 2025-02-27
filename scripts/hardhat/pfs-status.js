@@ -53,15 +53,15 @@ async function run (args) {
       )
       continue
     } else {
-      const bytecode = await pfs.lookupWitOracleRequestBytecode(id4s[oixs[index]])
-      const livePrice = JSON.parse(await utils.dryRunBytecode(bytecode.slice(2)))?.tally?.result
+      // const bytecode = await pfs.lookupWitOracleRequestBytecode(id4s[oixs[index]])
+      // const livePrice = JSON.parse(await utils.dryRunBytecode(bytecode.slice(2)))?.tally?.result
       await utils.traceWitnetPriceFeed(
         pfs,
         caps[oixs[index]],
         id4s[oixs[index]],
         rads[oixs[index]],
         status[oixs[index]],
-        livePrice
+        // livePrice
       )
     }
     if (args.updateForce || args.update) {

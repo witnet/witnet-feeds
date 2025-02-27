@@ -1,30 +1,24 @@
-const Witnet = require("witnet-toolkit")
+const { utils, Witnet } = require("witnet-solidity")
+const { legacy } = require("witnet-solidity/assets")
 
-const sources = Witnet.Dictionary(
-    Witnet.Sources.Class, 
-    require("../../sources")
-);
-
-const templates = Witnet.Dictionary(
-    Witnet.Artifacts.Template, 
-    require("../../templates")
-);
+const retrievals = Witnet.RadonDictionary(Witnet.RadonRetrieval, require("../../retrievals"));
+const { PriceTickerRequest } = require("../../utils")
 
 module.exports = {
 
-    WitOracleRequestPriceHkdUsd6: Witnet.PriceTickerRequest(
-        sources, {
-            "coinbase.com/ticker": ["HKD", "USD"],
-            "mastercard.us/ticker": ["HKD", "USD"],
-            "revolut.com/ticker": ["HKD", "USD", "US"],
+    WitOracleRequestPriceHkdUsd6: PriceTickerRequest(
+        retrievals, {
+            "ticker/coinbase.com": ["HKD", "USD"],
+            "ticker/mastercard.us": ["HKD", "USD"],
+            "ticker/revolut.com": ["HKD", "USD", "US"],
         }
     ),
 
-    WitOracleRequestPriceKrwUsd9: Witnet.PriceTickerRequest(
-        sources, { 
-            "fastforex.io/ticker#9": ["KRW", "USD"], 
-            "revolut.com/ticker#9": ["KRW", "USD", "KR"],
-            "mastercard.us/ticker#9": ["KRW", "USD"],
+    WitOracleRequestPriceKrwUsd9: PriceTickerRequest(
+        retrievals, { 
+            "ticker/fastforex.io#9": ["KRW", "USD"], 
+            "ticker/revolut.com#9": ["KRW", "USD", "KR"],
+            "ticker/mastercard.us#9": ["KRW", "USD"],
         }
     ),
 

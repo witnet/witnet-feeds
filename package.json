@@ -9,34 +9,34 @@
   "author": "Guillermo Diaz <guillermo@otherplane.com>",
   "license": "MIT",
   "private": false,
+  "type": "commonjs",
   "bin": {},
   "exports": {
-    ".": "./witnet/assets/index.js",
-    "./assets": "./witnet/assets/index.js",
-    "./utils": "./scripts/utils.js"
+    ".": "./witnet/assets/index.js"
   },
-  "files":[
+  "files": [
     "artifacts/contracts/",
     "scripts/utils.js",
     "witnet"
   ],
   "scripts": {
-    "avail": "npx witnet avail",
+    "avail": "npx witnet radon assets",
     "compile": "npx hardhat compile",
-    "console": "npx witnet console",
+    "console": "npx witnet-solidity console",
     "deploy": "node ./scripts/deploy.js",
-    "ethrpc": "npx witnet ethrpc",
+    "ethrpc": "npx witnet-solidity ethrpc",
     "fmt": "eslint ./scripts/**/*.js",
     "fmt!": "eslint ./scripts/**/*.js --fix",
+    "pfs:check": "node ./scripts/hardhat-task.js pfs:check",
     "pfs:deploy": "node ./scripts/deploy.js",
     "pfs:sla": "node ./scripts/hardhat-task.js pfs:sla",
     "pfs:status": "node ./scripts/hardhat-task.js pfs:status",
     "prepare": "npx hardhat compile --force",
-    "postinstall": "npx witnet-toolkit update",
-    "test": "npx witnet test"
+    "test": "vitest"
   },
   "dependencies": {
-    "witnet-solidity": "~2.1.0-beta.0"
+    "lodash.merge": "^4.6.2",
+    "witnet-solidity": "2.1.0-beta.0"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
@@ -58,9 +58,10 @@
     "hardhat": "^2.19.5",
     "hardhat-gas-reporter": "^1.0.8",
     "solidity-coverage": "^0.8.0",
-    "typechain": "^8.3.0",
-    "web3": "^4.5.0",
     "truffle": "^5.11.5",
-    "truffle-plugin-verify": "^0.6.7"
+    "truffle-plugin-verify": "^0.6.7",
+    "typechain": "^8.3.0",
+    "vitest": "^3.0.7",
+    "web3": "^4.5.0"
   }
 }

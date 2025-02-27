@@ -1,561 +1,552 @@
-const Witnet = require("witnet-toolkit")
+const { utils, Witnet } = require("witnet-solidity")
+const { legacy } = require("witnet-solidity/assets")
 
-const sources = Witnet.Dictionary(
-    Witnet.Sources.Class, 
-    require("../../sources")
-);
-
-const templates = Witnet.Dictionary(
-    Witnet.Artifacts.Template, 
-    require("../../templates")
-);
+const retrievals = Witnet.RadonDictionary(Witnet.RadonRetrieval, require("../../retrievals"));
+const templates = Witnet.RadonDictionary(Witnet.RadonTemplate, require("../../templates"));
+const { PriceTickerRequest } = require("../../utils")
 
 module.exports = {
 
-    WitOracleRequestPriceAdaUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "bitstamp.net/ticker": ["ada", "usd"], 
-            "coinbase.com/ticker": ["ADA", "USD"], 
-            "kraken.com/ticker": ["ADA", "USD"],
+    WitOracleRequestPriceAdaUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/bitstamp.net": ["ada", "usd"], 
+            "ticker/coinbase.com": ["ADA", "USD"], 
+            "ticker/kraken.com": ["ADA", "USD"],
         }
     ),
     
-    WitOracleRequestPriceAlgoUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "bitstamp.net/ticker": ["algo", "usd"], 
-            "coinbase.com/ticker": ["ALGO", "USD"], 
-            "kraken.com/ticker": ["ALGO", "USD"], 
+    WitOracleRequestPriceAlgoUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/bitstamp.net": ["algo", "usd"], 
+            "ticker/coinbase.com": ["ALGO", "USD"], 
+            "ticker/kraken.com": ["ALGO", "USD"], 
         }
     ),
     
-    WitOracleRequestPriceApeUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.us/ticker": ["APE", "USD"], 
-            "coinbase.com/ticker": ["APE", "USD"], 
-            "kraken.com/ticker": ["APE", "USD"],
+    WitOracleRequestPriceApeUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.us": ["APE", "USD"], 
+            "ticker/coinbase.com": ["APE", "USD"], 
+            "ticker/kraken.com": ["APE", "USD"],
         }
     ),
     
-    WitOracleRequestPriceAtomUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "coinbase.com/ticker": ["ATOM", "USD"], 
-            "kraken.com/ticker": ["ATOM", "USD"],
+    WitOracleRequestPriceAtomUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/coinbase.com": ["ATOM", "USD"], 
+            "ticker/kraken.com": ["ATOM", "USD"],
         }
     ),
     
-    WitOracleRequestPriceAvaxUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.us/ticker": ["AVAX", "USD"], 
-            "bitstamp.net/ticker": ["avax", "usd"], 
-            "coinbase.com/ticker": ["AVAX", "USD"],
-            "gemini.com/ticker": ["avax", "usd"], 
-            "kraken.com/ticker": ["AVAX", "USD"],
-            }
-        ),
-    
-    WitOracleRequestPriceBatUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.us/ticker": ["BAT", "USDT"], 
-            "bitrue.com/ticker": ["BATUSDT"], 
-            "coinbase.com/ticker": ["BAT", "USDT"], 
-            "okx.com/ticker": ["BAT", "USDT"], 
-            "upbit.com/ticker": ["BAT", "USDT"] 
+    WitOracleRequestPriceAvaxUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.us": ["AVAX", "USD"], 
+            "ticker/bitstamp.net": ["avax", "usd"], 
+            "ticker/coinbase.com": ["AVAX", "USD"],
+            "ticker/gemini.com": ["avax", "usd"], 
+            "ticker/kraken.com": ["AVAX", "USD"],
         }
     ),
     
-    WitOracleRequestPriceBnbUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.com/ticker": ["BNB", "USDT"], 
-            "bybit.com/ticker": ["BNB", "USDT", "inverse"], 
-            "gateapi.io/ticker": ["bnb", "usdt"], 
-            "huobi.pro/ticker": ["bnb", "usdt"], 
-            "kucoin.com/ticker": ["BNB", "USDT"], 
-            "okx.com/ticker": ["BNB", "USDT"] 
+    WitOracleRequestPriceBatUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.us": ["BAT", "USDT"], 
+            "ticker/bitrue.com": ["BATUSDT"], 
+            "ticker/coinbase.com": ["BAT", "USDT"], 
+            "ticker/okx.com": ["BAT", "USDT"], 
+            "ticker/upbit.com": ["BAT", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceBobaUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "gateapi.io/ticker": ["boba", "usdt"], 
-            "huobi.pro/ticker": ["boba", "usdt"], 
-            "mexc.com/ticker": ["BOBA", "USDT"] 
+    WitOracleRequestPriceBnbUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.com": ["BNB", "USDT"], 
+            "ticker/bybit.com": ["BNB", "USDT", "inverse"], 
+            "ticker/gateapi.io": ["bnb", "usdt"], 
+            "ticker/huobi.pro": ["bnb", "usdt"], 
+            "ticker/kucoin.com": ["BNB", "USDT"], 
+            "ticker/okx.com": ["BNB", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceBoringUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "gateapi.io/ticker": ["boring", "usdt"], 
-            "huobi.pro/ticker": ["boring", "usdt"], 
-            "mexc.com/ticker": ["BORING", "USDT"], 
-            "okx.com/ticker": ["BORING", "USDT"] 
+    WitOracleRequestPriceBobaUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/gateapi.io": ["boba", "usdt"], 
+            "ticker/huobi.pro": ["boba", "usdt"], 
+            "ticker/mexc.com": ["BOBA", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceBtcUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.us/ticker": ["BTC", "USD"], 
-            "bitfinex.com/ticker": ["btc", "usd"], 
-            "bitstamp.net/ticker": ["btc", "usd"], 
-            "coinbase.com/ticker": ["BTC", "USD"], 
-            "gemini.com/ticker": ["btc", "usd"], 
-            "kraken.com/ticker": ["BTC", "USD"] 
+    WitOracleRequestPriceBoringUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/gateapi.io": ["boring", "usdt"], 
+            "ticker/huobi.pro": ["boring", "usdt"], 
+            "ticker/mexc.com": ["BORING", "USDT"], 
+            "ticker/okx.com": ["BORING", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceBusdUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.com/ticker": ["BUSD", "USDT"], 
+    WitOracleRequestPriceBtcUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.us": ["BTC", "USD"], 
+            "ticker/bitfinex.com": ["btc", "usd"], 
+            "ticker/bitstamp.net": ["btc", "usd"], 
+            "ticker/coinbase.com": ["BTC", "USD"], 
+            "ticker/gemini.com": ["btc", "usd"], 
+            "ticker/kraken.com": ["BTC", "USD"] 
         }
     ),
     
-    WitOracleRequestPriceCeloEur6: Witnet.PriceTickerRequest(
-        sources, { 
-            "bitvavo.com/ticker": ["CELO", "EUR"], 
-            "coinbase.com/ticker": ["CGLD", "EUR"] 
+    WitOracleRequestPriceBusdUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.com": ["BUSD", "USDT"], 
         }
     ),
     
-    WitOracleRequestPriceCeloUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.us/ticker": ["CELO", "USD"], 
-            "coinbase.com/ticker": ["CGLD", "USD"], 
-            "okx.com/ticker": ["CELO", "USDT"] 
+    WitOracleRequestPriceCeloEur6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/bitvavo.com": ["CELO", "EUR"], 
+            "ticker/coinbase.com": ["CGLD", "EUR"] 
         }
     ),
     
-    WitOracleRequestPriceCfxUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.com/ticker": ["CFX", "USDT"], 
-            "gateapi.io/ticker": ["cfx", "usdt"], 
-            "kucoin.com/ticker": ["CFX", "USDT"], 
-            "okx.com/ticker": ["CFX", "USDT"], 
-            "mexc.com/ticker": ["CFX", "USDT"] 
+    WitOracleRequestPriceCeloUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.us": ["CELO", "USD"], 
+            "ticker/coinbase.com": ["CGLD", "USD"], 
+            "ticker/okx.com": ["CELO", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceCroUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "coinbase.com/ticker": ["CRO", "USDT"], 
-            "gateapi.io/ticker": ["cro", "usdt"], 
-            "kucoin.com/ticker": ["CRO", "USDT"],
-            "mexc.com/ticker": ["CRO", "USDT"],
-            "okx.com/ticker": ["CRO", "USDT"], 
+    WitOracleRequestPriceCfxUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.com": ["CFX", "USDT"], 
+            "ticker/gateapi.io": ["cfx", "usdt"], 
+            "ticker/kucoin.com": ["CFX", "USDT"], 
+            "ticker/okx.com": ["CFX", "USDT"], 
+            "ticker/mexc.com": ["CFX", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceDaiUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.us/ticker": ["DAI", "USD"], 
-            "bitstamp.net/ticker": ["dai", "usd"], 
-            "coinbase.com/ticker": ["DAI", "USD"], 
-            "gateapi.io/ticker": ["dai", "usd"],
-            "gemini.com/ticker": ["dai", "usd"], 
-            "kraken.com/ticker": ["DAI", "USD"], 
+    WitOracleRequestPriceCroUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/coinbase.com": ["CRO", "USDT"], 
+            "ticker/gateapi.io": ["cro", "usdt"], 
+            "ticker/kucoin.com": ["CRO", "USDT"],
+            "ticker/mexc.com": ["CRO", "USDT"],
+            "ticker/okx.com": ["CRO", "USDT"], 
         }
     ),
     
-    WitOracleRequestPriceDogeUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.us/ticker": ["DOGE", "USD"], 
-            "coinbase.com/ticker": ["DOGE", "USD"], 
-            "kraken.com/ticker": ["DOGE", "USD"] 
+    WitOracleRequestPriceDaiUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.us": ["DAI", "USD"], 
+            "ticker/bitstamp.net": ["dai", "usd"], 
+            "ticker/coinbase.com": ["DAI", "USD"], 
+            "ticker/gateapi.io": ["dai", "usd"],
+            "ticker/gemini.com": ["dai", "usd"], 
+            "ticker/kraken.com": ["DAI", "USD"], 
         }
     ),
     
-    WitOracleRequestPriceDotUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "bittrex.com/ticker": ["DOT", "USD"], 
-            "coinbase.com/ticker": ["DOT", "USD"], 
-            "kraken.com/ticker": ["DOT", "USD"] 
+    WitOracleRequestPriceDogeUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.us": ["DOGE", "USD"], 
+            "ticker/coinbase.com": ["DOGE", "USD"], 
+            "ticker/kraken.com": ["DOGE", "USD"] 
         }
     ),
     
-    WitOracleRequestPriceElaUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "gateapi.io/ticker": ["ela", "usdt"], 
-            "huobi.pro/ticker": ["ela", "usdt"], 
-            "kucoin.com/ticker": ["ELA", "USDT"] 
+    WitOracleRequestPriceDotUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/bittrex.com": ["DOT", "USD"], 
+            "ticker/coinbase.com": ["DOT", "USD"], 
+            "ticker/kraken.com": ["DOT", "USD"] 
         }
     ),
     
-    WitOracleRequestPriceElonUsdt9: Witnet.PriceTickerRequest(
-        sources, { 
-            "gateapi.io/ticker#9": ["elon", "usdt"], 
-            "huobi.pro/ticker#9": ["elon", "usdt"], 
-            "kucoin.com/ticker#9": ["ELON", "USDT"], 
-            "mexc.com/ticker#9": ["ELON", "USDT"], 
-            "okx.com/ticker#9": ["ELON", "USDT"] 
+    WitOracleRequestPriceElaUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/gateapi.io": ["ela", "usdt"], 
+            "ticker/huobi.pro": ["ela", "usdt"], 
+            "ticker/kucoin.com": ["ELA", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceEosUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "ascendex.com/ticker": ["EOS", "USD"],
-            "bitfinex.com/ticker": ["eos", "usd"], 
-            "coinbase.com/ticker": ["EOS", "USD"], 
-            "kraken.com/ticker": ["EOS", "USD"] 
+    WitOracleRequestPriceElonUsdt9: PriceTickerRequest(
+        retrievals, { 
+            "ticker/gateapi.io#9": ["elon", "usdt"], 
+            "ticker/huobi.pro#9": ["elon", "usdt"], 
+            "ticker/kucoin.com#9": ["ELON", "USDT"], 
+            "ticker/mexc.com#9": ["ELON", "USDT"], 
+            "ticker/okx.com#9": ["ELON", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceEthUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.us/ticker": ["ETH", "USD"], 
-            "bitfinex.com/ticker": ["eth", "usd"], 
-            "bitstamp.net/ticker": ["eth", "usd"], 
-            "coinbase.com/ticker": ["ETH", "USD"], 
-            "kraken.com/ticker": ["ETH", "USD"],
-            "gemini.com/ticker": ["eth", "usd"],  
+    WitOracleRequestPriceEosUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/ascendex.com": ["EOS", "USD"],
+            "ticker/bitfinex.com": ["eos", "usd"], 
+            "ticker/coinbase.com": ["EOS", "USD"], 
+            "ticker/kraken.com": ["EOS", "USD"] 
         }
     ),
     
-    WitOracleRequestPriceFraxUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "gateapi.io/ticker": ["frax", "usdt"],
+    WitOracleRequestPriceEthUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.us": ["ETH", "USD"], 
+            "ticker/bitfinex.com": ["eth", "usd"], 
+            "ticker/bitstamp.net": ["eth", "usd"], 
+            "ticker/coinbase.com": ["ETH", "USD"], 
+            "ticker/kraken.com": ["ETH", "USD"],
+            "ticker/gemini.com": ["eth", "usd"],  
+        }
+    ),
+    
+    WitOracleRequestPriceFraxUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/gateapi.io": ["frax", "usdt"],
         }
     ), 
     
-    WitOracleRequestPriceFtmUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.com/ticker": ["FTM", "USDT"], 
-            "bybit.com/ticker": ["FTM", "USDT", "inverse"], 
-            "digifinex.com/ticker": ["ftm", "usdt"], 
-            "gateapi.io/ticker": ["ftm", "usdt"], 
-            "huobi.pro/ticker": ["ftm", "usdt"], 
-            "kucoin.com/ticker": ["FTM", "USDT"], 
-            "mexc.com/ticker": ["FTM", "USDT"],
-            "okx.com/ticker": ["FTM", "USDT"] 
+    WitOracleRequestPriceFtmUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.com": ["FTM", "USDT"], 
+            "ticker/bybit.com": ["FTM", "USDT", "inverse"], 
+            "ticker/digifinex.com": ["ftm", "usdt"], 
+            "ticker/gateapi.io": ["ftm", "usdt"], 
+            "ticker/huobi.pro": ["ftm", "usdt"], 
+            "ticker/kucoin.com": ["FTM", "USDT"], 
+            "ticker/mexc.com": ["FTM", "USDT"],
+            "ticker/okx.com": ["FTM", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceFuseUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "ascendex.com/ticker": ["FUSE", "USDT"], 
-            "gateapi.io/ticker": ["fuse", "usdt"],
-            "huobi.pro/ticker": ["fuse", "usdt"], 
-            "mexc.com/ticker": ["FUSE", "USDT"] 
+    WitOracleRequestPriceFuseUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/ascendex.com": ["FUSE", "USDT"], 
+            "ticker/gateapi.io": ["fuse", "usdt"],
+            "ticker/huobi.pro": ["fuse", "usdt"], 
+            "ticker/mexc.com": ["FUSE", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceGlintUsdc6: Witnet.RequestFromTemplate(
-        templates['WitOracleRequestTemplateBeamswapTicker6'], [
+    WitOracleRequestPriceGlintUsdc6: templates.WitOracleRequestTemplateBeamswapTicker6
+        .buildRequest(
             ["0x61b4cec9925b1397b64dece8f898047eed0f7a07", "0"]
-        ]
-    ),
+        ),
     
-    WitOracleRequestPriceGlmrUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.com/ticker": ["GLMR", "USDT"], 
-            "gateapi.io/ticker": ["glmr", "usdt"], 
-            "kucoin.com/ticker": ["GLMR", "USDT"], 
-            "mexc.com/ticker": ["GLMR", "USDT"], 
-            "okx.com/ticker": ["GLMR", "USDT"] 
+    WitOracleRequestPriceGlmrUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.com": ["GLMR", "USDT"], 
+            "ticker/gateapi.io": ["glmr", "usdt"], 
+            "ticker/kucoin.com": ["GLMR", "USDT"], 
+            "ticker/mexc.com": ["GLMR", "USDT"], 
+            "ticker/okx.com": ["GLMR", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceHtUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            // "ascendex.com/ticker": ["HT", "USDT"], 
-            "gateapi.io/ticker": ["ht", "usdt"], 
-            // "huobi.pro/ticker": ["ht", "usdt"], 
-            // "mexc.com/ticker": ["HT", "USDT"] 
+    WitOracleRequestPriceHtUsdt6: PriceTickerRequest(
+        retrievals, { 
+            // "ticker/ascendex.com": ["HT", "USDT"], 
+            "ticker/gateapi.io": ["ht", "usdt"], 
+            // "ticker/huobi.pro": ["ht", "usdt"], 
+            // "ticker/mexc.com": ["HT", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceImmoMcusd6: Witnet.RequestFromTemplate(
-        templates['WitOracleRequestTemplateUbeswapTicker6'], [
-            ["0x7d63809ebf83ef54c7ce8ded3591d4e8fc2102ee", "0"]
-        ]
-    ),
+    WitOracleRequestPriceImmoMcusd6: templates.WitOracleRequestTemplateUbeswapTicker6
+        .buildRequest(
+            ["0x7d63809ebf83ef54c7ce8ded3591d4e8fc2102ee", "0"],
+        ),
 
-    WitOracleRequestPriceKaiaUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.com/ticker": ["KAIA", "USDT"], 
-            "bitget.com/ticker/v2": ["KAIA", "USDT"],
-            "bybit.com/ticker": ["KAIA", "USDT", "spot"], 
-            "okx.com/ticker": ["KAIA", "USDT"], 
-            "gateapi.io/ticker": ["kaia", "usdt"], 
+    WitOracleRequestPriceKaiaUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.com": ["KAIA", "USDT"], 
+            "ticker/bitget.com#v2": ["KAIA", "USDT"],
+            "ticker/bybit.com": ["KAIA", "USDT", "spot"], 
+            "ticker/okx.com": ["KAIA", "USDT"], 
+            "ticker/gateapi.io": ["kaia", "usdt"], 
         }
     ),
     
-    WitOracleRequestPriceKavaUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.com/ticker": ["KAVA", "USDT"], 
-            "gateapi.io/ticker": ["kava", "usdt"], 
-            "huobi.pro/ticker": ["kava", "usdt"], 
-            "kucoin.com/ticker": ["KAVA", "USDT"], 
-            "mexc.com/ticker": ["KAVA", "USDT"] 
+    WitOracleRequestPriceKavaUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.com": ["KAVA", "USDT"], 
+            "ticker/gateapi.io": ["kava", "usdt"], 
+            "ticker/huobi.pro": ["kava", "usdt"], 
+            "ticker/kucoin.com": ["KAVA", "USDT"], 
+            "ticker/mexc.com": ["KAVA", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceKcsUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "ascendex.com/ticker": ["KCS", "USDT"], 
-            "kucoin.com/ticker": ["KCS", "USDT"], 
-            "mexc.com/ticker": ["KCS", "USDT"], 
-            "mojitoswap/ticker": ["0xb3b92d6b2656f9ceb4a381718361a21bf9b82bd9", "0"] 
+    WitOracleRequestPriceKcsUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/ascendex.com": ["KCS", "USDT"], 
+            "ticker/kucoin.com": ["KCS", "USDT"], 
+            "ticker/mexc.com": ["KCS", "USDT"], 
+            "ticker/mojitoswap": ["0xb3b92d6b2656f9ceb4a381718361a21bf9b82bd9", "0"] 
         }
     ),
     
-    WitOracleRequestPriceKspKrw6: Witnet.PriceTickerRequest(
-        sources, { 
-            "coinone.co.kr/ticker": ["krw", "ksp"], 
-            "korbit.co.kr/ticker": ["ksp", "krw"] 
+    WitOracleRequestPriceKspKrw6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/coinone.co.kr": ["krw", "ksp"], 
+            "ticker/korbit.co.kr": ["ksp", "krw"] 
         }
     ),
     
-    WitOracleRequestPriceLinkUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "bitstamp.net/ticker": ["link", "usd"], 
-            "coinbase.com/ticker": ["LINK", "USD"], 
-            "kraken.com/ticker": ["LINK", "USD"] 
+    WitOracleRequestPriceLinkUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/bitstamp.net": ["link", "usd"], 
+            "ticker/coinbase.com": ["LINK", "USD"], 
+            "ticker/kraken.com": ["LINK", "USD"] 
         }
     ),
     
-    WitOracleRequestPriceMaticUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.us/ticker": ["MATIC", "USD"], 
-            "bitstamp.net/ticker": ["matic", "usd"], 
-            "coinbase.com/ticker": ["MATIC", "USD"], 
-            "kraken.com/ticker": ["MATIC", "USD"] 
+    WitOracleRequestPriceMaticUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.us": ["MATIC", "USD"], 
+            "ticker/bitstamp.net": ["matic", "usd"], 
+            "ticker/coinbase.com": ["MATIC", "USD"], 
+            "ticker/kraken.com": ["MATIC", "USD"] 
         }
     ),
     
-    WitOracleRequestPriceMetisUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "gateapi.io/ticker": ["metis", "usdt"], 
-            "kucoin.com/ticker": ["METIS", "USDT"], 
-            "mexc.com/ticker": ["METIS", "USDT"] 
+    WitOracleRequestPriceMetisUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/gateapi.io": ["metis", "usdt"], 
+            "ticker/kucoin.com": ["METIS", "USDT"], 
+            "ticker/mexc.com": ["METIS", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceMjtKcs9: Witnet.PriceTickerRequest(
-        sources, { 
-            "mojitoswap/ticker#9": ["0xa0d7c8aa789362cdf4faae24b9d1528ed5a3777f", "1"] 
+    WitOracleRequestPriceMjtKcs9: PriceTickerRequest(
+        retrievals, { 
+            "ticker/mojitoswap#9": ["0xa0d7c8aa789362cdf4faae24b9d1528ed5a3777f", "1"] 
         }
     ),
     
-    WitOracleRequestPriceMntUsdt6: Witnet.PriceTickerRequest(
-        sources, {
-            "bitmart.com/ticker": ["MNT", "USDT"], 
-            "gateapi.io/ticker": ["mnt", "usdt"],
-            "mexc.com/ticker": ["MNT", "USDT"], 
+    WitOracleRequestPriceMntUsdt6: PriceTickerRequest(
+        retrievals, {
+            "ticker/bitmart.com": ["MNT", "USDT"], 
+            "ticker/gateapi.io": ["mnt", "usdt"],
+            "ticker/mexc.com": ["MNT", "USDT"], 
         }
     ),
     
-    WitOracleRequestPriceMtrUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "gateapi.io/ticker": ["mtr", "usdt"], 
-            "mexc.com/ticker": ["MTR", "USDT"] 
+    WitOracleRequestPriceMtrUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/gateapi.io": ["mtr", "usdt"], 
+            "ticker/mexc.com": ["MTR", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceMtrgUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "gateapi.io/ticker": ["mtrg", "usdt"], 
-            "kucoin.com/ticker": ["MTRG", "USDT"], 
-            "mexc.com/ticker": ["MTRG", "USDT"] 
+    WitOracleRequestPriceMtrgUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/gateapi.io": ["mtrg", "usdt"], 
+            "ticker/kucoin.com": ["MTRG", "USDT"], 
+            "ticker/mexc.com": ["MTRG", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceNctCelo6: Witnet.RequestFromTemplate(
-        templates['WitOracleRequestTemplateUniswapCeloTicker6'], [
+    WitOracleRequestPriceNctCelo6: templates.WitOracleRequestTemplateUniswapCeloTicker6
+        .buildRequest(
             ["0xdb24905b1b080f65dedb0ad978aad5c76363d3c6", "1"]
-        ]
-    ),
+        ),
     
-    WitOracleRequestPriceOkbUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "gateapi.io/ticker": ["okb", "usdt"], 
-            "okx.com/ticker": ["OKB", "USDT"], 
-            "mexc.com/ticker": ["OKB", "USDT"] 
+    WitOracleRequestPriceOkbUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/gateapi.io": ["okb", "usdt"], 
+            "ticker/okx.com": ["OKB", "USDT"], 
+            "ticker/mexc.com": ["OKB", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceOktUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "gateapi.io/ticker": ["okt", "usdt"], 
-            "okx.com/ticker": ["OKT", "USDT"], 
-            "mexc.com/ticker": ["OKT", "USDT"] 
+    WitOracleRequestPriceOktUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/gateapi.io": ["okt", "usdt"], 
+            "ticker/okx.com": ["OKT", "USDT"], 
+            "ticker/mexc.com": ["OKT", "USDT"] 
         }
     ),
     
-    WitOracleRequestPriceOloUsdc6: Witnet.RequestFromTemplate(
-        templates['WitOracleRequestTemplateOolongTicker6'], [
-            ["0x5008f837883ea9a07271a1b5eb0658404f5a9610", "0x66a2a913e447d6b4bf33efbec43aaef87890fbbc"]
-        ]
-    ),
+    WitOracleRequestPriceOloUsdc6: templates.WitOracleRequestTemplateOolongTicker6
+        .buildRequest(
+            ["0x5008f837883ea9a07271a1b5eb0658404f5a9610", "0x66a2a913e447d6b4bf33efbec43aaef87890fbbc"],
+        ),
     
-    WitOracleRequestPriceOpUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "okx.com/ticker": ["OP", "USDT"],
-            "binance.com/ticker": ["OP", "USDT"], 
-            "digifinex.com/ticker": ["op", "usdt"], 
-            "gateapi.io/ticker": ["op", "usdt"], 
-            "kucoin.com/ticker": ["OP", "USDT"],  
+    WitOracleRequestPriceOpUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/okx.com": ["OP", "USDT"],
+            "ticker/binance.com": ["OP", "USDT"], 
+            "ticker/digifinex.com": ["op", "usdt"], 
+            "ticker/gateapi.io": ["op", "usdt"], 
+            "ticker/kucoin.com": ["OP", "USDT"],  
         }
     ),
     
-    WitOracleRequestPriceQuickUsdc6: Witnet.RequestFromTemplate(
-        templates['WitOracleRequestTemplateQuickswapTicker6'], [
-            ["0x022df0b3341b3a0157eea97dd024a93f7496d631", "0"]
-        ]
-    ),
+    WitOracleRequestPriceQuickUsdc6: templates.WitOracleRequestTemplateQuickswapTicker6
+        .buildRequest(
+            ["0x022df0b3341b3a0157eea97dd024a93f7496d631", "0"],
+        ),
     
-    WitOracleRequestPriceQuickWeth9: Witnet.RequestFromTemplate(
-        templates['WitOracleRequestTemplateQuickswapTicker9'], [
+    WitOracleRequestPriceQuickWeth9: templates.WitOracleRequestTemplateQuickswapTicker9
+        .buildRequest(
             ["0xde2d1fd2e8238aba80a5b80c7262e4833d92f624", "0"]
-        ]
+        ),
+    
+    WitOracleRequestPriceQuickWmatic6: templates.WitOracleRequestTemplateQuickswapTicker6
+        .buildRequest(
+            ["0x9f1a8caf3c8e94e43aa64922d67dff4dc3e88a42", "0"],
+        ),
+
+    WitOracleRequestPriceReefUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.com": ["REEF", "USDT"],
+            "ticker/bitrue.com": ["REEFUSDT"], 
+            "ticker/digifinex.com": ["reef", "usdt"],
+            "ticker/gateapi.io": ["reef", "usdt"], 
+            "ticker/kucoin.com": ["REEF", "USDT"], 
+        }
     ),
     
-    WitOracleRequestPriceQuickWmatic6: Witnet.RequestFromTemplate(
-        templates['WitOracleRequestTemplateQuickswapTicker6'], [
-            ["0x9f1a8caf3c8e94e43aa64922d67dff4dc3e88a42", "0"]
-        ]
+    WitOracleRequestPriceSaxUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/mojitoswap": ["0x1162131b63d95210acf5b3419d38c68492f998cc", "0"] 
+        }
+    ),
+    
+    WitOracleRequestPriceShibUsd9: PriceTickerRequest(
+        retrievals, { 
+            "ticker/coinbase.com#9": ["SHIB", "USD"], 
+            "ticker/gateapi.io#9": ["shib", "usd"], 
+            "ticker/kraken.com#9": ["SHIB", "USD"] 
+        }
+    ),
+    
+    WitOracleRequestPriceSolUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/coinbase.com": ["SOL", "USD"], 
+            "ticker/kraken.com": ["SOL", "USD"] 
+        }
+    ),
+    
+    WitOracleRequestPriceStellaUsdt6: templates.WitOracleRequestTemplateStellaswapTicker6
+        .buildRequest(
+            ["0x81e11a9374033d11cc7e7485a7192ae37d0795d6", "1"],
+        ),
+    
+    WitOracleRequestPriceSysUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.com": ["SYS", "USDT"],
+            "ticker/bitget.com": ["SYSUSDT_SPBL"], 
+            "ticker/digifinex.com": ["sys", "usdt"],
+            "ticker/gateapi.io#9": ["sys", "usdt"],
+            "ticker/kucoin.com": ["SYS", "USDT"], 
+            "ticker/mexc.com": ["SYS", "USDT"] 
+        }
+    ),
+    
+    WitOracleRequestPriceTusdUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/binance.com": ["TUSD", "USDT"], 
+            "ticker/huobi.pro": ["tusd", "usdt"],
+        }
+    ),
+    
+    WitOracleRequestPriceUlxUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/uniswap#v3": ["0x9adf4617804c762f86fc4e706ad0424da3b100a7", "1"] 
+        }
+    ),
+    
+    WitOracleRequestPriceUniUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/bitfinex.com": ["uni", "usd"], 
+            "ticker/bitstamp.net": ["uni", "usd"], 
+            "ticker/coinbase.com": ["UNI", "USD"], 
+            "ticker/gemini.com": ["uni", "usd"], 
+            "ticker/kraken.com": ["UNI", "USD"] 
+        }
+    ),
+    
+    WitOracleRequestPriceUsdcUsd6: PriceTickerRequest(
+        retrievals, {
+            "ticker/bitstamp.net": ["usdc", "usd"], 
+            "ticker/gemini.com": ["usdc", "usd"], 
+            "ticker/kraken.com": ["USDC", "USD"] 
+        }
+    ),
+    
+    WitOracleRequestPriceUsdtUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/kraken.com": ["USDT", "USD"],
+            "ticker/binance.us": ["USDT", "USD"], 
+            "ticker/bitstamp.net": ["usdt", "usd"], 
+            "ticker/coinbase.com": ["USDT", "USD"], 
+            "ticker/gemini.com": ["usdt", "usd"], 
+        }
+    ),
+    
+    WitOracleRequestPriceVsqDai6: templates.WitOracleRequestTemplateSushiswapTicker6
+        .buildRequest(
+            ["0x5cf66ceaf7f6395642cd11b5929499229edef531", "1"],
+        ),
+    
+    WitOracleRequestPriceWbtcUsd6: PriceTickerRequest(
+        retrievals, {
+            "ticker/bitfinex.com": ["wbt", "usd"], 
+            "ticker/coinbase.com": ["WBTC", "USD"], 
+            "ticker/kraken.com": ["WBTC", "USD"] 
+        }
+    ),
+    
+    WitOracleRequestPriceWbtcWulx6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/ultron-dev.net": [
+                "0xd2b86a80a8f30b83843e247a50ecdc8d843d87dd", 
+                "0x3a4f06431457de873b588846d139ec0d86275d54"
+            ],
+        }
+    ),
+    
+    WitOracleRequestPriceWethWulx6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/ultron-dev.net#inverse": [
+                "0x2318bf5809a72aabadd15a3453a18e50bbd651cd", 
+                "0x3a4f06431457de873b588846d139ec0d86275d54"
+            ],
+        }
+    ),
+    
+    WitOracleRequestPriceWitUsdt6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/mexc.com": ["WIT", "USDT"],
+            "ticker/bitmart.com": ["WIT", "USDT"], 
+            "ticker/gateapi.io": ["wit", "usdt"],  
+        }
     ),
 
-    WitOracleRequestPriceReefUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.com/ticker": ["REEF", "USDT"],
-            "bitrue.com/ticker": ["REEFUSDT"], 
-            "digifinex.com/ticker": ["reef", "usdt"],
-            "gateapi.io/ticker": ["reef", "usdt"], 
-            "kucoin.com/ticker": ["REEF", "USDT"], 
+    WitOracleRequestPriceWldUsdt6: PriceTickerRequest(
+        retrievals, {
+            "ticker/binance.com": ["WLD", "USDT"],
+            "ticker/bitget.com": ["WLDUSDT_SPBL"], 
+            "ticker/bitmart.com": ["WLD", "USDT"], 
+            "ticker/bybit.com": ["WLD", "USDT", "inverse"], 
+            "ticker/gateapi.io": ["wld", "usdt"], 
+            "ticker/kucoin.com": ["WLD", "USDT"], 
+            "ticker/mexc.com": ["WLD", "USDT"],
+            "ticker/okx.com": ["WLD", "USDT"], 
         }
     ),
     
-    WitOracleRequestPriceSaxUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "mojitoswap/ticker": ["0x1162131b63d95210acf5b3419d38c68492f998cc", "0"] 
-        }
-    ),
-    
-    WitOracleRequestPriceShibUsd9: Witnet.PriceTickerRequest(
-        sources, { 
-            "coinbase.com/ticker#9": ["SHIB", "USD"], 
-            "gateapi.io/ticker#9": ["shib", "usd"], 
-            "kraken.com/ticker#9": ["SHIB", "USD"] 
-        }
-    ),
-    
-    WitOracleRequestPriceSolUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "coinbase.com/ticker": ["SOL", "USD"], 
-            "kraken.com/ticker": ["SOL", "USD"] 
-        }
-    ),
-    
-    WitOracleRequestPriceStellaUsdt6: Witnet.RequestFromTemplate(
-        templates['WitOracleRequestTemplateStellaswapTicker6'], [
-            ["0x81e11a9374033d11cc7e7485a7192ae37d0795d6", "1"]
-        ]
-    ),
-    
-    WitOracleRequestPriceSysUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.com/ticker": ["SYS", "USDT"],
-            "bitget.com/ticker": ["SYSUSDT_SPBL"], 
-            "digifinex.com/ticker": ["sys", "usdt"],
-            "gateapi.io/ticker#9": ["sys", "usdt"],
-            "kucoin.com/ticker": ["SYS", "USDT"], 
-            "mexc.com/ticker": ["SYS", "USDT"] 
-        }
-    ),
-    
-    WitOracleRequestPriceTusdUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "binance.com/ticker": ["TUSD", "USDT"], 
-            "huobi.pro/ticker": ["tusd", "usdt"],
-        }
-    ),
-    
-    WitOracleRequestPriceUlxUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "uniswap-v3/ticker": ["0x9adf4617804c762f86fc4e706ad0424da3b100a7", "1"] 
-        }
-    ),
-    
-    WitOracleRequestPriceUniUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "bitfinex.com/ticker": ["uni", "usd"], 
-            "bitstamp.net/ticker": ["uni", "usd"], 
-            "coinbase.com/ticker": ["UNI", "USD"], 
-            "gemini.com/ticker": ["uni", "usd"], 
-            "kraken.com/ticker": ["UNI", "USD"] 
-        }
-    ),
-    
-    WitOracleRequestPriceUsdcUsd6: Witnet.PriceTickerRequest(
-        sources, {
-            "bitstamp.net/ticker": ["usdc", "usd"], 
-            "gemini.com/ticker": ["usdc", "usd"], 
-            "kraken.com/ticker": ["USDC", "USD"] 
-        }
-    ),
-    
-    WitOracleRequestPriceUsdtUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "kraken.com/ticker": ["USDT", "USD"],
-            "binance.us/ticker": ["USDT", "USD"], 
-            "bitstamp.net/ticker": ["usdt", "usd"], 
-            "coinbase.com/ticker": ["USDT", "USD"], 
-            "gemini.com/ticker": ["usdt", "usd"], 
-        }
-    ),
-    
-    WitOracleRequestPriceVsqDai6: Witnet.RequestFromTemplate(
-        templates['WitOracleRequestTemplateSushiswapTicker6'], [
-            ["0x5cf66ceaf7f6395642cd11b5929499229edef531", "1"]
-        ]
-    ),
-    
-    WitOracleRequestPriceWbtcUsd6: Witnet.PriceTickerRequest(
-        sources, {
-            "bitfinex.com/ticker": ["wbt", "usd"], 
-            "coinbase.com/ticker": ["WBTC", "USD"], 
-            "kraken.com/ticker": ["WBTC", "USD"] 
-        }
-    ),
-    
-    WitOracleRequestPriceWbtcWulx6: Witnet.PriceTickerRequest(
-        sources, { 
-            "ultron-dev.net/ticker": ["0xd2b86a80a8f30b83843e247a50ecdc8d843d87dd", "0x3a4f06431457de873b588846d139ec0d86275d54"] 
-        }
-    ),
-    
-    WitOracleRequestPriceWethWulx6: Witnet.PriceTickerRequest(
-        sources, { 
-            "ultron-dev.net/ticker#inverse": ["0x2318bf5809a72aabadd15a3453a18e50bbd651cd", "0x3a4f06431457de873b588846d139ec0d86275d54"] 
-        }
-    ),
-    
-    WitOracleRequestPriceWitUsdt6: Witnet.PriceTickerRequest(
-        sources, { 
-            "mexc.com/ticker": ["WIT", "USDT"],
-            "bitmart.com/ticker": ["WIT", "USDT"], 
-            "gateapi.io/ticker": ["wit", "usdt"],  
-        }
-    ),
-
-    WitOracleRequestPriceWldUsdt6: Witnet.PriceTickerRequest(
-        sources, {
-            "binance.com/ticker": ["WLD", "USDT"],
-            "bitget.com/ticker": ["WLDUSDT_SPBL"], 
-            "bitmart.com/ticker": ["WLD", "USDT"], 
-            "bybit.com/ticker": ["WLD", "USDT", "inverse"], 
-            "gateapi.io/ticker": ["wld", "usdt"], 
-            "kucoin.com/ticker": ["WLD", "USDT"], 
-            "mexc.com/ticker": ["WLD", "USDT"],
-            "okx.com/ticker": ["WLD", "USDT"], 
-        }
-    ),
-    
-    WitOracleRequestPriceXlmUsd6: Witnet.PriceTickerRequest(
-        sources, { 
-            "bitstamp.net/ticker": ["xlm", "usd"], 
-            "coinbase.com/ticker": ["XLM", "USD"], 
-            "kraken.com/ticker": ["XLM", "USD"] 
+    WitOracleRequestPriceXlmUsd6: PriceTickerRequest(
+        retrievals, { 
+            "ticker/bitstamp.net": ["xlm", "usd"], 
+            "ticker/coinbase.com": ["XLM", "USD"], 
+            "ticker/kraken.com": ["XLM", "USD"] 
         }
     ),
 
 };
-

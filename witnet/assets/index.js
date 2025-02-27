@@ -1,15 +1,27 @@
-const witnet = require("witnet-solidity/assets")
+const { 
+  ABIs, 
+  getNetworkAddresses, 
+  legacy,
+  supportedEcosystems, 
+  supportedNetworks, 
+  supportsNetwork,
+} = require("witnet-solidity/assets")
+
+const merge = require("lodash.merge")
 module.exports = {
-    getAddresses: (network) => {
-        return {
-            ...witnet.getAddresses(network.toLowerCase()),
-            ...require("../addresses.json")[network.toLowerCase()]
-        }
-    },
-    supportedEcosystems: witnet.supportedEcosystems,
-    supportedNetworks: witnet.supportedNetworks,
-    artifacts: witnet.artifacts,
-    requests: { ...witnet.requests, ...require("./requests"), },
-    sources: { ...witnet.sources, ...require("./sources"), },
-    templates: { ...witnet.templates, ...require("./templates"), },
+  ABIs,
+  getNetworkAddresses: (network) => {
+    return merge(
+      getNetworkAddresses(network.toLowerCase()),
+      require("../addresses.json")[network.toLowerCase()],
+    )
+  },
+  legacy: {
+    requests: merge(legacy?.requests, require("./requests")),
+    retrievals: merge(legacy?.retrievals, require("./retrievals")),
+    templates: merge(legacy?.templates, require("./templates")),
+  },
+  supportedEcosystems,
+  supportedNetworks,
+  supportsNetwork,
 };

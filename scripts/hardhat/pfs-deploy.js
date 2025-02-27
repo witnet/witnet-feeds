@@ -1,6 +1,6 @@
 const hre = require("hardhat")
 
-const witnet = require("../../witnet/assets")
+const assets = require("../../witnet/assets")
 const network = hre.network.name
 const routes = require("../../witnet/routes/price")
 const utils = require("../utils")
@@ -21,9 +21,9 @@ async function run (args) {
 }
 
 async function settlePriceFeedsRadHash (pfs, selection) {
-  const addresses = witnet.getAddresses(network)?.requests
+  const addresses = assets.getNetworkAddresses(network)?.requests
   const prices = Object.fromEntries(
-    utils.flattenWitnetArtifacts(witnet.requests.price)
+    utils.flattenRadonAssets(assets.legacy.requests.DeFi["price-feeds"])
       .map(value => [value.key, value.artifact])
   )
   for (const key in prices) {
@@ -79,16 +79,17 @@ async function settlePriceFeedsRadHash (pfs, selection) {
           )
         } else {
           console.info("  ", `> RAD hash:          \x1b[32m${radHash.slice(2)}\x1b[0m`)
-          const retrievals = await pfs.lookupWitOracleRadonRetrievals(hash)
-          const bytecode = await pfs.lookupWitOracleRequestBytecode(hash)
-          const report = JSON.parse(await utils.dryRunBytecode(bytecode.slice(2)))
-          const partials = report.retrieve?.map(retrieve => retrieve?.result)
-          retrievals
-            .map(retrieve => new URL(retrieve[3]).host.split(".").slice(-2, -1).join())
-            .forEach((source, index) => {
-              console.info("  ", `> Data source #${index + 1}:    \x1b[92m${source.toUpperCase()}\x1b[0m${" ".repeat(10 - source.length)} -> \x1b[33m${JSON.stringify(partials[index])}\x1b[0m`)
-            })
-          console.info("  ", `> Tally result:                 => \x1b[93m${JSON.stringify(report?.tally.result)}\x1b[0m`)
+          // const retrievals = await pfs.lookupWitOracleRadonRetrievals(hash)
+          // const bytecode = await pfs.lookupWitOracleRequestBytecode(hash)
+          // console.log(bytecode)
+          // const report = JSON.parse(await utils.dryRunBytecode(bytecode.slice(2)))
+          // const partials = report.retrieve?.map(retrieve => retrieve?.result)
+          // retrievals
+          //   .map(retrieve => new URL(retrieve[3]).host.split(".").slice(-2, -1).join())
+          //   .forEach((source, index) => {
+          //     console.info("  ", `> Data source #${index + 1}:    \x1b[92m${source.toUpperCase()}\x1b[0m${" ".repeat(10 - source.length)} -> \x1b[33m${JSON.stringify(partials[index])}\x1b[0m`)
+          //   })
+          // console.info("  ", `> Aggregated result:            => \x1b[93m${JSON.stringify(report?.tally.result)}\x1b[0m`)
         }
       }
     } catch (ex) {

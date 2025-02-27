@@ -5,7 +5,7 @@ const os = require("os")
 
 if (process.argv.length < 4) {
   console.error(
-    "\nUsage:\n\n$ node ./scripts/package-pfs.js <hardhat-task> <ecosystem>:<network> ...HARDHAT_TASK_ARGS\n"
+    "\nUsage:\n\n$ node ./scripts/hardhat-task.js <hardhat-task> <ecosystem>:<network> ...HARDHAT_TASK_ARGS\n"
   )
   process.exit(0)
 }

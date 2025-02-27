@@ -2,11 +2,11 @@
 
 const { spawn } = require("node:child_process")
 const os = require("os")
-const utils = require("./utils")
 const Witnet = require("witnet-toolkit")
 
 const assets = require("../witnet/assets")
-const requests = Witnet.Dictionary(Witnet.Artifacts.Class, assets?.requests)
+const utils = require("./utils")
+const requests = Witnet.Dictionary(Witnet.RadonRequest, assets?.legacy.requests)
 
 function cmd (...command) {
   const p = spawn(command[0], command.slice(1), { shell: true })
@@ -30,7 +30,7 @@ async function main () {
     process.exit(0)
   }
   const network = process.argv[2]
-  const addresses = assets.getAddresses(process.argv[2])
+  const addresses = assets.getNetworkAddresses(process.argv[2])
   if (!addresses.apps?.WitPriceFeeds) {
     console.error("\nUnsupported network:", network)
     process.exit(0)

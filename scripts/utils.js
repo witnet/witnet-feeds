@@ -1,30 +1,30 @@
 const hre = require("hardhat")
 
-const witnet = require("../witnet/assets")
-const addresses = witnet.getAddresses(hre.network.name)
-const utils = require("witnet-solidity/utils")
+const { utils } = require("witnet-solidity")
+const framework = require("witnet-solidity-bridge")
+
+const assets = require("../witnet/assets")
+const addresses = assets.getNetworkAddresses(hre.network.name)
 
 module.exports = {
   camelize,
-  dryRunBytecode: utils.dryRunBytecode,
-  dryRunBytecodeVerbose: utils.dryRunBytecodeVerbose,
   extractArtifactConstructorArgsTypes,
   extractErc2362CaptionFromKey,
   extractRequestKeyFromErc2362Caption,
   extractRouteKeyFromErc2362Caption,
-  flattenWitnetArtifacts: utils.flattenWitnetArtifacts,
+  flattenRadonAssets: utils.radon.assets.flatten,
   getWitOracleRequestContract,
   getWitOracleRequestResultDataTypeString,
   getWitPriceFeedsContract,
   getWitPriceFeedsLatestUpdateStatus,
   getWitPriceFeedsSolverContract,
-  isDryRun: utils.isDryRun,
-  isNullAddress: utils.isNullAddress,
+  isDryRun: framework.isDryRun,
+  isNullAddress: framework.utils.isNullAddress,
   numberWithCommas,
-  overwriteJsonFile: utils.overwriteJsonFile,
-  readJsonFromFile: utils.readJsonFromFile,
+  overwriteJsonFile: framework.overwriteJsonFile,
+  readJsonFromFile: framework.readJsonFromFile,
   secondsToTime,
-  traceHeader: utils.traceHeader,
+  traceHeader: framework.traceHeader,
   traceTx,
   traceWitnetPriceFeed,
   traceWitnetPriceSolver,
@@ -101,7 +101,7 @@ async function getWitPriceFeedsContract (from) {
 
   process.stdout.write("   \x1b[97mWitOracle:\x1b[0m               ")
   const WitOracle = await hre.ethers.getContractAt(
-    witnet.artifacts.WitOracle.abi,
+    assets.ABIs.WitOracle,
     addresses.core?.WitOracle,
   )
   process.stdout.write("\x1b[36m" +
@@ -111,7 +111,7 @@ async function getWitPriceFeedsContract (from) {
 
   process.stdout.write("   \x1b[97mWitOracleRadonRegistry:\x1b[0m  ")
   const WitOracleRadonRegistry = await hre.ethers.getContractAt(
-    witnet.artifacts.WitOracleRadonRegistry.abi,
+    assets.ABIs.WitOracleRadonRegistry,
     addresses.core?.WitOracleRadonRegistry,
   )
   const WitOracleRadonRegistryAddr = await WitOracleRadonRegistry.getAddress()
@@ -122,7 +122,7 @@ async function getWitPriceFeedsContract (from) {
 
   process.stdout.write("   \x1b[97mWitOracleRequestFactory:\x1b[0m ")
   const WitOracleRequestFactory = await hre.ethers.getContractAt(
-    witnet.artifacts.WitOracleRequestFactory.abi,
+    assets.ABIs.WitOracleRequestFactory,
     addresses.core?.WitOracleRequestFactory,
   )
   process.stdout.write("\x1b[36m" +
@@ -132,7 +132,7 @@ async function getWitPriceFeedsContract (from) {
 
   process.stdout.write("   \x1b[97mWitPriceFeeds:\x1b[0m           ")
   const WitPriceFeeds = await hre.ethers.getContractAt(
-    witnet.artifacts.WitPriceFeeds.abi,
+    assets.ABIs.WitPriceFeeds,
     addresses.apps?.WitPriceFeeds,
     from ? (await hre.ethers.getSigner(from)) : (await hre.ethers.getSigners())[3]
   )
@@ -145,11 +145,11 @@ async function getWitPriceFeedsContract (from) {
 }
 
 async function getWitPriceFeedsSolverContract (address) {
-  return hre.ethers.getContractAt(witnet.artifacts.IWitPriceFeedsSolver.abi, address)
+  return hre.ethers.getContractAt(assets.ABIs.IWitPriceFeedsSolver, address)
 }
 
 async function getWitOracleRequestContract (address) {
-  return hre.ethers.getContractAt(witnet.artifacts.WitOracleRequest.abi, address)
+  return hre.ethers.getContractAt(assets.ABIs.WitOracleRequest, address)
 }
 
 function getWitOracleRequestResultDataTypeString (type) {
@@ -274,7 +274,7 @@ async function _readUpgradableArtifactVersion (contract) {
   const addr = await contract.getAddress()
   try {
     const upgradable = await hre.ethers.getContractAt(
-      witnet.artifacts.WitnetUpgradableBase.abi,
+      assets.ABIs.WitnetUpgradableBase,
       addr
     )
     return `${addr} (v${await upgradable.version()})`

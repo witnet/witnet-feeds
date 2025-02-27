@@ -1,5 +1,5 @@
 module.exports = {
-    price: {
-        crypto: require("./price/crypto.js"),
+    DeFi: {
+        tickers: require("./price/crypto.js"),
     },
 };

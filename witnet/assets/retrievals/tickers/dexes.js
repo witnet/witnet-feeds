@@ -1,68 +1,71 @@
-const Witnet = require("witnet-toolkit")
+const { utils, Witnet } = require("witnet-solidity")
+const { legacy } = require("witnet-solidity/assets")
 
-const defaultQuery = { query: `{ pair (id: "\\0\\") { token\\1\\Price } }` }
+const defaultQuery = { 
+    query: `{ pair (id: "\\0\\") { token\\1\\Price } }` 
+};
 const defaultScript = { 
-    script: Witnet.Script()
+    script: Witnet.RadonScript(Witnet.RadonString)
         .parseJSONMap()
         .getMap("data")
         .getMap("pair")
         .getFloat("token\\1\\Price")
         .multiply(1e6)
         .round(),
-}
+};
 
 module.exports = {
-    "beamswap/ticker": Witnet.Sources.GraphQLQuery({
+    "ticker/beamswap": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://graph.beamswap.io/subgraphs/name/beamswap/beamswap-amm-v2",
         ...defaultQuery,
         ...defaultScript,
     }),
-    "kuswap/ticker": Witnet.Sources.GraphQLQuery({
+    "ticker/kuswap": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://info.kuswap.finance/subgraphs/name/kuswap/swap",
         ...defaultQuery,
         ...defaultScript,
     }),
-    "mojitoswap/ticker": Witnet.Sources.GraphQLQuery({
+    "ticker/mojitoswap": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://thegraph.kcc.network/subgraphs/name/mojito/swap",
         ...defaultQuery,
         ...defaultScript,
     }),
-    "mojitoswap/ticker#9": Witnet.Sources.GraphQLQuery({
+    "ticker/mojitoswap#9": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://thegraph.kcc.network/subgraphs/name/mojito/swap",
-        script: Witnet.Script().parseJSONMap().getMap("data").getMap("pair").getFloat("token\\1\\Price").multiply(1e9).round(),
+        script: Witnet.RadonScript(Witnet.RadonString).parseJSONMap().getMap("data").getMap("pair").getFloat("token\\1\\Price").multiply(1e9).round(),
         ...defaultQuery,
     }),
-    "oolongswap/ticker": Witnet.Sources.GraphQLQuery({
+    "ticker/oolongswap": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://api.thegraph.com/subgraphs/name/oolongswap/oolongswap-mainnet",
         query: `{ pairs ( where: { token0: "\\0\\", token1: "\\1\\" }) { token1Price } }`,
-        script: Witnet.Script().parseJSONMap().getMap("data").getArray("pairs").getMap(0).getFloat("token1Price").multiply(1e6).round(),
+        script: Witnet.RadonScript(Witnet.RadonString).parseJSONMap().getMap("data").getArray("pairs").getMap(0).getFloat("token1Price").multiply(1e6).round(),
     }),
-    "pancake-v2/ticker": Witnet.Sources.GraphQLQuery({
+    "ticker/pancake#v2": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://open-platform.nodereal.io/6eed3770d9874b5ca666625eb0628e9a/pancakeswap-free/graphql",
         ...defaultQuery,
         ...defaultScript,
     }),
-    "quickswap-v3/ticker": Witnet.Sources.GraphQLQuery({
+    "ticker/quickswap#v3": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://api-next.thegraph.com/subgraphs/name/sameepsi/quickswap-v3",
         query: `{ pool (id: "\\0\\") { token\\1\\Price } }`,
-        script: Witnet.Script().parseJSONMap().getMap("data").getMap("pool").getFloat("token\\1\\Price").multiply(1e6).round(),
+        script: Witnet.RadonScript(Witnet.RadonString).parseJSONMap().getMap("data").getMap("pool").getFloat("token\\1\\Price").multiply(1e6).round(),
     }),
-    "quickswap-v3/ticker#9": Witnet.Sources.GraphQLQuery({
+    "ticker/quickswap#v3#9": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://api-next.thegraph.com/subgraphs/name/sameepsi/quickswap-v3",
         query: `{ pool (id: "\\0\\") { token\\1\\Price } }`,
-        script: Witnet.Script().parseJSONMap().getMap("data").getMap("pool").getFloat("token\\1\\Price").multiply(1e9).round(),
+        script: Witnet.RadonScript(Witnet.RadonString).parseJSONMap().getMap("data").getMap("pool").getFloat("token\\1\\Price").multiply(1e9).round(),
     }),
-    "stellaswap/ticker": Witnet.Sources.GraphQLQuery({
+    "ticker/stellaswap": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://analytics.stellaswap.com/api/graphql/stella-swap",
         ...defaultQuery,
         ...defaultScript,
     }),
-    "sushiswap/ticker": Witnet.Sources.GraphQLQuery({
+    "ticker/sushiswap": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://api.thegraph.com/subgraphs/name/sushiswap/matic-exchange",
         ...defaultQuery,
         ...defaultScript
     }),
-    "ubeswap/ticker": Witnet.Sources.GraphQLQuery({
+    "ticker/ubeswap": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://api.thegraph.com/subgraphs/name/ubeswap/ubeswap",
         query: `
             query PairsCurrent { 
@@ -70,22 +73,22 @@ module.exports = {
                     id token\\1\\Price 
                 } 
             }`,
-        script: Witnet.Script().parseJSONMap().getMap("data").getArray("pairs").filter(
-                Witnet.InnerScript(Witnet.Types.RadonMap).getString("id").match(
-                    Witnet.Types.RadonBoolean,
+        script: Witnet.RadonScript(Witnet.RadonString).parseJSONMap().getMap("data").getArray("pairs").filter(
+                Witnet.RadonScript(Witnet.RadonMap).getString("id").match(
+                    Witnet.RadonBoolean,
                     { "\\0\\": true },
                     false
                 )
             ).getMap(0).getFloat("token\\1\\Price").multiply(1e6).round(),
     }),
-    "uniswap-celo/ticker": Witnet.Sources.GraphQLQuery({
+    "ticker/uniswap#celo": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://api.thegraph.com/subgraphs/name/jesse-sawa/uniswap-celo",
         query: `{ pool (id: "\\0\\") { token\\1\\Price } }`,
-        script: Witnet.Script().parseJSONMap().getMap("data").getMap("pool").getFloat("token\\1\\Price").multiply(1e6).round(),
+        script: Witnet.RadonScript(Witnet.RadonString).parseJSONMap().getMap("data").getMap("pool").getFloat("token\\1\\Price").multiply(1e6).round(),
     }),
-    "uniswap-v3/ticker": Witnet.Sources.GraphQLQuery({
+    "ticker/uniswap#v3": Witnet.RadonRetrievals.GraphQLQuery({
         url: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3",
         query: `{ pool (id: "\\0\\") { token\\1\\Price } }`,
-        script: Witnet.Script().parseJSONMap().getMap("data").getMap("pool").getFloat("token\\1\\Price").multiply(1e6).round(),
+        script: Witnet.RadonScript(Witnet.RadonString).parseJSONMap().getMap("data").getMap("pool").getFloat("token\\1\\Price").multiply(1e6).round(),
     }),    
 }
