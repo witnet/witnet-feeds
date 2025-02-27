@@ -4,6 +4,18 @@ require("@nomicfoundation/hardhat-web3-v4");
 const { settings, utils } = require("witnet-solidity-bridge")
 const [, target ] = utils.getRealmNetworkFromString();
 
+task("pfs:check", "Dry-run price feeds data requests")
+  .addFlag("trace", "Trace detailed information.")
+  .addOptionalVariadicPositionalParam("captions", "Captions of the price feeds to be either deployed or have data sources upgraded (e.g. eth/usd-6).")
+  .setAction(async (taskArgs) => {
+    const deploy = require("./scripts/hardhat/pfs-check");
+    await deploy.run(taskArgs).catch((error) => {
+      console.error(error);
+      process.exitCode = 1;
+    })
+  }
+);
+
 task("pfs:deploy", "Upgrade price feeds")
 .addOptionalParam("from", "EVM address used for interacting with the WitPriceFeeds contract.")  
 .addOptionalVariadicPositionalParam("captions", "Captions of the price feeds to be either deployed or have data sources upgraded (e.g. eth/usd-6).")
