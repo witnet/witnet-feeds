@@ -519,12 +519,16 @@ module.exports = {
     "ticker/ultron-dev.net": Witnet.RadonRetrievals.HttpGet({
         url: "https://exchange-info.ultron-dev.net/api/v1/ultronswap",
         script: Witnet.RadonScript(Witnet.RadonString).parseJSONMap().getMap("\\1\\_\\0\\").getFloat("last_price").multiply(1e6).round(),
-        tuples: { "WBTC/WULX": [ "0xd2b86a80a8f30b83843e247a50ecdc8d843d87dd", "0x3a4f06431457de873b588846d139ec0d86275d54" ], }
+        samples: { 
+            "wbtc/wulx": [ "0xd2b86a80a8f30b83843e247a50ecdc8d843d87dd", "0x3a4f06431457de873b588846d139ec0d86275d54" ], 
+        },
     }),
     "ticker/ultron-dev.net#inverse": Witnet.RadonRetrievals.HttpGet({
         url: "https://exchange-info.ultron-dev.net/api/v1/ultronswap",
         script: Witnet.RadonScript(Witnet.RadonString).parseJSONMap().getMap("\\0\\_\\1\\").getFloat("last_price").power(-1).multiply(1e6).round(),
-        tuples: { "WETH/WULX": [ "0x2318bf5809a72aabadd15a3453a18e50bbd651cd", "0x3a4f06431457de873b588846d139ec0d86275d54" ], }
+        samples: { 
+            "weth/wulx": [ "0x2318bf5809a72aabadd15a3453a18e50bbd651cd", "0x3a4f06431457de873b588846d139ec0d86275d54" ], 
+        },
     }),
     "ticker/upbit.com": Witnet.RadonRetrievals.HttpGet({
         url: "https://api.upbit.com/v1/ticker?markets=\\1\\-\\0\\",
