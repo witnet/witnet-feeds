@@ -500,7 +500,9 @@ module.exports = {
     }),
     "ticker/revolut.com": Witnet.RadonRetrievals.HttpGet({
         url: "https://www.revolut.com/api/exchange/quote?amount=1&country=\\2\\&fromCurrency=\\0\\&isRecipientAmount=false&toCurrency=\\1\\",
-        headers: [ [ "Accept-language", "en" ] ],
+        headers: { 
+            "Accept-language": "en",
+        },
         script: Witnet.RadonScript(Witnet.RadonString).parseJSONMap().getMap("rate").getFloat("rate").multiply(1e6).round(),
         samples: {
             "hkd/usd": [ "HKD", "USD", "US" ],
@@ -509,7 +511,9 @@ module.exports = {
     }),
     "ticker/revolut.com#9": Witnet.RadonRetrievals.HttpGet({
         url: "https://www.revolut.com/api/exchange/quote?amount=1&country=\\2\\&fromCurrency=\\0\\&isRecipientAmount=false&toCurrency=\\1\\",
-        headers: [ [ "Accept-language", "en" ] ],
+        headers: {
+            "Accept-language": "en",
+        },
         script: Witnet.RadonScript(Witnet.RadonString).parseJSONMap().getMap("rate").getFloat("rate").multiply(1e9).round(),
     }),
     "ticker/ultron-dev.net": Witnet.RadonRetrievals.HttpGet({
