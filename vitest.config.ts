@@ -5,5 +5,15 @@ export default defineConfig({
     include: [
       "./test/**.spec.*",
     ],
+    poolOptions: {
+      vmThreads: {
+        // minThreads: 4,
+        // useAtomics: true,
+      },
+    },
+    reporters: [ 
+      // 'json', 
+      'default',
+    ],
   },
 })
