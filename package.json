@@ -13,9 +13,9 @@
   "bin": {},
   "exports": {
     ".": {
+      "types": "./dist/src/lib/*.d.ts",
       "require": "./dist/src/lib/index.js",
-      "default": "./dist/srcLib/index.js",
-      "types": "./dist/src/lib/*.d.ts"
+      "default": "./dist/srcLib/index.js"
     },
     "./assets": "./dist/witnet/assets/index.js"
   },
