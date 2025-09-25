@@ -1,24 +1,27 @@
-const { Witnet } = require("witnet-solidity")
+const { Witnet } = require("@witnet/sdk")
+const {
+    RadonRequestFromAssets,
+    RadonTemplate, 
+    reducers,
+} = Witnet.Radon
 
-function PriceTickerRequest(dictionary, argsMap) {
-    return Witnet.RadonRequestFromDictionary({
-        retrieve: {
-            argsMap,
-            dictionary: dictionary,
-        },
-        aggregate: Witnet.RadonReducers.PriceAggregate(),
-        tally: Witnet.RadonReducers.PriceTally()
-    })
+function PriceTickerRequest(argsMap) {
+    return RadonRequestFromAssets({
+        assets: require("./sources"), 
+        argsMap, 
+        sourcesReducer: reducers.PriceAggregate(),
+        witnessReducer: reducers.PriceTally()
+    });
 };
 
 function PriceTickerTemplate(specs) {
-    return new Witnet.RadonTemplate(
+    return new RadonTemplate(
         {
-            retrieve: specs?.retrieve,
-            aggregate: Witnet.RadonReducers.PriceAggregate(),
-            tally: Witnet.RadonReducers.PriceTally()
+            sources: specs?.sources,
+            sourcesReducer: reducers.PriceAggregate(),
+            witnessReducer: reducers.PriceTally()
         }, 
-        specs?.samples
+        specs?.samples,
     );
 };
 

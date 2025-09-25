@@ -1,8 +1,8 @@
 module.exports = {
-    DeFi: {
-        "price-feeds": {
-            ...require("./price/crypto.js"),
-            ...require("./price/forex.js"),
-        }
+    defi: {
+        tickers: {
+            crypto: require("./tickers/crypto.js"),
+            forex: require("./tickers/forex.js"),
+        },
     },
 };

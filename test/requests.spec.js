@@ -1,27 +1,17 @@
-import { it } from 'vitest'
+import { utils, Witnet } from "@witnet/sdk"
+import { describe, expect, it } from 'vitest'
 
 import * as requests from "../witnet/assets/requests"
-import { Witnet } from "witnet-solidity"
 
-const pfs = Witnet.RadonDictionary(Witnet.RadonRequest, requests.DeFi['price-feeds'])
-// describe.concurrent('all', async () => {
-//     await Promise.all(
-        Object.entries(pfs)
+Promise.all(
+    utils.searchRadonAssets({
+        assets: requests.defi.tickers,
+    type: Witnet.Radon.RadonRequest
+    })
         .map(([key, request]) => {
             it.concurrent(key, async ({ expect }) => {
-                // const report = request.execDryRun()
-                // expect(report.includes("RadonError"), report).toBe(false)
-                await 
-                request
-                    .execDryRun()
-                    .then(report => {
-                        expect(report.includes("RadonError"), `${key} => ${report}`).toBe(false)
-                    })
-                    // .catch(err => {
-                    //     console.error(err)    
-                    // })
+                const report = await request.execDryRun()
+                expect(report.includes("RadonError"), report).toBe(false)
             })
         })
-//     )
-// })
-
+)

@@ -1,67 +1,63 @@
 {
-  "name": "witnet-feeds",
-  "version": "2.1.0-beta.0",
+  "name": "@witnet/price-feeds",
+  "version": "3.0.0",
   "description": "Public data feeds sustained by the Witnet Foundation",
+  "author": "Witnet Foundation",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/witnet/witnet-feeds"
+    "url": "https://github.com/witnet/witnet-price-feeds"
   },
-  "author": "Guillermo Diaz <guillermo@otherplane.com>",
-  "license": "MIT",
   "private": false,
   "type": "commonjs",
   "bin": {},
   "exports": {
-    ".": "./witnet/assets/index.js"
+    ".": {
+      "require": "./dist/src/lib/index.js",
+      "default": "./dist/srcLib/index.js",
+      "types": "./dist/src/lib/*.d.ts"
+    },
+    "./assets": "./dist/witnet/assets/index.js"
   },
   "files": [
-    "artifacts/contracts/",
-    "scripts/utils.js",
-    "witnet"
+    "dist",
+    "src/bin",
+    "witnet",
+    ".env_Witnet"
   ],
   "scripts": {
     "avail": "npx witnet radon assets",
-    "compile": "npx hardhat compile",
-    "console": "npx witnet-solidity console",
-    "deploy": "node ./scripts/deploy.js",
-    "ethrpc": "npx witnet-solidity ethrpc",
+    "build": "tsc -p tsconfig.json",
     "fmt": "eslint ./scripts/**/*.js",
     "fmt!": "eslint ./scripts/**/*.js --fix",
     "pfs:check": "node ./scripts/hardhat-task.js pfs:check",
     "pfs:deploy": "node ./scripts/deploy.js",
     "pfs:sla": "node ./scripts/hardhat-task.js pfs:sla",
     "pfs:status": "node ./scripts/hardhat-task.js pfs:status",
-    "prepare": "npx hardhat compile --force",
+    "poller": "node ./src/bin/poller",
+    "prepare": "npm run build",
     "test": "vitest"
   },
   "dependencies": {
+    "@witnet/ethers": "^1.1.1",
+    "@witnet/sdk": "^1.1.1",
+    "cross-env": "^10.0.0",
+    "dotenv": "^16.6.1",
+    "ethrpc-gateway": "^2.2.9",
     "lodash.merge": "^4.6.2",
-    "witnet-solidity": "2.1.0-beta.0"
+    "witnet-solidity-bridge": "^2.2.1"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
-    "@nomicfoundation/hardhat-ethers": "^3.0.0",
-    "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
-    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
-    "@nomicfoundation/hardhat-verify": "^2.0.0",
-    "@nomicfoundation/hardhat-web3-v4": "^1.0.0",
-    "@typechain/ethers-v6": "^0.5.0",
-    "@typechain/hardhat": "^9.0.0",
-    "chai": "^4.2.0",
-    "eslint": "8.15.0",
-    "eslint-config-standard": "17.0.0",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-n": "15.2.0",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "6.0.0",
-    "ethers": "^6.4.0",
-    "hardhat": "^2.19.5",
-    "hardhat-gas-reporter": "^1.0.8",
-    "solidity-coverage": "^0.8.0",
-    "truffle": "^5.11.5",
-    "truffle-plugin-verify": "^0.6.7",
-    "typechain": "^8.3.0",
-    "vitest": "^3.0.7",
-    "web3": "^4.5.0"
+    "@types/lodash.merge": "^4.6.9",
+    "@types/node": "^22.18.6",
+    "chai": "^6.0.1",
+    "eslint": "^9.36.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-n": "^17.23.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^7.2.1",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   }
 }

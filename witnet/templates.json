@@ -1,0 +1,8 @@
+{
+    "optimism:sepolia": {
+        "WitOracleRequestTemplateBeamswapTicker6": "0xfFb2D3C8111b96962Cd97AE2eBAa0F815794F208",
+        "WitOracleRequestTemplateSushiswapTicker6": "0x60270c1d16Aba7423F3f764e6E238880584f1380",
+        "WitOracleRequestTemplateKuswapTicker6": "0x278Feb4b1776A4dF6f4B0E25bAAc93b765CdAB29",
+        "WitOracleRequestTemplateMojitoTicker6": "0xd0E71B7174d5c9dEF82CED2463FC8E27fCBE411b"
+    }
+}
