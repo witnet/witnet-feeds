@@ -15,15 +15,21 @@
     ".": {
       "types": "./dist/src/lib/*.d.ts",
       "require": "./dist/src/lib/index.js",
-      "default": "./dist/srcLib/index.js"
+      "default": "./dist/src/lib/index.js"
     },
-    "./assets": "./dist/witnet/assets/index.js"
+    "./assets": "./dist/witnet/assets/index.js",
+    "./utils": {
+      "types": "./dist/src/lib/*.d.ts",
+      "require": "./dist/src/lib/utils.js",
+      "default": "./dist/src/lib/utils.js"
+    },
+    "./settings": "./witnet/settings.json"
   },
   "files": [
     "dist",
     "src/bin",
     "witnet",
-    ".env_Witnet"
+    ".env_witnet"
   ],
   "scripts": {
     "avail": "npx witnet radon assets",
