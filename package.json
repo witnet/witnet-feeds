@@ -34,13 +34,9 @@
   "scripts": {
     "avail": "npx witnet radon assets",
     "build": "tsc -p tsconfig.json",
-    "fmt": "eslint ./scripts/**/*.js",
-    "fmt!": "eslint ./scripts/**/*.js --fix",
-    "pfs:check": "node ./scripts/hardhat-task.js pfs:check",
-    "pfs:deploy": "node ./scripts/deploy.js",
-    "pfs:sla": "node ./scripts/hardhat-task.js pfs:sla",
-    "pfs:status": "node ./scripts/hardhat-task.js pfs:status",
-    "poller": "node ./src/bin/poller",
+    "fmt": "eslint --ext .js,.ts,.cjs . --ignore-path .gitignore --ignore-pattern _*",
+    "fmt!": "eslint --ext .js,.ts,.cjs . --fix --ignore-path .gitignore --ignore-pattern _*",
+    "pfs:settle": "node ./src/bin/cli/settle.js",
     "prepare": "npm run build",
     "test": "vitest"
   },
