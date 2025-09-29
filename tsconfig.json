@@ -41,6 +41,8 @@
   ],
   "include": [
     "src/**/*.d.ts",
+    "witnet/priceFeeds.json",
+    "witnet/updateConditions.json",
     "types"
   ]
 }
