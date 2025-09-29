@@ -11,7 +11,8 @@
       },
       "Crypto.ETH/WIT-9": {
         "class": "product",
-        "deps": ["Crypto.ETH/USD-6", "Crypto.USD-WIT-9"]
+        "deps": ["Crypto.ETH/USD-6", "Crypto.USD/WIT-9"]
+      },
       },
       "Crypto.WIT/USD-6": {
         "class": "product",
