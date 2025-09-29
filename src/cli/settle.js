@@ -107,42 +107,48 @@ async function main () {
     })
 
     // load specs of Witnet-solved price feeds    
-    const requests = networkPriceFeeds.requests.map(caption => {
-        const target = utils.captionToWitOracleRequestPrice(caption)
-        const sources = utils.requireRadonRequest(target, assets)
-        return [
-            caption, {
-                class: "oracle:witnet",
-                sources,
-                target,
-                conditions: utils.getPriceFeedUpdateConditions(caption, network),
-            }
-        ]
-    })
+    console.info(`> Dry-running ${networkPriceFeeds.requests.length} requests ...`)
+    const requests = await helpers.prompter(Promise.all(
+        networkPriceFeeds.requests
+            .map(async caption => {
+                const target = utils.captionToWitOracleRequestPrice(caption)
+                const sources = utils.requireRadonRequest(target, assets)
+                return [
+                    caption, {
+                        class: "oracle:witnet",
+                        sources,
+                        target,
+                        conditions: utils.getPriceFeedUpdateConditions(caption, network),
+                        dryrun: JSON.parse(await sources.execDryRun(true)),
+                    }
+                ]
+            })
+    ));
     
     // settle on-chain price feeds based on Witnet Radon requests
-    tasks.requests = requests
-        .filter(([caption, obj]) => {
-            const found = onchainPriceFeeds.find(pf => pf.symbol === caption)
-            // console.log(found)
-            if (found && (
-                !found.oracle
-                    || found.oracle.class.toLowerCase() !== "witnet"
-                    || found.oracle.sources !== `0x${obj.sources.radHash}`
-            )) {
-                tasks.removals.push(caption)
-                console.info(`> ${colors.yellow(caption)} has new parameters.`)
-                return true
-            } else if (!found) {
-                console.info(`> ${colors.green(caption)} needs to be settled.`)
-            }
-            return !found
-        })        
-        .map(([caption, obj]) => ({ 
-            caption, 
-            decimals: parseInt(caption.split("#")[0].split("-").pop()) || 0, 
-            radHash: `0x${obj.sources.radHash}`
-        }));
+    tasks.requests = await Promise.all(
+        requests
+            .filter(([caption, obj]) => {
+                const found = onchainPriceFeeds.find(pf => pf.symbol === caption)
+                if (found && (
+                    !found.oracle
+                        || found.oracle.class.toLowerCase() !== "witnet"
+                        || found.oracle.sources !== `0x${obj.sources.radHash}`
+                )) {
+                    tasks.removals.push(caption)
+                    console.info(`> ${colors.yellow(caption)} has new parameters.`)
+                    return true
+                } else if (!found) {
+                    console.info(`> ${colors.green(caption)} needs to be settled.`)
+                }
+                return !found
+            })        
+            .map(([caption, obj]) => ({ 
+                caption, 
+                decimals: parseInt(caption.split("#")[0].split("-").pop()) || 0, 
+                radHash: `0x${obj.sources.radHash}`,
+            }))
+    );
 
     tasks.verifications = requests
         .filter(([caption, obj]) => {
@@ -289,7 +295,7 @@ async function main () {
             
             } else if (obj.sources.some(dependency => tasks.removals.includes(dependency))) {
                 if (!tasks.mappers.find(mapper => mapper.caption === caption)) {
-                    console.info(`> ${colors.green(caption)} has a changing dependency.`)
+                    console.info(`> ${colors.green(caption)} has updated dependencies.`)
                 }
                 return true
             
@@ -448,7 +454,6 @@ async function main () {
             console.info(colors.lyellow(`\n  >>> SETTLE UPDATE CONDITIONS <<<`))
             const defaultConditions = utils.getDefaultUpdateConditions(witnet.network === "mainnet")
             const onchainDefaultConditions = await wrapper.getDefaultUpdateConditions()
-            console.log(onchainDefaultConditions, defaultConditions)
             if (_checkIfDiffers(onchainDefaultConditions, defaultConditions)) {
                 console.info(`\n  ${colors.lwhite("Default conditions")}:  ${JSON.stringify(defaultConditions)}`)
                 await _invokeAdminTask(
@@ -457,7 +462,6 @@ async function main () {
                 )
             }
             for (const task of tasks.conditions) {
-                console.log(task.caption, "=>", task, task.conditions)
                 await _invokeAdminTask(
                     wrapper.settlePriceFeedUpdateConditions.bind(wrapper), 
                     task.caption, 
@@ -490,8 +494,12 @@ async function main () {
             let sources
             if (obj.class.endsWith(":witnet")) {
                 sources = obj.sources.sources
-                    .map(source => colors.mmagenta(source.authority.split(".").slice(-2)[0].toLowerCase()))
-                    .sort((a, b) => a.localeCompare(b))
+                    .map((source, index) => {
+                        const result = obj?.dryrun?.retrieve[index]?.result;
+                        const color = result ? (result["RadonError"] ? colors.mred : colors.mmagenta) : colors.magenta
+                        return color(source.authority.split(".").slice(-2)[0].toLowerCase())
+                    })
+                    .sort((a, b) => helpers.colorstrip(a).localeCompare(helpers.colorstrip(b)))
                     .join(" ");
             
             } else if (obj.class.startsWith("mapper")) {
@@ -500,7 +508,7 @@ async function main () {
                     .join(" ");
             
             } else {
-                sources = colors.cyan(
+                sources = colors.mblue(
                     found?.oracle?.sources !== "0x0000000000000000000000000000000000000000000000000000000000000000"
                         ? `${found.oracle.target}:${found.oracle.sources.slice(2, 10)}`
                         : found.oracle.target
@@ -524,7 +532,6 @@ async function main () {
                 moment.duration(obj.conditions.heartbeatSecs, "seconds").humanize(),
                 moment.duration(obj.conditions.cooldownSecs, "seconds").humanize(),
                 obj.class === "oracle:witnet" ? `± ${obj.conditions.deviationPercentage.toFixed(1)} %` : "",
-                
             ]
         }), {
             headlines: [
@@ -534,7 +541,7 @@ async function main () {
                 ":sources",
                 "max.dev.:",
                 ":liveness",
-                ":cooldown",
+                ":promptness",
                 "thrshold:",
             ],
             colors: [

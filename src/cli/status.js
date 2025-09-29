@@ -80,7 +80,6 @@ async function main () {
         )
 
         const lookupPriceFeeds = await wrapper.lookupPriceFeeds()
-        console.log("lookupPriceFeeds =>", lookupPriceFeeds)
 
         const radHashes = require("../../witnet/requests.json")
 
@@ -169,8 +168,6 @@ async function main () {
                 ]
             }
         )
-
-        // console.log(JSON.stringify(priceFeeds, null, 4))
     
     } else {
         helpers.traceHeader(`WITNET ${witnet.network.toUpperCase()}`, helpers.colors.lwhite)

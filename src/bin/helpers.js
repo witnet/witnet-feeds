@@ -173,6 +173,7 @@ module.exports = {
 	},
 	camelize,
 	commas,
+	colorstrip,
 	parseIntFromArgs,
 	prompter,
 	spliceFromArgs,
