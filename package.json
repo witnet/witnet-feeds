@@ -37,6 +37,7 @@
     "fmt": "eslint --ext .js,.ts,.cjs . --ignore-path .gitignore --ignore-pattern _*",
     "fmt!": "eslint --ext .js,.ts,.cjs . --fix --ignore-path .gitignore --ignore-pattern _*",
     "pfs:settle": "node ./src/bin/cli/settle.js",
+    "pfs:status": "node ./src/bin/cli/status.js",
     "prepare": "npm run build",
     "test": "vitest"
   },
