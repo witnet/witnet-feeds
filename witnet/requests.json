@@ -21,6 +21,8 @@
         "WitOracleRequestTemplateMojitoTicker6$SAX/USDT-6": "c76432886603b41cba06e7ac462a4025eb849b3a3da3144308d3da08aac439e9"
     },
     "ethereum:sepolia": {
-        "WitOracleRequestPriceCryptoEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1"
+        "WitOracleRequestPriceCryptoEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
+        "WitOracleRequestPriceCryptoWitUsdt6": "b46c3849008383bc9dd08568ed4923eb90069979a29192b1ce869cdc2e2b97cf",
+        "WitOracleRequestPriceCryptoUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740"
     }
 }

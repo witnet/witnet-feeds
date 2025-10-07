@@ -111,12 +111,11 @@
   },
   "ethereum": {
     "mappers": {
-      "Crypto.ETH/USD": {
+      "Crypto.ETH/USD-6": {
         "class": "hottest",
         "deps": [
           "Crypto.ETH/USD-6#0",
-          "Crypto.ETH/USD-8#1",
-          "Crypto.ETH/USD-6#2"
+          "Crypto.ETH/USD-8#1"
         ]
       }
     },
@@ -124,11 +123,6 @@
       "Crypto.ETH/USD-8#1": {
         "class": "chainlink",
         "target": "0x694AA1769357215DE4FAC081bf1f309aDC325306"
-      },
-      "Crypto.ETH/USD-6#2": {
-        "class": "erc2362",
-        "target": "0x1111AbA2164AcdC6D291b08DfB374280035E1111",
-        "sources": "0x3d15f7018db5cc80838b684361aaa100bfadf8a11e02d5c1c92e9c6af47626c8"
       }
     },
     "requests": [
