@@ -1,3 +1,6 @@
+const fs = require("fs")
+const merge = require("lodash.merge")
+
 const colorstrip = (str) => str.replace(
   /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, ""
 )
@@ -60,6 +63,25 @@ function prompter (promise) {
       process.stdout.write("\b\b")
       return result
     })
+}
+
+function readWitnetJsonFiles (...filenames) {
+  return Object.fromEntries(filenames.map(key => {
+    const filepath = `./witnet/${key}.json`
+    return [
+      key,
+      fs.existsSync(filepath) ? JSON.parse(fs.readFileSync(filepath)) : {},
+    ]
+  }))
+}
+
+function saveWitnetJsonFiles (data) {
+  Object.entries(data).forEach(([key, obj]) => {
+    const filepath = `./witnet/${key}.json`
+    if (!fs.existsSync(filepath)) fs.writeFileSync(filepath, "{}")
+    const json = merge(JSON.parse(fs.readFileSync(filepath)), obj)
+    fs.writeFileSync(filepath, JSON.stringify(json, null, 4), { flag: "w+" })
+  })
 }
 
 function spliceFromArgs(args, flag) {
@@ -176,6 +198,8 @@ module.exports = {
 	colorstrip,
 	parseIntFromArgs,
 	prompter,
+	readWitnetJsonFiles,
+  	saveWitnetJsonFiles,
 	spliceFromArgs,
 	traceHeader,
 	traceTable,

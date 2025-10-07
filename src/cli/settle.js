@@ -3,6 +3,7 @@ const { ethers, WitOracle, PriceFeedOracles, PriceFeedMappers } = require("@witn
 
 const { execSync } = require("node:child_process")
 require("dotenv").config()
+const inquirer = require("inquirer")
 const moment = require("moment")
 
 const { assets, utils } = require("../../dist/src/lib")
@@ -18,6 +19,8 @@ const witRpcUrl = helpers.spliceFromArgs(process.argv, `--witnet`)
 let network = helpers.spliceFromArgs(process.argv, `--network`) 
 let target = helpers.spliceFromArgs(process.argv, `--target`)
 
+let clone = process.argv.indexOf(`--clone`) >= 0
+
 main()
 
 async function main () {
@@ -27,7 +30,7 @@ async function main () {
             witRpcUrl === "mainnet" ? "https://rpc-01.witnet.io" : witRpcUrl
         ),
     );
-
+    
     const witOracle = await WitOracle.fromJsonRpcUrl(`${host}:${port}`, signer)
     if (network && witOracle.network !== network.toLowerCase()) {
         console.error(`Error: gateway at ${host}:${port} connects to a different network (${witOracle.network})`)
@@ -45,72 +48,157 @@ async function main () {
     const { provider } = witOracle
     const framework = await helpers.prompter(utils.fetchWitOracleFramework(provider))
     if (!target) {
-        if (!framework.WitPriceFeedsV3) {
+        if (!framework.WitPriceFeeds) {
             console.info(`Network ${network} supports no V3 price feeds.`)
             process.exit(0)        
         } else {
-            target = framework.WitPriceFeedsV3.address
+            target = framework.WitPriceFeeds.address
         }
     }
 
     const wrapper = await witOracle.getWitPriceFeedsAt(target)
-    const [ curator, artifact, version, consumer , master] = await Promise.all([
-        await wrapper.getEvmCurator(),
+    let curator = await wrapper.getEvmCurator()
+    const [ artifact, version, consumer, base, master ] = await Promise.all([
         await wrapper.getEvmImplClass(),
         await wrapper.getEvmImplVersion(),
         await wrapper.getEvmConsumer(),
-        await wrapper.getEvmMaster(),
+        await wrapper.getEvmClonableBase(),
+        await wrapper.getEvmClonableMaster(),
     ])
-    if (artifact !== "WitPriceFeedsV3") {
+
+    if (!artifact.startsWith("WitPriceFeeds")) {
         console.error(`Error: unsupported ${artifact} at ${target}`)
         process.exit(1)
     }
-    let maxCaptionWidth = Math.max(18, artifact.length + 2)
     console.info(
         `> ${
         helpers.colors.lwhite(artifact)
-        }:${
-        " ".repeat(maxCaptionWidth - artifact.length)
-        }${
+        }: ${
         helpers.colors.mblue(target)
         } ${
         helpers.colors.blue(`[ ${version} ]`)
         }`
-    )
+    )    
     if (master !== "0x0000000000000000000000000000000000000000") {
-        console.info(`> Master address:    ${colors.blue(consumer)}`)
+        console.info(`> Master address:   ${colors.blue(master)}`)
     }
-    console.info(`> Curator address:   ${colors.magenta(curator)}`)
-    if (consumer !== "0x0000000000000000000000000000000000000000") {
-        console.info(`> Consumer address:  ${colors.cyan(consumer)}`)
+    if (clone) {
+        console.info()
+        await inquirer.prompt([
+            {
+                name: "setDefault",
+                type: "confirm",
+                message: "Do you want the new clone to become your default address?",
+                default: true,
+            },
+            {
+                name: "curator",
+                type: "list",
+                message: "Please, select a new curator address:",
+                choices: (await provider.listAccounts()).map(signer => signer.address),
+            },
+        ]).then(async answer => {
+            console.info(colors.lblue(`\n  >>> CLONING THE WIT PRICE FEEDS CONTRACT <<<`))
+            console.info(`  > Master address:    ${colors.blue(wrapper.address)}`)
+            if (answer.curator === wrapper.signer.address) {
+                console.info(`  > Curator address:   ${colors.mmagenta(answer.curator)}`)
+            } else {
+                console.info(`  > Signer address:    ${colors.yellow(wrapper.signer.address)}`)
+                console.info(`  > Curator address:   ${colors.magenta(answer.curator)}`)
+            }   
+            const { logs } = await _invokeAdminTask(wrapper.clone.bind(wrapper), answer.curator)
+            if (logs && logs[0] && logs[0].topics[3]) {
+                const cloned = `0x${logs[0].topics[3].slice(-40)}`
+                console.info(`  > Cloned address:    ${colors.mblue(cloned)}`)
+                wrapper.attach(cloned)
+                if (answer.setDefault) {
+                    let { addresses } = helpers.readWitnetJsonFiles("addresses")
+                    if (!addresses[network]) addresses[network] = {}
+                    if (!addresses[network].apps) addresses[network].apps = {}
+                    addresses[network].apps.WitPriceFeeds = cloned
+                    console.log(addresses)
+                    helpers.saveWitnetJsonFiles({ addresses })
+                }
+
+            } else {
+                console.error(colors.mred(`  Error: no Cloned event was emitted.`))
+                process.exit(1)
+            }
+            curator = answer.curator
+        })
+    } else {
+        if (consumer !== "0x0000000000000000000000000000000000000000") {
+            console.info(`> Consumer address: ${colors.cyan(consumer)}`)
+        }
+        if (wrapper.signer.address !== curator) {
+            console.info(`> Curator address:  ${colors.magenta(curator)}`)
+            console.info(`> Signer address:   ${colors.yellow(wrapper.signer.address)}`)
+        } else {
+            console.info(`> Curator address:  ${colors.mmagenta(curator)}`)
+        }
     }
     console.info()
 
     // Parse `priceFeeds.json` resource price:
     const networkPriceFeeds = utils.getNetworkPriceFeeds(network)
 
-    // Fetch price feeds currently settled on-chain:
-    let onchainPriceFeeds = await wrapper.lookupPriceFeeds()
-
-    const tasks = { removals: [], mappers: [], conditions: [] }
-
-    // ================================================================================================================
-    // --- Checkout Witnet requests -----------------------------------------------------------------------------------
-
-    // panic if any Witnet-solved price feed is declared more than once
-    Object.keys(networkPriceFeeds.oracles).forEach(caption => {
-        if (Object.keys(networkPriceFeeds.oracles).filter(key => key === caption).length > 1) {
-            console.error(`> ${colors.mred(caption)} is declared multiple times as a Witnet-solved price feed.`)
-            console.error(`> Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`)
+    // panic if repeated captions are found
+    Object.keys(networkPriceFeeds.requests).forEach(caption => {
+        if (Object.keys(networkPriceFeeds.requests).filter(key => key === caption).length > 1) {
+            console.error(`  ${colors.mred(caption)} is declared multiple times as a Witnet-solved price feed.`)
+            console.error(`  Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`)
             process.exit(1)
         }
     })
 
-    // load specs of Witnet-solved price feeds    
-    console.info(`> Dry-running ${networkPriceFeeds.requests.length} requests ...`)
-    const requests = await helpers.prompter(Promise.all(
-        networkPriceFeeds.requests
-            .map(async caption => {
+    Object.entries(networkPriceFeeds.oracles).forEach(([caption, specs]) => {
+        if (networkPriceFeeds.requests.indexOf(caption) >= 0) {
+            console.error(`  ${colors.mred(caption)} is declared as being both a Witnet and an ${helpers.camelize(specs.class)} price feed.`)
+            console.error(`  Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`)
+            process.exit(1)
+        } else if (Object.keys(networkPriceFeeds.oracles).filter(key => key === caption).length > 1) {
+            console.error(`  ${colors.mred(caption)} is declared multiple times as an oraclized price feed.`)
+            console.error(`  Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`)
+            process.exit(1)
+        }
+    })
+
+    Object.entries(networkPriceFeeds.mappers).forEach(([caption, specs]) => {
+        if (networkPriceFeeds.requests.indexOf(caption) >= 0) {
+            console.error(`  ${colors.mred(caption)} is declared as being both a Witnet and a mapped:${helpers.camelize(specs.class)} price feed.`)
+            console.error(`  Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`)
+            process.exit(1)
+        } else if (Object.keys(networkPriceFeeds.oracles).indexOf(caption) >= 0) {
+            console.error(`  ${colors.mred(caption)} is declared as being both an oraclized and a mapped:${helpers.camelize(specs.class)} price feed.`)
+            console.error(`  Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`)
+            process.exit(1)
+        } else if (Object.keys(networkPriceFeeds.mappers).filter(key => key === caption).length > 1) {
+            console.error(`  ${colors.mred(caption)} is declared multiple times as a mapped price feed.`)
+            console.error(`  Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`)
+            process.exit(1)
+        }
+    })
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// MAIN LOOP : introspection of to-do tasks requires all price feed that require attention to be removed first,
+    //              and then be re-settled again.
+
+    const settled = { requests: [], oracles: [], mappers: [] }
+    const tasks = { requests: [], mappers: [], oracles: [], conditions: [], removals: [], verifications: [] }
+    
+    for (let runs = 1; runs >= 0; runs --) {
+        
+        tasks.removals = []
+
+        // Fetch price feeds currently settled on-chain:
+        const onchainPriceFeeds = await wrapper.lookupPriceFeeds()
+
+        // ================================================================================================================
+        // --- Checkout Witnet requests -----------------------------------------------------------------------------------
+
+        // load specs of Witnet-solved price feeds    
+        settled.requests = networkPriceFeeds.requests
+            .map(caption => {
                 const target = utils.captionToWitOracleRequestPrice(caption)
                 const sources = utils.requireRadonRequest(target, assets)
                 return [
@@ -119,15 +207,12 @@ async function main () {
                         sources,
                         target,
                         conditions: utils.getPriceFeedUpdateConditions(caption, network),
-                        dryrun: JSON.parse(await sources.execDryRun(true)),
                     }
                 ]
-            })
-    ));
-    
-    // settle on-chain price feeds based on Witnet Radon requests
-    tasks.requests = await Promise.all(
-        requests
+            });
+        
+        // settle on-chain price feeds based on Witnet Radon requests
+        tasks.requests = settled.requests
             .filter(([caption, obj]) => {
                 const found = onchainPriceFeeds.find(pf => pf.symbol === caption)
                 if (found && (
@@ -135,11 +220,11 @@ async function main () {
                         || found.oracle.class.toLowerCase() !== "witnet"
                         || found.oracle.sources !== `0x${obj.sources.radHash}`
                 )) {
-                    tasks.removals.push(caption)
-                    console.info(`> ${colors.yellow(caption)} has new parameters.`)
+                    tasks.removals.push(caption);
+                    console.info(`  ${colors.yellow(caption)} has new sources.`);
                     return true
                 } else if (!found) {
-                    console.info(`> ${colors.green(caption)} needs to be settled.`)
+                    if (!runs) console.info(`  ${colors.green(caption)} needs to be settled.`);
                 }
                 return !found
             })        
@@ -147,277 +232,214 @@ async function main () {
                 caption, 
                 decimals: parseInt(caption.split("#")[0].split("-").pop()) || 0, 
                 radHash: `0x${obj.sources.radHash}`,
-            }))
-    );
+            }));
 
-    tasks.verifications = requests
-        .filter(([caption, obj]) => {
-            if (obj.sources.radHash !== radHashes[network][obj.target]) {
-                console.info(`> ${colors.yellow(caption)} requires data sources to be verified.`)
-                return true
-            } else {
-                return false
-            }
-        })
-        .map(([,obj]) => obj.target)
-
-
-    // ================================================================================================================
-    // --- Checkout third-party price feeds ---------------------------------------------------------------------------
-
-    // panic if repeated captions are found
-    Object.entries(networkPriceFeeds.oracles).forEach(([caption, specs]) => {
-        if (requests.indexOf(caption) >= 0) {
-            console.error(`> ${colors.mred(caption)} is declared as being both a Witnet and a ${helpers.camelize(specs.class)} price feed.`)
-            console.error(`> Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`)
-            process.exit(1)
-        } else if (Object.keys(networkPriceFeeds.oracles).filter(key => key === caption).length > 1) {
-            console.error(`> ${colors.mred(caption)} is declared multiple times as an oraclized price feed.`)
-            console.error(`> Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`)
-            process.exit(1)
-        }
-    })
-     
-    // load specs of oraclized price feeds
-    const oracles = Object.entries(networkPriceFeeds.oracles).map(([caption, oracle]) => ([
-        caption, {
-            class: `oracle:${oracle.class}`,
-            sources: oracle.sources,
-            target: oracle.target,
-            conditions: utils.getPriceFeedUpdateConditions(caption, network),
-        }
-    ]))
-
-    // settle oraclized price feeds that have not yet been settled or otherwise settled with different parameters
-    tasks.oracles = oracles
-        .filter(([caption, obj]) => {
-            const found = onchainPriceFeeds.find(pf => pf.symbol === caption)
-            const supported = Object.values(PriceFeedOracles).includes(helpers.camelize(obj.class.split(":").pop().toLowerCase()))
-            if (!supported) {
-                console.info(`> ${colors.red(caption)} requires some unsupported "${obj.class}".`)
-                process.exit(1)
-            
-            } else if (found && (
-                !found.oracle
-                    || found.oracle.class.toLowerCase() !== obj.class.split(":").pop().toLowerCase()
-                    || found.oracle.target !== obj.target
-                    || found.oracle.sources !== (obj.sources || "0x0000000000000000000000000000000000000000000000000000000000000000")
-            )) {
-                tasks.removals.push(caption)
-                console.info(`> ${colors.yellow(caption)} has new parameters.`)
-                // console.log(found.oracle.sources, obj.sources)
-                // console.log(found.oracle.target, obj.target)
-                return true
-            
-            } else if (!found) {
-                console.info(`> ${colors.green(caption)} needs to be settled.`)
-            }
-            return !found
-        })
-        .map(([caption, obj]) => {
-            return { 
-                caption, 
-                decimals: parseInt(caption.split("#")[0].split("-").pop()) || 0, 
-                oracle: helpers.camelize(obj.class.split(":").pop().toLowerCase()),
-                target: obj.target,
-                sources: obj.sources,
-            }
-        });
-
-
-    // ================================================================================================================
-    // --- Checkout price feeds mappings ------------------------------------------------------------------------------
-
-    // panic if repeated captions are found
-    Object.entries(networkPriceFeeds.mappers).forEach(([caption, specs]) => {
-        if (requests.indexOf(caption) >= 0) {
-            console.error(`> ${colors.mred(caption)} is declared as being both a Witnet and a mapped:${helpers.camelize(specs.class)} price feed.`)
-            console.error(`> Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`)
-            process.exit(1)
-        } else if (oracles.indexOf(caption) >= 0) {
-            console.error(`> ${colors.mred(caption)} is declared as being both an oraclized and a mapped:${helpers.camelize(specs.class)} price feed.`)
-            console.error(`> Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`)
-            process.exit(1)
-        } else if (Object.keys(networkPriceFeeds.mappers).filter(key => key === caption).length > 1) {
-            console.error(`> ${colors.mred(caption)} is declared multiple times as a mapped price feed.`)
-            console.error(`> Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`)
-            process.exit(1)
-        }
-    })
-
-    // load specs of mapped price feeds
-    let mappers = Object.entries(networkPriceFeeds.mappers).map(([caption, mapper]) => ([
-        caption, {
-            class: `mapper:${mapper.class}`,
-            sources: mapper.deps,
-            conditions: utils.getPriceFeedUpdateConditions(caption, network),
-        }
-    ]))
-
-    // respect the order of precedence ...
-    mappers = mappers.sort(([caption], [,{sources}]) => {
-        const a_index = mappers.indexOf(caption)
-        sources.forEach(source => {
-            if (mappers.indexOf(source) < a_index) {
-                return 1
-            }
-        })
-        return -1
-    })
-
-    // settle mapped price feeds that have not yet been settled or otherwise settled with different parameters
-    for (let runs = 0; runs < 16; runs ++) {
-        tasks.mappers = mappers
-        .filter(([caption, obj]) => {
-            const found = onchainPriceFeeds.find(pf => pf.symbol === caption)
-            const supported = Object.values(PriceFeedMappers).includes(helpers.camelize(obj.class.split(":").pop().toLowerCase()))
-            if (!supported) {
-                console.info(`> ${colors.red(caption)} requires unsupported "${obj.class}".`)
-                process.exit(1)
-            }
-            if (found && (
-                !found.mapper
-                    || found.mapper.class.toLowerCase() !== obj.class.split(":").pop().toLowerCase()
-                    || found.mapper.deps.some(caption => !obj.sources.includes(caption))
-                    || obj.sources.some(caption => !found.mapper.deps.includes(caption))
-            )) {
-                if (!tasks.removals.includes(caption)) tasks.removals.push(caption);
-                if (!tasks.mappers.find(mapper => mapper.caption === caption)) {
-                    console.info(`> ${colors.yellow(caption)} has new dependencies.`)   
+        delete tasks.verifications
+        tasks.verifications = settled.requests
+            .filter(([caption, obj]) => {
+                if (obj.sources.radHash !== radHashes[network][obj.target]) {
+                    if (!runs) console.info(`  ${colors.yellow(caption)} requires data sources to be verified.`);
+                    return true
+                } else {
+                    return false
                 }
-                return true
+            })
+            .map(([,obj]) => obj.target)
+
+
+        // ================================================================================================================
+        // --- Checkout third-party price feeds ---------------------------------------------------------------------------
+
+        // load specs of oraclized price feeds
+        settled.oracles = Object.entries(networkPriceFeeds.oracles).map(([caption, oracle]) => ([
+            caption, {
+                class: `oracle:${oracle.class}`,
+                sources: oracle.sources,
+                target: oracle.target,
+                conditions: utils.getPriceFeedUpdateConditions(caption, network),
             }
-            if (!found) {
-                if (!tasks.mappers.find(mapper => mapper.caption === caption)) {
-                    console.info(`> ${colors.green(caption)} needs to be settled.`)
+        ]))
+
+        // settle oraclized price feeds that have not yet been settled or otherwise settled with different parameters
+        tasks.oracles = 
+            settled.oracles
+            .filter(([caption, obj]) => {
+                const found = onchainPriceFeeds.find(pf => pf.symbol === caption)
+                const supported = Object.values(PriceFeedOracles).includes(helpers.camelize(obj.class.split(":").pop().toLowerCase()))
+                if (!supported) {
+                    console.info(`  ${colors.red(caption)} requires some unsupported "${obj.class}".`)
+                    process.exit(1)
+                
+                } else if (found && (
+                    !found.oracle
+                        || found.oracle.class.toLowerCase() !== obj.class.split(":").pop().toLowerCase()
+                        || found.oracle.target !== obj.target
+                        || found.oracle.sources !== (obj.sources || "0x0000000000000000000000000000000000000000000000000000000000000000")
+                )) {
+                    tasks.removals.push(caption);
+                    console.info(`  ${colors.yellow(caption)} has new parameters.`)
+                    // console.log(found.oracle.sources, obj.sources)
+                    // console.log(found.oracle.target, obj.target)
+                    return true
+                
+                } else if (!found) {
+                    if (!runs) console.info(`  ${colors.green(caption)} needs to be settled.`)
                 }
-                return true
-            
-            } else if (obj.sources.some(dependency => tasks.removals.includes(dependency))) {
-                if (!tasks.mappers.find(mapper => mapper.caption === caption)) {
-                    console.info(`> ${colors.green(caption)} has updated dependencies.`)
-                }
-                return true
-            
-            } else {
-                return false
-            }
-            
-        })        
-        .map(([caption, obj]) => {
-            return { 
-                caption, 
-                decimals: parseInt(caption.split("#")[0].split("-").pop()) || 0, 
-                mapper: helpers.camelize(obj.class.split(":").pop().toLowerCase()),
-                deps: obj.sources,
-            }
-        });
-    }
-
-
-    // ================================================================================================================
-    // --- Checkout update conditions to be altered -------------------------------------------------------------------
-
-    function _checkIfDiffers(onchain, specs) {
-        return (
-            Number(onchain.callbackGas) !== specs?.callbackGas
-                || onchain.computeEMA !== specs?.computeEMA
-                || Number(onchain.cooldownSecs) !== specs?.cooldownSecs
-                || Number(onchain.heartbeatSecs) !== specs?.heartbeatSecs
-                || Number(onchain.maxDeviationPercentage) !== specs?.maxDeviationPercentage
-                || Number(onchain.minWitnesses) !== specs?.minWitnesses
-        )
-    }
-
-    tasks.conditions.push(...[...requests, ...oracles, ...mappers]
-        .filter(([caption, obj]) => {
-            const found = onchainPriceFeeds.find(({ symbol }) => symbol === caption)
-            const differs = found?.updateConditions && obj.conditions && _checkIfDiffers(found.updateConditions, obj.conditions)
-            if (!found || differs) {
-                console.info(`> ${colors.yellow(caption)} requires conditions to be altered. `)
-                return true
-            } else {
-                return false
-            }
-        })
-        .map(([caption, obj]) => ({
-            caption,
-            conditions: obj.conditions
-        }))
-    );
-
-    
-    // ================================================================================================================
-    // --- Checkout price feeds to be decommissioned ------------------------------------------------------------------
-
-    onchainPriceFeeds.forEach(pf => {
-        if (
-            !requests.find(([caption]) => caption === pf.symbol)
-                && !oracles.find(([caption]) => caption === pf.symbol)
-                && !mappers.find(([caption]) => caption === pf.symbol)
-        ) {
-            tasks.removals.push(pf.symbol)
-            console.info(`> ${colors.red(pf.symbol)} is required no more.`)
-        }
-    })
-
-
-    // ================================================================================================================
-    // --- PERFORM TO-DO TASKS ----------------------------------------------------------------------------------------
-    
-    if (tasks.verifications.length > 0) {
-        console.info(colors.lyellow(`\n\n  >>> VERIFY RADON REQUESTS <<<`,));
-        execSync(
-            `npx witnet-ethers assets ${tasks.verifications.join(" ")} --deploy --force`,
-            { stdio: "inherit", stdout: "inherit" }
-        );
-    }
-
-    async function _invokeAdminTask(func, ...params) {
-        if (typeof params[0] === "string") console.info(`\n  ${colors.lwhite(params[0])}:`);
-        const receipt = await func(...params, {
-            evmConfirmations: helpers.parseIntFromArgs(process.argv, `--port`) || 2,
-            onSettlePriceFeedTransaction: (txHash) => {
-                console.info(`  - EVM signer:${" ".repeat(maxCaptionWidth - 10)}${helpers.colors.gray(wrapper.signer.address)}`)
-                process.stdout.write(`  - EVM transaction:${" ".repeat(maxCaptionWidth - 15)}${helpers.colors.gray(txHash)} ... `)
-            },
-            onSettlePriceFeedTransactionReceipt: () => {
-                process.stdout.write(`${helpers.colors.lwhite("OK")}\n`)
-            },
-        }).catch(err => {
-            process.stdout.write(`${helpers.colors.mred("FAIL:\n")}`)
-            console.error(err)
-            process.exit(1)
-        })
-        if (receipt) {
-            console.info(`  - EVM block number:${" ".repeat(maxCaptionWidth - 16)}${helpers.colors.lwhite(helpers.commas(receipt?.blockNumber))}`)
-            console.info(`  - EVM tx gas price:${" ".repeat(maxCaptionWidth - 16)}${helpers.colors.lwhite(helpers.commas(receipt?.gasPrice))} weis`)
-            console.info(`  - EVM tx fee:${" ".repeat(maxCaptionWidth - 10)}${helpers.colors.lwhite(ethers.formatEther(receipt.fee))} ETH`)
-            const value = (await receipt.getTransaction()).value
-            console.info(`  - EVM randomize fee:${" ".repeat(maxCaptionWidth - 17)}${helpers.colors.lwhite(ethers.formatEther(value))} ETH`)
-            console.info(`  - EVM effective gas:${" ".repeat(maxCaptionWidth - 17)}${helpers.commas(Math.floor(Number((receipt.fee + value) / receipt.gasPrice)))} gas units`)
-        }
-    }
-
-    if (wrapper.signer.address === curator) {
-        
-        if (tasks.removals.length > 0) {
-            console.info(colors.lyellow(`\n  >>> REMOVE AFFECTED PRICE FEEDS <<<`))
-            for (const caption of tasks.removals) {
-                await _invokeAdminTask(
-                    wrapper.removePriceFeed.bind(wrapper), 
+                return !found
+            })
+            .map(([caption, obj]) => {
+                return { 
                     caption, 
-                )
+                    decimals: parseInt(caption.split("#")[0].split("-").pop()) || 0, 
+                    oracle: helpers.camelize(obj.class.split(":").pop().toLowerCase()),
+                    target: obj.target,
+                    sources: obj.sources,
+                }
+            });
+
+
+        // ================================================================================================================
+        // --- Checkout price feeds mappings ------------------------------------------------------------------------------
+
+        // load specs of mapped price feeds
+        settled.mappers = Object.entries(networkPriceFeeds.mappers).map(([caption, mapper]) => ([
+            caption, {
+                class: `mapper:${mapper.class}`,
+                sources: mapper.deps,
+                conditions: utils.getPriceFeedUpdateConditions(caption, network),
             }
-            console.info()
+        ]))
+
+        // respect the order of precedence ...
+        settled.mappers = settled.mappers.sort(([caption], [,{sources}]) => {
+            const a_index = settled.mappers.indexOf(caption)
+            sources.forEach(source => {
+                if (settled.mappers.indexOf(source) < a_index) {
+                    return 1
+                }
+            })
+            return -1
+        })
+
+        // settle mapped price feeds that have not yet been settled or otherwise settled with different parameters
+        for (let iters = 0; iters < 16; iters ++) {
+            tasks.mappers = settled.mappers
+            .filter(([caption, obj]) => {
+                const found = onchainPriceFeeds.find(pf => pf.symbol === caption)
+                const supported = Object.values(PriceFeedMappers).includes(helpers.camelize(obj.class.split(":").pop().toLowerCase()))
+                if (!supported) {
+                    console.info(`  ${colors.red(caption)} requires unsupported "${obj.class}".`)
+                    process.exit(1)
+                }
+                if (found && (
+                    !found.mapper
+                        || found.mapper.class.toLowerCase() !== obj.class.split(":").pop().toLowerCase()
+                        || found.mapper.deps.some(caption => !obj.sources.includes(caption))
+                        || obj.sources.some(caption => !found.mapper.deps.includes(caption))
+                )) {
+                    if (!tasks.removals.includes(caption)) {
+                        tasks.removals.push(caption);
+                    }
+                    if (!tasks.mappers.find(mapper => mapper.caption === caption)) {
+                        console.info(`  ${colors.yellow(caption)} has new dependencies.`)   
+                    }
+                    return true
+                }
+                if (!found) {
+                    if (!tasks.mappers.find(mapper => mapper.caption === caption)) {
+                        console.info(`  ${colors.green(caption)} needs to be settled.`)
+                    }
+                    return true
+                
+                } else if (obj.sources.some(dependency => tasks.removals.includes(dependency))) {
+                    if (!tasks.mappers.find(mapper => mapper.caption === caption)) {
+                        console.info(`  ${colors.green(caption)} has updated dependencies.`)
+                    }
+                    return true
+                
+                } else {
+                    return false
+                }
+                
+            })        
+            .map(([caption, obj]) => {
+                return { 
+                    caption, 
+                    decimals: parseInt(caption.split("#")[0].split("-").pop()) || 0, 
+                    mapper: helpers.camelize(obj.class.split(":").pop().toLowerCase()),
+                    deps: obj.sources,
+                }
+            });
+        }
+
+
+        // ================================================================================================================
+        // --- Checkout price feeds to be decommissioned ------------------------------------------------------------------
+
+        onchainPriceFeeds.forEach(pf => {
+            if (
+                !settled.requests.find(([caption]) => caption === pf.symbol)
+                    && !settled.oracles.find(([caption]) => caption === pf.symbol)
+                    && !settled.mappers.find(([caption]) => caption === pf.symbol)
+            ) {
+                tasks.removals.push(pf.symbol)
+                console.info(`  ${colors.red(pf.symbol)} is required no more.`)
+            }
+        })
+
+
+        // ================================================================================================================
+        // --- PERFORM TO-DO TASKS ----------------------------------------------------------------------------------------
+
+        // only if the provider is connected to the proper price feeds curator address:
+        if (wrapper.signer.address === curator) {
+            if (runs > 0) {
+                // on all main iterations but the last:
+                if (tasks.removals.length > 0) {
+                    console.info(colors.lyellow(`\n  >>> REMOVE AFFECTED PRICE FEEDS <<<`))
+                    for (const caption of tasks.removals) {
+                        console.info(`\n  ${colors.lwhite(caption)}${" ".repeat(18 - caption.length)}`)
+                        await _invokeAdminTask(
+                            wrapper.removePriceFeed.bind(wrapper),
+                            caption, 
+                        )
+                    }
+                    console.info()
+                }
+            }
+        }
+    
+    }   
+    /// END OF MAIN LOOP
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    if (
+        wrapper.signer.address !== curator && (
+            tasks.removals.length > 0 ||
+            tasks.requests.length > 0 || 
+            tasks.oracles.length > 0 || 
+            tasks.mappers.length > 0
+        )
+    ) {
+        console.error(colors.red(`\n^ Pending tasks require curatorship and cannot be attended.`))
+        process.exit(1)
+    
+    } else if (wrapper.signer.address === curator) {
+        if (tasks.verifications.length > 0) {
+            console.info(colors.lyellow(`\n\n  >>> VERIFY RADON REQUESTS ON-CHAIN<<<`,));
+            execSync(
+                `npx witnet-ethers assets ${tasks.verifications.join(" ")} --deploy --force`,
+                { stdio: "inherit", stdout: "inherit" }
+            );
         }
         if (tasks.requests.length > 0) {
             console.info(colors.lyellow(`\n  >>> SETTLE WITNET PRICE FEEDS <<<`))
             for (const task of tasks.requests) {
+                console.info(`\n  ${colors.lwhite(task.caption)}: ${" ".repeat(18 - task.caption.length)} ${colors.yellow(task.radHash)}`)
                 await _invokeAdminTask(
                     wrapper.settlePriceFeedRadonHash.bind(wrapper), 
                     task.caption, 
-                    task.decimals, 
+                    -task.decimals, 
                     task.radHash
                 )
             }
@@ -426,10 +448,11 @@ async function main () {
         if (tasks.oracles.length > 0) {
             console.info(colors.lyellow(`\n  >>> SETTLE ORACLIZED PRICE FEEDS <<<`))
             for (const task of tasks.oracles) {
+                console.info(`\n  ${colors.lwhite(task.caption)}: ${" ".repeat(18 - task.caption.length)} ${colors.yellow(`${task.oracle}:${task.sources || task.target}`)}`)
                 await _invokeAdminTask(
                     wrapper.settlePriceFeedOracle.bind(wrapper), 
                     task.caption, 
-                    task.decimals, 
+                    -task.decimals, 
                     task.oracle, 
                     task.target, 
                     task.sources
@@ -439,53 +462,112 @@ async function main () {
         }
         if (tasks.mappers.length > 0) {
             console.info(colors.lyellow(`\n  >>> SETTLE MAPPED PRICE FEEDS <<<`))
+            
             for (const task of tasks.mappers) {
+                console.info(`\n  ${colors.lwhite(task.caption)}: ${" ".repeat(18 - task.caption.length)} ${colors.yellow(
+                    `${task.mapper}(${JSON.stringify(task.deps)})`
+                )}`)
                 await _invokeAdminTask(
-                    wrapper.settlePriceFeedMapper.bind(wrapper), 
+                    wrapper.settlePriceFeedMapper.bind(wrapper),
                     task.caption, 
-                    task.decimals, 
+                    -task.decimals, 
                     task.mapper,
                     task.deps,
                 )
             }
             console.info()
         }
-        if (tasks.conditions.length > 0) {
-            console.info(colors.lyellow(`\n  >>> SETTLE UPDATE CONDITIONS <<<`))
-            const defaultConditions = utils.getDefaultUpdateConditions(witnet.network === "mainnet")
-            const onchainDefaultConditions = await wrapper.getDefaultUpdateConditions()
-            if (_checkIfDiffers(onchainDefaultConditions, defaultConditions)) {
-                console.info(`\n  ${colors.lwhite("Default conditions")}:  ${JSON.stringify(defaultConditions)}`)
-                await _invokeAdminTask(
-                    wrapper.settleDefaultUpdateConditions.bind(wrapper), 
-                    defaultConditions,
-                )
-            }
-            for (const task of tasks.conditions) {
-                await _invokeAdminTask(
-                    wrapper.settlePriceFeedUpdateConditions.bind(wrapper), 
-                    task.caption, 
-                    task.conditions,
-                )
-            }
-            console.info()
-        }
+    }
+
+    // re-read on-chain price feeds, after all affected price feeds have been previously settled
+    const onchainPriceFeeds = await wrapper.lookupPriceFeeds()
     
-    } else {
-        if (tasks.removals.length > 0 || tasks.requests.length > 0 || tasks.oracles.length > 0 || tasks.mappers.length > 0) {
-            console.error(colors.red(`\n^ Pending tasks require curatorship and cannot be attended.`))
-            process.exit(1)
+    // check whether update conditions need to be updated:
+    {
+        tasks.conditions.push(
+            ...[...settled.requests, ...settled.oracles, ...settled.mappers]
+                .filter(([caption, obj]) => {
+                    const found = onchainPriceFeeds.find(({ symbol }) => symbol === caption)
+                    const differs = found?.updateConditions && obj.conditions && _checkIfConditionsDiffer(found.updateConditions, obj.conditions)
+                    if (!found || differs) {
+                        // console.info(`  ${colors.yellow(caption)} requires conditions to be altered. `)
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                .map(([caption, obj]) => ({
+                    caption,
+                    conditions: obj.conditions
+                }))
+        );
+
+        if (tasks.conditions.length > 0) {
+            if (wrapper.signer.address === curator) {
+                console.info(colors.lyellow(`\n  >>> SETTLE UPDATE CONDITIONS <<<`))
+                const defaultConditions = utils.getDefaultUpdateConditions(witnet.network === "mainnet")
+                const onchainDefaultConditions = await wrapper.getDefaultUpdateConditions()
+                if (_checkIfConditionsDiffer(onchainDefaultConditions, defaultConditions)) {
+                    console.info(`\n  ${colors.lwhite("Default conditions")}:  ${colors.yellow(JSON.stringify(defaultConditions))}`)
+                    await _invokeAdminTask(
+                        wrapper.settleDefaultUpdateConditions.bind(wrapper), 
+                        defaultConditions,
+                    )
+                }
+                for (const task of tasks.conditions) {
+                    console.info(`\n  ${colors.lwhite(task.caption)}: ${" ".repeat(18 - task.caption)} ${colors.yellow(JSON.stringify(task.conditions))}`)
+                    await _invokeAdminTask(
+                        wrapper.settlePriceFeedUpdateConditions.bind(wrapper),
+                        task.caption, 
+                        task.conditions,
+                    )
+                }
+                console.info()
+            } else {
+                console.error(colors.red(`\n^ Updating price feeds conditions require curatorship and cannot be attended.`))
+                process.exit(1)
+            }
         }
     }
-        
+    
 
-    // ================================================================================================================
-    // --- Merge settled price feeds ----------------------------------------------------------------------------------
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// OUTPUT SETTLED PRICE FEEDS AFTER CURATION 
 
-    // ---> Reload price feeds settled on-chain:
-    onchainPriceFeeds = await wrapper.lookupPriceFeeds()
+    if (settled.requests.length > 0) {
+        console.info(colors.lyellow(`\n  >>> DRY-RUNNING WITNET RADON REQUESTS <<<\n`,));
+        settled.requests = await Promise.all(
+            settled.requests
+                .map(async ([caption, obj]) => {
+                    let dryrun
+                    try {
+                        dryrun = JSON.parse(await obj.sources.execDryRun(true))
+                        const result = dryrun.tally.result
+                        console.info(`  ${colors.green(caption)}${
+                            " ".repeat(18 - caption.length)} => ${
+                                result?.RadonInteger
+                                    ? colors.cyan(JSON.parse(result.RadonInteger))
+                                    : colors.red(JSON.stringify(result))
+                            }`
+                        )
+                    } catch (err) {
+                        console.error(`  ${colors.lwhite(caption)}${
+                            " ".repeat(18 - caption.length)} => ${colors.red("FAILED")}`
+                        )
+                        console.log(err)
+                    };
+                    return [
+                        caption, {
+                            ...obj,
+                            dryrun
+                        }
+                    ]
+                })
+        );
+        console.info()
+    }
 
-    const priceFeeds = [...requests, ...oracles, ...mappers]
+    const priceFeeds = [...settled.requests, ...settled.oracles, ...settled.mappers]
         .sort((a, b) => a[0].localeCompare(b[0]))
         .map(([caption, obj]) => {
             const found = onchainPriceFeeds.find(pf => pf.symbol === caption)
@@ -556,4 +638,39 @@ async function main () {
         }
     )
 }
-    
+
+function _checkIfConditionsDiffer(onchain, specs) {
+    return (
+        Number(onchain.callbackGas) !== specs?.callbackGas
+            || onchain.computeEMA !== specs?.computeEMA
+            || Number(onchain.cooldownSecs) !== specs?.cooldownSecs
+            || Number(onchain.heartbeatSecs) !== specs?.heartbeatSecs
+            || Number(onchain.maxDeviationPercentage) !== specs?.maxDeviationPercentage
+            || Number(onchain.minWitnesses) !== specs?.minWitnesses
+    )
+}
+
+async function _invokeAdminTask(func, ...params) {
+    const receipt = await func(...params, {
+        evmConfirmations: helpers.parseIntFromArgs(process.argv, `--confirmations`) || 2,
+        onTransaction: (txHash) => {
+            process.stdout.write(`  - EVM transaction:   ${helpers.colors.gray(txHash)} ... `)
+        },
+        onTransactionReceipt: () => {
+            process.stdout.write(`${helpers.colors.lwhite("OK")}\n`)
+        },
+    }).catch(err => {
+        process.stdout.write(`${helpers.colors.mred("FAIL:\n")}`)
+        console.error(err)
+        process.exit(1)
+    })
+    if (receipt) {
+        console.info(`  - EVM block number:  ${helpers.colors.lwhite(helpers.commas(receipt?.blockNumber))}`)
+        console.info(`  - EVM tx gas price:  ${helpers.colors.lwhite(helpers.commas(receipt?.gasPrice))} weis`)
+        console.info(`  - EVM tx fee:        ${helpers.colors.lwhite(ethers.formatEther(receipt.fee))} ETH`)
+        const value = (await receipt.getTransaction()).value
+        console.info(`  - EVM randomize fee: ${helpers.colors.lwhite(ethers.formatEther(value))} ETH`)
+        console.info(`  - EVM effective gas: ${helpers.commas(Math.floor(Number((receipt.fee + value) / receipt.gasPrice)))} gas units`)
+    }
+    return receipt
+}
