@@ -1,4 +1,4 @@
-const framework = require("witnet-solidity-bridge").default
+const framework = require("@witnet/solidity").default
 const merge = require("lodash.merge")
 
 const updateConditions = require("../../witnet/updateConditions.json")
