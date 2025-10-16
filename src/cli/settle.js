@@ -44,6 +44,7 @@ async function main () {
     }
     
     helpers.traceHeader(`${network.toUpperCase()}`, helpers.colors.lcyan)
+    if (!radHashes[network]) radHashes[network] = {};
 
     const { provider } = witOracle
     const framework = await helpers.prompter(utils.fetchWitOracleFramework(provider))
@@ -58,12 +59,11 @@ async function main () {
 
     const wrapper = await witOracle.getWitPriceFeedsAt(target)
     let curator = await wrapper.getEvmCurator()
-    const [ artifact, version, consumer, base, master ] = await Promise.all([
+    const [ artifact, version, consumer, master ] = await Promise.all([
         await wrapper.getEvmImplClass(),
         await wrapper.getEvmImplVersion(),
         await wrapper.getEvmConsumer(),
         await wrapper.getEvmClonableBase(),
-        await wrapper.getEvmClonableMaster(),
     ])
 
     if (!artifact.startsWith("WitPriceFeeds")) {
@@ -426,9 +426,9 @@ async function main () {
     
     } else if (wrapper.signer.address === curator) {
         if (tasks.verifications.length > 0) {
-            console.info(colors.lyellow(`\n\n  >>> VERIFY RADON REQUESTS ON-CHAIN<<<`,));
+            console.info(colors.lyellow(`\n\n  >>> VERIFY RADON REQUESTS ON-CHAIN <<<`,));
             execSync(
-                `npx witnet-ethers assets ${tasks.verifications.join(" ")} --deploy --force`,
+                `npx witnet-ethers assets ${tasks.verifications.join(" ")} --deploy --force --port ${port}`,
                 { stdio: "inherit", stdout: "inherit" }
             );
         }
