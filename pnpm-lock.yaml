@@ -7,6 +7,16 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@witnet/sdk':
+        specifier: ^1.1.2
+        version: 1.1.2(@types/node@22.18.10)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+      commander:
+        specifier: ^14.0.1
+        version: 14.0.1
+      dotenv:
+        specifier: ^17.2.3
+        version: 17.2.3
     devDependencies:
       '@types/lodash.merge':
         specifier: ^4.6.9
@@ -15,23 +25,17 @@ importers:
         specifier: ^22.18.10
         version: 22.18.10
       '@witnet/ethers':
-        specifier: ^1.3.1
-        version: 1.3.1(@types/node@22.18.10)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-      '@witnet/sdk':
-        specifier: ^1.1.2
-        version: 1.1.2(@types/node@22.18.10)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: ^1.3.2
+        version: 1.3.2(@types/node@22.18.10)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@witnet/solidity':
-        specifier: ^3.0.1
-        version: 3.0.1
+        specifier: ^3.0.3
+        version: 3.0.3
       chai:
         specifier: ^6.2.0
         version: 6.2.0
       cross-env:
         specifier: ^10.1.0
         version: 10.1.0
-      dotenv:
-        specifier: ^16.6.1
-        version: 16.6.1
       eslint:
         specifier: ^9.37.0
         version: 9.37.0
@@ -62,6 +66,12 @@ importers:
       moment:
         specifier: ^2.30.1
         version: 2.30.1
+      node-cron:
+        specifier: ^4.2.1
+        version: 4.2.1
+      promise-poller:
+        specifier: ^1.9.1
+        version: 1.9.1
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -755,16 +765,16 @@ packages:
   '@vitest/utils@3.2.4':
     resolution: {integrity: sha512-fB2V0JFrQSMsCo9HiSq3Ezpdv4iYaXRG1Sx8edX3MwxfyNn83mKiGzOcH+Fkxt4MHxr3y42fQi1oeAInqgX2QA==}
 
-  '@witnet/ethers@1.3.1':
-    resolution: {integrity: sha512-R0J5RdCM+pB9QYuXMAaJsI04S4S31JTvjSEM3C142x7P/9DigD4GPtyeb8F5C/Rxl6DRVFEkUo02Y7/zO3l9FQ==}
+  '@witnet/ethers@1.3.2':
+    resolution: {integrity: sha512-SrAuoWZ+mbsawHfVhe8bB9/MWBfXMAoWnoBnp7XW3x60uNPyUlg7lB0ubc6PyUBqsHagSHKn5NdUL/V1ht9JGA==}
     hasBin: true
 
   '@witnet/sdk@1.1.2':
     resolution: {integrity: sha512-Q8fTE9JjvlKgWA7wWMKZp9ckr6yXlIHn57c6cgJLUu2Tfpsp2oSQwQOYoNb4N97KaJWx8r1Ply1/gImwmBoTyA==}
     hasBin: true
 
-  '@witnet/solidity@3.0.1':
-    resolution: {integrity: sha512-JfWUfdOfHJFTvi1H1xHs5xIwcuJRuqkSr+QDyMFq5BzYsdlL5JWDTCJiF8JhbCmP8CgtQ7E0mXqw9TnWdnV4OA==}
+  '@witnet/solidity@3.0.3':
+    resolution: {integrity: sha512-tBtM13xe6I3U+ANiy+i+mRTWmMD3Owvpxyz7IyRxOAI2kVb+K+93mdhqKbZO8FdrEJ0PSH8jAS1EtULp9yhaZw==}
 
   abi-util-lite@0.1.0:
     resolution: {integrity: sha512-iUXhIEXq2RFrT+Cc4lkG+H+Q+7xfZYnmv531oP4wgyP/wRfC15j5nbUNvE6LqoJyvEwRkV9ku+36w+MWor0jpA==}
@@ -1022,6 +1032,10 @@ packages:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
     engines: {node: '>= 0.8'}
 
+  commander@14.0.1:
+    resolution: {integrity: sha512-2JkV3gUZUVrbNA+1sjBOYLsMZ5cEEl8GTFP2a4AVz5hvasAMCQ1D2l2le/cX+pV4N6ZU17zjUahLpIXRrnWL8A==}
+    engines: {node: '>=20'}
+
   commander@8.3.0:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
     engines: {node: '>= 12'}
@@ -1151,6 +1165,10 @@ packages:
 
   dotenv@16.6.1:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
+    engines: {node: '>=12'}
+
+  dotenv@17.2.3:
+    resolution: {integrity: sha512-JVUnt+DUIzu87TABbhPmNfVdBDt18BLOWjMUFJMSi/Qqg7NTYtabbvSNJGOJ7afbRuv9D/lngizHtP7QyLQ+9w==}
     engines: {node: '>=12'}
 
   drbg.js@1.0.1:
@@ -1959,6 +1977,10 @@ packages:
 
   node-addon-api@5.1.0:
     resolution: {integrity: sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==}
+
+  node-cron@4.2.1:
+    resolution: {integrity: sha512-lgimEHPE/QDgFlywTd8yTR61ptugX3Qer29efeyWw2rv259HtGBNn1vZVmp8lB9uo9wC0t/AT4iGqXxia+CJFg==}
+    engines: {node: '>=6.0.0'}
 
   node-gyp-build@4.8.4:
     resolution: {integrity: sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==}
@@ -3385,10 +3407,10 @@ snapshots:
       loupe: 3.2.1
       tinyrainbow: 2.0.0
 
-  '@witnet/ethers@1.3.1(@types/node@22.18.10)(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@witnet/ethers@1.3.2(@types/node@22.18.10)(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@witnet/sdk': 1.1.2(@types/node@22.18.10)(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-      '@witnet/solidity': 3.0.1
+      '@witnet/solidity': 3.0.3
       axios: 1.12.2
       cbor: 10.0.11
       cross-env: 10.1.0
@@ -3433,7 +3455,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@witnet/solidity@3.0.1':
+  '@witnet/solidity@3.0.3':
     dependencies:
       dotenv: 16.6.1
       lodash.merge: 4.6.2
@@ -3732,6 +3754,8 @@ snapshots:
     dependencies:
       delayed-stream: 1.0.0
 
+  commander@14.0.1: {}
+
   commander@8.3.0: {}
 
   component-emitter@1.3.1: {}
@@ -3853,6 +3877,8 @@ snapshots:
       esutils: 2.0.3
 
   dotenv@16.6.1: {}
+
+  dotenv@17.2.3: {}
 
   drbg.js@1.0.1:
     dependencies:
@@ -4879,6 +4905,8 @@ snapshots:
   node-addon-api@2.0.2: {}
 
   node-addon-api@5.1.0: {}
+
+  node-cron@4.2.1: {}
 
   node-gyp-build@4.8.4: {}
 
