@@ -6,9 +6,9 @@ require("dotenv").config()
 const inquirer = require("inquirer")
 const moment = require("moment")
 
-const { assets, utils } = require("../../dist/src/lib")
-const radHashes = require("../../witnet/requests.json")
-const helpers = require("../bin/helpers")
+const { assets, utils } = require("../dist/src/lib")
+const radHashes = require("../witnet/requests.json")
+const helpers = require("../src/helpers")
 const { colors } = helpers
 
 const host = helpers.spliceFromArgs(process.argv, `--host`) || "http://127.0.0.1"

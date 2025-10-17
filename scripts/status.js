@@ -4,8 +4,8 @@ const { WitOracle } = require("@witnet/ethers")
 require("dotenv").config()
 const moment = require("moment")
 
-const { assets, utils } = require("../../dist/src/lib")
-const helpers = require("../bin/helpers")
+const { assets, utils } = require("../dist/src/lib")
+const helpers = require("../src/helpers")
 const { colors } = helpers
 
 const host = helpers.spliceFromArgs(process.argv, `--host`) || "http://127.0.0.1"
@@ -79,9 +79,8 @@ async function main () {
             }`
         )
 
-        const lookupPriceFeeds = await wrapper.lookupPriceFeeds()
-
-        const radHashes = require("../../witnet/requests.json")
+        // const lookupPriceFeeds = await wrapper.lookupPriceFeeds()
+        const radHashes = require("../witnet/requests.json")
 
         let priceTargets = []
         priceTargets = [...Object.entries(priceFeeds.mappers).map(([caption, mapper]) => ([
@@ -173,7 +172,8 @@ async function main () {
         helpers.traceHeader(`WITNET ${witnet.network.toUpperCase()}`, helpers.colors.lwhite)
 
         const captions = []
-        const radHashes = Object.entries(require("../../witnet/requests.json"))
+        const radHashes = require("../witnet/requests.json")
+        const radEntries = Object.entries(radHashes)
 
         let { requests } = priceFeeds
 
@@ -197,7 +197,7 @@ async function main () {
                     networks
                 ]
             })
-            .filter(([,,request]) => request !== undefined);
+            .filter(([,,request, networks]) => request !== undefined && networks.length > 0);
         
         // remove repeated records or those that are not required in any network
         requests = requests
@@ -242,7 +242,7 @@ async function main () {
 
                 const updateConditions = utils.getPriceFeedUpdateConditions(caption, witnet.network === "mainnet")
                 
-                const uptodate = radHashes
+                const uptodate = radEntries
                     .filter(([network, deployed]) => {
                         if (deployed[artifact] === request.radHash) return true;
                         else if (deployed[artifact] && deployed[artifact] !== request.radHash) {
@@ -255,7 +255,7 @@ async function main () {
                     .length;
 
                 networks.forEach(network => {
-                    if (!radHashes[network] || !radHashes[network][caption]) {
+                    if (!radHashes[network] || !radHashes[network][artifact]) {
                         console.info(`> ${colors.yellow(artifact)}: needs to be deployed in ${colors.cyan(network)}`);
                         maintenance.networks.push(network)
                     }

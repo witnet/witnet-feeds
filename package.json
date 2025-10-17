@@ -35,8 +35,8 @@
     "build": "tsc -p tsconfig.json",
     "fmt": "eslint --ext .js,.ts,.cjs . --ignore-path .gitignore --ignore-pattern _*",
     "fmt!": "eslint --ext .js,.ts,.cjs . --fix --ignore-path .gitignore --ignore-pattern _*",
-    "pfs:settle": "npm run build && node ./src/cli/settle.js",
-    "pfs:status": "npm run build && node ./src/cli/status.js",
+    "pfs:settle": "npm run build && node ./scripts/settle.js",
+    "pfs:status": "npm run build && node ./scripts/status.js",
     "prepare": "npm run build",
     "test": "vitest"
   },
