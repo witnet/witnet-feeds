@@ -4,8 +4,9 @@ const merge = require("lodash.merge")
 const updateConditions = require("../../witnet/updateConditions.json")
 const priceFeeds = require("../../witnet/priceFeeds.json")
 
-export * from "@witnet/ethers/utils"
 import * as _utils from "@witnet/ethers/utils"
+
+export * from "@witnet/ethers/utils"
 
 const _networks = _utils.getEvmNetworks()
 const _networksPriceFeeds = Object.fromEntries(_utils.getEvmNetworks().map(network => {
