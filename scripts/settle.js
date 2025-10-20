@@ -6,7 +6,7 @@ require("dotenv").config()
 const inquirer = require("inquirer")
 const moment = require("moment")
 
-const { assets, utils } = require("../dist/src/lib")
+const { assets, utils, Rulebook } = require("../dist/src/lib")
 const radHashes = require("../witnet/requests.json")
 const helpers = require("../src/helpers")
 const { colors } = helpers
@@ -139,8 +139,9 @@ async function main () {
     }
     console.info()
 
-    // Parse `priceFeeds.json` resource price:
-    const networkPriceFeeds = utils.getNetworkPriceFeeds(network)
+    // Parse rulebook resources from witnet's workspace directory:
+    const rulebook = Rulebook.workspace()
+    const networkPriceFeeds = rulebook.getNetworkPriceFeeds(network)
 
     // panic if repeated captions are found
     Object.keys(networkPriceFeeds.requests).forEach(caption => {
@@ -206,7 +207,7 @@ async function main () {
                         class: "oracle:witnet",
                         sources,
                         target,
-                        conditions: utils.getPriceFeedUpdateConditions(caption, network),
+                        conditions: rulebook.getPriceFeedUpdateConditions(caption, network),
                     }
                 ]
             });
@@ -256,7 +257,7 @@ async function main () {
                 class: `oracle:${oracle.class}`,
                 sources: oracle.sources,
                 target: oracle.target,
-                conditions: utils.getPriceFeedUpdateConditions(caption, network),
+                conditions: rulebook.getPriceFeedUpdateConditions(caption, network),
             }
         ]))
 
@@ -306,7 +307,7 @@ async function main () {
             caption, {
                 class: `mapper:${mapper.class}`,
                 sources: mapper.deps,
-                conditions: utils.getPriceFeedUpdateConditions(caption, network),
+                conditions: rulebook.getPriceFeedUpdateConditions(caption, network),
             }
         ]))
 
@@ -421,7 +422,7 @@ async function main () {
             tasks.mappers.length > 0
         )
     ) {
-        console.error(colors.red(`\n^ Pending tasks require curatorship and cannot be attended.`))
+        console.error(colors.red(`\n^ Pending tasks require curatorship!`))
         process.exit(1)
     
     } else if (wrapper.signer.address === curator) {
@@ -505,7 +506,7 @@ async function main () {
         if (tasks.conditions.length > 0) {
             if (wrapper.signer.address === curator) {
                 console.info(colors.lyellow(`\n  >>> SETTLE UPDATE CONDITIONS <<<`))
-                const defaultConditions = utils.getDefaultUpdateConditions(witnet.network === "mainnet")
+                const defaultConditions = rulebook.getDefaultUpdateConditions(witnet.network === "mainnet")
                 const onchainDefaultConditions = await wrapper.getDefaultUpdateConditions()
                 if (_checkIfConditionsDiffer(onchainDefaultConditions, defaultConditions)) {
                     console.info(`\n  ${colors.lwhite("Default conditions")}:  ${colors.yellow(JSON.stringify(defaultConditions))}`)
@@ -524,7 +525,7 @@ async function main () {
                 }
                 console.info()
             } else {
-                console.error(colors.red(`\n^ Updating price feeds conditions require curatorship and cannot be attended.`))
+                console.error(colors.red(`\n^ Updating price feeds conditions require curatorship!`))
                 process.exit(1)
             }
         }
@@ -666,10 +667,9 @@ async function _invokeAdminTask(func, ...params) {
     })
     if (receipt) {
         console.info(`  - EVM block number:  ${helpers.colors.lwhite(helpers.commas(receipt?.blockNumber))}`)
-        console.info(`  - EVM tx gas price:  ${helpers.colors.lwhite(helpers.commas(receipt?.gasPrice))} weis`)
+        console.info(`  - EVM tx gas price:  ${helpers.colors.lwhite(ethers.formatUnits(receipt?.gasPrice, 9))} gweis`)
         console.info(`  - EVM tx fee:        ${helpers.colors.lwhite(ethers.formatEther(receipt.fee))} ETH`)
         const value = (await receipt.getTransaction()).value
-        console.info(`  - EVM randomize fee: ${helpers.colors.lwhite(ethers.formatEther(value))} ETH`)
         console.info(`  - EVM effective gas: ${helpers.commas(Math.floor(Number((receipt.fee + value) / receipt.gasPrice)))} gas units`)
     }
     return receipt
