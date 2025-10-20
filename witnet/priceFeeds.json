@@ -259,6 +259,12 @@
       "Crypto.WETH/WULX-6"
     ]
   },
+  "ten": {
+    "requests": [
+      "Crypto.BTC/USD-6",
+      "Crypto.ETH/USD-6"
+    ]
+  },
   "world": {
     "mappers": {
       "Crypto.WLD/USD-6": {
