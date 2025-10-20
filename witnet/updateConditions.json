@@ -3,19 +3,19 @@
         "mainnets": {
             "callbackGas": 100000,
             "computeEMA": false,
-            "cooldownSecs": 3600,
+            "cooldownSecs": 900,
             "deviationPercentage": 3.5,
             "heartbeatSecs": 86400,
-            "maxDeviationPercentage": 25.0,
+            "maxDeviationPercentage": 0,
             "minWitnesses": 12
         },
         "testnets": {
             "callbackGas": 100000,
             "computeEMA": false,
-            "cooldownSecs": 900,
-            "deviationPercentage": 3.5,
-            "heartbeatSecs": 86400,
-            "maxDeviationPercentage": 25.0,
+            "cooldownSecs": 300,
+            "deviationPercentage": 1.0,
+            "heartbeatSecs": 3600,
+            "maxDeviationPercentage": 0,
             "minWitnesses": 3
         },
         "Crypto.BCH/USD-6": {
