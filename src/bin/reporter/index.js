@@ -37,7 +37,7 @@ async function main() {
         .option("--port <url>", "ETH/RPC provider port", process.env.WITNET_PFS_ETH_RPC_PROVIDER_PORT || 8545)
         .option("--kermit <url>", "WIT/Kermit endpoint other than default", "https://kermit.witnet.io")
         .option("--min-balance <eth>", "Min. balance threshold", process.env.WITNET_PFS_ETH_MIN_BALANCE || 0.001)
-        .option("--max-gas-price <gwei>", "Max. network gas price to pay upon updates", process.env.WITNET_PFS_ETH_MAX_PRICE)
+        .option("--max-gas-price <gwei>", "Max. network gas price to pay upon updates", process.env.WITNET_PFS_ETH_MAX_GAS_PRICE)
         .option("--network <evm_network>", "EVM network to report into", process.env.WITNET_PFS_ETH_NETWORK)
         .option("--signer <evm_address>", "EVM address that pays for reporting updates")
         .option("--target <evm_address>", "WitPriceFeeds address to report into")
@@ -57,7 +57,7 @@ async function main() {
         port, 
         signer, 
         target, 
-        witnet ,
+        witnet,
     } = program.opts()
 
     if (!debug) console.debug = function () { }
@@ -156,16 +156,16 @@ async function main() {
         try {
             const newBalance = await provider.getBalance(signer)
             if (newBalance > balance) {
-                console.info(`[${signer}] Balance increased +${ethers.formatEther(newBalance - balance)} ${symbol}`)
+                console.info(`[${network}:${signer}] Balance increased +${ethers.formatEther(newBalance - balance)} ${symbol}`)
             }
             balance = newBalance
         } catch (err) {
-            console.warn(`[${signer}] Cannot check balance: ${err}`)
+            console.warn(`[${network}:${signer}] Cannot check balance: ${err}`)
         }
         
-        console.info(`[${signer}] Balance: ${ethers.formatEther(balance)} ${symbol}`)
+        console.info(`[${network}:${signer}] Balance: ${ethers.formatEther(balance)} ${symbol}`)
         if (balance < minBalance) {
-            console.warn(`[${signer}] Low funds !!!`)
+            console.warn(`[${network}:${signer}] Low funds !!!`)
         }
         await lookupPriceFeeds()
     }
@@ -175,9 +175,9 @@ async function main() {
         try {
             const newRulebook = configPath ? await Rulebook.fromUrlBase(configPath) : Rulebook.default()
             rulebook = newRulebook
-            console.debug(`[${signer}] Reloaded deviation threshold rules.`)
+            console.debug(`[${network}:${signer}] Reloaded deviation threshold rules.`)
         } catch (err) {
-            console.warn(`[${signer}] Cannot reload Rulebook: ${err}`)
+            console.warn(`[${network}:${signer}] Cannot reload Rulebook: ${err}`)
         }
         // check footprint
         try {
@@ -231,9 +231,8 @@ async function main() {
                     })
                 ));
                 Object.entries(priceFeeds).forEach(([caption, { id4, conditions }]) => {
-                    const tag = ``
                     console.info(
-                        `[${id4}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}] Update conditions: { cooldown: ${
+                        `[${network}:${id4}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}] Update conditions: { cooldown: ${
                             conditions.cooldownSecs
                         }", deviation: ${
                             conditions.deviationPercentage.toFixed(1)
@@ -247,14 +246,14 @@ async function main() {
                 })
             }
         } catch (err) {
-            console.warn(`[${signer}] Cannot check footprint: ${err}`)
+            console.warn(`[${network}:${signer}] Cannot check footprint: ${err}`)
         }
     }
 
     async function dryRunPriceFeed(caption, _footprint) {
         if (priceFeeds[caption] && priceFeeds[caption].footprint === _footprint) {
             const { conditions, id4, exponent, radHash, request, lastUpdate } = priceFeeds[caption]
-            const tag = `${id4}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}`
+            const tag = `${network}:${id4}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}`
             try {
                 // determine whether polling for notarized update is required
                 const heartbeatSecs = Math.floor(Date.now() / 1000) - Number(lastUpdate.timestamp)
@@ -294,7 +293,7 @@ async function main() {
                                 && BigInt(report.result.timestamp) > lastUpdate.timestamp
                             ));
                             if (dataRequests.length > 0) {
-                                const report = await _kermit.getDataPushReport(dataRequests[0].hash, "ethereum:sepolia")
+                                const report = await _kermit.getDataPushReport(dataRequests[0].hash, network)
                                 const { hash, result } = report
                                 console.info(`[${tag}] [<] DRT hash: ${hash}`)
                                 const price = parseInt(utils.cbor.decode(result.cbor_bytes))
@@ -333,7 +332,7 @@ async function main() {
             pendingUpdates = []
             for (let index = 0; index < tasks.length; index ++) {
                 const { id4, caption, report } = tasks[index]
-                const tag = `${id4}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}`
+                const tag = `${network}:${id4}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}`
                 if (priceFeeds[caption]) {
                     const { conditions, lastUpdate } = priceFeeds[caption]
                     const elapsed = Math.floor(Date.now() / 1000) - Number(lastUpdate.timestamp)

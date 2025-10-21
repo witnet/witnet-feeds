@@ -37,7 +37,7 @@ async function main() {
         .option("--priority <priority>", "Network priority", process.env.WITNET_PFS_WIT_NETWORK_PRIORITY || Witnet.TransactionPriority.Medium)
         .option("--provider <url>", "Wit/RPC provider endpoint", process.env.WITNET_PFS_WIT_RPC_PROVIDER || "https://rpc-testnet.witnet.io")
         .option("--signer <wit_pkh>", "Signer's public key hash", process.env.WITNET_PFS_WIT_RPC_SIGNER)
-        .option("--strategy <strategy>", "UTXO selection strategy", process.env.WITNET_PFS_WTI_UTXOS_STRATEGY || Witnet.UtxoSelectionStrategy.SlimFit)
+        .option("--strategy <strategy>", "UTXO selection strategy", process.env.WITNET_PFS_WIT_UTXOS_STRATEGY || Witnet.UtxoSelectionStrategy.SlimFit)
 
     program.parse()
     
@@ -56,7 +56,7 @@ async function main() {
     })
     const ledger = wallet.getSigner(signer || wallet.coinbase.pkh)
     if (!ledger) {
-        console.error(`❌ Fatal: hot wallet address ${WIT_SIGNER_PKH} not found in wallet!`)
+        console.error(`❌ Fatal: hot wallet address ${signer} not found in wallet!`)
         process.exit(0)
     }
 
@@ -106,7 +106,7 @@ async function main() {
 
     async function notarize(caption) {
         const { request, conditions } = priceFeeds[caption]
-        const tag = `${caption}${" ".repeat(maxWidth - caption.length)}`
+        const tag = `witnet:${wallet.provider.network}:${caption}${" ".repeat(maxWidth - caption.length)}`
         try {
             let dryrun = JSON.parse(await request.execDryRun())
             if (!Object.keys(dryrun).includes("RadonInteger")) {
@@ -211,11 +211,11 @@ async function main() {
             }
             balance = newBalance
         } catch (err) {
-            console.error(`[${ledger.pkh}] Cannot check balance: ${err}`)
+            console.error(`[witnet:${wallet.provider.network}:${ledger.pkh}] Cannot check balance: ${err}`)
         }
-        console.info(`[${ledger.pkh}] Balance: ${balance.toString(2)} (${ledger.cacheInfo.size} UTXOs)`)
-        if (balance.pedros < minBalance.pedros) console.warn(`[${ledger.pkh}] Low funds !!!`);
-        if (ledger.cacheInfo.size < minUtxos) console.warn(`[${ledger.pkh}] Low UTXOs !!!`);
+        console.info(`[witnet:${wallet.provider.network}:${ledger.pkh}] Balance: ${balance.toString(2)} (${ledger.cacheInfo.size} UTXOs)`)
+        if (balance.pedros < minBalance.pedros) console.warn(`[witnet:${wallet.provider.network}:${ledger.pkh}] Low funds !!!`);
+        if (ledger.cacheInfo.size < minUtxos) console.warn(`[witnet:${wallet.provider.network}:${ledger.pkh}] Low UTXOs !!!`);
         return balance        
     }
 
