@@ -1,5 +1,5 @@
 const { Witnet } = require("@witnet/sdk")
-const { ethers, KermitClient, WitOracle } = require("@witnet/ethers")
+const { ethers, WitOracle } = require("@witnet/solidity")
 
 const cron = require("node-cron")
 require("dotenv").config()
@@ -61,8 +61,7 @@ async function main() {
     } = program.opts()
 
     if (!debug) console.debug = function () { }
-    
-    // let rulebook = configPath ? await Rulebook.fromUrlBase(configPath) : Rulebook.default()
+
 
     if (!signer || !ethers.isAddress(signer)) {
         console.error(`❌ Fatal: invalid EVM signer address: "${signer}"`)
@@ -96,7 +95,7 @@ async function main() {
     const _witnet = await Witnet.JsonRpcProvider.fromURL(witnet || (
         utils.isEvmNetworkMainnet(network) ? "https://rpc-02.witnet.io" : "https://rpc-testnet.witnet.io"
     ))
-    const _kermit = await KermitClient.fromEnv(kermit)
+    const _kermit = await Witnet.KermitClient.fromEnv(kermit)
 
     console.info(`WIT/Kermit URL:   ${_kermit.url}`)
     console.info(`WIT/RPC provider: ${_witnet.endpoints}`)

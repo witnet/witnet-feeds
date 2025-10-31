@@ -10,6 +10,10 @@
   },
   "private": false,
   "type": "module",
+  "bin": {
+    "eth_reporter": "./src/bin/eth_reporter.cjs",
+    "wit_notarizer": "./src/bin/wit_notarizer.cjs"
+  },
   "exports": {
     ".": {
       "types": "./dist/src/lib/*.d.ts",
@@ -37,27 +41,34 @@
     "build": "tsc -p tsconfig.json",
     "fmt": "eslint --ext .js,.ts,.cjs . --ignore-path .gitignore --ignore-pattern _*",
     "fmt!": "eslint --ext .js,.ts,.cjs . --fix --ignore-path .gitignore --ignore-pattern _*",
+    "pfs:notarizer": "node src/bin/ots/wit_notarizer.cjs",
+    "pfs:reporter": "node src/bin/ots/eth_reporter.cjs",
     "pfs:settle": "npm run build && node ./scripts/settle.cjs",
     "pfs:status": "npm run build && node ./scripts/status.cjs",
     "prepare": "npm run build",
     "test": "vitest"
   },
+  "dependencies": {
+    "@witnet/sdk": "../witnet-toolkit",
+    "@witnet/solidity": "../witnet-solidity-bridge",
+    "commander": "^14.0.1",
+    "dotenv": "^17.2.3",
+    "lodash.merge": "^4.6.2",
+    "node-cron": "^4.2.1"
+  },
   "devDependencies": {
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "^24.9.1",
-    "@witnet/ethers": "^1.3.2",
-    "@witnet/solidity": "^3.0.3",
     "chai": "^6.2.0",
     "cross-env": "^10.1.0",
-    "eslint": "^9.37.0",
+    "eslint": "^9.38.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-n": "^17.23.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^7.2.1",
-    "ethrpc-gateway": "^2.2.12",
+    "ethrpc-gateway": "^2.3.1",
     "inquirer": "^8.2.7",
-    "lodash.merge": "^4.6.2",
     "moment": "^2.30.1",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"

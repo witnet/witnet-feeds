@@ -7,7 +7,7 @@ const program = new Command();
 
 const { assets, utils, Rulebook } = require("../../../dist/src/lib")
 const { version } = require("../../../package.json")
-const { commas } = require("../../helpers")
+const { commas } = require("../helpers.cjs")
 
 const CHECK_BALANCE_SCHEDULE = process.env.WITNET_PFS_CHECK_BALANCE_SCHEDULE || "*/5 * * * *"
 const DRY_RUN_POLLING_SECS = process.env.WITNET_PFS_DRY_RUN_POLLING_SECS || 45
