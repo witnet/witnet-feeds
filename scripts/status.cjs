@@ -3,9 +3,11 @@ const { Witnet } = require("@witnet/sdk")
 require("dotenv").config({ quiet: true })
 const moment = require("moment")
 
-const { assets, utils, Rulebook } = require("../dist/src/lib")
+const { utils, Rulebook } = require("../dist/src/lib")
 const helpers = require("../src/bin/helpers.cjs")
 const { colors } = helpers
+
+const assets = require("../dist/witnet/assets/index.cjs")
 
 const witRpcUrl = helpers.spliceFromArgs(process.argv, `--witnet`) 
 
@@ -65,7 +67,7 @@ async function main () {
         requests.map(async ([caption, artifact, request, networks]) => {
             let [ dataRequests, dryRunResult ] = await Promise.all([
                 witnet.searchDataRequests(request.radHash, { limit: 16, reverse: true }),
-                request.execDryRun(true)
+                request.execDryRun(true).catch(err => console.error(`  ${caption}: Error: ${err}`))
             ])
 
             const drt = dataRequests.find(drt => 
