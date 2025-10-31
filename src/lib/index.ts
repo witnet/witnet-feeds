@@ -1,15 +1,10 @@
 import { existsSync, readFileSync } from "fs"
 import merge from "lodash.merge"
 
-const _framework = require("@witnet/solidity").default
-import * as _legacy from "@witnet/sdk/assets"
-import * as _assets from "../../witnet/assets"
-import { readWitnetJsonFiles } from "../helpers.js"
-import * as _utils from "./utils"
+import { default as helpers  } from "../bin/helpers.cjs"
+import * as _utils from "./utils.js"
 
-export * as utils from "./utils"
-
-export const assets = merge(_legacy, _assets)
+export * as utils from "./utils.js"
 
 export class Rulebook {
     
@@ -26,7 +21,7 @@ export class Rulebook {
     }
 
     public static workspace(): Rulebook {
-        const { priceFeeds, updateConditions } = readWitnetJsonFiles("priceFeeds", "updateConditions")
+        const { priceFeeds, updateConditions } = helpers.readWitnetJsonFiles("priceFeeds", "updateConditions")
         return new Rulebook(priceFeeds, updateConditions)
     }
 
@@ -100,7 +95,7 @@ export class Rulebook {
     _getNetworkPriceFeeds(network: string): any {
         let res = { ...this.priceFeeds.default }
         if (!res.requests) res.requests = []
-        _framework.utils.getNetworkTagsFromString(network).forEach((network: string) => {
+        _utils.getNetworkTagsFromString(network).forEach((network: string) => {
             const tmp = this.priceFeeds[network]
             res.mappers = merge(res?.mappers, tmp?.mappers)
             res.oracles = merge(res?.oracles, tmp?.oracles)
@@ -153,7 +148,7 @@ export class Rulebook {
             res = _utils.isEvmNetworkMainnet(network) ? this.updateConditions.default.mainnets : this.updateConditions.default.testnets;
         }
         if (typeof network === "string") {
-            _framework.utils.getNetworkTagsFromString(network).forEach((network: any) => {
+            _utils.getNetworkTagsFromString(network).forEach((network: any) => {
                 res = merge(res, network[caption])
             })
             return res

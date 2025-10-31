@@ -1,6 +1,6 @@
-import { camelize } from "../helpers.js"
+import { default as helpers } from "../bin/helpers.cjs"
 
-export * from "@witnet/ethers/utils"
+export * from "@witnet/solidity/utils"
 
 export function captionToWitOracleRequestPrice(caption: string) {
     let prefix = ""
@@ -17,5 +17,9 @@ export function captionToWitOracleRequestPrice(caption: string) {
         base = dots.pop() || ""
         prefix = dots.pop() || ""
     }
-    return `WitOracleRequestPrice${camelize(prefix)}${camelize(base)}${camelize(quote)}${camelize(decimals)}`
+    return `WitOracleRequestPrice${
+        helpers.camelize(prefix)}${
+        helpers.camelize(base)}${
+        helpers.camelize(quote)}${
+        helpers.camelize(decimals)}`
 }

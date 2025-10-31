@@ -16,8 +16,8 @@
       "DOM",
       "ES2021.String"
     ], /* Specify library files to be included in the compilation. */
-    "module": "Node16", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
-    "moduleResolution": "node16",
+    "module": "nodenext", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
+    "moduleResolution": "nodenext",
     "noImplicitThis": true, /* Raise error on 'this' expressions with an implied 'any' type. */
     "noUnusedLocals": true, /* Report errors on unused locals. */
     "noUnusedParameters": true, /* Report errors on unused parameters. */
@@ -30,7 +30,7 @@
     "strictNullChecks": true, /* Enable strict null checks. */
     "strictFunctionTypes": true, /* Enable strict checking of function types. */
     "strictPropertyInitialization": true, /* Enable strict checking of property initialization in classes. */
-    "target": "es2020", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019' or 'ESNEXT'. */
+    "target": "esnext", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019' or 'ESNEXT'. */
     "typeRoots": [
       "./node_modules/@types",
       "@types"
@@ -41,6 +41,7 @@
   ],
   "include": [
     "src/**/*.d.ts",
+    "witnet/assets/index.cjs",
     "witnet/priceFeeds.json",
     "witnet/updateConditions.json",
     "types"

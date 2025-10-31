@@ -1,7 +1,7 @@
 const { Witnet } = require("@witnet/sdk")
-const { PriceTickerTemplate } = require("../../utils")
+const { PriceTickerTemplate } = require("../../utils.cjs")
 
-const sources = Witnet.Radon.retrievals.fromRadonAssets(require("../../sources"))
+const sources = Witnet.Radon.retrievals.fromRadonAssets(require("../../sources/index.cjs"))
 
 module.exports = {
 

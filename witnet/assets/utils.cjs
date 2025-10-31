@@ -7,7 +7,7 @@ const {
 
 function PriceTickerRequest(argsMap) {
     return RadonRequestFromAssets({
-        assets: require("./sources"), 
+        assets: require("./sources/index.cjs"), 
         argsMap, 
         sourcesReducer: reducers.PriceAggregate(),
         witnessReducer: reducers.PriceTally()

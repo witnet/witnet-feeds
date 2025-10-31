@@ -1,4 +1,4 @@
-const { PriceTickerRequest } = require("../../utils")
+const { PriceTickerRequest } = require("../../utils.cjs")
 
 module.exports = {
 

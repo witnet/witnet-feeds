@@ -1,6 +1,10 @@
 const fs = require("fs")
 const merge = require("lodash.merge")
 
+const camelize = (str) => capitalizeFirstLetter(str.toLowerCase())
+
+const capitalizeFirstLetter = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+
 const colorstrip = (str) => str.replace(
   /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, ""
 )
@@ -34,9 +38,6 @@ const mgreen = (str) => `\x1b[92m${str}\x1b[0m`
 const mmagenta = (str) => `\x1b[0;95m${str}\x1b[0m`
 const mred = (str) => `\x1b[91m${str}\x1b[0m`
 const myellow = (str) => `\x1b[93m${str}\x1b[0m`
-
-const camelize = (str) => capitalizeFirstLetter(str.toLowerCase())
-const capitalizeFirstLetter = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 
 function parseIntFromArgs(args, flag) {
 	const argIndex = args.indexOf(flag)

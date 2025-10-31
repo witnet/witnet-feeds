@@ -1,10 +1,10 @@
 const { Witnet } = require("@witnet/sdk")
 
-require("dotenv").config()
+require("dotenv").config({ quiet: true })
 const moment = require("moment")
 
 const { assets, utils, Rulebook } = require("../dist/src/lib")
-const helpers = require("../src/helpers")
+const helpers = require("../src/bin/helpers.cjs")
 const { colors } = helpers
 
 const witRpcUrl = helpers.spliceFromArgs(process.argv, `--witnet`) 

@@ -1,6 +1,6 @@
-const { PriceTickerRequest } = require("../../utils")
+const { PriceTickerRequest } = require("../../utils.cjs")
 
-const templates = require("../../templates/tickers/crypto")
+const templates = require("../../templates/tickers/crypto.cjs")
 
 module.exports = {
 

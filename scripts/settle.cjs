@@ -1,14 +1,14 @@
 const { Witnet } = require("@witnet/sdk")
-const { ethers, WitOracle, PriceFeedOracles, PriceFeedMappers } = require("@witnet/ethers")
+const { ethers, WitOracle, PriceFeedOracles, PriceFeedMappers } = require("@witnet/solidity")
 
 const { execSync } = require("node:child_process")
-require("dotenv").config()
+require("dotenv").config({ quiet: true })
 const inquirer = require("inquirer")
 const moment = require("moment")
 
 const { assets, utils, Rulebook } = require("../dist/src/lib")
 const radHashes = require("../witnet/requests.json")
-const helpers = require("../src/helpers")
+const helpers = require("../src/bin/helpers.cjs")
 const { colors } = helpers
 
 const host = helpers.spliceFromArgs(process.argv, `--host`) || "http://127.0.0.1"

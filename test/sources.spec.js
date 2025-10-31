@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import * as sources from "../witnet/assets/sources"
+import * as sources from "../witnet/assets/sources/index.cjs"
 import { Witnet } from "@witnet/sdk"
 
 describe("Centralized Exchanges", () => {

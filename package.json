@@ -9,15 +9,18 @@
     "url": "https://github.com/witnet/witnet-price-feeds"
   },
   "private": false,
-  "type": "commonjs",
-  "bin": {},
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/src/lib/*.d.ts",
       "require": "./dist/src/lib/index.js",
       "default": "./dist/src/lib/index.js"
     },
-    "./assets": "./dist/witnet/assets/index.js",
+    "./assets": {
+      "types": "./dist/witnet/assets/*.d.cts",
+      "require": "./dist/witnet/assets/index.js",
+      "default": "./dist/witnet/assets/index.js"
+    },
     "./utils": {
       "types": "./dist/src/lib/*.d.ts",
       "require": "./dist/src/lib/utils.js",
@@ -28,26 +31,20 @@
   "files": [
     "dist",
     "src/bin",
-    "witnet",
     ".env_witnet"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "fmt": "eslint --ext .js,.ts,.cjs . --ignore-path .gitignore --ignore-pattern _*",
     "fmt!": "eslint --ext .js,.ts,.cjs . --fix --ignore-path .gitignore --ignore-pattern _*",
-    "pfs:settle": "npm run build && node ./scripts/settle.js",
-    "pfs:status": "npm run build && node ./scripts/status.js",
+    "pfs:settle": "npm run build && node ./scripts/settle.cjs",
+    "pfs:status": "npm run build && node ./scripts/status.cjs",
     "prepare": "npm run build",
     "test": "vitest"
   },
-  "dependencies": {
-    "@witnet/sdk": "^1.1.2",
-    "commander": "^14.0.1",
-    "dotenv": "^17.2.3"
-  },
   "devDependencies": {
     "@types/lodash.merge": "^4.6.9",
-    "@types/node": "^22.18.10",
+    "@types/node": "^24.9.1",
     "@witnet/ethers": "^1.3.2",
     "@witnet/solidity": "^3.0.3",
     "chai": "^6.2.0",
