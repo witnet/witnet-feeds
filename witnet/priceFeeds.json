@@ -1,281 +1,231 @@
 {
-  "default": {
-    "mappers": {
-      "Crypto.BNB/USD-6": {
-        "class": "product",
-        "deps": ["Crypto.BNT/USDT-6", "Crypto.USDT/USD-6"]
-      },
-      "Crypto.CRO/USD-6": {
-        "class": "product",
-        "deps": ["Crypto.CRO/USDT-6", "Crypto.USDT/USD-6"]
-      },
-      "Crypto.ETH/WIT-9": {
-        "class": "product",
-        "deps": ["Crypto.ETH/USD-6", "Crypto.USD/WIT-9"]
-      },
-      "Crypto.USD/WIT-9": {
-        "class": "inverse",
-        "deps": ["Crypto.WIT/USD-6"]
-      },
-      "Crypto.WIT/USD-6": {
-        "class": "product",
-        "deps": ["Crypto.WIT/USDT-6", "Crypto.USDT/USD-6"]
-      }
-    }
-  },
-  "arbitrum": {
-    "requests": [
-      "Crypto.ETH/USD-6"
-    ]
-  },
-  "base": {
-    "requests": [
-      "Crypto.ETH/USD-6"
-    ]
-  },
-  "base:mainnet": {
-    "requests": [
-      "Crypto.DAI/USD-6",
-      "Crypto.USDC/USD-6"
-    ]
-  },
-  "base:sepolia": {
-    "requests": [
-      "Crypto.USDT/USD-6",
-      "Crypto.WIT/USDT-6"
-    ]
-  },
-  "celo": {
-    "requests": [
-      "Crypto.BTC/USD-6",
-      "Crypto.CELO/EUR-6",
-      "Crypto.CELO/USD-6"
-    ]
-  },
-  "conflux:core": {
-    "requests": [
-      "Crypto.BTC/USD-6",
-      "Crypto.CFX/USDT-6",
-      "Crypto.ETH/USD-6"
-    ]
-  },
-  "conflux:espace": {
-    "requests": [
-      "Crypto.BTC/USD-6",
-      "Crypto.CFX/USDT-6",
-      "Crypto.ETH/USD-6",
-      "Crypto.USDC/USD-6",
-      "Crypto.USDT/USD-6"
-    ]
-  },
-  "conflux:espace:testnet": {
-    "requests": [
-      "Forex.HKD/USD-6"
-    ]
-  },
-  "cronos:testnet": {
-    "requests": [
-      "Crypto.ADA/USD-6",
-      "Crypto.ALGO/USD-6",
-      "Crypto.APE/USD-6",
-      "Crypto.ATOM/USD-6",
-      "Crypto.AVAX/USD-6",
-      "Crypto.BTC/USD-6",
-      "Crypto.CRO/USDT-6",
-      "Crypto.DAI/USD-6",
-      "Crypto.DOGE/USD-6",
-      "Crypto.DOT/USD-6",
-      "Crypto.ETH/USD-6",
-      "Crypto.LINK/USD-6",
-      "Crypto.SHIB/USD-9",
-      "Crypto.SOL/USD-6",
-      "Crypto.USDC/USD-6",
-      "Crypto.USDT/USD-6",
-      "Crypto.WBTC/USD-6",
-      "Crypto.XLM/USD-6"
-    ]
-  },
-  "dogechain:mainnet": {
-    "requests": [
-      "Crypto.DOGE/USD-6"
-    ]
-  },
-  "elastos:mainnet": {
-    "requests": [
-      "Crypto.BNB/USDT-6",
-      "Crypto.ELA/USDT-6",
-      "Crypto.ETH/USD-6",
-      "Crypto.HT/USDT-6",
-      "Crypto.USDT/USD-6"
-    ]
-  },
-  "ethereum": {
-    "mappers": {
-      "Crypto.ETH/USD-6": {
-        "class": "hottest",
-        "deps": [
-          "Crypto.ETH/USD-6#0",
-          "Crypto.ETH/USD-8#1"
-        ]
-      }
-    },
-    "oracles": {
-      "Crypto.ETH/USD-8#1": {
-        "class": "chainlink",
-        "target": "0x694AA1769357215DE4FAC081bf1f309aDC325306"
-      }
-    },
-    "requests": [
-      "Crypto.ETH/USD-6#0"
-    ]
-  },
-  "ethereum:sepolia": {
-    "requests": [
-      "Crypto.USDT/USD-6",
-      "Crypto.WIT/USDT-6"
-    ]
-  },
-  "gnosis:mainnet": {
-    "requests": [
-      "Crypto.DAI/USD-6"
-    ]
-  },
-  "kaia": {
-    "mappers": {
-      "Crypto.KSP/USD-6": {
-        "class": "product",
-        "deps": ["Crypto.KSP/KRW-6", "Forex.KRW/USD-9"]
-      }
-    },
-    "requests": [
-      "Crypto.KAIA/USDT-6",
-      "Crypto.KSP/KRW-6",
-      "Forex.KRW/USD-9"
-    ]
-  },
-  "kava": {
-    "mappers": {
-      "Crypto.KAVA/USD-6": {
-        "class": "product",
-        "deps": ["Crypto.KAVA/USDT-6", "Crypto.USDT/USD-6"]
-      }
-    },
-    "requests": [
-      "Crypto.ATOM/USD-6",
-      "Crypto.BTC/USD-6",
-      "Crypto.DAI/USD-6",
-      "Crypto.ETH/USD-6",
-      "Crypto.KAVA/USDT-6",
-      "Crypto.USDC/USD-6",
-      "Crypto.USDT/USD-6"
-    ]
-  },
-  "kcc": {
-    "requests": [
-      "Crypto.BTC/USD-6",
-      "Crypto.DAI/USD-6",
-      "Crypto.ETH/USD-6",
-      "Crypto.KCS/USDT-6",
-      "Crypto.MJT/KCS-9",
-      "Crypto.SAX/USDT-6",
-      "Crypto.USDC/USD-6",
-      "Crypto.USDT/USD-6"
-    ]
-  },
-  "mantle:mainnet": {
-    "requests": [
-      "Crypto.BTC/USD-6",
-      "Crypto.ETH/USD-6",
-      "Crypto.MNT/USDT-6",
-      "Crypto.USDC/USD-6",
-      "Crypto.USDT/USD-6"
-    ]
-  },
-  "meter:mainnet": {
-    "requests": [
-      "Crypto.MTR/USDT-6"
-    ]
-  },
-  "metis": {
-    "mappers": {
-      "Crypto.METIS/USDT-6": {
-        "class": "product",
-        "deps": ["Crypto.METIS/USD-6", "Crypto.USDT/USD.6"]
-      }
-    }
-  },
-  "metis:sepolia": {
-    "requests": [
-      "Crypto.BTC/USD-6",
-      "Crypto.ETH/USD-6",
-      "Crypto.METIS/USDT-6",
-      "Crypto.USDT/USD-6"
-    ]
-  },
-  "moonbeam": {
-    "mappers": {
-      "Crypto.GLMR/USD-6": {
-        "class": "product",
-        "deps": ["Crypto.GLMR/USDT-6", "Crypto.USDT/USD-6"]
-      }
-    }
-  },
-  "moonbeam:mainnet": {
-    "requests": [
-      "Crypto.BTC/USD-6",
-      "Crypto.ETH/USD-6",
-      "Crypto.GLMR/USDT-6",
-      "Crypto.USDC/USD-6",
-      "Crypto.USDT/USD-6"
-    ]
-  },
-  "moonbeam:moonbase": {
-    "requests": [
-      "Crypto.BTC/USD-6",
-      "Crypto.ETH/USD-6",
-      "Crypto.GLMR/USDT-6",
-      "Crypto.USDC/USD-6",
-      "Crypto.USDT/USD-6"
-    ]
-  },
-  "moonbeam:moonriver": {
-    "requests": [
-      "Crypto.USDC/USD-6",
-      "Crypto.USDT/USD-6"
-    ]
-  },
-  "optimism": {
-    "requests": [
-      "Crypto.OP/USDT-6"
-    ]
-  },
-  "ultron": {
-    "requests": [
-      "Crypto.AVAX/USD-6",
-      "Crypto.BTC/USD-6",
-      "Crypto.ETH/USD-6",
-      "Crypto.POL/USD-6",
-      "Crypto.WBTC/WULX-6",
-      "Crypto.WETH/WULX-6"
-    ]
-  },
-  "ten": {
-    "requests": [
-      "Crypto.BTC/USD-6",
-      "Crypto.ETH/USD-6"
-    ]
-  },
-  "world": {
-    "mappers": {
-      "Crypto.WLD/USD-6": {
-        "class": "product",
-        "deps": ["Crypto.WLD/USDT-6", "Crypto.USDT/USD-6"]
-      }
-    },
-    "requests": [
-      "Crypto.ETH/USD-6",
-      "Crypto.USDT/USD-6",
-      "Crypto.WLD/USDT-6"
-    ]
-  }
+	"default": {
+		"mappers": {
+			"Crypto.BNB/USD-6": {
+				"class": "product",
+				"deps": ["Crypto.BNT/USDT-6", "Crypto.USDT/USD-6"]
+			},
+			"Crypto.CRO/USD-6": {
+				"class": "product",
+				"deps": ["Crypto.CRO/USDT-6", "Crypto.USDT/USD-6"]
+			},
+			"Crypto.ETH/WIT-9": {
+				"class": "product",
+				"deps": ["Crypto.ETH/USD-6", "Crypto.USD/WIT-9"]
+			},
+			"Crypto.USD/WIT-9": {
+				"class": "inverse",
+				"deps": ["Crypto.WIT/USD-6"]
+			},
+			"Crypto.WIT/USD-6": {
+				"class": "product",
+				"deps": ["Crypto.WIT/USDT-6", "Crypto.USDT/USD-6"]
+			}
+		}
+	},
+	"arbitrum": {
+		"requests": ["Crypto.ETH/USD-6"]
+	},
+	"base": {
+		"requests": ["Crypto.ETH/USD-6"]
+	},
+	"base:mainnet": {
+		"requests": ["Crypto.DAI/USD-6", "Crypto.USDC/USD-6"]
+	},
+	"base:sepolia": {
+		"requests": ["Crypto.USDT/USD-6", "Crypto.WIT/USDT-6"]
+	},
+	"celo": {
+		"requests": ["Crypto.BTC/USD-6", "Crypto.CELO/EUR-6", "Crypto.CELO/USD-6"]
+	},
+	"conflux:core": {
+		"requests": ["Crypto.BTC/USD-6", "Crypto.CFX/USDT-6", "Crypto.ETH/USD-6"]
+	},
+	"conflux:espace": {
+		"requests": [
+			"Crypto.BTC/USD-6",
+			"Crypto.CFX/USDT-6",
+			"Crypto.ETH/USD-6",
+			"Crypto.USDC/USD-6",
+			"Crypto.USDT/USD-6"
+		]
+	},
+	"conflux:espace:testnet": {
+		"requests": ["Forex.HKD/USD-6"]
+	},
+	"cronos:testnet": {
+		"requests": [
+			"Crypto.ADA/USD-6",
+			"Crypto.ALGO/USD-6",
+			"Crypto.APE/USD-6",
+			"Crypto.ATOM/USD-6",
+			"Crypto.AVAX/USD-6",
+			"Crypto.BTC/USD-6",
+			"Crypto.CRO/USDT-6",
+			"Crypto.DAI/USD-6",
+			"Crypto.DOGE/USD-6",
+			"Crypto.DOT/USD-6",
+			"Crypto.ETH/USD-6",
+			"Crypto.LINK/USD-6",
+			"Crypto.SHIB/USD-9",
+			"Crypto.SOL/USD-6",
+			"Crypto.USDC/USD-6",
+			"Crypto.USDT/USD-6",
+			"Crypto.WBTC/USD-6",
+			"Crypto.XLM/USD-6"
+		]
+	},
+	"dogechain:mainnet": {
+		"requests": ["Crypto.DOGE/USD-6"]
+	},
+	"elastos:mainnet": {
+		"requests": [
+			"Crypto.BNB/USDT-6",
+			"Crypto.ELA/USDT-6",
+			"Crypto.ETH/USD-6",
+			"Crypto.HT/USDT-6",
+			"Crypto.USDT/USD-6"
+		]
+	},
+	"ethereum": {
+		"mappers": {
+			"Crypto.ETH/USD-6": {
+				"class": "hottest",
+				"deps": ["Crypto.ETH/USD-6#0", "Crypto.ETH/USD-8#1"]
+			}
+		},
+		"oracles": {
+			"Crypto.ETH/USD-8#1": {
+				"class": "chainlink",
+				"target": "0x694AA1769357215DE4FAC081bf1f309aDC325306"
+			}
+		},
+		"requests": ["Crypto.ETH/USD-6#0"]
+	},
+	"ethereum:sepolia": {
+		"requests": ["Crypto.USDT/USD-6", "Crypto.WIT/USDT-6"]
+	},
+	"gnosis:mainnet": {
+		"requests": ["Crypto.DAI/USD-6"]
+	},
+	"kaia": {
+		"mappers": {
+			"Crypto.KSP/USD-6": {
+				"class": "product",
+				"deps": ["Crypto.KSP/KRW-6", "Forex.KRW/USD-9"]
+			}
+		},
+		"requests": ["Crypto.KAIA/USDT-6", "Crypto.KSP/KRW-6", "Forex.KRW/USD-9"]
+	},
+	"kava": {
+		"mappers": {
+			"Crypto.KAVA/USD-6": {
+				"class": "product",
+				"deps": ["Crypto.KAVA/USDT-6", "Crypto.USDT/USD-6"]
+			}
+		},
+		"requests": [
+			"Crypto.ATOM/USD-6",
+			"Crypto.BTC/USD-6",
+			"Crypto.DAI/USD-6",
+			"Crypto.ETH/USD-6",
+			"Crypto.KAVA/USDT-6",
+			"Crypto.USDC/USD-6",
+			"Crypto.USDT/USD-6"
+		]
+	},
+	"kcc": {
+		"requests": [
+			"Crypto.BTC/USD-6",
+			"Crypto.DAI/USD-6",
+			"Crypto.ETH/USD-6",
+			"Crypto.KCS/USDT-6",
+			"Crypto.MJT/KCS-9",
+			"Crypto.SAX/USDT-6",
+			"Crypto.USDC/USD-6",
+			"Crypto.USDT/USD-6"
+		]
+	},
+	"mantle:mainnet": {
+		"requests": [
+			"Crypto.BTC/USD-6",
+			"Crypto.ETH/USD-6",
+			"Crypto.MNT/USDT-6",
+			"Crypto.USDC/USD-6",
+			"Crypto.USDT/USD-6"
+		]
+	},
+	"meter:mainnet": {
+		"requests": ["Crypto.MTR/USDT-6"]
+	},
+	"metis": {
+		"mappers": {
+			"Crypto.METIS/USDT-6": {
+				"class": "product",
+				"deps": ["Crypto.METIS/USD-6", "Crypto.USDT/USD.6"]
+			}
+		}
+	},
+	"metis:sepolia": {
+		"requests": [
+			"Crypto.BTC/USD-6",
+			"Crypto.ETH/USD-6",
+			"Crypto.METIS/USDT-6",
+			"Crypto.USDT/USD-6"
+		]
+	},
+	"moonbeam": {
+		"mappers": {
+			"Crypto.GLMR/USD-6": {
+				"class": "product",
+				"deps": ["Crypto.GLMR/USDT-6", "Crypto.USDT/USD-6"]
+			}
+		}
+	},
+	"moonbeam:mainnet": {
+		"requests": [
+			"Crypto.BTC/USD-6",
+			"Crypto.ETH/USD-6",
+			"Crypto.GLMR/USDT-6",
+			"Crypto.USDC/USD-6",
+			"Crypto.USDT/USD-6"
+		]
+	},
+	"moonbeam:moonbase": {
+		"requests": [
+			"Crypto.BTC/USD-6",
+			"Crypto.ETH/USD-6",
+			"Crypto.GLMR/USDT-6",
+			"Crypto.USDC/USD-6",
+			"Crypto.USDT/USD-6"
+		]
+	},
+	"moonbeam:moonriver": {
+		"requests": ["Crypto.USDC/USD-6", "Crypto.USDT/USD-6"]
+	},
+	"optimism": {
+		"requests": ["Crypto.OP/USDT-6"]
+	},
+	"ultron": {
+		"requests": [
+			"Crypto.AVAX/USD-6",
+			"Crypto.BTC/USD-6",
+			"Crypto.ETH/USD-6",
+			"Crypto.POL/USD-6",
+			"Crypto.WBTC/WULX-6",
+			"Crypto.WETH/WULX-6"
+		]
+	},
+	"ten": {
+		"requests": ["Crypto.BTC/USD-6", "Crypto.ETH/USD-6"]
+	},
+	"world": {
+		"mappers": {
+			"Crypto.WLD/USD-6": {
+				"class": "product",
+				"deps": ["Crypto.WLD/USDT-6", "Crypto.USDT/USD-6"]
+			}
+		},
+		"requests": ["Crypto.ETH/USD-6", "Crypto.USDT/USD-6", "Crypto.WLD/USDT-6"]
+	}
 }

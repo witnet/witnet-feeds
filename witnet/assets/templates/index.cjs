@@ -1,7 +1,7 @@
 module.exports = {
-    defi: {
-        tickers: {
-            crypto: require("./tickers/crypto.cjs"),
-        },
-    },
+	defi: {
+		tickers: {
+			crypto: require("./tickers/crypto.cjs"),
+		},
+	},
 };

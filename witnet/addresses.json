@@ -1,514 +1,514 @@
 {
-    "arbitrum:one": {
-        "requests": {
-            "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA"
-        }
-    },
-    "arbitrum:sepolia": {
-        "requests": {
-            "WitOracleRequestPriceEthUsd6": "0xD6E3d61c6b78BA27Fe8A77CC9779a9fA7fdE588F"
-        }
-    },
-    "avalanche:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceAvaxUsd6": "0x1688e50C2219E74E0f9A03A266a010140e30Dabd"
-        }
-    },
-    "avalanche:testnet": {
-        "requests": {
-            "WitOracleRequestPriceAvaxUsd6": "0xF86746825Dd0A2746a451108a120984ecFa782D4",
-            "WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
-            "WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366"
-        }
-    },
-    "base:sepolia": {
-        "requests": {
-            "WitOracleRequestPriceEthUsd6": "0xc5ED3E0F4f259fba9d00b44bBAF96cf99170D2e3",
-            "WitOracleRequestPriceUsdtUsd6": "0x5a6c8658Bba923936DdfbE2A507b6746d6EA0A76",
-            "WitOracleRequestPriceWitUsdt6": "0x89e73968c7F496180d9420A8158d686d3beaC0C2"
-        }
-    },
-    "base:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
-            "WitOracleRequestPriceDaiUsd6": "0x1C5B873bA9E276C2C1fC923c870b152179B9753C",
-            "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2"
-        }
-    },
-    "boba:bnb:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceBnbUsdt6": "0xA2A433d4a02Ea2102B1aB3422d2Eea9116edB3ff",
-            "WitOracleRequestPriceBobaUsdt6": "0x479156fC74920991694559453d31917Fa43Ea5Aa",
-            "WitOracleRequestPriceWitUsdt6": "0x23a351E2b47e7886126BC1C1B3090eDEde1a9857"
-        }
-    },
-    "boba:bnb:testnet": {
-        "requests": {
-            "WitOracleRequestPriceBobaUsdt6": "0xc3D0957EF70573d8b2d25e15E02bDdD300bD9196",
-            "WitOracleRequestPriceBtcUsd6": "0x31A191cA86db760f0A6Bb209685f989A2e1f0E6b",
-            "WitOracleRequestPriceDaiUsd6": "0xAf30fFCcE7830aCE039C1F7FA532725530512Fbb",
-            "WitOracleRequestPriceEthUsd6": "0xDB02647361Ac8fbf37792c338C709bA25516D509",
-            "WitOracleRequestPriceFraxUsdt6": "0xc332E6Acf7D3e6419b7305d78cDB32cc89Bd1c67",
-            "WitOracleRequestPriceUsdcUsd6": "0x75d9c7580067E300efc83C6CDd240B0c9aE91161",
-            "WitOracleRequestPriceUsdtUsd6": "0xdE6E90C1209d050701Ca368C07272E1820126362"
-        }
-    },
-    "boba:eth:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceBobaUsdt6": "0x479156fC74920991694559453d31917Fa43Ea5Aa",
-            "WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
-            "WitOracleRequestPriceDaiUsd6": "0x1C5B873bA9E276C2C1fC923c870b152179B9753C",
-            "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitOracleRequestPriceFraxUsdt6": "0x646082c08F57afDF49F44b7E46bED6fE8b14B9BB",
-            "WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
-            "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
-        }
-    },
-    "celo:alfajores": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
-            "WitOracleRequestPriceCeloEur6": "0xdc877a12cBDa2b78f13623d4c382085291A3D428",
-            "WitOracleRequestPriceCeloUsd6": "0x50332268Dc2D1759DF9F03a268BD3E2A5dBe5D96",
-            "WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
-            "WitOracleRequestPriceNctCelo6": "0x06D2DdbDf886B0720e2039fB778090fa1CC29848"
-        },
-        "solvers": {
-            "WitPriceFeedSolverNctUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
-        }
-    },
-    "celo:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
-            "WitOracleRequestPriceCeloEur6": "0x57C0110E1902148ee96BEEeD7815AE0F637b7390",
-            "WitOracleRequestPriceCeloUsd6": "0x540Cb8AD463156Bf67672B8bB608c65E9cC1A373",
-            "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitOracleRequestPriceNctCelo6": "0xAf7C3d202C13a4463FB243cc6f3Fe95CB2F82E76"
-        },
-        "solvers": {
-            "WitPriceFeedSolverNctUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
-        }
-    },
-    "conflux:core:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x84aeeF382a21a57bF2A1050a698b9d2C8F0Ac5ac",
-            "WitOracleRequestPriceCfxUsdt6": "0x86a52D9CcB514f27D081d056BB08267a3742Fb1E",
-            "WitOracleRequestPriceEthUsd6": "0x8b47d7e92f3b9EAc954691CD4208fC061387afD2"
-        }
-    },
-    "conflux:core:testnet": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x80Dd5c967c9814a699a7F8B55F8FEDba91790822",
-            "WitOracleRequestPriceCfxUsdt6": "0x86E4D4cbdc60F28262A922D6DBE29baf59AA6c3f",
-            "WitOracleRequestPriceEthUsd6": "0x87506A4E0AF281fC14818064d2e302bFf754b544"
-        }
-    },
-    "conflux:espace:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
-            "WitOracleRequestPriceCfxUsdt6": "0x9FE3dB5E47fCf520750d088C1691A2dd6d0B197E",
-            "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
-            "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
-        }
-    },
-    "conflux:espace:testnet": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
-            "WitOracleRequestPriceCfxUsdt6": "0x92B961a4E919845d007407ADBB8E036b664a1eF5",
-            "WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
-            "WitOracleRequestPriceHkdUsd6": "0xC5Ca4a38e4b63632F7bA110790F0e02e78726f7E",
-            "WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
-            "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
-        }
-    },
-    "cronos:testnet": {
-        "requests": {
-            "WitOracleRequestPriceAdaUsd6": "0x416eF6aC5E81D8767662E75F31d942d3e721da46",
-            "WitOracleRequestPriceAlgoUsd6": "0xB2c33080a71B1D984a2E565C0aC242aD38fa2e5A",
-            "WitOracleRequestPriceApeUsd6": "0x44aC5a9aa06AC10879f49102D22B38e68FDECb69",
-            "WitOracleRequestPriceAtomUsd6": "0x52364F797C5b855de04d3babb87e1FaCBeF1e0aF",
-            "WitOracleRequestPriceAvaxUsd6": "0xF86746825Dd0A2746a451108a120984ecFa782D4",
-            "WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
-            "WitOracleRequestPriceCroUsdt6": "0x01B2F9FF19bF9a3E00fce1fc040FafaD9a11699C",
-            "WitOracleRequestPriceDaiUsd6": "0x3D1Fd96898703eD85a49fb80ac7026e49D216dac",
-            "WitOracleRequestPriceDogeUsd6": "0x8eaF9f414f33d2A4BC063e26B23a918A96B6c78f",
-            "WitOracleRequestPriceDotUsd6": "0x258715e572B1Ba8594abDeF5a9377419258af25A",
-            "WitOracleRequestPriceElonUsdt9": "0x34393499fa6Ff6Bfc8583BB34792450467c63E24",
-            "WitOracleRequestPriceEosUsd6": "0x7918606dB4c4c25C9c2c86390dBE95de6FdA0eD5",
-            "WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
-            "WitOracleRequestPriceLinkUsd6": "0x3e3c54cB56543d2Bf2EC95e9c83597D55f13F0d8",
-            "WitOracleRequestPriceMaticUsd6": "0x74E534a06cD31B4D7A0b39bb5638DAEE31cfC37E",
-            "WitOracleRequestPriceShibUsd9": "0x0f468efFD7A6d9c2452A1f033a94AECE7B262e97",
-            "WitOracleRequestPriceSolUsd6": "0x96852FF7029A7C2d9ec90700a4b15663Aae7830C",
-            "WitOracleRequestPriceTusdUsdt6": "0x05A4913F3111b6d3F33Da79b577b829222416a77",
-            "WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
-            "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c",
-            "WitOracleRequestPriceWbtcUsd6": "0xe86664236Be6267B8e0F0F526D9a05D401155D15",
-            "WitOracleRequestPriceXlmUsd6": "0x9F314b8Aad413c9D3A3361300B96E568784d93eC"
-        },
-        "solvers": {
-            "WitPriceFeedSolverElonUsd9": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedSolverTusdUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedSolverCroUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
-        }
-    },
-    "dogechain:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceDogeUsd6": "0xcCf947fac2Db046838dD3409821CAF7288A111D1"
-        }
-    },
-    "elastos:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceBnbUsdt6": "0xA2A433d4a02Ea2102B1aB3422d2Eea9116edB3ff",
-            "WitOracleRequestPriceElaUsdt6": "0xBFC6DAdA5f729f29feaa838b274002A37b3e5813",
-            "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitOracleRequestPriceHtUsdt6": "0x7E146075992C245c4E2E8626c04D31F71A87aCfc",
-            "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
-        },
-        "solvers": {
-            "WitPriceFeedSolverBnbUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
-            "WitPriceFeedSolverHtUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
-        }
-    },
-    "elastos:testnet": {
-        "requests": {
-            "WitOracleRequestPriceBnbUsdt6": "0x1F520e8d1Bc50Dd0a71f2EB8726567704055D546",
-            "WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
-            "WitOracleRequestPriceElaUsdt6": "0x1a4F81948dA25d43431C6f28b0c19767D2fFe9e9",
-            "WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
-            "WitOracleRequestPriceHtUsdt6": "0x7f83f62148e4fA934589d4EE1b95FdBcdD68eAe7",
-            "WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
-            "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
-        },
-        "solvers": {
-            "WitPriceFeedSolverBnbUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedSolverElaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedSolverHtUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
-        }
-    },
-    "ethereum:sepolia": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x150Ec486f9A8Bf6aEAC0F0BE6Fe7E1A9D12794EA",
-            "WitOracleRequestPriceEthUsd6": "0x0Bbd752Ee1F62DBa6b02D12b67050ed07DA2eC37",
-            "WitOracleRequestPriceUsdtUsd6": "0x04A714869516Ad4442a55390ad0B15a263AE9d05",
-            "WitOracleRequestPriceWitUsdt6": "0x5D89Ebf2c57d71747e75473ece253743C77a4f31"
-        }
-    },
-    "gnosis:testnet": {
-        "requests": {
-            "WitOracleRequestPriceDaiUsd6": "0x3D1Fd96898703eD85a49fb80ac7026e49D216dac",
-            "WitOracleRequestPriceWitUsdt6": "0xCF9E70545aF28669262A22C9e1AaedaD85b0C0b2"
-        }
-    },
-    "kava:testnet": {
-        "requests": {
-            "WitOracleRequestPriceAtomUsd6": "0x52364F797C5b855de04d3babb87e1FaCBeF1e0aF",
-            "WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
-            "WitOracleRequestPriceDaiUsd6": "0x3D1Fd96898703eD85a49fb80ac7026e49D216dac",
-            "WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
-            "WitOracleRequestPriceKavaUsdt6": "0xd3c8b443CD5E102759C36C695ed473a8b6A42834",
-            "WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
-            "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
-        },
-        "solvers": {
-            "WitPriceFeedSolverKavaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
-        }
-    },
-    "kava:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceAtomUsd6": "0x17a5FD8A7ED3B2F2ee596a35999b2EeF5e447941",
-            "WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
-            "WitOracleRequestPriceDaiUsd6": "0x1C5B873bA9E276C2C1fC923c870b152179B9753C",
-            "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitOracleRequestPriceKavaUsdt6": "0x766130F3e22e856Ea7842b987d81deF1997EA971",
-            "WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
-            "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
-        },
-        "solvers": {
-            "WitPriceFeedSolverKavaUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
-        }
-    },
-    "kcc:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceBoringUsdt6": "0xf97407c504467A76b41A5aA93314084Ae2A523CF",
-            "WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
-            "WitOracleRequestPriceDaiUsd6": "0x1C5B873bA9E276C2C1fC923c870b152179B9753C",
-            "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitOracleRequestPriceKcsUsdt6": "0xB60158a66aFE97A1c585F1520fb9f3c789Dd2018",
-            "WitOracleRequestPriceMjtKcs9": "0xd13686c6A3fFD0C6fFeEB3307896dC7b5AB74212",
-            "WitOracleRequestPriceSaxUsdt6": "0xF68758767E7A635365d340A03812482D3e259c6c",
-            "WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
-            "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
-        }
-    },
-    "kcc:testnet": {
-        "requests": {
-            "WitOracleRequestPriceBoringUsdt6": "0xF8abf42dBDA2A99B2de5c8DE70a5183C7010860E",
-            "WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
-            "WitOracleRequestPriceDaiUsd6": "0x3D1Fd96898703eD85a49fb80ac7026e49D216dac",
-            "WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
-            "WitOracleRequestPriceKcsUsdt6": "0x7D79180Df731215F21e4548a084660e2c3D8E5Db",
-            "WitOracleRequestPriceMjtKcs9": "0x945e37371413b6e7ae8eA1a76973ca3Fde8C6DD5",
-            "WitOracleRequestPriceSaxUsdt6": "0x452BB170672159157ee81520e52D372a9D7D60ed",
-            "WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
-            "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
-        }
-    },
-    "klaytn:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceKaiaUsdt6": "0x4C6DE77A07B1dc912c1C9e0a91513ED0831E2e76",
-            "WitOracleRequestPriceKlayUsdt6": "0x87f9A58b5E15c855815f2A4D82F2f0Ea4ba8fc0d",
-            "WitOracleRequestPriceKrwUsd9": "0xBD6f9D54ab043071A25AE1026B9C1cc0D1661a1c",
-            "WitOracleRequestPriceKspKrw6": "0x6aB85A81ac7E1b2a364fD1EDc4644017d82D278a",
-            "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
-        },
-        "solvers": {
-            "WitPriceFeedSolverKlayUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
-            "WitPriceFeedSolverKspUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
-        }
-    },
-    "klaytn:testnet": {
-        "requests": {
-            "WitOracleRequestPriceKaiaUsdt6": "0x53D0e5A045c7C048897aA806b35B2eEA2C0d4054",
-            "WitOracleRequestPriceKlayUsdt6": "0x3224c882c859B3D061c11131b1372497f4b8F624",
-            "WitOracleRequestPriceKrwUsd9": "0x4B3Ca1f331f01dc11761fB92E25209fA131B2e94",
-            "WitOracleRequestPriceKspKrw6": "0xBc9ab8B2E30cB95E8230Ad28bf100271A96F4eAC",
-            "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
-        },
-        "solvers": {
-            "WitPriceFeedSolverKspUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
-        }
-    },
-    "mantle:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
-            "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitOracleRequestPriceMntUsdt6": "0x4bf028041cDBa3Af6256e5Ee9A5386416F621EEc",
-            "WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
-            "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
-        }
-    },
-    "mantle:sepolia": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0xF74125e4D31aB351E0C960687d009D8fDde44bA0"
-        }
-    },
-    "meter:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceMtrUsdt6": "0xF32B74C44aC05B2860db8475939B2Bade5EC0a1C"
-        }
-    },
-    "meter:testnet": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0xC2f93BaE8aaBaC31ebaB9bb1b7947812A8F7c0B2",
-            "WitOracleRequestPriceMtrUsdt6": "0xE87B972E7988757450F04B66ef4CaF1e362c69f6"
-        }
-    },
-    "metis:sepolia": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
-            "WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
-            "WitOracleRequestPriceMetisUsdt6": "0x29c7c221a1b6a3eDF4AD448e4Eaa6e2bC2095A15",
-            "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
-        },
-        "solvers": {
-            "WitPriceFeedSolverMetisUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
-        }
-    },
-    "moonbeam:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
-            "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitOracleRequestPriceGlintUsdc6": "0x8F479AF225F1E62469083E03f8fe3503800333f7",
-            "WitOracleRequestPriceGlmrUsdt6": "0xa0C5F12A2B370EF226D08377CBE7593677c41993",
-            "WitOracleRequestPriceStellaUsdt6": "0x517BAee8725bD4130780BC9fE941f3C9a85a65C4",
-            "WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
-            "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
-        },
-        "solvers": {
-            "WitPriceFeedSolverGlintUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
-            "WitPriceFeedSolverGlmrUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
-            "WitPriceFeedSolverStellaUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
-        }
-    },
-    "moonbeam:moonbase": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
-            "WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
-            "WitOracleRequestPriceGlintUsdc6": "0xfcDE89a46E5848DDAC2F169435f038040Fed958C",
-            "WitOracleRequestPriceGlmrUsdt6": "0xeD8C564b668AB8174bBAf6Af68B0C0dAE93d3ce5",
-            "WitOracleRequestPriceStellaUsdt6": "0xAB34f4580c25f38A40256569623D02574D3421a9",
-            "WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
-            "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
-        },
-        "solvers": {
-            "WitPriceFeedSolverGlintUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedSolverGlmrUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedSolverStellaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
-        }
-    },
-    "moonbeam:moonriver": {
-        "requests": {
-            "WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
-            "WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
-        }
-    },
-    "okx:oktchain:testnet": {
-        "requests": {
-            "WitOracleRequestPriceOktUsdt6": "0x3cD15d996196718fc141646DFC6841125638e481",
-            "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
-        }
-    },
-    "okx:x1:sepolia": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0xA374c3b93AFfe310B97B2e68AeF65FF2E7059724",
-            "WitOracleRequestPriceEthUsd6": "0xeBc2CB1e1F0C6bF19801EB4afba475447F8D2797",
-            "WitOracleRequestPriceOkbUsdt6": "0x792DC6ecd17b1901B3AE41D45C008546aFD09c4c",
-            "WitOracleRequestPriceUsdcUsd6": "0x0c83346271a51Fcaff227041f48420F3A8483527",
-            "WitOracleRequestPriceUsdtUsd6": "0x0dbD820d667FC8C9aED40bC1C68EE1ead747eA8d",
-            "WitOracleRequestPriceWbtcUsd6": "0x4f6D2FD6de7ea42bCe713D43e8d8772aC8E8537F"
-        }
-    },
-    "optimism:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceOpUsdt6": "0x6a50D217388b10f5bFcce7136Bd8ebc63afcdC38"
-        }
-    },
-    "optimism:sepolia": {
-        "requests": {
-            "WitOracleRequestPriceEthUsd6": "0x976099C30663B13F0c67FC07f830Ec3f06d21CF7",
-            "WitOracleRequestPriceOpUsdt6": "0xdE9d1b0ffE54FB81B8bEe691d63fdcd06d8A1318",
-            "WitOracleRequestPriceUsdtUsd6": "0xD97889Ea09E06090Bd066c68f1F4FeaE4853e55d",
-            "WitOracleRequestPriceUsdtWit9": "0x88190003E2922D09cEc051850a9E6122B5d77f72",
-            "WitOracleRequestPriceWitUsdt6": "0xF759d8411F6Bc34f8d7bB4Fc510DeE231F24e8c9"
-        },
-        "solvers": {
-            "WitPriceFeedSolverWitUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverBatUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverBnbUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverBusdUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverCroUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverElaUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverElonUsd9": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverGlintUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverGlmrUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverHtUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverKavaUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverKlayUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverKspUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverQuickUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverMetisUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverMtrgUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverNctUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverStellaUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverTusdUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
-            "WitPriceFeedSolverWldUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3"
-        }
-    },
-    "polygon:amoy": {
-        "requests": {
-            "WitOracleRequestPriceBatUsdt6": "0x4DEAf97B40BffcDABCBa112D4B715AAB6c29Eb52",
-            "WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
-            "WitOracleRequestPriceDaiUsd6": "0x3D1Fd96898703eD85a49fb80ac7026e49D216dac",
-            "WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
-            "WitOracleRequestPriceMaticUsd6": "0x74E534a06cD31B4D7A0b39bb5638DAEE31cfC37E",
-            "WitOracleRequestPriceQuickUsdc6": "0xC4af8e5D9Fa49B933B69f53e56c902A311490DD4",
-            "WitOracleRequestPriceQuickWeth9": "0x177AADE2636070fE98d6bA3DC2219215a4074eCE",
-            "WitOracleRequestPriceQuickWmatic6": "0xaFa6450c9db75A74B60261Fe44b0b7F20059A8A0",
-            "WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
-            "WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c",
-            "WitOracleRequestPriceWitUsdt6": "0xCF9E70545aF28669262A22C9e1AaedaD85b0C0b2"
-        },
-        "solvers": {
-            "WitPriceFeedSolverBatUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
-            "WitPriceFeedSolverQuickUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
-        }
-    },
-    "polygon:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
-            "WitOracleRequestPriceDaiUsd6": "0x1C5B873bA9E276C2C1fC923c870b152179B9753C",
-            "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitOracleRequestPriceQuickUsdc6": "0x4D9195309f4348720F97445d7A7fDF05E3B85937",
-            "WitOracleRequestPriceQuickWeth9": "0x2b7E4F0a07213FB02aeC68AfC94Efd03F7ca3e8c",
-            "WitOracleRequestPriceQuickWmatic6": "0xa784431236F37195B197719Bf374A7a513b041Cf",
-            "WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2"
-        },
-        "solvers": {
-            "WitPriceFeedSolverQuickUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
-        }
-    },
-    "polygon:zkevm:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceEthUsd6": "0x3692bCac5CD3dabCfAc18108593541aBcC4AAeb9"
-        }
-    },
-    "reef:mainnet": {},
-    "scroll:sepolia": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0xA374c3b93AFfe310B97B2e68AeF65FF2E7059724",
-            "WitOracleRequestPriceEthUsd6": "0xeBc2CB1e1F0C6bF19801EB4afba475447F8D2797",
-            "WitOracleRequestPriceUniUsd6": "0x88714F773153862d384D63c1B83354976D21d88b",
-            "WitOracleRequestPriceUsdcUsd6": "0x0c83346271a51Fcaff227041f48420F3A8483527"
-        }
-    },
-    "syscoin:rollux:testnet": {
-        "requests": {
-            "WitOracleRequestPriceSysUsdt6": "0x39e0474e52ff4b2b7bc7a64AD36c0Baeb17046c1"
-        }
-    },
-    "ten:testnet": {
-        "requests": {
-            "WitOracleRequestPriceBtcUsd6": "0xc270FbAf59de6fDC027385490F8cfB0D6Be4742b",
-            "WitOracleRequestPriceEthUsd6": "0x8849a1b8812890cE755Adb974AABeC6dDf164854",
-            "WitOracleRequestPriceWitUsdt6": "0xed247750Bd5157173d7b8E3E92c053dEFF88Ae5a"
-        }
-    },
-    "ultron:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceAvaxUsd6": "0x1688e50C2219E74E0f9A03A266a010140e30Dabd",
-            "WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
-            "WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
-            "WitOracleRequestPriceFtmUsdt6": "0x799A1E135c683e50B5301436c4A4A6b4c7FA6AA3",
-            "WitOracleRequestPriceMaticUsd6": "0xa072CAb126D2e88579DAc9D8fa758AC38CCa2935",
-            "WitOracleRequestPriceWbtcWulx6": "0x1bD3E3E38c2E859a4e2B962853A60F57D7bE75FA",
-            "WitOracleRequestPriceWethWulx6": "0x81E35b7d7adFcDf95492b31404867A715418A7fF"
-        }
-    },
-    "ultron:testnet": {
-        "requests": {
-            "WitOracleRequestPriceAvaxUsd6": "0xF86746825Dd0A2746a451108a120984ecFa782D4",
-            "WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
-            "WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
-            "WitOracleRequestPriceFtmUsdt6": "0x45d6A024533EF2Ce48B18b6892279D4936C35D05",
-            "WitOracleRequestPriceMaticUsd6": "0x74E534a06cD31B4D7A0b39bb5638DAEE31cfC37E",
-            "WitOracleRequestPriceWbtcWulx6": "0x4662F19A0E454f2aC16D9ce612Df6C13b4c06166",
-            "WitOracleRequestPriceWethWulx6": "0xB1Ce22C0d076Edb53Ac8F77e69717c4c99FE4d84"
-        }
-    },
-    "worldchain:sepolia": {
-        "requests": {
-            "WitOracleRequestPriceEthUsd6": "0x5ACE51bf01726094C123375a5E6EE3E50358Ec95",
-            "WitOracleRequestPriceUsdtUsd6": "0x69Ac8C5ee6F724545d0f78C3fF5042F162d67b24",
-            "WitOracleRequestPriceWitUsdt6": "0x93aBcFf00999a39ed2162844b89A09a6DDd4a8e5",
-            "WitOracleRequestPriceWldUsdt6": "0xC9BeF4284f74577e430707Ed4EEee8226782C665"
-        },
-        "solvers": {
-            "WitPriceFeedSolverWitUsd6": "0x302A3c97fB29fA3494747945a58aD0724ad0e12E",
-            "WitPriceFeedSolverWldUsd6": "0x302A3c97fB29fA3494747945a58aD0724ad0e12E"
-        }
-    },
-    "worldchain:mainnet": {
-        "requests": {
-            "WitOracleRequestPriceEthUsd6": "0xf999B4d5F9Ae51999A0a7a7c4627Edbf8879bC66",
-            "WitOracleRequestPriceUsdtUsd6": "0xDb08320142e3c713F350549273B9170D23CA57Df",
-            "WitOracleRequestPriceWitUsdt6": "0x77aDE3936eCAf1ED57f6c4814a09a3483dCb3655",
-            "WitOracleRequestPriceWldUsdt6": "0x3744BA3d6Ab75074F35a78Ad19FDe21217F410f6"
-        },
-        "solvers": {
-            "WitPriceFeedSolverWitUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
-            "WitPriceFeedSolverWldUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
-        }
-    }
+	"arbitrum:one": {
+		"requests": {
+			"WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA"
+		}
+	},
+	"arbitrum:sepolia": {
+		"requests": {
+			"WitOracleRequestPriceEthUsd6": "0xD6E3d61c6b78BA27Fe8A77CC9779a9fA7fdE588F"
+		}
+	},
+	"avalanche:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceAvaxUsd6": "0x1688e50C2219E74E0f9A03A266a010140e30Dabd"
+		}
+	},
+	"avalanche:testnet": {
+		"requests": {
+			"WitOracleRequestPriceAvaxUsd6": "0xF86746825Dd0A2746a451108a120984ecFa782D4",
+			"WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
+			"WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366"
+		}
+	},
+	"base:sepolia": {
+		"requests": {
+			"WitOracleRequestPriceEthUsd6": "0xc5ED3E0F4f259fba9d00b44bBAF96cf99170D2e3",
+			"WitOracleRequestPriceUsdtUsd6": "0x5a6c8658Bba923936DdfbE2A507b6746d6EA0A76",
+			"WitOracleRequestPriceWitUsdt6": "0x89e73968c7F496180d9420A8158d686d3beaC0C2"
+		}
+	},
+	"base:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
+			"WitOracleRequestPriceDaiUsd6": "0x1C5B873bA9E276C2C1fC923c870b152179B9753C",
+			"WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
+			"WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2"
+		}
+	},
+	"boba:bnb:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceBnbUsdt6": "0xA2A433d4a02Ea2102B1aB3422d2Eea9116edB3ff",
+			"WitOracleRequestPriceBobaUsdt6": "0x479156fC74920991694559453d31917Fa43Ea5Aa",
+			"WitOracleRequestPriceWitUsdt6": "0x23a351E2b47e7886126BC1C1B3090eDEde1a9857"
+		}
+	},
+	"boba:bnb:testnet": {
+		"requests": {
+			"WitOracleRequestPriceBobaUsdt6": "0xc3D0957EF70573d8b2d25e15E02bDdD300bD9196",
+			"WitOracleRequestPriceBtcUsd6": "0x31A191cA86db760f0A6Bb209685f989A2e1f0E6b",
+			"WitOracleRequestPriceDaiUsd6": "0xAf30fFCcE7830aCE039C1F7FA532725530512Fbb",
+			"WitOracleRequestPriceEthUsd6": "0xDB02647361Ac8fbf37792c338C709bA25516D509",
+			"WitOracleRequestPriceFraxUsdt6": "0xc332E6Acf7D3e6419b7305d78cDB32cc89Bd1c67",
+			"WitOracleRequestPriceUsdcUsd6": "0x75d9c7580067E300efc83C6CDd240B0c9aE91161",
+			"WitOracleRequestPriceUsdtUsd6": "0xdE6E90C1209d050701Ca368C07272E1820126362"
+		}
+	},
+	"boba:eth:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceBobaUsdt6": "0x479156fC74920991694559453d31917Fa43Ea5Aa",
+			"WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
+			"WitOracleRequestPriceDaiUsd6": "0x1C5B873bA9E276C2C1fC923c870b152179B9753C",
+			"WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
+			"WitOracleRequestPriceFraxUsdt6": "0x646082c08F57afDF49F44b7E46bED6fE8b14B9BB",
+			"WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
+			"WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
+		}
+	},
+	"celo:alfajores": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
+			"WitOracleRequestPriceCeloEur6": "0xdc877a12cBDa2b78f13623d4c382085291A3D428",
+			"WitOracleRequestPriceCeloUsd6": "0x50332268Dc2D1759DF9F03a268BD3E2A5dBe5D96",
+			"WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
+			"WitOracleRequestPriceNctCelo6": "0x06D2DdbDf886B0720e2039fB778090fa1CC29848"
+		},
+		"solvers": {
+			"WitPriceFeedSolverNctUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+		}
+	},
+	"celo:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
+			"WitOracleRequestPriceCeloEur6": "0x57C0110E1902148ee96BEEeD7815AE0F637b7390",
+			"WitOracleRequestPriceCeloUsd6": "0x540Cb8AD463156Bf67672B8bB608c65E9cC1A373",
+			"WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
+			"WitOracleRequestPriceNctCelo6": "0xAf7C3d202C13a4463FB243cc6f3Fe95CB2F82E76"
+		},
+		"solvers": {
+			"WitPriceFeedSolverNctUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+		}
+	},
+	"conflux:core:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x84aeeF382a21a57bF2A1050a698b9d2C8F0Ac5ac",
+			"WitOracleRequestPriceCfxUsdt6": "0x86a52D9CcB514f27D081d056BB08267a3742Fb1E",
+			"WitOracleRequestPriceEthUsd6": "0x8b47d7e92f3b9EAc954691CD4208fC061387afD2"
+		}
+	},
+	"conflux:core:testnet": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x80Dd5c967c9814a699a7F8B55F8FEDba91790822",
+			"WitOracleRequestPriceCfxUsdt6": "0x86E4D4cbdc60F28262A922D6DBE29baf59AA6c3f",
+			"WitOracleRequestPriceEthUsd6": "0x87506A4E0AF281fC14818064d2e302bFf754b544"
+		}
+	},
+	"conflux:espace:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
+			"WitOracleRequestPriceCfxUsdt6": "0x9FE3dB5E47fCf520750d088C1691A2dd6d0B197E",
+			"WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
+			"WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
+			"WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
+		}
+	},
+	"conflux:espace:testnet": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
+			"WitOracleRequestPriceCfxUsdt6": "0x92B961a4E919845d007407ADBB8E036b664a1eF5",
+			"WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
+			"WitOracleRequestPriceHkdUsd6": "0xC5Ca4a38e4b63632F7bA110790F0e02e78726f7E",
+			"WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
+			"WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
+		}
+	},
+	"cronos:testnet": {
+		"requests": {
+			"WitOracleRequestPriceAdaUsd6": "0x416eF6aC5E81D8767662E75F31d942d3e721da46",
+			"WitOracleRequestPriceAlgoUsd6": "0xB2c33080a71B1D984a2E565C0aC242aD38fa2e5A",
+			"WitOracleRequestPriceApeUsd6": "0x44aC5a9aa06AC10879f49102D22B38e68FDECb69",
+			"WitOracleRequestPriceAtomUsd6": "0x52364F797C5b855de04d3babb87e1FaCBeF1e0aF",
+			"WitOracleRequestPriceAvaxUsd6": "0xF86746825Dd0A2746a451108a120984ecFa782D4",
+			"WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
+			"WitOracleRequestPriceCroUsdt6": "0x01B2F9FF19bF9a3E00fce1fc040FafaD9a11699C",
+			"WitOracleRequestPriceDaiUsd6": "0x3D1Fd96898703eD85a49fb80ac7026e49D216dac",
+			"WitOracleRequestPriceDogeUsd6": "0x8eaF9f414f33d2A4BC063e26B23a918A96B6c78f",
+			"WitOracleRequestPriceDotUsd6": "0x258715e572B1Ba8594abDeF5a9377419258af25A",
+			"WitOracleRequestPriceElonUsdt9": "0x34393499fa6Ff6Bfc8583BB34792450467c63E24",
+			"WitOracleRequestPriceEosUsd6": "0x7918606dB4c4c25C9c2c86390dBE95de6FdA0eD5",
+			"WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
+			"WitOracleRequestPriceLinkUsd6": "0x3e3c54cB56543d2Bf2EC95e9c83597D55f13F0d8",
+			"WitOracleRequestPriceMaticUsd6": "0x74E534a06cD31B4D7A0b39bb5638DAEE31cfC37E",
+			"WitOracleRequestPriceShibUsd9": "0x0f468efFD7A6d9c2452A1f033a94AECE7B262e97",
+			"WitOracleRequestPriceSolUsd6": "0x96852FF7029A7C2d9ec90700a4b15663Aae7830C",
+			"WitOracleRequestPriceTusdUsdt6": "0x05A4913F3111b6d3F33Da79b577b829222416a77",
+			"WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
+			"WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c",
+			"WitOracleRequestPriceWbtcUsd6": "0xe86664236Be6267B8e0F0F526D9a05D401155D15",
+			"WitOracleRequestPriceXlmUsd6": "0x9F314b8Aad413c9D3A3361300B96E568784d93eC"
+		},
+		"solvers": {
+			"WitPriceFeedSolverElonUsd9": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+			"WitPriceFeedSolverTusdUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+			"WitPriceFeedSolverCroUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+		}
+	},
+	"dogechain:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceDogeUsd6": "0xcCf947fac2Db046838dD3409821CAF7288A111D1"
+		}
+	},
+	"elastos:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceBnbUsdt6": "0xA2A433d4a02Ea2102B1aB3422d2Eea9116edB3ff",
+			"WitOracleRequestPriceElaUsdt6": "0xBFC6DAdA5f729f29feaa838b274002A37b3e5813",
+			"WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
+			"WitOracleRequestPriceHtUsdt6": "0x7E146075992C245c4E2E8626c04D31F71A87aCfc",
+			"WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
+		},
+		"solvers": {
+			"WitPriceFeedSolverBnbUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
+			"WitPriceFeedSolverHtUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+		}
+	},
+	"elastos:testnet": {
+		"requests": {
+			"WitOracleRequestPriceBnbUsdt6": "0x1F520e8d1Bc50Dd0a71f2EB8726567704055D546",
+			"WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
+			"WitOracleRequestPriceElaUsdt6": "0x1a4F81948dA25d43431C6f28b0c19767D2fFe9e9",
+			"WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
+			"WitOracleRequestPriceHtUsdt6": "0x7f83f62148e4fA934589d4EE1b95FdBcdD68eAe7",
+			"WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
+			"WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
+		},
+		"solvers": {
+			"WitPriceFeedSolverBnbUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+			"WitPriceFeedSolverElaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+			"WitPriceFeedSolverHtUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+		}
+	},
+	"ethereum:sepolia": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x150Ec486f9A8Bf6aEAC0F0BE6Fe7E1A9D12794EA",
+			"WitOracleRequestPriceEthUsd6": "0x0Bbd752Ee1F62DBa6b02D12b67050ed07DA2eC37",
+			"WitOracleRequestPriceUsdtUsd6": "0x04A714869516Ad4442a55390ad0B15a263AE9d05",
+			"WitOracleRequestPriceWitUsdt6": "0x5D89Ebf2c57d71747e75473ece253743C77a4f31"
+		}
+	},
+	"gnosis:testnet": {
+		"requests": {
+			"WitOracleRequestPriceDaiUsd6": "0x3D1Fd96898703eD85a49fb80ac7026e49D216dac",
+			"WitOracleRequestPriceWitUsdt6": "0xCF9E70545aF28669262A22C9e1AaedaD85b0C0b2"
+		}
+	},
+	"kava:testnet": {
+		"requests": {
+			"WitOracleRequestPriceAtomUsd6": "0x52364F797C5b855de04d3babb87e1FaCBeF1e0aF",
+			"WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
+			"WitOracleRequestPriceDaiUsd6": "0x3D1Fd96898703eD85a49fb80ac7026e49D216dac",
+			"WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
+			"WitOracleRequestPriceKavaUsdt6": "0xd3c8b443CD5E102759C36C695ed473a8b6A42834",
+			"WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
+			"WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
+		},
+		"solvers": {
+			"WitPriceFeedSolverKavaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+		}
+	},
+	"kava:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceAtomUsd6": "0x17a5FD8A7ED3B2F2ee596a35999b2EeF5e447941",
+			"WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
+			"WitOracleRequestPriceDaiUsd6": "0x1C5B873bA9E276C2C1fC923c870b152179B9753C",
+			"WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
+			"WitOracleRequestPriceKavaUsdt6": "0x766130F3e22e856Ea7842b987d81deF1997EA971",
+			"WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
+			"WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
+		},
+		"solvers": {
+			"WitPriceFeedSolverKavaUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+		}
+	},
+	"kcc:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceBoringUsdt6": "0xf97407c504467A76b41A5aA93314084Ae2A523CF",
+			"WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
+			"WitOracleRequestPriceDaiUsd6": "0x1C5B873bA9E276C2C1fC923c870b152179B9753C",
+			"WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
+			"WitOracleRequestPriceKcsUsdt6": "0xB60158a66aFE97A1c585F1520fb9f3c789Dd2018",
+			"WitOracleRequestPriceMjtKcs9": "0xd13686c6A3fFD0C6fFeEB3307896dC7b5AB74212",
+			"WitOracleRequestPriceSaxUsdt6": "0xF68758767E7A635365d340A03812482D3e259c6c",
+			"WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
+			"WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
+		}
+	},
+	"kcc:testnet": {
+		"requests": {
+			"WitOracleRequestPriceBoringUsdt6": "0xF8abf42dBDA2A99B2de5c8DE70a5183C7010860E",
+			"WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
+			"WitOracleRequestPriceDaiUsd6": "0x3D1Fd96898703eD85a49fb80ac7026e49D216dac",
+			"WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
+			"WitOracleRequestPriceKcsUsdt6": "0x7D79180Df731215F21e4548a084660e2c3D8E5Db",
+			"WitOracleRequestPriceMjtKcs9": "0x945e37371413b6e7ae8eA1a76973ca3Fde8C6DD5",
+			"WitOracleRequestPriceSaxUsdt6": "0x452BB170672159157ee81520e52D372a9D7D60ed",
+			"WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
+			"WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
+		}
+	},
+	"klaytn:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceKaiaUsdt6": "0x4C6DE77A07B1dc912c1C9e0a91513ED0831E2e76",
+			"WitOracleRequestPriceKlayUsdt6": "0x87f9A58b5E15c855815f2A4D82F2f0Ea4ba8fc0d",
+			"WitOracleRequestPriceKrwUsd9": "0xBD6f9D54ab043071A25AE1026B9C1cc0D1661a1c",
+			"WitOracleRequestPriceKspKrw6": "0x6aB85A81ac7E1b2a364fD1EDc4644017d82D278a",
+			"WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
+		},
+		"solvers": {
+			"WitPriceFeedSolverKlayUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
+			"WitPriceFeedSolverKspUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+		}
+	},
+	"klaytn:testnet": {
+		"requests": {
+			"WitOracleRequestPriceKaiaUsdt6": "0x53D0e5A045c7C048897aA806b35B2eEA2C0d4054",
+			"WitOracleRequestPriceKlayUsdt6": "0x3224c882c859B3D061c11131b1372497f4b8F624",
+			"WitOracleRequestPriceKrwUsd9": "0x4B3Ca1f331f01dc11761fB92E25209fA131B2e94",
+			"WitOracleRequestPriceKspKrw6": "0xBc9ab8B2E30cB95E8230Ad28bf100271A96F4eAC",
+			"WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
+		},
+		"solvers": {
+			"WitPriceFeedSolverKspUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+		}
+	},
+	"mantle:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
+			"WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
+			"WitOracleRequestPriceMntUsdt6": "0x4bf028041cDBa3Af6256e5Ee9A5386416F621EEc",
+			"WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
+			"WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
+		}
+	},
+	"mantle:sepolia": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0xF74125e4D31aB351E0C960687d009D8fDde44bA0"
+		}
+	},
+	"meter:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceMtrUsdt6": "0xF32B74C44aC05B2860db8475939B2Bade5EC0a1C"
+		}
+	},
+	"meter:testnet": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0xC2f93BaE8aaBaC31ebaB9bb1b7947812A8F7c0B2",
+			"WitOracleRequestPriceMtrUsdt6": "0xE87B972E7988757450F04B66ef4CaF1e362c69f6"
+		}
+	},
+	"metis:sepolia": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
+			"WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
+			"WitOracleRequestPriceMetisUsdt6": "0x29c7c221a1b6a3eDF4AD448e4Eaa6e2bC2095A15",
+			"WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
+		},
+		"solvers": {
+			"WitPriceFeedSolverMetisUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+		}
+	},
+	"moonbeam:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
+			"WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
+			"WitOracleRequestPriceGlintUsdc6": "0x8F479AF225F1E62469083E03f8fe3503800333f7",
+			"WitOracleRequestPriceGlmrUsdt6": "0xa0C5F12A2B370EF226D08377CBE7593677c41993",
+			"WitOracleRequestPriceStellaUsdt6": "0x517BAee8725bD4130780BC9fE941f3C9a85a65C4",
+			"WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
+			"WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
+		},
+		"solvers": {
+			"WitPriceFeedSolverGlintUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
+			"WitPriceFeedSolverGlmrUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
+			"WitPriceFeedSolverStellaUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+		}
+	},
+	"moonbeam:moonbase": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
+			"WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
+			"WitOracleRequestPriceGlintUsdc6": "0xfcDE89a46E5848DDAC2F169435f038040Fed958C",
+			"WitOracleRequestPriceGlmrUsdt6": "0xeD8C564b668AB8174bBAf6Af68B0C0dAE93d3ce5",
+			"WitOracleRequestPriceStellaUsdt6": "0xAB34f4580c25f38A40256569623D02574D3421a9",
+			"WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
+			"WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
+		},
+		"solvers": {
+			"WitPriceFeedSolverGlintUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+			"WitPriceFeedSolverGlmrUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+			"WitPriceFeedSolverStellaUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+		}
+	},
+	"moonbeam:moonriver": {
+		"requests": {
+			"WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2",
+			"WitOracleRequestPriceUsdtUsd6": "0x97e538Fc6Df911EbEA006a5F675c1b573555CFa9"
+		}
+	},
+	"okx:oktchain:testnet": {
+		"requests": {
+			"WitOracleRequestPriceOktUsdt6": "0x3cD15d996196718fc141646DFC6841125638e481",
+			"WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c"
+		}
+	},
+	"okx:x1:sepolia": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0xA374c3b93AFfe310B97B2e68AeF65FF2E7059724",
+			"WitOracleRequestPriceEthUsd6": "0xeBc2CB1e1F0C6bF19801EB4afba475447F8D2797",
+			"WitOracleRequestPriceOkbUsdt6": "0x792DC6ecd17b1901B3AE41D45C008546aFD09c4c",
+			"WitOracleRequestPriceUsdcUsd6": "0x0c83346271a51Fcaff227041f48420F3A8483527",
+			"WitOracleRequestPriceUsdtUsd6": "0x0dbD820d667FC8C9aED40bC1C68EE1ead747eA8d",
+			"WitOracleRequestPriceWbtcUsd6": "0x4f6D2FD6de7ea42bCe713D43e8d8772aC8E8537F"
+		}
+	},
+	"optimism:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceOpUsdt6": "0x6a50D217388b10f5bFcce7136Bd8ebc63afcdC38"
+		}
+	},
+	"optimism:sepolia": {
+		"requests": {
+			"WitOracleRequestPriceEthUsd6": "0x976099C30663B13F0c67FC07f830Ec3f06d21CF7",
+			"WitOracleRequestPriceOpUsdt6": "0xdE9d1b0ffE54FB81B8bEe691d63fdcd06d8A1318",
+			"WitOracleRequestPriceUsdtUsd6": "0xD97889Ea09E06090Bd066c68f1F4FeaE4853e55d",
+			"WitOracleRequestPriceUsdtWit9": "0x88190003E2922D09cEc051850a9E6122B5d77f72",
+			"WitOracleRequestPriceWitUsdt6": "0xF759d8411F6Bc34f8d7bB4Fc510DeE231F24e8c9"
+		},
+		"solvers": {
+			"WitPriceFeedSolverWitUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverBatUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverBnbUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverBusdUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverCroUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverElaUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverElonUsd9": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverGlintUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverGlmrUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverHtUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverKavaUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverKlayUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverKspUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverQuickUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverMetisUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverMtrgUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverNctUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverStellaUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverTusdUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3",
+			"WitPriceFeedSolverWldUsd6": "0x6212a3a2B14C291CA44d796Fbf57B0630D382Fa3"
+		}
+	},
+	"polygon:amoy": {
+		"requests": {
+			"WitOracleRequestPriceBatUsdt6": "0x4DEAf97B40BffcDABCBa112D4B715AAB6c29Eb52",
+			"WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
+			"WitOracleRequestPriceDaiUsd6": "0x3D1Fd96898703eD85a49fb80ac7026e49D216dac",
+			"WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
+			"WitOracleRequestPriceMaticUsd6": "0x74E534a06cD31B4D7A0b39bb5638DAEE31cfC37E",
+			"WitOracleRequestPriceQuickUsdc6": "0xC4af8e5D9Fa49B933B69f53e56c902A311490DD4",
+			"WitOracleRequestPriceQuickWeth9": "0x177AADE2636070fE98d6bA3DC2219215a4074eCE",
+			"WitOracleRequestPriceQuickWmatic6": "0xaFa6450c9db75A74B60261Fe44b0b7F20059A8A0",
+			"WitOracleRequestPriceUsdcUsd6": "0x4ba593d36F84c0113d54A2a6bea4100FE3272Bef",
+			"WitOracleRequestPriceUsdtUsd6": "0xfbCe4334F54F361FEd1893e51811903958974c6c",
+			"WitOracleRequestPriceWitUsdt6": "0xCF9E70545aF28669262A22C9e1AaedaD85b0C0b2"
+		},
+		"solvers": {
+			"WitPriceFeedSolverBatUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702",
+			"WitPriceFeedSolverQuickUsd6": "0x0c34d8C3fDeC07d665202b27B6F2D56D03648702"
+		}
+	},
+	"polygon:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
+			"WitOracleRequestPriceDaiUsd6": "0x1C5B873bA9E276C2C1fC923c870b152179B9753C",
+			"WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
+			"WitOracleRequestPriceQuickUsdc6": "0x4D9195309f4348720F97445d7A7fDF05E3B85937",
+			"WitOracleRequestPriceQuickWeth9": "0x2b7E4F0a07213FB02aeC68AfC94Efd03F7ca3e8c",
+			"WitOracleRequestPriceQuickWmatic6": "0xa784431236F37195B197719Bf374A7a513b041Cf",
+			"WitOracleRequestPriceUsdcUsd6": "0x4159388D1b7ECc5410ff48E155193075D1d944d2"
+		},
+		"solvers": {
+			"WitPriceFeedSolverQuickUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+		}
+	},
+	"polygon:zkevm:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceEthUsd6": "0x3692bCac5CD3dabCfAc18108593541aBcC4AAeb9"
+		}
+	},
+	"reef:mainnet": {},
+	"scroll:sepolia": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0xA374c3b93AFfe310B97B2e68AeF65FF2E7059724",
+			"WitOracleRequestPriceEthUsd6": "0xeBc2CB1e1F0C6bF19801EB4afba475447F8D2797",
+			"WitOracleRequestPriceUniUsd6": "0x88714F773153862d384D63c1B83354976D21d88b",
+			"WitOracleRequestPriceUsdcUsd6": "0x0c83346271a51Fcaff227041f48420F3A8483527"
+		}
+	},
+	"syscoin:rollux:testnet": {
+		"requests": {
+			"WitOracleRequestPriceSysUsdt6": "0x39e0474e52ff4b2b7bc7a64AD36c0Baeb17046c1"
+		}
+	},
+	"ten:testnet": {
+		"requests": {
+			"WitOracleRequestPriceBtcUsd6": "0xc270FbAf59de6fDC027385490F8cfB0D6Be4742b",
+			"WitOracleRequestPriceEthUsd6": "0x8849a1b8812890cE755Adb974AABeC6dDf164854",
+			"WitOracleRequestPriceWitUsdt6": "0xed247750Bd5157173d7b8E3E92c053dEFF88Ae5a"
+		}
+	},
+	"ultron:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceAvaxUsd6": "0x1688e50C2219E74E0f9A03A266a010140e30Dabd",
+			"WitOracleRequestPriceBtcUsd6": "0x050297fA79a6b5BaCE0b253A4ca9aF3445c3Ae87",
+			"WitOracleRequestPriceEthUsd6": "0x3572d3c2925cCBffDCb3884883002BAf275C2feA",
+			"WitOracleRequestPriceFtmUsdt6": "0x799A1E135c683e50B5301436c4A4A6b4c7FA6AA3",
+			"WitOracleRequestPriceMaticUsd6": "0xa072CAb126D2e88579DAc9D8fa758AC38CCa2935",
+			"WitOracleRequestPriceWbtcWulx6": "0x1bD3E3E38c2E859a4e2B962853A60F57D7bE75FA",
+			"WitOracleRequestPriceWethWulx6": "0x81E35b7d7adFcDf95492b31404867A715418A7fF"
+		}
+	},
+	"ultron:testnet": {
+		"requests": {
+			"WitOracleRequestPriceAvaxUsd6": "0xF86746825Dd0A2746a451108a120984ecFa782D4",
+			"WitOracleRequestPriceBtcUsd6": "0x85914ebFa878E2aE6a0f9c783Bf0e05e28A8AfA1",
+			"WitOracleRequestPriceEthUsd6": "0xB3C470201c2f5C087b18A91D566894e895bdD366",
+			"WitOracleRequestPriceFtmUsdt6": "0x45d6A024533EF2Ce48B18b6892279D4936C35D05",
+			"WitOracleRequestPriceMaticUsd6": "0x74E534a06cD31B4D7A0b39bb5638DAEE31cfC37E",
+			"WitOracleRequestPriceWbtcWulx6": "0x4662F19A0E454f2aC16D9ce612Df6C13b4c06166",
+			"WitOracleRequestPriceWethWulx6": "0xB1Ce22C0d076Edb53Ac8F77e69717c4c99FE4d84"
+		}
+	},
+	"worldchain:sepolia": {
+		"requests": {
+			"WitOracleRequestPriceEthUsd6": "0x5ACE51bf01726094C123375a5E6EE3E50358Ec95",
+			"WitOracleRequestPriceUsdtUsd6": "0x69Ac8C5ee6F724545d0f78C3fF5042F162d67b24",
+			"WitOracleRequestPriceWitUsdt6": "0x93aBcFf00999a39ed2162844b89A09a6DDd4a8e5",
+			"WitOracleRequestPriceWldUsdt6": "0xC9BeF4284f74577e430707Ed4EEee8226782C665"
+		},
+		"solvers": {
+			"WitPriceFeedSolverWitUsd6": "0x302A3c97fB29fA3494747945a58aD0724ad0e12E",
+			"WitPriceFeedSolverWldUsd6": "0x302A3c97fB29fA3494747945a58aD0724ad0e12E"
+		}
+	},
+	"worldchain:mainnet": {
+		"requests": {
+			"WitOracleRequestPriceEthUsd6": "0xf999B4d5F9Ae51999A0a7a7c4627Edbf8879bC66",
+			"WitOracleRequestPriceUsdtUsd6": "0xDb08320142e3c713F350549273B9170D23CA57Df",
+			"WitOracleRequestPriceWitUsdt6": "0x77aDE3936eCAf1ED57f6c4814a09a3483dCb3655",
+			"WitOracleRequestPriceWldUsdt6": "0x3744BA3d6Ab75074F35a78Ad19FDe21217F410f6"
+		},
+		"solvers": {
+			"WitPriceFeedSolverWitUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c",
+			"WitPriceFeedSolverWldUsd6": "0x9A5858f7b52B647c8f153D2776A7E89c2374052c"
+		}
+	}
 }

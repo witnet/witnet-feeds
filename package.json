@@ -1,17 +1,17 @@
 {
-  "name": "@witnet/price-feeds",
-  "version": "3.0.0",
-  "description": "Open-source collection of verified price data using Witnet on supported blockchains.",
-  "author": "Witnet Foundation",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/witnet/witnet-pfs"
-  },
-  "private": false,
-  "type": "module",
-  "keywords": [
-    "price feeds",
+	"name": "@witnet/price-feeds",
+	"version": "3.0.0",
+	"description": "Open-source collection of verified price data using Witnet on supported blockchains.",
+	"author": "Witnet Foundation",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/witnet/witnet-feeds"
+	},
+	"private": false,
+	"type": "module",
+	"keywords": [
+		"price feeds",
 		"witnet",
 		"wit/oracle",
 		"solidity",
@@ -37,67 +37,60 @@
 		"ten",
 		"worldchain"
 	],
-  "bin": {
-    "eth_reporter": "./src/bin/eth_reporter.cjs",
-    "wit_notarizer": "./src/bin/wit_notarizer.cjs"
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/src/lib/*.d.ts",
-      "require": "./dist/src/lib/index.js",
-      "default": "./dist/src/lib/index.js"
-    },
-    "./assets": {
-      "types": "./dist/witnet/assets/*.d.cts",
-      "require": "./dist/witnet/assets/index.js",
-      "default": "./dist/witnet/assets/index.js"
-    },
-    "./utils": {
-      "types": "./dist/src/lib/*.d.ts",
-      "require": "./dist/src/lib/utils.js",
-      "default": "./dist/src/lib/utils.js"
-    },
-    "./settings": "./witnet/settings.json"
-  },
-  "files": [
-    "dist",
-    "src/bin",
-    ".env_witnet"
-  ],
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "fmt": "eslint --ext .js,.ts,.cjs . --ignore-path .gitignore --ignore-pattern _*",
-    "fmt!": "eslint --ext .js,.ts,.cjs . --fix --ignore-path .gitignore --ignore-pattern _*",
-    "pfs:notarizer": "node src/bin/ots/wit_notarizer.cjs",
-    "pfs:reporter": "node src/bin/ots/eth_reporter.cjs",
-    "pfs:settle": "npm run build && node ./scripts/settle.cjs",
-    "pfs:status": "npm run build && node ./scripts/status.cjs",
-    "prepare": "npm run build",
-    "test": "vitest"
-  },
-  "dependencies": {
-    "@witnet/sdk": "../witnet-toolkit",
-    "@witnet/solidity": "../witnet-solidity-bridge",
-    "commander": "^14.0.1",
-    "dotenv": "^17.2.3",
-    "lodash.merge": "^4.6.2",
-    "node-cron": "^4.2.1"
-  },
-  "devDependencies": {
-    "@types/lodash.merge": "^4.6.9",
-    "@types/node": "^24.9.1",
-    "chai": "^6.2.0",
-    "cross-env": "^10.1.0",
-    "eslint": "^9.38.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-n": "^17.23.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^7.2.1",
-    "ethrpc-gateway": "^2.3.1",
-    "inquirer": "^8.2.7",
-    "moment": "^2.30.1",
-    "typescript": "^5.9.3",
-    "vitest": "^3.2.4"
-  }
+	"bin": {
+		"eth_reporter": "./src/bin/eth_reporter.cjs",
+		"wit_notarizer": "./src/bin/wit_notarizer.cjs"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/src/lib/*.d.ts",
+			"require": "./dist/src/lib/index.js",
+			"default": "./dist/src/lib/index.js"
+		},
+		"./assets": {
+			"types": "./dist/witnet/assets/*.d.cts",
+			"require": "./dist/witnet/assets/index.js",
+			"default": "./dist/witnet/assets/index.js"
+		},
+		"./utils": {
+			"types": "./dist/src/lib/*.d.ts",
+			"require": "./dist/src/lib/utils.js",
+			"default": "./dist/src/lib/utils.js"
+		},
+		"./settings": "./witnet/settings.json"
+	},
+	"files": [
+		"dist",
+		"src/bin",
+		".env_witnet"
+	],
+	"scripts": {
+		"build": "tsc -p tsconfig.json",
+		"fmt": "npx biome check",
+		"fmt!": "npx biome check --write --unsafe",
+		"pfs:notarizer": "node src/bin/bots/wit_notarizer.cjs",
+		"pfs:reporter": "node src/bin/bots/eth_reporter.cjs",
+		"pfs:settle": "npm run build && node ./scripts/settle.cjs",
+		"pfs:status": "npm run build && node ./scripts/status.cjs",
+		"prepare": "npm run build",
+		"test": "vitest"
+	},
+	"dependencies": {
+		"commander": "^14.0.1",
+		"dotenv": "^17.2.3",
+		"lodash.merge": "^4.6.2",
+		"node-cron": "^4.2.1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.6",
+		"@types/lodash.merge": "^4.6.9",
+		"@types/node": "^24.9.1",
+		"chai": "^6.2.0",
+		"cross-env": "^10.1.0",
+		"ethrpc-gateway": "^2.3.1",
+		"inquirer": "^8.2.7",
+		"moment": "^2.30.1",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.6"
+	}
 }

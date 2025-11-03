@@ -1,93 +1,93 @@
 {
-    "default": {
-        "mainnets": {
-            "callbackGas": 100000,
-            "computeEMA": false,
-            "cooldownSecs": 900,
-            "deviationPercentage": 3.5,
-            "heartbeatSecs": 86400,
-            "maxDeviationPercentage": 0,
-            "minWitnesses": 12
-        },
-        "testnets": {
-            "callbackGas": 100000,
-            "computeEMA": false,
-            "cooldownSecs": 300,
-            "deviationPercentage": 1.0,
-            "heartbeatSecs": 3600,
-            "maxDeviationPercentage": 0,
-            "minWitnesses": 3
-        },
-        "Crypto.BCH/USD-6": {
-            "deviationPercentage": 1.0
-        },
-        "Crypto.BORING/USDT-6": {
-            "deviationPercentage": 0.5
-        },
-        "Crypto.CELO/EUR-6": {
-            "deviationPercentage": 1.0
-        },
-        "Crypto.CELO/USD-6": {
-            "deviationPercentage": 1.0
-        },
-        "Crypto.CFX/USDT-6": {
-            "cooldownSecs": 300,
-            "deviationPercentage": 1.0,
-            "heartbeatSecs": 3600
-        },
-        "Crypto.DAI/USD-6": {
-            "deviationPercentage": 0.1
-        },
-        "Crypto.FRAX/USDT-6": {
-            "deviationPercentage": 0.25
-        },
-        "Crypto.GLINT/USDC-6": {
-            "deviationPercentage": 1.0
-        },
-        "Crypto.GLMR/USDT-6": {
-            "deviationPercentage": 1.0
-        },
-        "Crypto.KAVA/USDT-6": {
-            "deviationPercentage": 0.5
-        },
-        "Crypto.KCS/USDT-6": {
-            "deviationPercentage": 0.5,
-            "heartbeatSecs": 3600
-        },
-        "Crypto.MJT/KCS-9": {
-            "deviationPercentage": 0.5
-        },
-        "Crypto.MOVR/USDT-6": {
-            "deviationPercentage": 1.0
-        },
-        "Crypto.OKT/USDT-6": {
-            "deviationPercentage": 0.5
-        },
-        "Crypto.OP/USDT-6": {
-            "deviationPercentage": 1.0
-        },
-        "Crypto.SAX/USDT-6": {
-            "deviationPercentage": 0.5
-        },
-        "Crypto.STELLA/USDT-6": {
-            "deviationPercentage": 1.0
-        },
-        "Crypto.SYS/USDT-6": {
-            "deviationPercentage": 1.0
-        },
-        "Crypto.TUSD/USDT-6": {
-            "deviationPercentage": 0.25
-        },
-        "Crypto.USDC/USD-6": {
-            "deviationPercentage": 0.1
-        },
-        "Crypto.USDT/USD-6": {
-            "deviationPercentage": 0.1,
-            "heartbeatSecs": 86400
-        },
-        "Crypto.WIT/USDT-6": {
-            "deviationPercentage": 1.0
-        }
-    },
-    "ethereum:sepolia": {}
+	"default": {
+		"mainnets": {
+			"callbackGas": 100000,
+			"computeEMA": false,
+			"cooldownSecs": 900,
+			"deviationPercentage": 3.5,
+			"heartbeatSecs": 86400,
+			"maxDeviationPercentage": 0,
+			"minWitnesses": 12
+		},
+		"testnets": {
+			"callbackGas": 100000,
+			"computeEMA": false,
+			"cooldownSecs": 300,
+			"deviationPercentage": 1.0,
+			"heartbeatSecs": 3600,
+			"maxDeviationPercentage": 0,
+			"minWitnesses": 3
+		},
+		"Crypto.BCH/USD-6": {
+			"deviationPercentage": 1.0
+		},
+		"Crypto.BORING/USDT-6": {
+			"deviationPercentage": 0.5
+		},
+		"Crypto.CELO/EUR-6": {
+			"deviationPercentage": 1.0
+		},
+		"Crypto.CELO/USD-6": {
+			"deviationPercentage": 1.0
+		},
+		"Crypto.CFX/USDT-6": {
+			"cooldownSecs": 300,
+			"deviationPercentage": 1.0,
+			"heartbeatSecs": 3600
+		},
+		"Crypto.DAI/USD-6": {
+			"deviationPercentage": 0.1
+		},
+		"Crypto.FRAX/USDT-6": {
+			"deviationPercentage": 0.25
+		},
+		"Crypto.GLINT/USDC-6": {
+			"deviationPercentage": 1.0
+		},
+		"Crypto.GLMR/USDT-6": {
+			"deviationPercentage": 1.0
+		},
+		"Crypto.KAVA/USDT-6": {
+			"deviationPercentage": 0.5
+		},
+		"Crypto.KCS/USDT-6": {
+			"deviationPercentage": 0.5,
+			"heartbeatSecs": 3600
+		},
+		"Crypto.MJT/KCS-9": {
+			"deviationPercentage": 0.5
+		},
+		"Crypto.MOVR/USDT-6": {
+			"deviationPercentage": 1.0
+		},
+		"Crypto.OKT/USDT-6": {
+			"deviationPercentage": 0.5
+		},
+		"Crypto.OP/USDT-6": {
+			"deviationPercentage": 1.0
+		},
+		"Crypto.SAX/USDT-6": {
+			"deviationPercentage": 0.5
+		},
+		"Crypto.STELLA/USDT-6": {
+			"deviationPercentage": 1.0
+		},
+		"Crypto.SYS/USDT-6": {
+			"deviationPercentage": 1.0
+		},
+		"Crypto.TUSD/USDT-6": {
+			"deviationPercentage": 0.25
+		},
+		"Crypto.USDC/USD-6": {
+			"deviationPercentage": 0.1
+		},
+		"Crypto.USDT/USD-6": {
+			"deviationPercentage": 0.1,
+			"heartbeatSecs": 86400
+		},
+		"Crypto.WIT/USDT-6": {
+			"deviationPercentage": 1.0
+		}
+	},
+	"ethereum:sepolia": {}
 }
