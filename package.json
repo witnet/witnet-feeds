@@ -38,8 +38,8 @@
 		"worldchain"
 	],
 	"bin": {
-		"eth_reporter": "./src/bin/eth_reporter.cjs",
-		"wit_notarizer": "./src/bin/wit_notarizer.cjs"
+		"reporter": "./src/bin/eth_reporter.cjs",
+		"notarizer": "./src/bin/wit_notarizer.cjs"
 	},
 	"exports": {
 		".": {
@@ -76,21 +76,23 @@
 		"test": "vitest"
 	},
 	"dependencies": {
-		"commander": "^14.0.1",
+		"@witnet/sdk": "^1.2.2",
+		"@witnet/solidity": "^3.0.5",
+		"commander": "^14.0.2",
 		"dotenv": "^17.2.3",
 		"lodash.merge": "^4.6.2",
 		"node-cron": "^4.2.1"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.2.6",
+		"@biomejs/biome": "^2.3.4",
 		"@types/lodash.merge": "^4.6.9",
-		"@types/node": "^24.9.1",
+		"@types/node": "^24.10.0",
 		"chai": "^6.2.0",
 		"cross-env": "^10.1.0",
 		"ethrpc-gateway": "^2.3.1",
 		"inquirer": "^8.2.7",
 		"moment": "^2.30.1",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.6"
+		"vitest": "^4.0.7"
 	}
 }
