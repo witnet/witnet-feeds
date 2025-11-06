@@ -204,6 +204,7 @@ async function main() {
 			// create, sign and send new data request transaction
 			const DRs = Witnet.DataRequests.from(ledger, request);
 			let tx = await DRs.sendTransaction({
+				fees: priority,
 				witnesses: conditions.minWitnesses,
 			});
 			console.info(`[${tag}] RAD hash   =>`, tx.radHash);
