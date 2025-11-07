@@ -66,8 +66,8 @@
 	],
 	"scripts": {
 		"build": "tsc -p tsconfig.json",
-		"fmt": "npx biome check",
-		"fmt!": "npx biome check --write --unsafe",
+		"fmt": "npx biome check --unsafe ./scripts ./src",
+		"fmt!": "npx biome check --write --unsafe ./scripts ./src",
 		"pfs:notarizer": "node src/bin/bots/notarizer.cjs",
 		"pfs:reporter": "node src/bin/bots/reporter.cjs",
 		"pfs:settle": "npm run build && node ./scripts/settle.cjs",
