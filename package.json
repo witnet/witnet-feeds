@@ -38,8 +38,8 @@
 		"worldchain"
 	],
 	"bin": {
-		"reporter": "./src/bin/eth_reporter.cjs",
-		"notarizer": "./src/bin/wit_notarizer.cjs"
+		"notarizer": "./src/bin/bots/notarizer.cjs",
+		"reporter": "./src/bin/bots/reporter.cjs"
 	},
 	"exports": {
 		".": {
@@ -68,8 +68,8 @@
 		"build": "tsc -p tsconfig.json",
 		"fmt": "npx biome check",
 		"fmt!": "npx biome check --write --unsafe",
-		"pfs:notarizer": "node src/bin/bots/wit_notarizer.cjs",
-		"pfs:reporter": "node src/bin/bots/eth_reporter.cjs",
+		"pfs:notarizer": "node src/bin/bots/notarizer.cjs",
+		"pfs:reporter": "node src/bin/bots/reporter.cjs",
 		"pfs:settle": "npm run build && node ./scripts/settle.cjs",
 		"pfs:status": "npm run build && node ./scripts/status.cjs",
 		"prepare": "npm run build",

@@ -2,17 +2,18 @@ const { Witnet } = require("@witnet/sdk");
 const { ethers, WitOracle } = require("@witnet/solidity");
 
 const cron = require("node-cron");
-require("dotenv").config();
+require("dotenv").config({ quiet: true });
 const { Command } = require("commander");
 const program = new Command();
 
 const { utils, Rulebook } = require("../../../dist/src/lib");
 const { version } = require("../../../package.json");
-const { commas } = require("../../helpers");
+const { colors, commas, traceHeader } = require("../helpers.cjs");
 
 const CHECK_BALANCE_SCHEDULE =
 	process.env.WITNET_PFS_CHECK_BALANCE_SCHEDULE || "*/5 * * * *";
 const DRY_RUN_POLLING_SECS = process.env.WITNET_PFS_DRY_RUN_POLLING_SECS || 45;
+const KERMIT = process.env.WITNET_SDK_KERMIT_URL || "https://kermit.witnet.io"
 
 let balance,
 	footprint,
@@ -21,17 +22,16 @@ let balance,
 let pendingUpdates = [];
 let rulebook;
 
+traceHeader(`@WITNET/PRICE-FEEDS EVM REPORTER BOT v${version}`, colors.white)
+
 main();
 
 async function main() {
-	const headline = `WITNET PRICE FEEDS REPORTER v${version}`;
-	console.info("=".repeat(120));
-	console.info(headline);
-
+	
 	program
-		.name("node src/bin/reporter")
+		.name("npx --package @witnet/price-feeds reporter")
 		.description(
-			"Poller bot for reporting price feed updates into a WitPriceFeeds target.",
+			"Poller bot for reporting notarized price feed updates into a WitPriceFeeds contract.",
 		)
 		.version(version);
 
@@ -52,14 +52,14 @@ async function main() {
 			process.env.WITNET_PFS_ETH_RPC_PROVIDER_HOST || "http://127.0.0.1",
 		)
 		.option(
+			"--patron <evm_address>",
+			"Signer address that will pay for every update report, other than the gateway's default.",
+			process.env.WITNET_PFS_ETH_SIGNER || undefined
+		)
+		.option(
 			"--port <url>",
 			"ETH/RPC provider port",
 			process.env.WITNET_PFS_ETH_RPC_PROVIDER_PORT || 8545,
-		)
-		.option(
-			"--kermit <url>",
-			"WIT/Kermit endpoint other than default",
-			"https://kermit.witnet.io",
 		)
 		.option(
 			"--min-balance <eth>",
@@ -73,18 +73,18 @@ async function main() {
 		)
 		.option(
 			"--network <evm_network>",
-			"EVM network to report into",
-			process.env.WITNET_PFS_ETH_NETWORK,
+			"Make sure the randomizer bot connects to this EVM chain.",
+			process.env.WITNET_PFS_ETH_NETWORK || undefined,
 		)
-		.option(
-			"--signer <evm_address>",
-			"EVM address that pays for reporting updates",
+		.requiredOption(
+			"--target <evm_address>", 
+			"Address of WitPriceFeeds contract where to report data updates.",
+			process.env.WITNET_PFS_ETH_TARGET || undefined
 		)
-		.option("--target <evm_address>", "WitPriceFeeds address to report into")
 		.option(
 			"--witnet <url>",
-			"WIT/RPC provider",
-			process.env.WITNET_PFS_WIT_RPC_PROVIDER,
+			"The WIT/RPC provider endpoint where to search for notarized data updates, other than the officials .",
+			process.env.WITNET_PFS_WIT_NETWORK,
 		);
 
 	program.parse();
@@ -94,33 +94,29 @@ async function main() {
 		debug,
 		gasLimit,
 		host,
-		kermit,
 		minBalance,
 		maxGasPrice,
 		network,
 		port,
-		signer,
+		patron,
 		target,
 		witnet,
 	} = program.opts();
 
 	if (!debug) console.debug = () => {};
 
-	if (!signer || !ethers.isAddress(signer)) {
-		console.error(`❌ Fatal: invalid EVM signer address: "${signer}"`);
+	if (patron && !ethers.isAddress(patron)) {
+		console.error(`❌ Fatal: invalid EVM signer address: "${patron}"`);
 		process.exit(0);
 	} else if (!target || !ethers.isAddress(target)) {
 		console.error(`❌ Fatal: invalid EVM target address: "${target}"`);
 		process.exit(0);
 	}
 
-	const witOracle = await WitOracle.fromJsonRpcUrl(
-		`${host}:${port}`,
-		signer,
-	).catch((err) => {
-		console.error(`❌ Fatal: ${err}`);
-		process.exit(0);
-	});
+	const witOracle = patron
+		? await WitOracle.fromJsonRpcUrl(`${host}:${port}`, patron)
+		: await WitOracle.fromJsonRpcUrl(`${host}:${port}`);
+	const signer = witOracle.signer.address
 
 	if (network && witOracle.network !== network) {
 		console.error(
@@ -144,12 +140,22 @@ async function main() {
 				? "https://rpc-02.witnet.io"
 				: "https://rpc-testnet.witnet.io"),
 	);
-	const _kermit = await Witnet.KermitClient.fromEnv(kermit);
+	if ((_witnet.network === "mainnet") ^ (utils.isEvmNetworkMainnet(network))) {
+		console.error(
+			`❌ Fatal: invalid Witnet network at ${
+			_witnet.endpoints
+			}: should connect to the ${
+			utils.isEvmNetworkMainnet(network) ? "MAINNET" : "TESTNET"
+			} instead.`
+		);
+		process.exit(0);
+	}
+	const kermit = await Witnet.KermitClient.fromEnv(KERMIT);
 
-	console.info(`WIT/Kermit URL:   ${_kermit.url}`);
-	console.info(`WIT/RPC provider: ${_witnet.endpoints}`);
-	console.info(`EVM RPC gateway:  ${host}:${port}`);
-	console.info(`EVM network:      ${network.toUpperCase()}`);
+	console.info(`> WIT/Kermit URL:   ${kermit.url}`);
+	console.info(`> WIT/RPC provider: ${_witnet.endpoints}`);
+	console.info(`> EVM RPC gateway:  ${host}:${port}`);
+	console.info(`> EVM network:      ${network.toUpperCase()}`);
 
 	const witPriceFeeds = await witOracle
 		.getWitPriceFeedsAt(target)
@@ -170,10 +176,10 @@ async function main() {
 		process.exit(0);
 	}
 
-	console.info(`Wit/Oracle bridge:    ${witOracle.address}`);
-	console.info(`Wit/Oracle registry:  ${witOracleRadonRegistry.address}`);
+	console.info(`> Wit/Oracle bridge:    ${witOracle.address}`);
+	console.info(`> Wit/Oracle registry:  ${witOracleRadonRegistry.address}`);
 	console.info(
-		`Wit/Oracle appliance: ${target} [${artifact} v${serial.split("-")[0]}]`,
+		`> Wit/Oracle appliance: ${target} [${artifact} v${serial.split("-")[0]}]`,
 	);
 
 	const { provider } = witOracle;
@@ -387,7 +393,7 @@ async function main() {
 									BigInt(report.result.timestamp) > lastUpdate.timestamp,
 							);
 							if (dataRequests.length > 0) {
-								const report = await _kermit.getDataPushReport(
+								const report = await kermit.getDataPushReport(
 									dataRequests[0].hash,
 									network,
 								);
@@ -415,7 +421,7 @@ async function main() {
 								throw `[<] No recent updates found just yet ...`;
 							}
 						} catch (err) {
-							throw `[x] Cannot fetch signed report from ${_kermit.url}: ${err}`;
+							throw `[x] Cannot fetch signed report from ${kermit.url}: ${err}`;
 						}
 					})
 					.catch((err) => console.warn(`[${tag}] ${err}`));

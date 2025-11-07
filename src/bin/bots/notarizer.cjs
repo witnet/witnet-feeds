@@ -1,13 +1,13 @@
 const { Witnet } = require("@witnet/sdk");
 
 const cron = require("node-cron");
-require("dotenv").config();
+require("dotenv").config({ quiet: true });
 const { Command } = require("commander");
 const program = new Command();
 
 const { assets, utils, Rulebook } = require("../../../dist/src/lib");
 const { version } = require("../../../package.json");
-const { commas } = require("../helpers.cjs");
+const { colors, commas, traceHeader } = require("../helpers.cjs");
 
 const CHECK_BALANCE_SCHEDULE =
 	process.env.WITNET_PFS_CHECK_BALANCE_SCHEDULE || "*/5 * * * *";
@@ -19,13 +19,10 @@ const lastUpdates = {};
 main();
 
 async function main() {
-	const headline = `WITNET PRICE FEEDS NOTARIZER v${version}`;
-	console.info("=".repeat(120));
-	console.info(headline);
 
 	program
-		.name("node src/bin/notarizer")
-		.description("Poller bot for notarizing price feed updates in Witnet.")
+		.name("npx --package @witnet/price-feeds notarizer")
+		.description("Poller bot for detecting and notarizing price feed updates in Witnet.")
 		.version(version);
 
 	program
@@ -56,36 +53,39 @@ async function main() {
 				Witnet.TransactionPriority.Medium,
 		)
 		.option(
-			"--provider <url>",
-			"Wit/RPC provider endpoint",
-			process.env.WITNET_PFS_WIT_RPC_PROVIDER ||
-				"https://rpc-testnet.witnet.io",
-		)
-		.option(
 			"--signer <wit_pkh>",
 			"Signer's public key hash",
-			process.env.WITNET_PFS_WIT_RPC_SIGNER,
+			process.env.WITNET_PFS_WIT_SIGNER,
 		)
 		.option(
 			"--strategy <strategy>",
 			"UTXO selection strategy",
 			process.env.WITNET_PFS_WIT_UTXOS_STRATEGY ||
 				Witnet.UtxoSelectionStrategy.SlimFit,
+		)
+		.option(
+			"--witnet <\"mainnet\" | \"testnet\" | url>",
+			"The name of the Witnet network, or the URL of the Wit/RPC provider, to connect to.",
+			process.env.WITNET_PFS_WIT_NETWORK 
+				|| process.env.WITNET_SDK_PROVIDER_URL
+				|| "mainnet"
 		);
 
 	program.parse();
 
+	let { minBalance } = program.opts()
 	const {
 		configPath,
 		debug,
-		minBalance,
 		minUtxos,
 		network,
 		priority,
-		provider,
 		signer,
 		strategy,
+		witnet,
 	} = program.opts();
+
+	traceHeader(`@WITNET/PRICE-FEEDS NOTARIZER BOT v${version}`, colors.white);
 
 	if (!debug) console.debug = () => {};
 
@@ -95,6 +95,7 @@ async function main() {
 		);
 		process.exit(0);
 	}
+	const provider = witnet === "mainnet" ? "https://rpc-01.witnet.io" : (witnet === "testnet" ? "https://rpc-testnet.witnet.io" : witnet)
 	const wallet = await Witnet.Wallet.fromXprv(WIT_WALLET_MASTER_KEY, {
 		limit: 1,
 		strategy,
@@ -108,27 +109,26 @@ async function main() {
 		process.exit(0);
 	}
 
-	console.info(`Wit/RPC provider:  ${provider}`);
+	console.info(`> Wit/RPC provider:  ${provider}`);
 	console.info(
-		`Witnet network:    WITNET:${wallet.provider.network.toUpperCase()} (${wallet.provider.networkId.toString(16)})`,
+		`> Witnet network:    WITNET:${wallet.provider.network.toUpperCase()} (${wallet.provider.networkId.toString(16)})`,
 	);
-	console.info(`Witnet hot wallet: ${ledger.pkh}`);
-	console.info(`UTXOs strategy:    ${strategy.toUpperCase()}`);
-	console.info(`Network priority:  ${priority.toUpperCase()}`);
+	console.info(`> Witnet signer:     ${ledger.pkh}`);
+	console.info(`> UTXOs strategy:    ${strategy.toUpperCase()}`);
+	console.info(`> Network priority:  ${priority.toUpperCase()}`);
 	console.info(
-		`Balance threshold: ${Witnet.Coins.fromWits(minBalance).toString(2)}`,
+		`> Balance threshold: ${Witnet.Coins.fromWits(minBalance).toString(2)}`,
 	);
 
 	const VTTs = Witnet.ValueTransfers.from(ledger);
 
 	let balance = Witnet.Coins.fromPedros(0n);
 	balance = await checkWitnetBalance();
-	console.info(
-		`Initial balance:   ${balance.toString(2)} (${ledger.cacheInfo.size} UTXOs)`,
-	);
+
+	minBalance = Witnet.Coins.fromWits(minBalance)
 	if (balance.pedros < minBalance.pedros) {
 		console.error(
-			`❌ Fatal: hot wallet must be funded with at least ${minBalance.toString(2)}.`,
+			`❌ Fatal: signer ${ledger.pkh} must be funded with at least ${minBalance.toString(2)}.`,
 		);
 		process.exit(0);
 	} else {
@@ -226,7 +226,9 @@ async function main() {
 			tx = await DRs.confirmTransaction(tx.hash, {
 				onStatusChange: () => console.info(`[${tag}] DRT status =>`, tx.status),
 			}).catch((err) => {
-				throw err;
+				console.error(`[${tag}] ${err}`)
+				// throw err;
+				/* FORCE TERMINATION */ process.exit(0)
 			});
 
 			console.debug(
@@ -319,6 +321,7 @@ async function main() {
 			console.error(
 				`[witnet:${wallet.provider.network}:${ledger.pkh}] Cannot check balance: ${err}`,
 			);
+			/* FORCE TERMINATION */ process.exit(0)
 		}
 		console.info(
 			`[witnet:${wallet.provider.network}:${ledger.pkh}] Balance: ${balance.toString(2)} (${ledger.cacheInfo.size} UTXOs)`,

@@ -6,6 +6,9 @@ import * as _utils from "./utils.js";
 
 export * as utils from "./utils.js";
 
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
 export class Rulebook {
 	public readonly priceFeeds;
 	public readonly updateConditions;
