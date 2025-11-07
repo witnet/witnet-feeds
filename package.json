@@ -76,8 +76,8 @@
 		"test": "vitest"
 	},
 	"dependencies": {
-		"@witnet/sdk": "^1.2.2",
-		"@witnet/solidity": "^3.0.5",
+		"@witnet/sdk": "^1.2.6",
+		"@witnet/solidity": "^3.0.6",
 		"commander": "^14.0.2",
 		"dotenv": "^17.2.3",
 		"lodash.merge": "^4.6.2",
