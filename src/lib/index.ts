@@ -4,6 +4,7 @@ import merge from "lodash.merge";
 import { default as helpers } from "../bin/helpers.cjs";
 import * as _utils from "./utils.js";
 
+export { default as assets } from "../../witnet/assets/index.cjs";
 export * as utils from "./utils.js";
 
 import { createRequire } from "module";

@@ -39,7 +39,6 @@
 	"files": ["src/lib/index.ts"],
 	"include": [
 		"src/**/*.d.ts",
-		"witnet/assets/index.cjs",
 		"witnet/priceFeeds.json",
 		"witnet/updateConditions.json",
 		"types"

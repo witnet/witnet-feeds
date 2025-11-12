@@ -140,7 +140,6 @@ async function main() {
 						if (!addresses[network]) addresses[network] = {};
 						if (!addresses[network].apps) addresses[network].apps = {};
 						addresses[network].apps.WitPriceFeeds = cloned;
-						console.log(addresses);
 						helpers.saveWitnetJsonFiles({ addresses });
 					}
 				} else {
@@ -522,7 +521,7 @@ async function main() {
 				colors.lyellow(`\n\n  >>> VERIFY RADON REQUESTS ON-CHAIN <<<`),
 			);
 			execSync(
-				`npx witnet-ethers assets ${tasks.verifications.join(" ")} --deploy --force --port ${port}`,
+				`npx witeth assets ${tasks.verifications.join(" ")} --deploy --force --port ${port}`,
 				{ stdio: "inherit", stdout: "inherit" },
 			);
 		}
