@@ -332,6 +332,7 @@ module.exports = {
 	}),
 
 	WitOracleRequestPriceCryptoWitUsdt6: PriceTickerRequest({
+		"ticker/hitbtc.com": ["WITUSDT"],
 		"ticker/mexc.com": ["WIT", "USDT"],
 	}),
 
