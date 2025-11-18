@@ -396,7 +396,7 @@ module.exports = {
 			.multiply(1e9)
 			.round(),
 		samples: {
-			"krw/usd": ["KRW", "USD"],
+			// "krw/usd": ["KRW", "USD"],
 		},
 	}),
 	"ticker/gemini.com": retrievals.HttpGet({

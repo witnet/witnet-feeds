@@ -8,7 +8,7 @@ module.exports = {
 	}),
 
 	WitOracleRequestPriceForexKrwUsd9: PriceTickerRequest({
-		"ticker#9/fastforex.io": ["KRW", "USD"],
+		// "ticker#9/fastforex.io": ["KRW", "USD"],
 		"ticker#9/revolut.com": ["KRW", "USD", "KR"],
 		// "ticker#9/mastercard.us": ["KRW", "USD"],
 	}),
