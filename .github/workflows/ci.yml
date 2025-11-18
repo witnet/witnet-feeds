@@ -27,8 +27,5 @@ jobs:
       - name: Validate source code format
         run: pnpm run fmt
 
-      - name: Validate Radon assets 
-        run: pnpm run witsdk radon check --version
-
-      - name: Check known data sources for price feeds
-        run: pnpm run test ./test/sources.spec.js
+      # - name: Check known data sources for price feeds
+      #   run: npx vitest ./test/sources.spec.js

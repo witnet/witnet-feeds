@@ -7,7 +7,6 @@ RUN npm install -g pnpm
 COPY scripts/ /app/scripts
 COPY src/ /app/src
 COPY witnet/ /app/witnet
-COPY .no-postinstall /app
 COPY package.json /app
 COPY pnpm-lock.yaml /app
 COPY tsconfig.json /app

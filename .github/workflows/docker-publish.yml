@@ -1,4 +1,4 @@
-name: "Dockerize Price-Feeds bot in Docker"
+name: "Dockerize Price-Feeds bot"
 
 on:
   workflow_dispatch:
