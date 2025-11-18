@@ -18,7 +18,9 @@
         "scripts/*.js", 
         "test/*.js", 
         "witnet/**/*.js", 
-        "**/*.json"
+        "**/*.json",
+        "!!**/dist",
+        "!!**/artifacts"
     ]
   },
   "linter": {
