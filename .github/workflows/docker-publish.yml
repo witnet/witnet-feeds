@@ -1,17 +1,17 @@
-name: "Publish a bot container in Docker"
+name: "Dockerize Price-Feeds bot in Docker"
 
 on:
   workflow_dispatch:
     inputs:
       container:
-        description: "The bot container to publish e.g. notarizer, reporter"
+        description: "The bot container to publish:"
         required: true
         type: choice
         options:
           - notarizer
           - reporter
       version:
-        description: "The version tag to publish (as settled in package.json)"
+        description: "The version tag to publish:"
         required: true
 
 jobs:
@@ -26,7 +26,9 @@ jobs:
       packages: write
     steps:
       - name: Checkout
-        usses: actions/checkout@v4
+        uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ inputs.version }}
 
       - name: Login to registry
         uses: docker/login-action@v3
@@ -38,7 +40,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/${{ inputs.container }}
+          context: .
+          file: /docker/${{ inputs.container }}/Dockerfile
           push: true
-          tags: |
-            ${{ env.IMAGE_NAME }}:$${{ github.ref_name }}
+          tags: ${{ env.IMAGE_NAME }}:$${{ inputs.version }}

@@ -1,5 +1,7 @@
+.bak
 node_modules/
 **/.env
+**/*.tgz
 
 # TS build files
 /dist
@@ -10,17 +12,3 @@ node_modules/
 
 # Truffle files
 /build
-
-# TypeChain files
-/typechain
-/typechain-types
-
-# solidity-coverage files
-/coverage
-/coverage.json
-
-
-/flattened
-.out*
-
-.old

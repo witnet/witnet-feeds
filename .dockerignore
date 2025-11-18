@@ -1,4 +1,10 @@
+.bak
 .dockerignore
-**/.env*
+.gitignore
+.npmigore
+biome.json
+dist/
 docker/
 node_modules/
+**/.env*
+**/*.tgz

@@ -2,10 +2,17 @@ FROM node:24-alpine AS base
 
 WORKDIR /app
 
-RUN corepack enable pnpm
+RUN npm install -g pnpm 
 
-COPY . .
+COPY scripts/ /app/scripts
+COPY src/ /app/src
+COPY witnet/ /app/witnet
+COPY .no-postinstall /app
+COPY package.json /app
+COPY pnpm-lock.yaml /app
+COPY tsconfig.json /app
+COPY vitest.config.ts /app
 
-RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install --frozen-lockfile
 
 CMD ["node", "/app/src/bin/bots/notarizer.cjs"] 
