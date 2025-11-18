@@ -1,17 +1,24 @@
-name: "Publish witnet/price-feeds-notarizer"
+name: "Publish a bot container in Docker"
 
 on:
-  push:
-    release:
-      types: [created]
-    tags:
-      - "notarizer/*"
+  workflow_dispatch:
+    inputs:
+      container:
+        description: "The bot container to publish e.g. notarizer, reporter"
+        required: true
+        type: choice
+        options:
+          - notarizer
+          - reporter
+      version:
+        description: "The version tag to publish (as settled in package.json)"
+        required: true
 
 jobs:
   build:
     env:
       REGISTRY: docker.io
-      IMAGE_NAME: witnet/price-feeds-notarizer
+      IMAGE_NAME: witnet/price-feeds-${{ inputs.container }}
 
     runs-on: ubuntu-latest
     permissions:
@@ -31,8 +38,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/notarizer
+          context: ./docker/${{ inputs.container }}
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:lastest
             ${{ env.IMAGE_NAME }}:$${{ github.ref_name }}
