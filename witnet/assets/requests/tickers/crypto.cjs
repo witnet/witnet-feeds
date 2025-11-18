@@ -57,13 +57,6 @@ module.exports = {
 		"ticker/mexc.com": ["BOBA", "USDT"],
 	}),
 
-	// WitOracleRequestPriceCryptoBoringUsdt6: PriceTickerRequest({
-	// 	// "ticker/gateapi.io": ["boring", "usdt"],
-	// 	// "ticker/huobi.pro": ["boring", "usdt"],
-	// 	// "ticker/mexc.com": ["BORING", "USDT"],
-	// 	// "ticker/okx.com": ["BORING", "USDT"]
-	// }),
-
 	WitOracleRequestPriceCryptoBtcUsd6: PriceTickerRequest({
 		"ticker/binance.us": ["BTC", "USD"],
 		"ticker/bitfinex.com": ["btc", "usd"],
@@ -120,7 +113,6 @@ module.exports = {
 	}),
 
 	WitOracleRequestPriceCryptoDotUsd6: PriceTickerRequest({
-		// "ticker/bittrex.com": ["DOT", "USD"],
 		"ticker/coinbase.com": ["DOT", "USD"],
 		"ticker/kraken.com": ["DOT", "USD"],
 	}),
@@ -140,10 +132,8 @@ module.exports = {
 	}),
 
 	WitOracleRequestPriceCryptoEosUsd6: PriceTickerRequest({
-		// "ticker/ascendex.com": ["EOS", "USD"],
 		"ticker/bitfinex.com": ["eos", "usd"],
 		"ticker/coinbase.com": ["EOS", "USD"],
-		// "ticker/kraken.com": ["EOS", "USD"]
 	}),
 
 	WitOracleRequestPriceCryptoEthUsd6: PriceTickerRequest({
@@ -160,11 +150,8 @@ module.exports = {
 	}),
 
 	WitOracleRequestPriceCryptoFtmUsdt6: PriceTickerRequest({
-		// "ticker/binance.com": ["SONIC", "USDT"],
 		"ticker/bybit.com": ["SONIC", "USDT", "inverse"],
-		// "ticker/digifinex.com": ["sonic", "usdt"],
 		"ticker/gateapi.io": ["sonic", "usdt"],
-		// "ticker/huobi.pro": ["sonic", "usdt"],
 		"ticker/kucoin.com": ["SONIC", "USDT"],
 		"ticker/mexc.com": ["SONIC", "USDT"],
 		"ticker/okx.com": ["SONIC", "USDT"],
@@ -188,14 +175,10 @@ module.exports = {
 		"ticker/gateapi.io": ["glmr", "usdt"],
 		"ticker/kucoin.com": ["GLMR", "USDT"],
 		"ticker/mexc.com": ["GLMR", "USDT"],
-		// "ticker/okx.com": ["GLMR", "USDT"]
 	}),
 
 	WitOracleRequestPriceCryptoHtUsdt6: PriceTickerRequest({
-		// "ticker/ascendex.com": ["HT", "USDT"],
 		"ticker/gateapi.io": ["ht", "usdt"],
-		// "ticker/huobi.pro": ["ht", "usdt"],
-		// "ticker/mexc.com": ["HT", "USDT"]
 	}),
 
 	WitOracleRequestPriceCryptoImmoMcusd6:
@@ -221,17 +204,10 @@ module.exports = {
 	}),
 
 	WitOracleRequestPriceCryptoKcsUsdt6: PriceTickerRequest({
-		// "ticker/ascendex.com": ["KCS", "USDT"],
 		"ticker/bybit.com": ["KCS", "USDT", "spot"],
 		"ticker/kucoin.com": ["KCS", "USDT"],
-		// "ticker/mexc.com": ["KCS", "USDT"],
 		"ticker/mojitoswap": ["0xb3b92d6b2656f9ceb4a381718361a21bf9b82bd9", "0"],
 	}),
-
-	// WitOracleRequestPriceCryptoKspKrw6: PriceTickerRequest({
-	// 	// "ticker/coinone.co.kr": ["krw", "ksp"],
-	// 	// "ticker/korbit.co.kr": ["ksp", "krw"]
-	// }),
 
 	WitOracleRequestPriceCryptoLinkUsd6: PriceTickerRequest({
 		"ticker/bitstamp.net": ["link", "usd"],
@@ -264,7 +240,6 @@ module.exports = {
 
 	WitOracleRequestPriceCryptoMtrUsdt6: PriceTickerRequest({
 		"ticker/gateapi.io": ["mtr", "usdt"],
-		// "ticker/mexc.com/v3": ["MTR", "USDT"]
 	}),
 
 	WitOracleRequestPriceCryptoMtrgUsdt6: PriceTickerRequest({
@@ -272,11 +247,6 @@ module.exports = {
 		"ticker/kucoin.com": ["MTRG", "USDT"],
 		"ticker/mexc.com/v3": ["MTRG", "USDT"],
 	}),
-
-	// WitOracleRequestPriceCryptoNctCelo6: templates.WitOracleRequestTemplateUniswapCeloTicker6
-	//     .buildRadonRequest(
-	//         ["0xdb24905b1b080f65dedb0ad978aad5c76363d3c6", "1"]
-	//     ),
 
 	WitOracleRequestPriceCryptoOkbUsdt6: PriceTickerRequest({
 		"ticker/gateapi.io": ["okb", "usdt"],
@@ -286,14 +256,7 @@ module.exports = {
 
 	WitOracleRequestPriceCryptoOktUsdt6: PriceTickerRequest({
 		"ticker/gateapi.io": ["okt", "usdt"],
-		// "ticker/okx.com": ["OKT", "USDT"],
-		// "ticker/mexc.com": ["OKT", "USDT"]
 	}),
-
-	// WitOracleRequestPriceCryptoOloUsdc6: templates.WitOracleRequestTemplateOolongTicker6
-	//     .buildRadonRequest(
-	//         ["0x5008f837883ea9a07271a1b5eb0658404f5a9610", "0x66a2a913e447d6b4bf33efbec43aaef87890fbbc"],
-	//     ),
 
 	WitOracleRequestPriceCryptoOpUsdt6: PriceTickerRequest({
 		"ticker/okx.com": ["OP", "USDT"],
@@ -302,21 +265,6 @@ module.exports = {
 		"ticker/gateapi.io": ["op", "usdt"],
 		"ticker/kucoin.com": ["OP", "USDT"],
 	}),
-
-	// WitOracleRequestPriceCryptoQuickUsdc6: templates.WitOracleRequestTemplateQuickswapTicker6
-	//     .buildRadonRequest(
-	//         ["0x022df0b3341b3a0157eea97dd024a93f7496d631", "0"],
-	//     ),
-
-	// WitOracleRequestPriceCryptoQuickWeth9: templates.WitOracleRequestTemplateQuickswapTicker9
-	//     .buildRadonRequest(
-	//         ["0xde2d1fd2e8238aba80a5b80c7262e4833d92f624", "0"]
-	//     ),
-
-	// WitOracleRequestPriceCryptoQuickWmatic6: templates.WitOracleRequestTemplateQuickswapTicker6
-	//     .buildRadonRequest(
-	//         ["0x9f1a8caf3c8e94e43aa64922d67dff4dc3e88a42", "0"],
-	//     ),
 
 	WitOracleRequestPriceCryptoReefUsdt6: PriceTickerRequest({
 		"ticker/binance.com": ["REEF", "USDT"],
@@ -341,11 +289,6 @@ module.exports = {
 		"ticker/kraken.com": ["SOL", "USD"],
 	}),
 
-	// WitOracleRequestPriceCryptoStellaUsdt6: templates.WitOracleRequestTemplateStellaswapTicker6
-	//     .buildRadonRequest(
-	//         ["0x81e11a9374033d11cc7e7485a7192ae37d0795d6", "1"],
-	//     ),
-
 	WitOracleRequestPriceCryptoSysUsdt6: PriceTickerRequest({
 		"ticker/binance.com": ["SYS", "USDT"],
 		"ticker/bitget.com": ["SYSUSDT_SPBL"],
@@ -359,12 +302,6 @@ module.exports = {
 		"ticker/binance.com": ["TUSD", "USDT"],
 		"ticker/huobi.pro": ["tusd", "usdt"],
 	}),
-
-	// WitOracleRequestPriceCryptoUlxUsdt6: PriceTickerRequest(
-	//     {
-	//         "ticker/uniswap_v3": ["0x9adf4617804c762f86fc4e706ad0424da3b100a7", "1"]
-	//     }
-	// ),
 
 	WitOracleRequestPriceCryptoUniUsd6: PriceTickerRequest({
 		"ticker/bitfinex.com": ["uni", "usd"],
@@ -388,35 +325,14 @@ module.exports = {
 		"ticker/gemini.com": ["usdt", "usd"],
 	}),
 
-	// WitOracleRequestPriceCryptoVsqDai6: templates.WitOracleRequestTemplateSushiswapTicker6
-	//     .buildRadonRequest(
-	//         ["0x5cf66ceaf7f6395642cd11b5929499229edef531", "1"],
-	//     ),
-
 	WitOracleRequestPriceCryptoWbtcUsd6: PriceTickerRequest({
 		"ticker/bitfinex.com": ["wbt", "usd"],
 		"ticker/coinbase.com": ["WBTC", "USD"],
 		"ticker/kraken.com": ["WBTC", "USD"],
 	}),
 
-	// WitOracleRequestPriceCryptoWbtcWulx6: PriceTickerRequest({
-	// 	"ticker/ultron-dev.net": [
-	// 		"0xd2b86a80a8f30b83843e247a50ecdc8d843d87dd",
-	// 		"0x3a4f06431457de873b588846d139ec0d86275d54",
-	// 	],
-	// }),
-
-	// WitOracleRequestPriceCryptoWethWulx6: PriceTickerRequest({
-	// 	"ticker/ultron-dev.net#inverse": [
-	// 		"0x2318bf5809a72aabadd15a3453a18e50bbd651cd",
-	// 		"0x3a4f06431457de873b588846d139ec0d86275d54",
-	// 	],
-	// }),
-
 	WitOracleRequestPriceCryptoWitUsdt6: PriceTickerRequest({
 		"ticker/mexc.com": ["WIT", "USDT"],
-		// "ticker/bitmart.com": ["WIT", "USDT"],
-		// "ticker/gateapi.io": ["wit", "usdt"],
 	}),
 
 	WitOracleRequestPriceCryptoWldUsdt6: PriceTickerRequest({

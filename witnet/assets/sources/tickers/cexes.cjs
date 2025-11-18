@@ -37,11 +37,7 @@ module.exports = {
 			.getFloat("price")
 			.multiply(1e6)
 			.round(),
-		// samples: {
-		//     "op/usdt": [ "OP", "USDT" ],
-		//     "reef/usdt": [ "REEF", "USDT" ],
-		//     "sys/usdt": [ "SYS", "USDT" ],
-		// },
+		samples: {},
 	}),
 	"ticker/binance.com": retrievals.HttpGet({
 		url: "https://api.binance.com/api/v3/ticker/price?symbol=\\0\\\\1\\",
@@ -146,8 +142,6 @@ module.exports = {
 			.round(),
 		samples: {
 			"mnt/usdt": ["MNT", "USDT"],
-			// "wit/usdt": [ "WIT", "USDT" ],
-			// "wld/usdt": [ "WLD", "USDT" ],
 		},
 	}),
 	"ticker/bitrue.com": retrievals.HttpGet({
@@ -191,9 +185,6 @@ module.exports = {
 			.getFloat("lastTradeRate")
 			.multiply(1e6)
 			.round(),
-		// samples: {
-		//     "dot/usd": [ "DOT", "USD" ],
-		// },
 	}),
 	"ticker/bitvavo.com": retrievals.HttpGet({
 		url: "https://api.bitvavo.com/v2/ticker/price?market=\\0\\-\\1\\",
@@ -218,7 +209,6 @@ module.exports = {
 			.round(),
 		samples: {
 			"bnb/usdt": ["BNB", "USDT", "inverse"],
-			// "ftm/usdt":  [ "FTM", "USDT", "inverse" ],
 			"kaia/usdt": ["KAIA", "USDT", "spot"],
 			"wld/usdt": ["WLD", "USDT", "inverse"],
 		},
@@ -292,9 +282,7 @@ module.exports = {
 			.getFloat("last")
 			.multiply(1e3)
 			.round(),
-		samples: {
-			// "krw/ksp": ["krw", "ksp"],
-		},
+		samples: {},
 	}),
 	"ticker#9/coinyep.com": retrievals.HttpGet({
 		url: "https://coinyep.com/api/v1/?from=\\0\\&to=\\1\\&lang=es&format=json",
@@ -314,7 +302,6 @@ module.exports = {
 			.multiply(1e6)
 			.round(),
 		samples: {
-			// "ftm/usdt": [ "ftm", "usdt" ],
 			"op/usdt": ["op", "usdt"],
 			"reef/usdt": ["reef", "usdt"],
 			"sys/usdt": ["sys", "usdt"],
@@ -341,7 +328,6 @@ module.exports = {
 		samples: {
 			"bnb/usdt": ["bnb", "usdt"],
 			"boba/usdt": ["boba", "usdt"],
-			// "boring/usdt": ["boring", "usdt"],
 			"cfx/usdt": ["cfx", "usdt"],
 			"cro/usdt": ["cro", "usdt"],
 			"dai/usdt": ["dai", "usdt"],
@@ -383,9 +369,6 @@ module.exports = {
 			.getFloat("\\1\\")
 			.multiply(1e9)
 			.round(),
-		// samples: {
-		//     "krw/usd": [ "KRW", "USD" ]
-		// },
 	}),
 	"ticker#9/fastforex.io": retrievals.HttpGet({
 		url: "https://api.fastforex.io/fetch-one?from=\\0\\&to=\\1\\&api_key=demo",
@@ -395,9 +378,6 @@ module.exports = {
 			.getFloat("\\1\\")
 			.multiply(1e9)
 			.round(),
-		samples: {
-			// "krw/usd": ["KRW", "USD"],
-		},
 	}),
 	"ticker/gemini.com": retrievals.HttpGet({
 		url: "https://api.gemini.com/v1/pubticker/\\0\\\\1\\",
@@ -426,6 +406,7 @@ module.exports = {
 			.round(),
 		samples: {
 			"reef/usdt": ["REEFUSDT"],
+			"wit/usdt": ["WITUSDT"],
 		},
 	}),
 	"ticker/hotbit.io": retrievals.HttpGet({
@@ -435,10 +416,6 @@ module.exports = {
 			.getFloat("result")
 			.multiply(1e6)
 			.round(),
-		// samples: {
-		//     "glmr/usdt": [ "GLMR", "USDT" ],
-		//     "metis/usdt": [ "METIS", "USDT" ],
-		// },
 	}),
 	"ticker/huobi.pro": retrievals.HttpGet({
 		url: "https://api.huobi.pro/market/detail/merged?symbol=\\0\\\\1\\",
@@ -451,11 +428,8 @@ module.exports = {
 		samples: {
 			"bnb/usdt": ["bnb", "usdt"],
 			"boba/usdt": ["boba", "usdt"],
-			// "boring/usdt": [ "boring", "usdt" ],
-			// "cube/usdt": [ "cube", "usdt" ],
 			"ela/usdt": ["ela", "usdt"],
 			"elon/usdt": ["elon", "usdt"],
-			// "ftm/usdt": [ "ftm", "usdt" ],
 			"fuse/usdt": ["fuse", "usdt"],
 			"kava/usdt": ["kava", "usdt"],
 			"tusd/usdt": ["tusd", "usdt"],
@@ -469,15 +443,6 @@ module.exports = {
 			.getFloat("close")
 			.multiply(1e6)
 			.round(),
-		// samples: {
-		//     "BNB/USDT-9": [ "bnb", "usdt" ],
-		//     "BOBA/USDT-9": [ "boba", "usdt" ],
-		//     "BORING/USDT-9": [ "boring", "usdt" ],
-		//     "CUBE/USDT-9": [ "cube", "usdt" ],
-		//     "ELON/USDT-9": [ "elon", "usdt" ],
-		//     "FTM/USDT-9": [ "ftm", "usdt" ],
-		//     "KAVA/USDT-9": [ "kava", "usdt" ],
-		// },
 	}),
 	"ticker/indoex.io": retrievals.HttpGet({
 		url: "https://api.indoex.io/getSelectedMarket/\\0\\_\\1\\",
@@ -488,9 +453,6 @@ module.exports = {
 			.getFloat("last")
 			.multiply(1e6)
 			.round(),
-		// samples: {
-		//     "busd/usdt": [ "BUSD", "USDT", ]
-		// },
 	}),
 	"ticker#9/jsdelivr.net": retrievals.HttpGet({
 		url: "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/\\0\\.json",
@@ -516,9 +478,6 @@ module.exports = {
 			.getFloat("last")
 			.multiply(1e3)
 			.round(),
-		// samples: {
-		//     "ksp/krw": [ "ksp", "krw" ],
-		// },
 	}),
 	"ticker/kraken.com": retrievals.HttpGet({
 		url: "https://api.kraken.com/0/public/Ticker?pair=\\0\\\\1\\",
@@ -541,7 +500,6 @@ module.exports = {
 			"dai/usd": ["DAI", "USD"],
 			"doge/usd": ["DOGE", "USD"],
 			"dot/usd": ["DOT", "USD"],
-			// "eos/usd": [ "EOS", "USD" ],
 			"eth/usd": ["ETH", "USD"],
 			"link/usd": ["LINK", "USD"],
 			"pol/usd": ["POL", "USD"],
@@ -626,10 +584,6 @@ module.exports = {
 			.getFloat("conversionRate")
 			.multiply(1e6)
 			.round(),
-		// samples: {
-		//     "hkd/usd": [ "HKD", "USD" ],
-		//     "krw/usd": [ "KRW", "USD" ],
-		// },
 	}),
 	"ticker#9/mastercard.us": retrievals.HttpGet({
 		url: "https://www.mastercard.us/settlement/currencyrate/conversion-rate?fxDate=0000-00-00&transCurr=\\0\\&crdhldBillCurr=\\1\\&bankFee=0&transAmt=1",
@@ -659,18 +613,15 @@ module.exports = {
 			.round(),
 		samples: {
 			"boba/usdt": ["BOBA", "USDT"],
-			// "boring/usdt": [ "BORING", "USDT" ],
 			"cfx/usdt": ["CFX", "USDT"],
 			"cro/usdt": ["CRO", "USDT"],
 			"elon/usdt": ["ELON", "USDT"],
-			// "ftm/usdt": [ "FTM", "USDT" ],
 			"fuse/usdt": ["FUSE", "USDT"],
 			"glmr/usdt": ["GLMR", "USDT"],
 			"kava/usdt": ["KAVA", "USDT"],
 			"kcs/usdt": ["KCS", "USDT"],
 			"metis/usdt": ["METIS", "USDT"],
 			"okb/usdt": ["OKB", "USDT"],
-			// "okt/usdt": [ "OKT", "USDT" ],
 			"sys/usdt": ["SYS", "USDT"],
 			"wit/usdt": ["WIT", "USDT"],
 			"wld/usdt": ["WLD", "USDT"],
@@ -728,16 +679,12 @@ module.exports = {
 		samples: {
 			"bat/usdt": ["BAT", "USDT"],
 			"bnb/usdt": ["BNB", "USDT"],
-			// "boring/usdt": [ "BORING", "USDT" ],
 			"celo/usdt": ["CELO", "USDT"],
 			"cfx/usdt": ["CFX", "USDT"],
 			"cro/usdt": ["CRO", "USDT"],
 			"elon/usdt": ["ELON", "USDT"],
-			// "ftm/usdt": [ "FTM", "USDT" ],
-			// "glmr/usdt": [ "GLMR", "USDT" ],
 			"kaia/usdt": ["KAIA", "USDT"],
 			"okb/usdt": ["OKB", "USDT"],
-			// "okt/usdt": [ "OKT", "USDT" ],
 			"op/usdt": ["OP", "USDT"],
 			"wld/usdt": ["WLD", "USDT"],
 		},
@@ -779,37 +726,6 @@ module.exports = {
 			.multiply(1e9)
 			.round(),
 	}),
-	// "ticker/ultron-dev.net": retrievals.HttpGet({
-	// 	url: "https://exchange-info.ultron-dev.net/api/v1/ultronswap",
-	// 	script: RadonScript(RadonString)
-	// 		.parseJSONMap()
-	// 		.getMap("\\1\\_\\0\\")
-	// 		.getFloat("last_price")
-	// 		.multiply(1e6)
-	// 		.round(),
-	// 	samples: {
-	// 		"wbtc/wulx": [
-	// 			"0xd2b86a80a8f30b83843e247a50ecdc8d843d87dd",
-	// 			"0x3a4f06431457de873b588846d139ec0d86275d54",
-	// 		],
-	// 	},
-	// }),
-	// "ticker/ultron-dev.net#inverse": retrievals.HttpGet({
-	// 	url: "https://exchange-info.ultron-dev.net/api/v1/ultronswap",
-	// 	script: RadonScript(RadonString)
-	// 		.parseJSONMap()
-	// 		.getMap("\\0\\_\\1\\")
-	// 		.getFloat("last_price")
-	// 		.power(-1)
-	// 		.multiply(1e6)
-	// 		.round(),
-	// 	samples: {
-	// 		"weth/wulx": [
-	// 			"0x2318bf5809a72aabadd15a3453a18e50bbd651cd",
-	// 			"0x3a4f06431457de873b588846d139ec0d86275d54",
-	// 		],
-	// 	},
-	// }),
 	"ticker/upbit.com": retrievals.HttpGet({
 		url: "https://api.upbit.com/v1/ticker?markets=\\1\\-\\0\\",
 		script: RadonScript(RadonString)
