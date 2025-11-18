@@ -228,10 +228,10 @@ module.exports = {
 		"ticker/mojitoswap": ["0xb3b92d6b2656f9ceb4a381718361a21bf9b82bd9", "0"],
 	}),
 
-	WitOracleRequestPriceCryptoKspKrw6: PriceTickerRequest({
-		"ticker/coinone.co.kr": ["krw", "ksp"],
-		// "ticker/korbit.co.kr": ["ksp", "krw"]
-	}),
+	// WitOracleRequestPriceCryptoKspKrw6: PriceTickerRequest({
+	// 	// "ticker/coinone.co.kr": ["krw", "ksp"],
+	// 	// "ticker/korbit.co.kr": ["ksp", "krw"]
+	// }),
 
 	WitOracleRequestPriceCryptoLinkUsd6: PriceTickerRequest({
 		"ticker/bitstamp.net": ["link", "usd"],

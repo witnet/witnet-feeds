@@ -293,7 +293,7 @@ module.exports = {
 			.multiply(1e3)
 			.round(),
 		samples: {
-			"krw/ksp": ["krw", "ksp"],
+			// "krw/ksp": ["krw", "ksp"],
 		},
 	}),
 	"ticker#9/coinyep.com": retrievals.HttpGet({
