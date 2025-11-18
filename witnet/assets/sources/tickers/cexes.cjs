@@ -341,7 +341,7 @@ module.exports = {
 		samples: {
 			"bnb/usdt": ["bnb", "usdt"],
 			"boba/usdt": ["boba", "usdt"],
-			"boring/usdt": ["boring", "usdt"],
+			// "boring/usdt": ["boring", "usdt"],
 			"cfx/usdt": ["cfx", "usdt"],
 			"cro/usdt": ["cro", "usdt"],
 			"dai/usdt": ["dai", "usdt"],

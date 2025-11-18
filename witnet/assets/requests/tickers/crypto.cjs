@@ -57,12 +57,12 @@ module.exports = {
 		"ticker/mexc.com": ["BOBA", "USDT"],
 	}),
 
-	WitOracleRequestPriceCryptoBoringUsdt6: PriceTickerRequest({
-		"ticker/gateapi.io": ["boring", "usdt"],
-		// "ticker/huobi.pro": ["boring", "usdt"],
-		// "ticker/mexc.com": ["BORING", "USDT"],
-		// "ticker/okx.com": ["BORING", "USDT"]
-	}),
+	// WitOracleRequestPriceCryptoBoringUsdt6: PriceTickerRequest({
+	// 	// "ticker/gateapi.io": ["boring", "usdt"],
+	// 	// "ticker/huobi.pro": ["boring", "usdt"],
+	// 	// "ticker/mexc.com": ["BORING", "USDT"],
+	// 	// "ticker/okx.com": ["BORING", "USDT"]
+	// }),
 
 	WitOracleRequestPriceCryptoBtcUsd6: PriceTickerRequest({
 		"ticker/binance.us": ["BTC", "USD"],
