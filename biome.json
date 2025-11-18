@@ -1,0 +1,32 @@
+{
+  "formatter": {
+    "lineWidth": 100
+  },
+  "javascript": {
+    "formatter": {
+      "lineWidth": 120
+    }
+  },
+  "json": {
+    "formatter": {
+      "enabled": false
+    }
+  },
+  "files": {
+    "includes": [
+        "src/**/*.js", 
+        "scripts/*.js", 
+        "test/*.js", 
+        "witnet/**/*.js", 
+        "**/*.json"
+    ]
+  },
+  "linter": {
+    "includes": [
+        "src/**/*.js", 
+        "scripts/*.js", 
+        "test/*.js", 
+        "witnet/**/*.js"
+    ]
+  }
+}

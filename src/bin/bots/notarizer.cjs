@@ -19,10 +19,11 @@ const lastUpdates = {};
 main();
 
 async function main() {
-
 	program
 		.name("npx --package @witnet/price-feeds notarizer")
-		.description("Poller bot for detecting and notarizing price feed updates in Witnet.")
+		.description(
+			"Poller bot for detecting and notarizing price feed updates in Witnet.",
+		)
 		.version(version);
 
 	program
@@ -64,16 +65,16 @@ async function main() {
 				Witnet.UtxoSelectionStrategy.SlimFit,
 		)
 		.option(
-			"--witnet <\"mainnet\" | \"testnet\" | url>",
+			'--witnet <"mainnet" | "testnet" | url>',
 			"The name of the Witnet network, or the URL of the Wit/RPC provider, to connect to.",
-			process.env.WITNET_PFS_WIT_NETWORK 
-				|| process.env.WITNET_SDK_PROVIDER_URL
-				|| "mainnet"
+			process.env.WITNET_PFS_WIT_NETWORK ||
+				process.env.WITNET_SDK_PROVIDER_URL ||
+				"mainnet",
 		);
 
 	program.parse();
 
-	let { minBalance } = program.opts()
+	let { minBalance } = program.opts();
 	const {
 		configPath,
 		debug,
@@ -95,7 +96,12 @@ async function main() {
 		);
 		process.exit(0);
 	}
-	const provider = witnet === "mainnet" ? "https://rpc-01.witnet.io" : (witnet === "testnet" ? "https://rpc-testnet.witnet.io" : witnet)
+	const provider =
+		witnet === "mainnet"
+			? "https://rpc-01.witnet.io"
+			: witnet === "testnet"
+				? "https://rpc-testnet.witnet.io"
+				: witnet;
 	const wallet = await Witnet.Wallet.fromXprv(WIT_WALLET_MASTER_KEY, {
 		limit: 1,
 		strategy,
@@ -125,7 +131,7 @@ async function main() {
 	let balance = Witnet.Coins.fromPedros(0n);
 	balance = await checkWitnetBalance();
 
-	minBalance = Witnet.Coins.fromWits(minBalance)
+	minBalance = Witnet.Coins.fromWits(minBalance);
 	if (balance.pedros < minBalance.pedros) {
 		console.error(
 			`❌ Fatal: signer ${ledger.pkh} must be funded with at least ${minBalance.toString(2)}.`,
@@ -226,9 +232,9 @@ async function main() {
 			tx = await DRs.confirmTransaction(tx.hash, {
 				onStatusChange: () => console.info(`[${tag}] DRT status =>`, tx.status),
 			}).catch((err) => {
-				console.error(`[${tag}] ${err}`)
+				console.error(`[${tag}] ${err}`);
 				// throw err;
-				/* FORCE TERMINATION */ process.exit(0)
+				/* FORCE TERMINATION */ process.exit(0);
 			});
 
 			console.debug(
@@ -321,7 +327,7 @@ async function main() {
 			console.error(
 				`[witnet:${wallet.provider.network}:${ledger.pkh}] Cannot check balance: ${err}`,
 			);
-			/* FORCE TERMINATION */ process.exit(0)
+			/* FORCE TERMINATION */ process.exit(0);
 		}
 		console.info(
 			`[witnet:${wallet.provider.network}:${ledger.pkh}] Balance: ${balance.toString(2)} (${ledger.cacheInfo.size} UTXOs)`,

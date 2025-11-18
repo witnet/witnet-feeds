@@ -1,37 +1,38 @@
 {
-	"polygon:amoy": {
-		"WitOracleRequestPriceCryptoUsdtWit9": "52be4c9f39bdeaf78d671162a8a497e5267228536ebbeaea81aae32d238dbe55",
-		"WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c"
-	},
-	"optimism:sepolia": {
-		"WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c",
-		"WitOracleRequestPriceCryptoWitUsdt6": "a1b3d27e85a472f6bf965b460caaa09aa55a23295bf0765c785f682995f6b91d",
-		"WitOracleRequestPriceCryptoUsdtWit9": "52be4c9f39bdeaf78d671162a8a497e5267228536ebbeaea81aae32d238dbe55",
-		"WitOracleRequestPriceCryptoBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
-		"WitOracleRequestPriceCryptoEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
-		"WitOracleRequestPriceCryptoUsdcUsd6": "6c5b8588b5381a41204608a4a6e5ca80896fca32239ce333b146e3a36a37efa4",
-		"WitOracleRequestPriceCryptoUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740",
-		"WitOracleRequestTemplateBeamswapTicker6$GLINT/USDC-6": "c6800e0d3f68661e55ace621c33ef48e3b1ea6190b61cea2d06d64f38de72fe3",
-		"WitOracleRequestTemplateSushiswapTicker6$VSQ/DAI-6": "09ae162a17b69b0b18184656657de4dcacd4e1cf055c3402833b49bb54bfcbc8",
-		"WitOracleRequestPriceCryptoQuickUsdc6": "c922aea77d34da1ac1730bcd7f564092b228bd0e923c5705c963776f4266277b",
-		"WitOracleRequestPriceCryptoDogeUsd6": "c6b2f89ca60b6389a77bc8a643f60ed3075525383988787890c88ec18b76f44d",
-		"WitOracleRequestTemplateKuswapTicker6$KUS/KCS-6": "5ca992d7ffdc460e22db15fd891d815397664e3a9d4c8683847c164eee95c197",
-		"WitOracleRequestTemplateMojitoTicker6$KCS/USDT-6": "5895415da5a8361e719e04b1f0175dfd5b9ed05835a5eb38bf0af922b51f0e10",
-		"WitOracleRequestTemplateMojitoTicker6$MJT/KCS-6": "695198d41c584fb07d7f47f693c1632e54b7dc9ae71eb59b4031f750ca7185fc",
-		"WitOracleRequestTemplateMojitoTicker6$SAX/USDT-6": "c76432886603b41cba06e7ac462a4025eb849b3a3da3144308d3da08aac439e9"
-	},
-	"ethereum:sepolia": {
-		"WitOracleRequestPriceCryptoEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
-		"WitOracleRequestPriceCryptoWitUsdt6": "b46c3849008383bc9dd08568ed4923eb90069979a29192b1ce869cdc2e2b97cf",
-		"WitOracleRequestPriceCryptoUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740"
-	},
-	"celo:sepolia": {
-		"WitOracleRequestPriceCryptoBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
-		"WitOracleRequestPriceCryptoCeloEur6": "b1182a92e26ab672524c40662e742e50b091fb112ccd50ffb8afec7d04a1a5db",
-		"WitOracleRequestPriceCryptoCeloUsd6": "dbab5f8c3722ecf130ba1a85db46d7b71f32887659fc9b52a805f9f7f55ab54d"
-	},
-	"ten:testnet": {
-		"WitOracleRequestPriceCryptoEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
-		"WitOracleRequestPriceCryptoBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc"
-	}
+    "polygon:amoy": {
+        "WitOracleRequestPriceCryptoUsdtWit9": "52be4c9f39bdeaf78d671162a8a497e5267228536ebbeaea81aae32d238dbe55",
+        "WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c"
+    },
+    "optimism:sepolia": {
+        "WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c",
+        "WitOracleRequestPriceCryptoWitUsdt6": "a1b3d27e85a472f6bf965b460caaa09aa55a23295bf0765c785f682995f6b91d",
+        "WitOracleRequestPriceCryptoUsdtWit9": "52be4c9f39bdeaf78d671162a8a497e5267228536ebbeaea81aae32d238dbe55",
+        "WitOracleRequestPriceCryptoBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
+        "WitOracleRequestPriceCryptoEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
+        "WitOracleRequestPriceCryptoUsdcUsd6": "6c5b8588b5381a41204608a4a6e5ca80896fca32239ce333b146e3a36a37efa4",
+        "WitOracleRequestPriceCryptoUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740",
+        "WitOracleRequestTemplateBeamswapTicker6$GLINT/USDC-6": "c6800e0d3f68661e55ace621c33ef48e3b1ea6190b61cea2d06d64f38de72fe3",
+        "WitOracleRequestTemplateSushiswapTicker6$VSQ/DAI-6": "09ae162a17b69b0b18184656657de4dcacd4e1cf055c3402833b49bb54bfcbc8",
+        "WitOracleRequestPriceCryptoQuickUsdc6": "c922aea77d34da1ac1730bcd7f564092b228bd0e923c5705c963776f4266277b",
+        "WitOracleRequestPriceCryptoDogeUsd6": "c6b2f89ca60b6389a77bc8a643f60ed3075525383988787890c88ec18b76f44d",
+        "WitOracleRequestTemplateKuswapTicker6$KUS/KCS-6": "5ca992d7ffdc460e22db15fd891d815397664e3a9d4c8683847c164eee95c197",
+        "WitOracleRequestTemplateMojitoTicker6$KCS/USDT-6": "5895415da5a8361e719e04b1f0175dfd5b9ed05835a5eb38bf0af922b51f0e10",
+        "WitOracleRequestTemplateMojitoTicker6$MJT/KCS-6": "695198d41c584fb07d7f47f693c1632e54b7dc9ae71eb59b4031f750ca7185fc",
+        "WitOracleRequestTemplateMojitoTicker6$SAX/USDT-6": "c76432886603b41cba06e7ac462a4025eb849b3a3da3144308d3da08aac439e9"
+    },
+    "ethereum:sepolia": {
+        "WitOracleRequestPriceCryptoEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
+        "WitOracleRequestPriceCryptoWitUsdt6": "b46c3849008383bc9dd08568ed4923eb90069979a29192b1ce869cdc2e2b97cf",
+        "WitOracleRequestPriceCryptoUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740",
+        "WitOracleRequestPriceCryptoUsdcUsd6": "6c5b8588b5381a41204608a4a6e5ca80896fca32239ce333b146e3a36a37efa4"
+    },
+    "celo:sepolia": {
+        "WitOracleRequestPriceCryptoBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
+        "WitOracleRequestPriceCryptoCeloEur6": "b1182a92e26ab672524c40662e742e50b091fb112ccd50ffb8afec7d04a1a5db",
+        "WitOracleRequestPriceCryptoCeloUsd6": "dbab5f8c3722ecf130ba1a85db46d7b71f32887659fc9b52a805f9f7f55ab54d"
+    },
+    "ten:testnet": {
+        "WitOracleRequestPriceCryptoEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
+        "WitOracleRequestPriceCryptoBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc"
+    }
 }

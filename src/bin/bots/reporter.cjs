@@ -13,7 +13,7 @@ const { colors, commas, traceHeader } = require("../helpers.cjs");
 const CHECK_BALANCE_SCHEDULE =
 	process.env.WITNET_PFS_CHECK_BALANCE_SCHEDULE || "*/5 * * * *";
 const DRY_RUN_POLLING_SECS = process.env.WITNET_PFS_DRY_RUN_POLLING_SECS || 45;
-const KERMIT = process.env.WITNET_SDK_KERMIT_URL || "https://kermit.witnet.io"
+const KERMIT = process.env.WITNET_SDK_KERMIT_URL || "https://kermit.witnet.io";
 
 let balance,
 	footprint,
@@ -22,12 +22,11 @@ let balance,
 let pendingUpdates = [];
 let rulebook;
 
-traceHeader(`@WITNET/PRICE-FEEDS EVM REPORTER BOT v${version}`, colors.white)
+traceHeader(`@WITNET/PRICE-FEEDS EVM REPORTER BOT v${version}`, colors.white);
 
 main();
 
 async function main() {
-	
 	program
 		.name("npx --package @witnet/price-feeds reporter")
 		.description(
@@ -54,7 +53,7 @@ async function main() {
 		.option(
 			"--patron <evm_address>",
 			"Signer address that will pay for every update report, other than the gateway's default.",
-			process.env.WITNET_PFS_ETH_SIGNER || undefined
+			process.env.WITNET_PFS_ETH_SIGNER || undefined,
 		)
 		.option(
 			"--port <url>",
@@ -77,9 +76,9 @@ async function main() {
 			process.env.WITNET_PFS_ETH_NETWORK || undefined,
 		)
 		.requiredOption(
-			"--target <evm_address>", 
+			"--target <evm_address>",
 			"Address of WitPriceFeeds contract where to report data updates.",
-			process.env.WITNET_PFS_ETH_TARGET || undefined
+			process.env.WITNET_PFS_ETH_TARGET || undefined,
 		)
 		.option(
 			"--witnet <url>",
@@ -116,7 +115,7 @@ async function main() {
 	const witOracle = patron
 		? await WitOracle.fromJsonRpcUrl(`${host}:${port}`, patron)
 		: await WitOracle.fromJsonRpcUrl(`${host}:${port}`);
-	const signer = witOracle.signer.address
+	const signer = witOracle.signer.address;
 
 	if (network && witOracle.network !== network) {
 		console.error(
@@ -140,13 +139,13 @@ async function main() {
 				? "https://rpc-02.witnet.io"
 				: "https://rpc-testnet.witnet.io"),
 	);
-	if ((_witnet.network === "mainnet") ^ (utils.isEvmNetworkMainnet(network))) {
+	if ((_witnet.network === "mainnet") ^ utils.isEvmNetworkMainnet(network)) {
 		console.error(
 			`❌ Fatal: invalid Witnet network at ${
-			_witnet.endpoints
+				_witnet.endpoints
 			}: should connect to the ${
-			utils.isEvmNetworkMainnet(network) ? "MAINNET" : "TESTNET"
-			} instead.`
+				utils.isEvmNetworkMainnet(network) ? "MAINNET" : "TESTNET"
+			} instead.`,
 		);
 		process.exit(0);
 	}

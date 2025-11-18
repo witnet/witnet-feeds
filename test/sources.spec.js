@@ -3,12 +3,8 @@ import { describe, expect, test } from "vitest";
 import * as sources from "../witnet/assets/sources/index.cjs";
 
 describe("Centralized Exchanges", () => {
-	Object.entries(
-		Witnet.Radon.retrievals.fromRadonAssets(sources.defi.tickers.cexes),
-	)
-		.filter(
-			([, ticker]) => ticker?.samples && Object.keys(ticker.samples).length > 0,
-		)
+	Object.entries(Witnet.Radon.retrievals.fromRadonAssets(sources.defi.tickers.cexes))
+		.filter(([, ticker]) => ticker?.samples && Object.keys(ticker.samples).length > 0)
 		.forEach(([key, ticker]) => {
 			describe.concurrent(key, () => {
 				Object.keys(ticker.samples).forEach((sample) => {
@@ -25,12 +21,8 @@ describe("Centralized Exchanges", () => {
 });
 
 describe("Decentralized Exchanges", () => {
-	Object.entries(
-		Witnet.Radon.retrievals.fromRadonAssets(sources.defi.tickers.dexes),
-	)
-		.filter(
-			([, ticker]) => ticker?.samples && Object.keys(ticker.samples).length > 0,
-		)
+	Object.entries(Witnet.Radon.retrievals.fromRadonAssets(sources.defi.tickers.dexes))
+		.filter(([, ticker]) => ticker?.samples && Object.keys(ticker.samples).length > 0)
 		.forEach(([key, ticker]) => {
 			describe(key, () => {
 				Object.keys(ticker.samples).forEach((sample) => {

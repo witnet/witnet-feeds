@@ -7,7 +7,8 @@ import * as _utils from "./utils.js";
 export { default as assets } from "../../witnet/assets/index.cjs";
 export * as utils from "./utils.js";
 
-import { createRequire } from "module";
+import { createRequire } from "node:module";
+
 const require = createRequire(import.meta.url);
 
 export class Rulebook {
