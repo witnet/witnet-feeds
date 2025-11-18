@@ -23,5 +23,5 @@ jobs:
       - name: Check source code format
         run: pnpm run fmt
 
-      - name: Test data sources for price feeds
+      - name: Check data sources for price feeds
         run: pnpm run test ./test/sources.spec.js
