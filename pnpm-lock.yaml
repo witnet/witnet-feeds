@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@witnet/sdk':
-        specifier: ^1.2.6
-        version: 1.2.6(@types/node@24.10.0)(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)
+        specifier: ^3.0.0
+        version: 3.0.0(@types/node@24.10.0)(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)
       '@witnet/solidity':
-        specifier: ^3.0.11
-        version: 3.0.11(@types/node@24.10.0)(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)
+        specifier: ^3.0.14
+        version: 3.0.14(@types/node@24.10.0)(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)
       commander:
         specifier: ^14.0.2
         version: 14.0.2
@@ -737,12 +737,12 @@ packages:
   '@vitest/utils@4.0.8':
     resolution: {integrity: sha512-pdk2phO5NDvEFfUTxcTP8RFYjVj/kfLSPIN5ebP2Mu9kcIMeAQTbknqcFEyBcC4z2pJlJI9aS5UQjcYfhmKAow==}
 
-  '@witnet/sdk@1.2.6':
-    resolution: {integrity: sha512-7ZLBFTZZtuYz4h/Nyvj0UsE88LG7JiTY03GQfct8AZOSHXdOeLdKZsc/FRD+hz0uPsnuWRN8q2Re2cfS7SQcsg==}
+  '@witnet/sdk@3.0.0':
+    resolution: {integrity: sha512-q3mHebCDPJOBTUUF8pgBBS+ufkS1xeZBjJZjV0Qh+j06PD3a53gjuf7g7/92UpdH/sJsXthMIBbpLz45Wh3IXg==}
     hasBin: true
 
-  '@witnet/solidity@3.0.11':
-    resolution: {integrity: sha512-6sjEXeoJulnY3sJ2QVH3eC6h9XUJr9ghsldv14LrX5OZyuH821xjs4JM0mHIoQgr4mX74VWrFsFS9TUKzEDAFw==}
+  '@witnet/solidity@3.0.14':
+    resolution: {integrity: sha512-VmZPO7G+aMVBVJIWs3/Lc5rRe9ZaovUx2+nLFwzAc1QpyIW91a5fvTCl5sGfIaR/seQCJkU+TfP9RjfjryxFYQ==}
     hasBin: true
 
   abi-util-lite@0.1.0:
@@ -2670,7 +2670,7 @@ snapshots:
       '@vitest/pretty-format': 4.0.8
       tinyrainbow: 3.0.3
 
-  '@witnet/sdk@1.2.6(@types/node@24.10.0)(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@witnet/sdk@3.0.0(@types/node@24.10.0)(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@bitcoinerlab/secp256k1': 1.2.0
       axios: 1.13.2
@@ -2700,9 +2700,9 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@witnet/solidity@3.0.11(@types/node@24.10.0)(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@witnet/solidity@3.0.14(@types/node@24.10.0)(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@witnet/sdk': 1.2.6(@types/node@24.10.0)(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@witnet/sdk': 3.0.0(@types/node@24.10.0)(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)
       cbor: 10.0.11
       commander: 14.0.2
       cross-env: 10.1.0
