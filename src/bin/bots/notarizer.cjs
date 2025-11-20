@@ -12,7 +12,7 @@ const { colors, commas, traceHeader } = require("../helpers.cjs");
 const CHECK_BALANCE_SCHEDULE =
 	process.env.WITNET_PFS_CHECK_BALANCE_SCHEDULE || "*/5 * * * *";
 const DRY_RUN_POLLING_SECS = process.env.WITNET_PFS_DRY_RUN_POLLING_SECS || 45;
-const WIT_WALLET_MASTER_KEY = process.env.WITNET_SDK_WALLET_MASTER_KEY;
+const WIT_WALLET_MASTER_KEY = process.env.WITNET_PFS_WIT_WALLET_MASTER_KEY || process.env.WITNET_SDK_WALLET_MASTER_KEY;
 
 const lastUpdates = {};
 
@@ -30,6 +30,7 @@ async function main() {
 		.option(
 			"--config-path <path>",
 			"URL or file subpath where to locate rulebook JSON files",
+			process.env.WITNET_PFS_RULEBOOK_PATH || undefined,
 		)
 		.option("--debug", "Trace debug logs")
 		.option(
