@@ -260,7 +260,7 @@ async function main() {
 			if (newFootprint !== footprint) {
 				footprint = newFootprint;
 				console.info(
-					`[${witPriceFeeds.address}] Price feeds footprint changed to ${footprint}:`,
+					`[${witPriceFeeds.address}] Price feeds footprint changed to ${footprint}:`
 				);
 
 				const pfs = await witPriceFeeds

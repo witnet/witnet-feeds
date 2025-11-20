@@ -82,7 +82,8 @@
 		"commander": "^14.0.2",
 		"dotenv": "^17.2.3",
 		"lodash.merge": "^4.6.2",
-		"node-cron": "^4.2.1"
+		"node-cron": "^4.2.1",
+		"object-hash": "^3.0.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.4",

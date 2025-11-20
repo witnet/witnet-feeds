@@ -3,6 +3,7 @@ const { Witnet } = require("@witnet/sdk");
 const cron = require("node-cron");
 require("dotenv").config({ quiet: true });
 const { Command } = require("commander");
+const hash = require("object-hash")
 const program = new Command();
 
 const { assets, utils, Rulebook } = require("../../../dist/src/lib");
@@ -11,10 +12,13 @@ const { colors, commas, traceHeader } = require("../helpers.cjs");
 
 const CHECK_BALANCE_SCHEDULE =
 	process.env.WITNET_PFS_CHECK_BALANCE_SCHEDULE || "*/5 * * * *";
+const CHECK_RULEBOOK_SCHEDULE =
+	process.env.WITNET_PFS_CHECK_RULEBOOK_SCHEDULE || "0 * * * * *";
 const DRY_RUN_POLLING_SECS = process.env.WITNET_PFS_DRY_RUN_POLLING_SECS || 45;
 const WIT_WALLET_MASTER_KEY = process.env.WITNET_PFS_WIT_WALLET_MASTER_KEY || process.env.WITNET_SDK_WALLET_MASTER_KEY;
 
 const lastUpdates = {};
+let footprint, priceFeeds, maxCaptionWidth
 
 main();
 
@@ -149,10 +153,16 @@ async function main() {
 		cron.schedule(CHECK_BALANCE_SCHEDULE, async () => checkWitnetBalance());
 	}
 
-	const priceFeeds = await reloadRadonRequests(
-		network,
-		wallet.provider.network === "mainnet",
-	);
+	if (!cron.validate(CHECK_RULEBOOK_SCHEDULE)) {
+		console.error(
+			`❌ Fatal: invalid check rulebook schedule: ${CHECK_RULEBOOK_SCHEDULE}`,
+		)
+		process.exit(0)
+	}
+	console.info(`> Checking rulebook schedule: ${CHECK_RULEBOOK_SCHEDULE}`);
+	cron.schedule(CHECK_RULEBOOK_SCHEDULE, async() => lookupPriceFeeds(network, wallet.provider.network === "mainnet"))
+
+	await lookupPriceFeeds(network, wallet.provider.network === "mainnet")
 
 	if (priceFeeds.length === 0) {
 		console.error(
@@ -160,126 +170,118 @@ async function main() {
 		);
 		process.exit(0);
 	}
-	const maxWidth = Math.max(
-		...Object.keys(priceFeeds).map((caption) => caption.length),
-	);
-	Object.entries(priceFeeds).forEach(([caption, { conditions }]) => {
-		lastUpdates[caption] = { value: 0, timestamp: 0 };
-		console.info(
-			`[${caption}${" ".repeat(maxWidth - caption.length)}] Update conditions: { deviation: ${conditions.deviationPercentage.toFixed(
-				1,
-			)} %, heartbeat: ${commas(conditions.heartbeatSecs)} " }`,
-		);
-		notarize(caption);
-	});
 
-	async function notarize(caption) {
-		const { request, conditions } = priceFeeds[caption];
-		const tag = `witnet:${wallet.provider.network}:${caption}${" ".repeat(maxWidth - caption.length)}`;
-		try {
-			let dryrun = JSON.parse(await request.execDryRun());
-			if (!Object.keys(dryrun).includes("RadonInteger")) {
-				throw `Error: unexpected dry run result: ${JSON.stringify(dryrun)}`;
-			} else {
-				dryrun = parseInt(dryrun.RadonInteger, 10);
-			}
+	async function notarize(caption, _footprint) {
+		if (footprint === _footprint) {
+			const { request, conditions } = priceFeeds[caption];
+			const tag = `witnet:${wallet.provider.network}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}`;
+			try {
+				let dryrun = JSON.parse(await request.execDryRun());
+				if (!Object.keys(dryrun).includes("RadonInteger")) {
+					throw `Error: unexpected dry run result: ${JSON.stringify(dryrun)}`;
+				} else {
+					dryrun = parseInt(dryrun.RadonInteger, 10);
+				}
 
-			// determine whether a new notarization is required
-			const heartbeatSecs =
-				Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
-			if (heartbeatSecs < conditions.cooldownSecs) {
-				const deviation =
-					lastUpdates[caption].value > 0
-						? (100 * (dryrun - lastUpdates[caption].value)) /
-							lastUpdates[caption].value
-						: 0;
-				if (Math.abs(deviation) < conditions.deviationPercentage) {
-					throw `${deviation >= 0 ? "+" : ""}${deviation.toFixed(2)} % deviation after ${heartbeatSecs} secs.`;
+				// determine whether a new notarization is required
+				const heartbeatSecs =
+					Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
+				if (heartbeatSecs < conditions.cooldownSecs) {
+					const deviation =
+						lastUpdates[caption].value > 0
+							? (100 * (dryrun - lastUpdates[caption].value)) /
+								lastUpdates[caption].value
+							: 0;
+					if (Math.abs(deviation) < conditions.deviationPercentage) {
+						throw `${deviation >= 0 ? "+" : ""}${deviation.toFixed(2)} % deviation after ${heartbeatSecs} secs.`;
+					} else {
+						console.info(
+							`[${tag}] Updating due to price deviation of ${deviation.toFixed(2)} % ...`,
+						);
+					}
 				} else {
 					console.info(
-						`[${tag}] Updating due to price deviation of ${deviation.toFixed(2)} % ...`,
+						`[${tag}] Updating due to heartbeat after ${heartbeatSecs} secs ...`,
 					);
 				}
-			} else {
+
+				console.debug(`[${tag}] Cache info before sending =>`, ledger.cacheInfo);
+
+				// create, sign and send new data request transaction
+				const DRs = Witnet.DataRequests.from(ledger, request);
+				let tx = await DRs.sendTransaction({
+					fees: priority,
+					witnesses: conditions.minWitnesses,
+				});
+				console.info(`[${tag}] RAD hash   =>`, tx.radHash);
+				console.info(`[${tag}] DRT hash   =>`, tx.hash);
+				console.info(`[${tag}] DRT weight =>`, commas(tx.weight));
+				console.info(`[${tag}] DRT wtnsss =>`, tx.witnesses);
+				console.debug(
+					`[${tag}] DRT inputs =>`,
+					tx.tx?.DataRequest?.signatures.length,
+				);
 				console.info(
-					`[${tag}] Updating due to heartbeat after ${heartbeatSecs} secs ...`,
+					`[${tag}] DRT cost   =>`,
+					Witnet.Coins.fromNanowits(
+						tx.fees.nanowits + tx.value?.nanowits,
+					).toString(2),
 				);
-			}
 
-			console.debug(`[${tag}] Cache info before sending =>`, ledger.cacheInfo);
+				// await inclusion in Witnet
+				tx = await DRs.confirmTransaction(tx.hash, {
+					onStatusChange: () => console.info(`[${tag}] DRT status =>`, tx.status),
+				}).catch((err) => {
+					console.error(`[${tag}] ${err}`);
+					// throw err;
+					/* FORCE TERMINATION */ process.exit(0);
+				});
 
-			// create, sign and send new data request transaction
-			const DRs = Witnet.DataRequests.from(ledger, request);
-			let tx = await DRs.sendTransaction({
-				fees: priority,
-				witnesses: conditions.minWitnesses,
-			});
-			console.info(`[${tag}] RAD hash   =>`, tx.radHash);
-			console.info(`[${tag}] DRT hash   =>`, tx.hash);
-			console.info(`[${tag}] DRT weight =>`, commas(tx.weight));
-			console.info(`[${tag}] DRT wtnsss =>`, tx.witnesses);
-			console.debug(
-				`[${tag}] DRT inputs =>`,
-				tx.tx?.DataRequest?.signatures.length,
-			);
-			console.info(
-				`[${tag}] DRT cost   =>`,
-				Witnet.Coins.fromNanowits(
-					tx.fees.nanowits + tx.value?.nanowits,
-				).toString(2),
-			);
-
-			// await inclusion in Witnet
-			tx = await DRs.confirmTransaction(tx.hash, {
-				onStatusChange: () => console.info(`[${tag}] DRT status =>`, tx.status),
-			}).catch((err) => {
-				console.error(`[${tag}] ${err}`);
-				// throw err;
-				/* FORCE TERMINATION */ process.exit(0);
-			});
-
-			console.debug(
-				`[${tag}] Cache info after confirmation =>`,
-				ledger.cacheInfo,
-			);
-
-			// await resolution in Witnet
-			let status = tx.status;
-			do {
-				const report = await ledger.provider.getDataRequest(
-					tx.hash,
-					"ethereal",
+				console.debug(
+					`[${tag}] Cache info after confirmation =>`,
+					ledger.cacheInfo,
 				);
-				if (report.status !== status) {
-					status = report.status;
-					console.info(`[${tag}] DRT status =>`, report.status);
-				}
-				if (report.status === "solved" && report?.result) {
-					const result = utils.cbor.decode(
-						utils.fromHexString(report.result.cbor_bytes),
+
+				// await resolution in Witnet
+				let status = tx.status;
+				do {
+					const report = await ledger.provider.getDataRequest(
+						tx.hash,
+						"ethereal",
 					);
-					if (Number.isInteger(result)) {
-						lastUpdates[caption].timestamp = report.result.timestamp;
-						lastUpdates[caption].value = parseInt(result, 10);
-						console.info(`[${tag}] DRT result =>`, lastUpdates[caption]);
-					} else {
-						throw `Unexpected DRT result => ${result}`;
+					if (report.status !== status) {
+						status = report.status;
+						console.info(`[${tag}] DRT status =>`, report.status);
 					}
-					break;
-				}
-				const delay = (ms) =>
-					new Promise((_resolve) => setTimeout(_resolve, ms));
-				await delay(5000);
-			} while (status !== "solved");
-		} catch (err) {
-			console.warn(`[${tag}] ${err}`);
+					if (report.status === "solved" && report?.result) {
+						const result = utils.cbor.decode(
+							utils.fromHexString(report.result.cbor_bytes),
+						);
+						if (Number.isInteger(result)) {
+							lastUpdates[caption].timestamp = report.result.timestamp;
+							lastUpdates[caption].value = parseInt(result, 10);
+							console.info(`[${tag}] DRT result =>`, lastUpdates[caption]);
+						} else {
+							throw `Unexpected DRT result => ${result}`;
+						}
+						break;
+					}
+					const delay = (ms) =>
+						new Promise((_resolve) => setTimeout(_resolve, ms));
+					await delay(5000);
+				} while (status !== "solved");
+			} catch (err) {
+				console.warn(`[${tag}] ${err}`);
+			}
+			const elapsed =
+				Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
+			const remaining = conditions.cooldownSecs - elapsed;
+			const timeout =
+				remaining > 0 ? Math.min(remaining, DRY_RUN_POLLING_SECS) : 0;
+			setTimeout(() => notarize(caption, _footprint), timeout * 1000);
+		} else {
+			// live and let die
 		}
-		const elapsed =
-			Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
-		const remaining = conditions.cooldownSecs - elapsed;
-		const timeout =
-			remaining > 0 ? Math.min(remaining, DRY_RUN_POLLING_SECS) : 0;
-		setTimeout(() => notarize(caption), timeout * 1000);
 	}
 
 	async function checkWitnetBalance() {
@@ -344,42 +346,65 @@ async function main() {
 		return balance;
 	}
 
-	async function reloadRadonRequests(network, mainnets) {
+	async function lookupPriceFeeds(network, mainnets) {
 		const captions = [];
 		const rulebook = configPath
 			? await Rulebook.fromUrlBase(configPath)
 			: Rulebook.default();
-		const priceFeeds = rulebook.getNetworkPriceFeeds(network);
-		return Object.fromEntries(
-			priceFeeds.requests
-				.map((caption) => {
-					captions.push(caption);
-					const artifact = utils.captionToWitOracleRequestPrice(caption);
-					let request;
-					try {
-						request = utils.requireRadonRequest(artifact, assets);
-					} catch (err) {
-						console.error(
-							`❌ Fatal: cannot load Radon Request for artifact ${artifact} (${caption}):\n${err}`,
+		const pfs = rulebook.getNetworkPriceFeeds(network);
+		const newFootprint = hash(pfs)
+		if (newFootprint !== footprint) {
+			footprint = newFootprint
+			console.info(
+				`[witnet:${wallet.provider.network}] Price feeds rulebook hash changed to ${footprint}:`
+			);
+			priceFeeds = Object.fromEntries(
+				pfs.requests
+					.map((caption) => {
+						captions.push(caption);
+						const artifact = utils.captionToWitOracleRequestPrice(caption);
+						let request;
+						try {
+							request = utils.requireRadonRequest(artifact, assets);
+						} catch (err) {
+							console.error(
+								`❌ Fatal: cannot load Radon Request for artifact ${artifact} (${caption}):\n${err}`,
+							);
+							process.exit(0);
+						}
+						const conditions = rulebook.getPriceFeedUpdateConditions(
+							caption,
+							mainnets,
 						);
-						process.exit(0);
-					}
-					const conditions = rulebook.getPriceFeedUpdateConditions(
-						caption,
-						mainnets,
-					);
-					const networks = rulebook.getPriceFeedNetworks(caption, mainnets);
-					return [
-						caption,
-						{ artifact, request, conditions, networks, lastUpdate: {} },
-					];
-				})
-				.filter(
-					([, { request, networks }]) =>
-						request !== undefined && networks.length > 0,
-				)
-				.filter(([caption], index) => captions.indexOf(caption) === index)
-				.sort(([a], [b]) => a.localeCompare(b)),
-		);
+						const networks = rulebook.getPriceFeedNetworks(caption, mainnets);
+						return [
+							caption,
+							{ artifact, request, conditions, networks, lastUpdate: {} },
+						];
+					})
+					.filter(
+						([, { request, networks }]) =>
+							request !== undefined && networks.length > 0,
+					)
+					.filter(([caption], index) => captions.indexOf(caption) === index)
+					.sort(([a], [b]) => a.localeCompare(b)),
+				);
+			maxCaptionWidth = Math.max(
+				...Object.keys(priceFeeds).map((caption) => caption.length),
+			);
+			Object.entries(priceFeeds).forEach(([caption, { conditions }]) => {
+				lastUpdates[caption] = { value: 0, timestamp: 0 };
+				console.info(
+					`[${caption}${" ".repeat(maxCaptionWidth - caption.length)}] Update conditions: { deviation: ${conditions.deviationPercentage.toFixed(
+						1,
+					)} %, heartbeat: ${commas(conditions.heartbeatSecs)} " }`,
+				);
+				notarize(caption, footprint);
+			});
+		} else {
+			console.info(
+				`[witnet:${wallet.provider.network}] Price feeds rulebook hash remains the same: ${footprint}`
+			);
+		}
 	}
 }
