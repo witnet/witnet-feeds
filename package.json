@@ -68,6 +68,7 @@
 		"build": "tsc -p tsconfig.json",
 		"fmt": "npx biome check --unsafe",
 		"fmt!": "npx biome check --write --unsafe",
+		"pfs:check": "node ./scripts/rulebook.cjs",
 		"pfs:notarizer": "node src/bin/bots/notarizer.cjs",
 		"pfs:reporter": "node src/bin/bots/reporter.cjs",
 		"pfs:settle": "npm run build && node ./scripts/settle.cjs",

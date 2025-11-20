@@ -24,8 +24,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Validate source code format
+      - name: Validate code style
         run: pnpm run fmt
+
+      - name: Validate price feeds rulebook
+        run: node ./scripts/rulebook.cjs
 
       # - name: Check known data sources for price feeds
       #   run: npx vitest ./test/sources.spec.js
