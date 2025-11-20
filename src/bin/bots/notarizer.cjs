@@ -4,6 +4,7 @@ const cron = require("node-cron");
 require("dotenv").config({ quiet: true });
 const { Command } = require("commander");
 const hash = require("object-hash")
+const moment = require("moment");
 const program = new Command();
 
 const { assets, utils, Rulebook } = require("../../../dist/src/lib");
@@ -13,12 +14,18 @@ const { colors, commas, traceHeader } = require("../helpers.cjs");
 const CHECK_BALANCE_SCHEDULE =
 	process.env.WITNET_PFS_CHECK_BALANCE_SCHEDULE || "*/5 * * * *";
 const CHECK_RULEBOOK_SCHEDULE =
-	process.env.WITNET_PFS_CHECK_RULEBOOK_SCHEDULE || "0 * * * * *";
+	process.env.WITNET_PFS_CHECK_RULEBOOK_SCHEDULE || "0 0 * * *";
 const DRY_RUN_POLLING_SECS = process.env.WITNET_PFS_DRY_RUN_POLLING_SECS || 45;
 const WIT_WALLET_MASTER_KEY = process.env.WITNET_PFS_WIT_WALLET_MASTER_KEY || process.env.WITNET_SDK_WALLET_MASTER_KEY;
 
 const lastUpdates = {};
 let footprint, priceFeeds, maxCaptionWidth
+
+const metrics = {
+	clock: 0,
+	nanowits: 0n,
+	queries: 0,
+}
 
 main();
 
@@ -186,7 +193,7 @@ async function main() {
 				// determine whether a new notarization is required
 				const heartbeatSecs =
 					Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
-				if (heartbeatSecs < conditions.cooldownSecs) {
+				if (heartbeatSecs < conditions.heartbeatSecs / 2 + 1) {
 					const deviation =
 						lastUpdates[caption].value > 0
 							? (100 * (dryrun - lastUpdates[caption].value)) /
@@ -228,6 +235,9 @@ async function main() {
 					).toString(2),
 				);
 
+				metrics.nanowits += tx.fees.nanowits + tx.value?.nanowits;
+				metrics.queries += 1;
+
 				// await inclusion in Witnet
 				tx = await DRs.confirmTransaction(tx.hash, {
 					onStatusChange: () => console.info(`[${tag}] DRT status =>`, tx.status),
@@ -260,7 +270,15 @@ async function main() {
 						if (Number.isInteger(result)) {
 							lastUpdates[caption].timestamp = report.result.timestamp;
 							lastUpdates[caption].value = parseInt(result, 10);
-							console.info(`[${tag}] DRT result =>`, lastUpdates[caption]);
+							const { value, timestamp } = lastUpdates[caption]
+							const providers = request.sources
+								.map(source => {
+									let parts = source.authority.split(".").slice(-2);
+									parts[0] = parts[0][0].toUpperCase() + parts[0].slice(1);
+									return parts.join(".")
+								})
+								.sort();
+							console.info(`[${tag}] DRT result => { value: ${value}, ts: ${moment.unix(timestamp).format("MMM Do YYYY, HH:mm:ss")}, providers: ${providers.join(" ")} }`);
 						} else {
 							throw `Unexpected DRT result => ${result}`;
 						}
@@ -270,15 +288,18 @@ async function main() {
 						new Promise((_resolve) => setTimeout(_resolve, ms));
 					await delay(5000);
 				} while (status !== "solved");
+			
 			} catch (err) {
 				console.warn(`[${tag}] ${err}`);
 			}
+			
 			const elapsed =
 				Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
 			const remaining = conditions.cooldownSecs - elapsed;
 			const timeout =
 				remaining > 0 ? Math.min(remaining, DRY_RUN_POLLING_SECS) : 0;
 			setTimeout(() => notarize(caption, _footprint), timeout * 1000);
+		
 		} else {
 			// live and let die
 		}
@@ -343,6 +364,45 @@ async function main() {
 			console.warn(
 				`[witnet:${wallet.provider.network}:${ledger.pkh}] Low UTXOs !!!`,
 			);
+
+		const runningSecs = metrics.clock ? Math.floor(Date.now() / 1000) - metrics.clock : 0
+		const runningWits = Witnet.Coins.fromNanowits(metrics.nanowits).wits;
+		let status
+		try {
+			const syncStatus = await wallet.provider.syncStatus()
+			if (syncStatus.node_state !== "Synced") {
+				status = `wit-syncing`
+			} else {
+				if (ledger.cacheInfo.size < minUtxos) {
+					status = `wit-utxos-low`
+				} else if (balance.pedros < minBalance.pedros) {
+					status = `wit-balance-low`
+				} else if (!metrics.clock) {
+					metrics.clock = Math.floor(Date.now() / 1000)
+					status = `up-and-restarted`
+				} else {
+					status = `up-and-running`
+				}
+			}
+		} catch {
+			status = `wit-disconnect`
+		}
+		console.info(`${JSON.stringify({
+			...(runningSecs > 0 ? {
+				footprint,
+				priceFeeds: priceFeeds ? Object.keys(priceFeeds).length : 0,
+				hourlyQueries: Math.ceil(3600 * metrics.queries / runningSecs),
+				hourlyWits: Number(3600 * runningWits / runningSecs).toFixed(3),
+			}: {}),
+			runningQueries: metrics.queries,
+			runningSecs,
+			runningWits,
+			signer: ledger.pkh,
+			signerBalance: Witnet.Coins.fromNanowits(ledger.cacheInfo.expendable).wits,
+			signerUtxos: ledger.cacheInfo.size, 
+			status,
+			version,
+		})}`);
 		return balance;
 	}
 
@@ -397,7 +457,11 @@ async function main() {
 				console.info(
 					`[${caption}${" ".repeat(maxCaptionWidth - caption.length)}] Update conditions: { deviation: ${conditions.deviationPercentage.toFixed(
 						1,
-					)} %, heartbeat: ${commas(conditions.heartbeatSecs)} " }`,
+					)} %, heartbeat: ${commas(conditions.heartbeatSecs
+
+					)} ", cooldown: ${commas(conditions.cooldownSecs
+
+					)} ", witnesses: ${conditions.minWitnesses} }`,
 				);
 				notarize(caption, footprint);
 			});
