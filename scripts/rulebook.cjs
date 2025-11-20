@@ -34,5 +34,4 @@ if (errors) {
     process.exit(1);
 } else {
     console.error(`^ Total requests: ${requests}`)
-    process.exit(1);
 }
