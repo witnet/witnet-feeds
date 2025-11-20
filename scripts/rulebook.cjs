@@ -15,7 +15,7 @@ priceFeeds.requests
         try {
             request = utils.requireRadonRequest(artifact, assets);
             console.info(
-                `✅ ${caption}${" ".repeat(maxCaptionWidth - caption.length)} => [${request.radHash}] ${artifact}`
+                `✅ ${caption}${" ".repeat(maxCaptionWidth - caption.length)} => [${request.radHash}] (${request.sources.length}) ${artifact}`
             )
             requests += 1
         } catch (err) {
@@ -28,7 +28,7 @@ priceFeeds.requests
         rulebook.getPriceFeedUpdateConditions(caption, false)
     });
 
-console.info("-".repeat(80))
+console.info("-".repeat(135))
 if (errors) {
     console.error(`^ Total errors: ${errors}`)
     process.exit(1);

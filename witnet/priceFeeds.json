@@ -75,7 +75,7 @@
 			"Crypto.XLM/USD-6"
 		]
 	},
-	"dogechain:mainnet": {
+	"dogechain": {
 		"requests": ["Crypto.DOGE/USD-6"]
 	},
 	"elastos:mainnet": {
@@ -88,34 +88,36 @@
 		]
 	},
 	"ethereum": {
+		"requests": [
+			"Crypto.USDC/USD-6",
+			"Crypto.USDT/USD-6"
+		]
+	},
+	"ethereum:sepolia": {
 		"mappers": {
 			"Crypto.ETH/USD-6": {
 				"class": "hottest",
-				"deps": ["Crypto.ETH/USD-6#0", "Crypto.ETH/USD-8#1"]
+				"deps": ["Crypto.ETH/USD-6#0", "Crypto.ETH/USD-8#1", "Crypto.ETH/USD-8#2"]
 			}
 		},
 		"oracles": {
 			"Crypto.ETH/USD-8#1": {
+				"class": "pyth",
+				"target": "0xDd24F84d36BF92C65F92307595335bdFab5Bbd21",
+				"sources": "0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace"
+			},
+			"Crypto.ETH/USD-8#2": {
 				"class": "chainlink",
 				"target": "0x694AA1769357215DE4FAC081bf1f309aDC325306"
 			}
 		},
 		"requests": ["Crypto.ETH/USD-6#0"]
 	},
-	"ethereum:sepolia": {
-		"requests": ["Crypto.USDT/USD-6", "Crypto.WIT/USDT-6"]
-	},
 	"gnosis:mainnet": {
 		"requests": ["Crypto.DAI/USD-6"]
 	},
 	"kaia": {
-		"mappers": {
-			"Crypto.KSP/USD-6": {
-				"class": "product",
-				"deps": ["Crypto.KSP/KRW-6", "Forex.KRW/USD-9"]
-			}
-		},
-		"requests": ["Crypto.KAIA/USDT-6", "Crypto.KSP/KRW-6", "Forex.KRW/USD-9"]
+		"requests": ["Crypto.KAIA/USDT-6", "Forex.KRW/USD-9"]
 	},
 	"kava": {
 		"mappers": {
@@ -211,9 +213,7 @@
 			"Crypto.AVAX/USD-6",
 			"Crypto.BTC/USD-6",
 			"Crypto.ETH/USD-6",
-			"Crypto.POL/USD-6",
-			"Crypto.WBTC/WULX-6",
-			"Crypto.WETH/WULX-6"
+			"Crypto.POL/USD-6"
 		]
 	},
 	"ten": {

@@ -27,7 +27,7 @@ jobs:
       - name: Validate code style
         run: pnpm run fmt
 
-      - name: Validate price feeds rulebook
+      - name: Validate price feeds rulebook and related Radon requests
         run: node ./scripts/rulebook.cjs
 
       # - name: Check known data sources for price feeds
