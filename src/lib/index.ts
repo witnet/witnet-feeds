@@ -49,10 +49,10 @@ export class Rulebook {
 	public static async fromUrlBase(urlBase: string): Promise<Rulebook> {
 		if (urlBase.startsWith("http")) {
 			const [priceFeeds, updateConditions] = await Promise.all([
-				fetch(`${urlBase}/priceFeeds.json`),
-				fetch(`${urlBase}/updateConditions.json`),
+				fetch(`${urlBase}/priceFeeds.json`).then(res => res.json()),
+				fetch(`${urlBase}/updateConditions.json`).then(res => res.json()),
 			]);
-			return new Rulebook(priceFeeds.json(), updateConditions.json());
+			return new Rulebook(priceFeeds, updateConditions);
 		} else {
 			return Rulebook.fromFilePath(urlBase);
 		}
