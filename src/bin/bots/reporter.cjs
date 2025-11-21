@@ -22,6 +22,13 @@ let balance,
 let pendingUpdates = [];
 let rulebook;
 
+const metrics = {
+	clock: 0,
+	eth: 0,
+	dryruns: 0,
+	reports: 0,
+}
+
 traceHeader(`@WITNET/PRICE-FEEDS EVM REPORTER BOT v${version}`, colors.white);
 
 main();
@@ -38,6 +45,7 @@ async function main() {
 		.option(
 			"--config-path <path>",
 			"URL or file subpath where to locate rulebook JSON files",
+			process.env.WITNET_PFS_RULEBOOK_PATH || undefined,
 		)
 		.option("--debug", "Trace debug logs")
 		.option(
@@ -68,7 +76,7 @@ async function main() {
 		.option(
 			"--max-gas-price <gwei>",
 			"Max. network gas price to pay upon updates",
-			process.env.WITNET_PFS_ETH_MAX_GAS_PRICE,
+			process.env.WITNET_PFS_ETH_MAX_GAS_PRICE_GWEI || undefined,
 		)
 		.option(
 			"--network <evm_network>",
@@ -94,7 +102,7 @@ async function main() {
 		gasLimit,
 		host,
 		minBalance,
-		maxGasPrice,
+		maxGasPriceGwei,
 		network,
 		port,
 		patron,
@@ -216,7 +224,7 @@ async function main() {
 	);
 	setInterval(purgePendingUpdates, DRY_RUN_POLLING_SECS * 1000);
 
-	await lookupPriceFeeds();
+	checkBalance()
 
 	async function checkBalance() {
 		// check balance
@@ -230,6 +238,7 @@ async function main() {
 			balance = newBalance;
 		} catch (err) {
 			console.warn(`[${network}:${signer}] Cannot check balance: ${err}`);
+			metrics.errors += 1;
 		}
 
 		console.info(
@@ -238,6 +247,62 @@ async function main() {
 		if (balance < minBalance) {
 			console.warn(`[${network}:${signer}] Low funds !!!`);
 		}
+
+		// trace metrics
+		const runningSecs = metrics.clock ? Math.floor(Date.now() / 1000) - metrics.clock : 0
+		let status
+		try {
+			const syncStatus = await _witnet.syncStatus()
+			if (syncStatus.node_state !== "Synced") {
+				status = `wit-syncing`
+			
+			} else {
+				try {
+					await provider.getBalance(signer) 
+					if (!metrics.clock) {
+						metrics.clock = Math.floor(Date.now() / 1000)
+						status = `up-and-restarted`
+					
+					} else if (balance < minBalance) {
+						status = `eth-balance-low`
+					
+					} else {
+						status = `up-and-running`
+					}
+				} catch {
+					status = `eth-disconnect`
+				}
+			}
+		} catch {
+			status = `wit-disconnect`
+		}
+		const signerBalance = Number(balance) / 10 ** 18;
+		console.info(`${JSON.stringify({
+			...(runningSecs > 0 ? {
+				footprint,
+				priceFeeds: priceFeeds.length,
+				hourlyEth: Number(3600 * metrics.eth / runningSecs),
+				hourlyReports: Math.ceil(3600 * metrics.reports / runningSecs),
+				leftHours: signerBalance / Number(3600 * metrics.eth / runningSecs),
+			}: {}),
+			errors: metrics.errors,
+			pendingUpdates: pendingUpdates.length,
+			runningEth: metrics.eth,
+			runningDryruns: metrics.dryruns,
+			runningReports: metrics.reports,
+			runningSecs,
+			signer,
+			signerBalance,
+			status,
+			symbol,
+			target,
+			version,
+		})}`);
+		// reset interval errors
+		metrics.errors = 0
+
+		
+		// check for eventual changes in the price feeds rulebook
 		await lookupPriceFeeds();
 	}
 
@@ -253,6 +318,7 @@ async function main() {
 			);
 		} catch (err) {
 			console.warn(`[${network}:${signer}] Cannot reload Rulebook: ${err}`);
+			metrics.errors += 1;
 		}
 		// check footprint
 		try {
@@ -333,6 +399,7 @@ async function main() {
 			}
 		} catch (err) {
 			console.warn(`[${network}:${signer}] Cannot check footprint: ${err}`);
+			metrics.errors += 1;
 		}
 	}
 
@@ -342,6 +409,7 @@ async function main() {
 				priceFeeds[caption];
 			const tag = `${network}:${id4}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}`;
 			try {
+				metrics.dryruns += 1
 				// determine whether polling for notarized update is required
 				const heartbeatSecs =
 					Math.floor(Date.now() / 1000) - Number(lastUpdate.timestamp);
@@ -424,13 +492,17 @@ async function main() {
 						}
 					})
 					.catch((err) => console.warn(`[${tag}] ${err}`));
+			
 			} catch (err) {
 				console.warn(`[${tag}] ${err}`);
+				metrics.errors += 1;
 			}
+			
 			setTimeout(
 				() => dryRunPriceFeed(caption, _footprint),
 				DRY_RUN_POLLING_SECS * 1000,
 			);
+		
 		} else {
 			// live and let die
 		}
@@ -452,7 +524,7 @@ async function main() {
 						const receipt = await witPriceFeeds
 							.pushDataReport(report, {
 								gasLimit,
-								maxGasPrice,
+								maxGasPrice: maxGasPriceGwei ? BigInt(Number(maxGasPriceGwei) * 10 ** 9) : undefined,
 								onTransaction: (hash) => {
 									console.info(`[${tag}] [>] EVM tx hash: ${hash} ...`);
 								},
@@ -465,9 +537,14 @@ async function main() {
 									);
 								},
 							})
+							.then(receipt => {
+								metrics.reports += 1;
+								metrics.eth += Number(receipt.gasPrice) * Number(receipt.gasUsed) / 10 ** 18
+								return receipt
+							})
 							.catch((err) => {
 								console.warn(`[${tag}] [<] ${err}`);
-							});
+							})
 						const lastUpdate = await witPriceFeeds.getPriceUnsafe(id4);
 						if (
 							!receipt &&
@@ -492,7 +569,7 @@ async function main() {
 			}
 		} catch (err) {
 			console.warn(
-				`[${witPriceFeeds.address}] Error while purging updates: ${err}`,
+				`[${network}:${witPriceFeeds.address}] Error while purging updates: ${err}`,
 			);
 		}
 	}
