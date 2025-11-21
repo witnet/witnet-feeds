@@ -23,6 +23,9 @@ let footprint, priceFeeds, maxCaptionWidth
 
 const metrics = {
 	clock: 0,
+	errors: 0,
+	dryruns: 0,
+	inflight: 0,
 	nanowits: 0n,
 	queries: 0,
 }
@@ -182,7 +185,9 @@ async function main() {
 		if (footprint === _footprint) {
 			const { request, conditions } = priceFeeds[caption];
 			const tag = `witnet:${wallet.provider.network}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}`;
+			let onAir = false
 			try {
+				metrics.dryruns += 1;
 				let dryrun = JSON.parse(await request.execDryRun());
 				if (!Object.keys(dryrun).includes("RadonInteger")) {
 					throw `Error: unexpected dry run result: ${JSON.stringify(dryrun)}`;
@@ -216,6 +221,8 @@ async function main() {
 
 				// create, sign and send new data request transaction
 				const DRs = Witnet.DataRequests.from(ledger, request);
+				onAir = true; 
+				metrics.inflight += 1;
 				let tx = await DRs.sendTransaction({
 					fees: priority,
 					witnesses: conditions.minWitnesses,
@@ -243,7 +250,6 @@ async function main() {
 					onStatusChange: () => console.info(`[${tag}] DRT status =>`, tx.status),
 				}).catch((err) => {
 					console.error(`[${tag}] ${err}`);
-					// throw err;
 					/* FORCE TERMINATION */ process.exit(0);
 				});
 
@@ -278,7 +284,7 @@ async function main() {
 									return parts.join(".")
 								})
 								.sort();
-							console.info(`[${tag}] DRT result => { value: ${value}, ts: ${moment.unix(timestamp).format("MMM Do YYYY, HH:mm:ss")}, providers: ${providers.join(" ")} }`);
+							console.info(`[${tag}] DRT result => { value: ${value}, ts: ${moment.unix(timestamp).format("MMM Do YYYY HH:mm:ss")}, providers: ${providers.join(" ")} }`);
 						} else {
 							throw `Unexpected DRT result => ${result}`;
 						}
@@ -291,7 +297,10 @@ async function main() {
 			
 			} catch (err) {
 				console.warn(`[${tag}] ${err}`);
+				metrics.errors += 1;
 			}
+
+			if (onAir) metrics.inflight -= 1;
 			
 			const elapsed =
 				Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
@@ -392,8 +401,11 @@ async function main() {
 				footprint,
 				priceFeeds: priceFeeds ? Object.keys(priceFeeds).length : 0,
 				hourlyQueries: Math.ceil(3600 * metrics.queries / runningSecs),
-				hourlyWits: Number(3600 * runningWits / runningSecs).toFixed(3),
+				hourlyWits: Number(3600 * runningWits / runningSecs),
 			}: {}),
+			errors: metrics.errors,
+			pendingRequests: metrics.inflight,
+			runningDryruns: metrics.dryruns,
 			runningQueries: metrics.queries,
 			runningSecs,
 			runningWits,
@@ -403,6 +415,8 @@ async function main() {
 			status,
 			version,
 		})}`);
+		// reset interval errors
+		metrics.errors = 0
 		return balance;
 	}
 
