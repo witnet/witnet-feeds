@@ -485,7 +485,7 @@ async function main() {
 									pendingUpdates.push({ id4, caption, report });
 								}
 							} else {
-								throw `[<] No recent updates found just yet ...`;
+								console.info(`[${tag}] [<] No recent updates found just yet.`);
 							}
 						} catch (err) {
 							throw `[x] Cannot fetch signed report from ${kermit.url}: ${err}`;
@@ -516,11 +516,22 @@ async function main() {
 				const { id4, caption, report } = tasks[index];
 				const tag = `${network}:${id4}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}`;
 				if (priceFeeds[caption]) {
-					const { conditions, lastUpdate } = priceFeeds[caption];
+					let lastUpdate = await witPriceFeeds.getPriceUnsafe(id4);
+					const priceFeed = priceFeeds[caption];
 					const elapsed =
 						Math.floor(Date.now() / 1000) - Number(lastUpdate.timestamp);
-					if (elapsed > conditions.cooldownSecs) {
-						console.info(`[${tag}] Reporting update after ${elapsed} secs ...`);
+					if (`0x${report.hash}` === lastUpdate.trail) {
+						console.warn(
+							`[${tag}] Ignoring on-chain update [${report.hash}] because it's already pushed.`,
+						);
+					
+					} else if (elapsed <= priceFeed.conditions.cooldownSecs) {
+						console.info(
+							`[${tag}] Postponing on-chain update [${report.hash}] +${priceFeed.conditions.cooldownSecs - elapsed} secs due to cooldown condition.`,
+						);
+					
+					} else {
+						console.info(`[${tag}] Reporting update [${report.hash}] after ${elapsed} secs ...`);
 						const receipt = await witPriceFeeds
 							.pushDataReport(report, {
 								gasLimit,
@@ -540,30 +551,42 @@ async function main() {
 							.then(receipt => {
 								metrics.reports += 1;
 								metrics.eth += Number(receipt.gasPrice) * Number(receipt.gasUsed) / 10 ** 18
+								const intf = new ethers.Interface(witPriceFeeds.abi)
+								const logs = receipt.logs
+									.filter(log => log.topics[0] === "0x0800977f281a92a8fb15f0b059791b2ffcc82fdc78be5227cec46afdb45f947d")
+									.map(log => intf.parseLog(log));
+								if (logs.length > 0) {
+									lastUpdate = {
+										price: Number(logs[0].args[3]),
+										deltaPrice: Number(logs[0].args[4]),
+										exponent: Number(logs[0].args[5]),
+										timestamp: Number(logs[0].args[1]),
+										trail: logs[0].args[2]
+									}
+								}	
 								return receipt
 							})
 							.catch((err) => {
-								console.warn(`[${tag}] [<] ${err}`);
+								console.warn(`[${tag}] [x] ${err}`);
 							})
-						const lastUpdate = await witPriceFeeds.getPriceUnsafe(id4);
+						
 						if (
 							!receipt &&
-							priceFeeds[caption].lastUpdate.timestamp > lastUpdate.timestamp &&
+							priceFeed.lastUpdate.timestamp > lastUpdate.timestamp &&
 							pendingUpdates.findIndex((task) => task.id4 === id4) < 0
 						) {
-							console.debug(
-								`[${tag}] ==> Postponing the update a few more secs ...`,
-							);
 							pendingUpdates.push(tasks[index]);
 						}
 						priceFeeds[caption].lastUpdate = lastUpdate;
-						console.info(
-							`[${tag}] [<] Last update: ${JSON.stringify(lastUpdate)}`,
-						);
-					} else {
-						console.info(
-							`[${tag}] Awaiting update at least ${conditions.cooldownSecs - elapsed} more secs ...`,
-						);
+						if (receipt) {
+							console.info(
+								`[${tag}] [<] Pushed update: ${JSON.stringify(lastUpdate)}`,
+							);
+						} else {
+							console.info(
+								`[${tag}] <== Last pushed update: ${JSON.stringify(lastUpdate)}`,
+							);
+						}
 					}
 				}
 			}
