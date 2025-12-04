@@ -606,22 +606,6 @@ async function main() {
 	if (tasks.conditions.length > 0) {
 		if (wrapper.signer.address === curator) {
 			console.info(colors.lyellow(`\n  >>> SETTLE UPDATE CONDITIONS <<<`));
-			const defaultConditions = rulebook.getDefaultUpdateConditions(
-				witnet.network === "mainnet",
-			);
-			const onchainDefaultConditions =
-				await wrapper.getDefaultUpdateConditions();
-			if (
-				_checkIfConditionsDiffer(onchainDefaultConditions, defaultConditions)
-			) {
-				console.info(
-					`\n  ${colors.lwhite("Default conditions")}:  ${colors.yellow(JSON.stringify(defaultConditions))}`,
-				);
-				await _invokeAdminTask(
-					wrapper.settleDefaultUpdateConditions.bind(wrapper),
-					defaultConditions,
-				);
-			}
 			for (const task of tasks.conditions) {
 				console.info(
 					`\n  ${colors.lwhite(task.caption)}: ${" ".repeat(18 - task.caption)} ${colors.yellow(JSON.stringify(task.conditions))}`,
