@@ -15,7 +15,7 @@ export function captionToWitOracleRequestPrice(caption: string) {
 	} else if (base.indexOf(".") >= 0) {
 		const dots = base.split(".");
 		base = dots.pop() || "";
-		prefix = dots.pop() || "";
+		// prefix = dots.pop() || "";
 	}
 	return `WitOracleRequestPrice${helpers.camelize(prefix)}${helpers.camelize(
 		base,
