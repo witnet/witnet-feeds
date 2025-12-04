@@ -581,7 +581,7 @@ async function main() {
 	// re-read on-chain price feeds, after all affected price feeds have been previously settled
 	const onchainPriceFeeds = await wrapper.lookupPriceFeeds();
 	tasks.conditions.push(
-		...[...settled.requests, ...settled.oracles, ...settled.mappers]
+		...[...settled.requests, ...settled.oracles]
 			.filter(([caption, obj]) => {
 				const found = onchainPriceFeeds.find(
 					({ symbol }) => symbol === caption,
