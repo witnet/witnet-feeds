@@ -1,6 +1,6 @@
 {
 	"name": "@witnet/price-feeds",
-	"version": "3.0.8",
+	"version": "3.1.0",
 	"description": "Open-source collection of verified price data using Witnet on supported blockchains.",
 	"author": "Witnet Foundation",
 	"license": "MIT",
@@ -77,8 +77,8 @@
 		"test": "vitest"
 	},
 	"dependencies": {
-		"@witnet/sdk": "^3.0.0",
-		"@witnet/solidity": "^3.0.14",
+		"@witnet/sdk": "^3.0.2",
+		"@witnet/solidity": "^3.1.0",
 		"commander": "^14.0.2",
 		"dotenv": "^17.2.3",
 		"lodash.merge": "^4.6.2",
