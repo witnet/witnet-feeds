@@ -168,31 +168,8 @@ async function main() {
 	const networkPriceFeeds = rulebook.getNetworkPriceFeeds(network);
 
 	// panic if repeated captions are found
-	Object.keys(networkPriceFeeds.requests).forEach((caption) => {
-		if (
-			Object.keys(networkPriceFeeds.requests).filter((key) => key === caption)
-				.length > 1
-		) {
-			console.error(
-				`  ${colors.mred(caption)} is declared multiple times as a Witnet-solved price feed.`,
-			);
-			console.error(
-				`  Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`,
-			);
-			process.exit(1);
-		}
-	});
-
 	Object.entries(networkPriceFeeds.oracles).forEach(([caption, specs]) => {
-		if (networkPriceFeeds.requests.indexOf(caption) >= 0) {
-			console.error(
-				`  ${colors.mred(caption)} is declared as being both a Witnet and an ${helpers.camelize(specs.class)} price feed.`,
-			);
-			console.error(
-				`  Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`,
-			);
-			process.exit(1);
-		} else if (
+		if (
 			Object.keys(networkPriceFeeds.oracles).filter((key) => key === caption)
 				.length > 1
 		) {
@@ -207,15 +184,7 @@ async function main() {
 	});
 
 	Object.entries(networkPriceFeeds.mappers).forEach(([caption, specs]) => {
-		if (networkPriceFeeds.requests.indexOf(caption) >= 0) {
-			console.error(
-				`  ${colors.mred(caption)} is declared as being both a Witnet and a mapped:${helpers.camelize(specs.class)} price feed.`,
-			);
-			console.error(
-				`  Please, revisit ${helpers.colors.gray("./witnet.priceFeeds.json")}.`,
-			);
-			process.exit(1);
-		} else if (Object.keys(networkPriceFeeds.oracles).indexOf(caption) >= 0) {
+		if (Object.keys(networkPriceFeeds.oracles).indexOf(caption) >= 0) {
 			console.error(
 				`  ${colors.mred(caption)} is declared as being both an oraclized and a mapped:${helpers.camelize(specs.class)} price feed.`,
 			);
@@ -261,19 +230,21 @@ async function main() {
 		// --- Checkout Witnet requests -----------------------------------------------------------------------------------
 
 		// load specs of Witnet-solved price feeds
-		settled.requests = networkPriceFeeds.requests.map((caption) => {
-			const target = utils.captionToWitOracleRequestPrice(caption);
-			const sources = utils.requireRadonRequest(target, assets);
-			return [
-				caption,
-				{
-					class: "oracle:witnet",
-					sources,
-					target,
-					conditions: rulebook.getPriceFeedUpdateConditions(caption, network),
-				},
-			];
-		});
+		settled.requests = Object.entries(networkPriceFeeds.oracles)
+			.filter(([, oracle]) => oracle.class === "witnet" && oracle.target === undefined)
+			.map(([caption, oracle]) => {
+				const target = oracle?.sources ?? utils.captionToWitOracleRequestPrice(caption);
+				const sources = utils.requireRadonRequest(target, assets);
+				return [
+					caption,
+					{
+						class: "oracle:witnet",
+						sources,
+						target,
+						conditions: rulebook.getPriceFeedUpdateConditions(caption, network),
+					},
+				];
+			});
 
 		// settle on-chain price feeds based on Witnet Radon requests
 		tasks.requests = settled.requests
@@ -319,8 +290,9 @@ async function main() {
 		// --- Checkout third-party price feeds ---------------------------------------------------------------------------
 
 		// load specs of oraclized price feeds
-		settled.oracles = Object.entries(networkPriceFeeds.oracles).map(
-			([caption, oracle]) => [
+		settled.oracles = Object.entries(networkPriceFeeds.oracles)
+			.filter(([, oracle]) => oracle.class !== "witnet" || oracle.target !== undefined)
+			.map(([caption, oracle]) => [
 				caption,
 				{
 					class: `oracle:${oracle.class}`,
@@ -328,8 +300,7 @@ async function main() {
 					target: oracle.target,
 					conditions: rulebook.getPriceFeedUpdateConditions(caption, network),
 				},
-			],
-		);
+			]);
 
 		// settle oraclized price feeds that have not yet been settled or otherwise settled with different parameters
 		tasks.oracles = settled.oracles
@@ -695,7 +666,7 @@ async function main() {
 					.join(" ");
 			} else if (obj.class.startsWith("mapper")) {
 				sources = obj.sources
-					.map((caption) => colors.gray(caption.split(".").pop().toLowerCase())) //caption.split("-").slice(-2)[0].split(".").pop().toLowerCase())
+					.map((caption) => colors.gray(caption.split(".").pop().split("Price-").pop().toLowerCase())) //caption.split("-").slice(-2)[0].split(".").pop().toLowerCase())
 					.join(" ");
 			} else {
 				sources = colors.mblue(

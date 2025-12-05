@@ -1,231 +1,492 @@
 {
 	"default": {
 		"mappers": {
-			"Crypto.BNB/USD-6": {
+			"Price-ETH/WIT-9": {
 				"class": "product",
-				"deps": ["Crypto.BNT/USDT-6", "Crypto.USDT/USD-6"]
+				"deps": ["Price-ETH/USD-6", "Price-USD/WIT-9"]
 			},
-			"Crypto.CRO/USD-6": {
-				"class": "product",
-				"deps": ["Crypto.CRO/USDT-6", "Crypto.USDT/USD-6"]
-			},
-			"Crypto.ETH/WIT-9": {
-				"class": "product",
-				"deps": ["Crypto.ETH/USD-6", "Crypto.USD/WIT-9"]
-			},
-			"Crypto.USD/WIT-9": {
+			"Price-USD/WIT-9": {
 				"class": "inverse",
-				"deps": ["Crypto.WIT/USD-6"]
+				"deps": ["Price-WIT/USD-6"]
 			},
-			"Crypto.WIT/USD-6": {
+			"Price-WIT/USD-6": {
 				"class": "product",
-				"deps": ["Crypto.WIT/USDT-6", "Crypto.USDT/USD-6"]
+				"deps": ["Price-WIT/USDT-6", "Price-USDT/USD-6"]
 			}
 		}
 	},
 	"arbitrum": {
-		"requests": ["Crypto.ETH/USD-6"]
+		"oracles": {
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			}
+		}
+	},
+	"avalanche:fuji": {
+		"oracles": {
+			"Price-AVAX/USD-6": {
+				"class": "witnet"
+			},
+			"Price-BTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"base": {
-		"requests": ["Crypto.ETH/USD-6"]
+		"oracles": {
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"base:mainnet": {
-		"requests": ["Crypto.DAI/USD-6", "Crypto.USDC/USD-6"]
+		"oracles": {
+			"Price-DAI/USD-6": {
+				"class": "witnet"
+			},
+			"Price-USDC/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
-	"base:sepolia": {
-		"requests": ["Crypto.USDT/USD-6", "Crypto.WIT/USDT-6"]
+	"boba": {
+		"mappers": {
+			"Price-BNB/USD-6": {
+				"class": "product",
+				"deps": ["Price-BNT/USDT-6", "Price-USDT/USD-6"]
+			}
+		}
+	},
+	"boba:eth:mainnet": {
+		"oracles": {
+			"Price-BOBA/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-BTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-DAI/USD-6": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			},
+			"Price-FRAX/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-USDC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"celo": {
-		"requests": ["Crypto.BTC/USD-6", "Crypto.CELO/EUR-6", "Crypto.CELO/USD-6"]
+		"oracles": {
+			"Price-BTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-CELO/EUR-6": {
+				"class": "witnet"
+			},
+			"Price-CELO/USD-6": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
-	"conflux:core": {
-		"requests": ["Crypto.BTC/USD-6", "Crypto.CFX/USDT-6", "Crypto.ETH/USD-6"]
+	"conflux": {
+		"mappers": {
+			"Price-CFX/USD-6": {
+				"class": "product",
+				"deps": [
+					"Price-CFX/USDT-6",
+					"Price-USDT/USD-6"
+				]
+			}
+		},
+		"oracles": {
+			"Price-BTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-CFX/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"conflux:espace": {
-		"requests": [
-			"Crypto.BTC/USD-6",
-			"Crypto.CFX/USDT-6",
-			"Crypto.ETH/USD-6",
-			"Crypto.USDC/USD-6",
-			"Crypto.USDT/USD-6"
-		]
+		"oracles": {
+			"Price-USDC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"conflux:espace:testnet": {
-		"requests": ["Forex.HKD/USD-6"]
+		"oracles": {
+			"Price-HKD/USD-6": {
+				"class": "witnet"
+			}
+		}
+	},
+	"cronos": {
+		"mappers": {
+			"Price-CRO/USD-6": {
+				"class": "product",
+				"deps": ["Price-CRO/USDT-6", "Price-USDT/USD-6"]
+			}
+		}
 	},
 	"cronos:testnet": {
-		"requests": [
-			"Crypto.ADA/USD-6",
-			"Crypto.ALGO/USD-6",
-			"Crypto.APE/USD-6",
-			"Crypto.ATOM/USD-6",
-			"Crypto.AVAX/USD-6",
-			"Crypto.BTC/USD-6",
-			"Crypto.CRO/USDT-6",
-			"Crypto.DAI/USD-6",
-			"Crypto.DOGE/USD-6",
-			"Crypto.DOT/USD-6",
-			"Crypto.ETH/USD-6",
-			"Crypto.LINK/USD-6",
-			"Crypto.SHIB/USD-9",
-			"Crypto.SOL/USD-6",
-			"Crypto.USDC/USD-6",
-			"Crypto.USDT/USD-6",
-			"Crypto.WBTC/USD-6",
-			"Crypto.XLM/USD-6"
-		]
-	},
-	"dogechain": {
-		"requests": ["Crypto.DOGE/USD-6"]
+		"oracles": {
+			"Price-ADA/USD-6": {
+				"class": "witnet"
+			},
+			"Price-ALGO/USD-6": {
+				"class": "witnet"
+			},
+			"Price-APE/USD-6": {
+				"class": "witnet"
+			},
+			"Price-ATOM/USD-6": {
+				"class": "witnet"
+			},
+			"Price-AVAX/USD-6": {
+				"class": "witnet"
+			},
+			"Price-CRO/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-DAI/USD-6": {
+				"class": "witnet"
+			},
+			"Price-DOGE/USD-6": {
+				"class": "witnet"
+			},
+			"Price-DOT/USD-6": {
+				"class": "witnet"
+			},
+			"Price-LINK/USD-6": {
+				"class": "witnet"
+			},
+			"Price-SHIB/USD-9": {
+				"class": "witnet"
+			},
+			"Price-SOL/USD-6": {
+				"class": "witnet"
+			},
+			"Price-USDC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-6": {
+				"class": "witnet"
+			},
+			"Price-WBTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-XLM/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"elastos:mainnet": {
-		"requests": [
-			"Crypto.BNB/USDT-6",
-			"Crypto.ELA/USDT-6",
-			"Crypto.ETH/USD-6",
-			"Crypto.HT/USDT-6",
-			"Crypto.USDT/USD-6"
-		]
+		"oracles": {
+			"Price-BNB/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-ELA/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			},
+			"Price-HT/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"ethereum": {
 		"requests": [
-			"Crypto.USDC/USD-6",
-			"Crypto.USDT/USD-6"
+			"Price-USDC/USD-6",
+			"Price-USDT/USD-6"
 		]
 	},
 	"ethereum:sepolia": {
 		"mappers": {
-			"Crypto.ETH/USD-6": {
+			"Price-ETH/USD-6": {
 				"class": "hottest",
-				"deps": ["Crypto.ETH/USD-6#0", "Crypto.ETH/USD-8#1", "Crypto.ETH/USD-8#2"]
+				"deps": ["Price-ETH/USD-6#0", "Price-ETH/USD-8#1", "Price-ETH/USD-8#2"]
 			}
 		},
 		"oracles": {
-			"Crypto.ETH/USD-8#1": {
+			"Price-ETH/USD-6#0": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-8#1": {
 				"class": "pyth",
 				"target": "0xDd24F84d36BF92C65F92307595335bdFab5Bbd21",
 				"sources": "0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace"
 			},
-			"Crypto.ETH/USD-8#2": {
+			"Price-ETH/USD-8#2": {
 				"class": "chainlink",
 				"target": "0x694AA1769357215DE4FAC081bf1f309aDC325306"
+			},
+			"Price-USDC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-6": {
+				"class": "witnet"
 			}
-		},
-		"requests": ["Crypto.ETH/USD-6#0"]
+		}
 	},
-	"gnosis:mainnet": {
-		"requests": ["Crypto.DAI/USD-6"]
+	"gnosis": {
+		"oracles": {
+			"Price-DAI/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"kaia": {
-		"requests": ["Crypto.KAIA/USDT-6", "Forex.KRW/USD-9"]
+		"mappers": {
+			"Price-KSP/USD-6": {
+				"class": "product",
+				"deps": [
+					"Price-KSP/KRW-9",
+					"Prices-KRW/USD-9"
+				]
+			}
+		},
+		"oracles": {
+			"Price-KAIA/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-KRW/USD-9": {
+				"class": "witnet"
+			},
+			"Price-KSP/KRW-9": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-9": {
+				"class": "witnet"
+			}
+		}
 	},
 	"kava": {
 		"mappers": {
-			"Crypto.KAVA/USD-6": {
+			"Price-KAVA/USD-6": {
 				"class": "product",
-				"deps": ["Crypto.KAVA/USDT-6", "Crypto.USDT/USD-6"]
+				"deps": [
+					"Price-KAVA/USDT-6", 
+					"Price-USDT/USD-6"
+				]
 			}
 		},
-		"requests": [
-			"Crypto.ATOM/USD-6",
-			"Crypto.BTC/USD-6",
-			"Crypto.DAI/USD-6",
-			"Crypto.ETH/USD-6",
-			"Crypto.KAVA/USDT-6",
-			"Crypto.USDC/USD-6",
-			"Crypto.USDT/USD-6"
-		]
+		"oracles": {
+			"Price-ATOM/USD-6": {
+				"class": "witnet"
+			},
+			"Price-BTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-DAI/USD-6": {
+				"class": "witnet"	
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			},
+			"Price-KAVA/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-USDC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"kcc": {
-		"requests": [
-			"Crypto.BTC/USD-6",
-			"Crypto.DAI/USD-6",
-			"Crypto.ETH/USD-6",
-			"Crypto.KCS/USDT-6",
-			"Crypto.MJT/KCS-9",
-			"Crypto.SAX/USDT-6",
-			"Crypto.USDC/USD-6",
-			"Crypto.USDT/USD-6"
-		]
+		"oracles": {
+			"Price-BTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-DAI/USD-6": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			},
+			"Price-KCS/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-MJT/KCS-9": {
+				"class": "witnet"
+			},
+			"Price-SAX/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-USDC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"mantle:mainnet": {
-		"requests": [
-			"Crypto.BTC/USD-6",
-			"Crypto.ETH/USD-6",
-			"Crypto.MNT/USDT-6",
-			"Crypto.USDC/USD-6",
-			"Crypto.USDT/USD-6"
-		]
+		"oracles": {
+			"Price-BTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			},
+			"Price-MNT/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-USDC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"meter:mainnet": {
-		"requests": ["Crypto.MTR/USDT-6"]
+		"oracles": {
+			"Price-MTR/USDT-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"metis": {
 		"mappers": {
-			"Crypto.METIS/USDT-6": {
+			"Price-METIS/USD-6": {
 				"class": "product",
-				"deps": ["Crypto.METIS/USD-6", "Crypto.USDT/USD.6"]
+				"deps": [
+					"Price-METIS/USDT-6", 
+					"Price-USDT/USD.6"
+				]
 			}
 		}
 	},
 	"metis:sepolia": {
-		"requests": [
-			"Crypto.BTC/USD-6",
-			"Crypto.ETH/USD-6",
-			"Crypto.METIS/USDT-6",
-			"Crypto.USDT/USD-6"
-		]
-	},
-	"moonbeam": {
-		"mappers": {
-			"Crypto.GLMR/USD-6": {
-				"class": "product",
-				"deps": ["Crypto.GLMR/USDT-6", "Crypto.USDT/USD-6"]
+		"oracles": {
+			"Price-BTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			},
+			"Price-METIS/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-6": {
+				"class": "witnet"
 			}
 		}
 	},
-	"moonbeam:mainnet": {
-		"requests": [
-			"Crypto.BTC/USD-6",
-			"Crypto.ETH/USD-6",
-			"Crypto.GLMR/USDT-6",
-			"Crypto.USDC/USD-6",
-			"Crypto.USDT/USD-6"
-		]
+	"moonbeam": {
+		"mappers": {
+			"Price-GLMR/USD-6": {
+				"class": "product",
+				"deps": ["Price-GLMR/USDT-6", "Price-USDT/USD-6"]
+			}
+		}
 	},
 	"moonbeam:moonbase": {
-		"requests": [
-			"Crypto.BTC/USD-6",
-			"Crypto.ETH/USD-6",
-			"Crypto.GLMR/USDT-6",
-			"Crypto.USDC/USD-6",
-			"Crypto.USDT/USD-6"
-		]
-	},
-	"moonbeam:moonriver": {
-		"requests": ["Crypto.USDC/USD-6", "Crypto.USDT/USD-6"]
+		"oracles": {
+			"Price-BTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			},
+			"Price-GLMR/USDT-6": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"optimism": {
-		"requests": ["Crypto.OP/USDT-6"]
+		"mappers": {
+			"Price-OP/USD-6": {
+				"class": "witnet"
+			}
+		},
+		"oracles": {
+			"Price-OP/USDT-6": {
+				"class": "witnet"
+			}
+		}
+	},
+	"optimism:sepolia": {
+		"oracles": {
+			"Price-BTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"ultron": {
 		"requests": [
-			"Crypto.AVAX/USD-6",
-			"Crypto.BTC/USD-6",
-			"Crypto.ETH/USD-6",
-			"Crypto.POL/USD-6"
+			"Price-AVAX/USD-6",
+			"Price-BTC/USD-6",
+			"Price-ETH/USD-6",
+			"Price-POL/USD-6"
 		]
 	},
 	"ten": {
-		"requests": ["Crypto.BTC/USD-6", "Crypto.ETH/USD-6"]
+		"oracles": {
+			"Price-BTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			}
+		}
 	},
 	"world": {
 		"mappers": {
-			"Crypto.WLD/USD-6": {
+			"Price-WLD/USD-6": {
 				"class": "product",
-				"deps": ["Crypto.WLD/USDT-6", "Crypto.USDT/USD-6"]
+				"deps": [
+					"Price-WLD/USDT-6", 
+					"Price-USDT/USD-6"
+				]
 			}
 		},
-		"requests": ["Crypto.ETH/USD-6", "Crypto.USDT/USD-6", "Crypto.WLD/USDT-6"]
+		"oracles": {
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			},
+			"Price-USDT/USD-6": {
+				"class": "witnet"
+			},
+			"Price-WLD/USDT-6": {
+				"class": "witnet"
+			}
+		}
 	}
 }

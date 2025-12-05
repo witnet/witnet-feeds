@@ -70,8 +70,6 @@ export class Rulebook {
 						const deps = ((mapper as any).deps as string[]) || [];
 						return deps.every(
 							(caption) =>
-								(pfs.requests.includes(caption) &&
-									!pfs.requests.includes(key)) ||
 								(Object.keys(pfs.oracles).includes(caption) &&
 									!Object.keys(pfs.oracles).includes(key)) ||
 								Object.keys(pfs.mappers).includes(caption),
@@ -84,7 +82,6 @@ export class Rulebook {
 							const deps = ((mapper as any).deps as string[]) || [];
 							return deps.every(
 								(caption) =>
-									pfs.requests.includes(caption) ||
 									Object.keys(pfs.mappers).includes(caption) ||
 									Object.keys(pfs.oracles).includes(caption),
 							);
@@ -98,14 +95,10 @@ export class Rulebook {
 
 	_getNetworkPriceFeeds(network: string): any {
 		const res = { ...this.priceFeeds.default };
-		if (!res.requests) res.requests = [];
 		_utils.getNetworkTagsFromString(network).forEach((network: string) => {
 			const tmp = this.priceFeeds[network];
 			res.mappers = merge(res?.mappers, tmp?.mappers);
 			res.oracles = merge(res?.oracles, tmp?.oracles);
-			res.requests = [
-				...new Set([...(res?.requests || []), ...(tmp?.requests || [])]),
-			];
 		});
 		return { ...res };
 	}
@@ -117,17 +110,14 @@ export class Rulebook {
 			const res: any = {};
 			res.mappers = {};
 			res.oracles = {};
-			res.requests = [];
 			(
 				Object.values(this.priceFeeds) as Array<{
 					mappers: any;
 					oracles: any;
-					requests: string[];
 				}>
 			).forEach((section: any) => {
 				res.mappers = merge(res?.mappers, section?.mappers);
 				res.oracles = merge(res?.oracles, section?.oracles);
-				res.requests.push(...(section?.requests || []));
 			});
 			return res;
 		}
@@ -135,10 +125,10 @@ export class Rulebook {
 
 	public getPriceFeedNetworks(caption: string, mainnets: boolean): string[] {
 		return this._networks.filter((network: string) => {
-			const { requests, mappers, oracles } = this._networksPriceFeeds[network];
+			const { mappers, oracles } = this._networksPriceFeeds[network];
 			return (
 				!(mainnets !== _utils.isEvmNetworkMainnet(network)) &&
-				(requests?.includes(caption.split("#")[0]) ||
+				(
 					(mappers && Object.keys(mappers).includes(caption)) ||
 					(oracles && Object.keys(oracles).includes(caption)))
 			);
