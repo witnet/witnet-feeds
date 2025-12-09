@@ -277,10 +277,7 @@
 			"Price-KRW/USD-9": {
 				"class": "witnet"
 			},
-			"Price-KSP/KRW-9": {
-				"class": "witnet"
-			},
-			"Price-USDT/USD-9": {
+			"Price-USDT/USD-6": {
 				"class": "witnet"
 			}
 		}
