@@ -433,10 +433,12 @@ async function main() {
 				`[witnet:${wallet.provider.network}] Price feeds rulebook hash changed to ${footprint}:`
 			);
 			priceFeeds = Object.fromEntries(
-				pfs.requests
-					.map((caption) => {
+				Object.entries(pfs.oracles)
+					.filter(([, oracle]) => oracle.class === "witnet" && oracle.target === undefined)
+					.map(([caption, oracle]) => {
+						caption = caption.split("#")[0];
 						captions.push(caption);
-						const artifact = utils.captionToWitOracleRequestPrice(caption);
+						const artifact = oracle.sources || utils.captionToWitOracleRequestPrice(caption);
 						let request;
 						try {
 							request = utils.requireRadonRequest(artifact, assets);
@@ -460,7 +462,6 @@ async function main() {
 						([, { request, networks }]) =>
 							request !== undefined && networks.length > 0,
 					)
-					.filter(([caption], index) => captions.indexOf(caption) === index)
 					.sort(([a], [b]) => a.localeCompare(b)),
 				);
 			maxCaptionWidth = Math.max(

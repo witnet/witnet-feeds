@@ -35,14 +35,15 @@ async function main() {
 	const radHashes = require("../witnet/requests.json");
 	const radEntries = Object.entries(radHashes);
 
-	let { requests } = priceFeeds;
+	const { oracles } = priceFeeds;
 
 	// read all radon requests required to be polled
-	requests = requests
-		.map((caption) => {
+	let requests = Object.entries(oracles)
+		.filter(([, oracle]) => oracle.class === "witnet" && oracle.target === undefined)
+		.map(([caption, oracle]) => {
 			caption = caption.split("#")[0];
 			captions.push(caption);
-			const artifact = utils.captionToWitOracleRequestPrice(caption);
+			const artifact = oracle.sources || utils.captionToWitOracleRequestPrice(caption);
 			let request;
 			try {
 				request = utils.requireRadonRequest(artifact, assets);
@@ -56,14 +57,9 @@ async function main() {
 			return [caption, artifact, request, networks];
 		})
 		.filter(
-			([, , request, networks]) => request !== undefined && networks.length > 0,
-		);
-
-	// remove repeated records or those that are not required in any network
-	requests = requests
-		.filter(([caption], index) => captions.indexOf(caption) === index)
+			([,, request, networks]) => request !== undefined && networks.length > 0,
+		)
 		.sort(([a], [b]) => a.localeCompare(b));
-	// .filter(([,,, networks]) => networks.length > 0)
 
 	// search latest data requests solving every Witnet-based price feed
 	console.info(`> Dry-running ${requests.length} data requests ...`);

@@ -4,13 +4,15 @@ const rulebook = Rulebook.default()
 
 let errors = 0, requests = 0
 const priceFeeds = rulebook.getNetworkPriceFeeds();
-const maxCaptionWidth = Math.max(...priceFeeds.requests.map(caption => caption.length))
+const maxCaptionWidth = Math.max(...Object.keys(priceFeeds.oracles).map(caption => caption.length))
 
-priceFeeds.requests
-    .sort()
-    .filter((caption, index) => priceFeeds.requests.indexOf(caption) === index)
-    .forEach((caption) => {
-        const artifact = utils.captionToWitOracleRequestPrice(caption);
+Object.entries(priceFeeds.oracles)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .filter(([, oracle]) => (
+        oracle.class === "witnet" && oracle.target === undefined
+    ))
+    .forEach(([caption, oracle]) => {
+        const artifact = oracle?.sources ?? utils.captionToWitOracleRequestPrice(caption);
         let request;
         try {
             request = utils.requireRadonRequest(artifact, assets);

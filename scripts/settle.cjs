@@ -355,7 +355,7 @@ async function main() {
 				{
 					class: `mapper:${mapper.class}`,
 					sources: mapper.deps,
-					conditions: rulebook.getPriceFeedUpdateConditions(caption, network),
+					conditions: {},
 				},
 			],
 		);
@@ -562,7 +562,7 @@ async function main() {
 					obj.conditions &&
 					_checkIfConditionsDiffer(found.updateConditions, obj.conditions);
 				if (!found || differs) {
-					// console.info(`  ${colors.yellow(caption)} requires conditions to be altered. `)
+					console.info(`  ${colors.yellow(caption)} requires conditions to be altered. `)
 					return true;
 				} else {
 					return false;
