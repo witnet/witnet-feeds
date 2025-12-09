@@ -636,7 +636,7 @@ async function main() {
 		console.info();
 	}
 
-	const priceFeeds = [
+	let priceFeeds = [
 		...settled.requests,
 		...settled.oracles,
 		...settled.mappers,
@@ -679,20 +679,30 @@ async function main() {
 			return [caption, { ...obj, id4, target, sources }];
 		})
 		.filter(([, obj]) => obj.id4);
+	
+	priceFeeds = await Promise.all(priceFeeds.map(async ([caption, obj]) => {
+		let metrics
+		try {
+			metrics = await wrapper.lookupPriceFeedQualityMetrics(obj.id4)
+		} catch {}
+		return [caption, { ...obj, metrics }]
+	}))
 
 	helpers.traceTable(
 		priceFeeds.map(([caption, obj]) => {
+			// console.log(caption, "=>", obj.metrics)
 			return [
 				obj.id4,
 				caption,
 				obj.class,
 				obj.sources,
-				`± ${obj.conditions.maxDeviationPercentage.toFixed(1)} %`,
-				moment.duration(obj.conditions.heartbeatSecs, "seconds").humanize(),
-				moment.duration(obj.conditions.cooldownSecs, "seconds").humanize(),
-				obj.class === "oracle:witnet"
-					? `± ${obj.conditions.deviationPercentage.toFixed(1)} %`
-					: "",
+				...(Object.keys(obj?.metrics ?? {}).length > 0 ? [
+					obj.metrics.maxSecsBetweenUpdates ? moment.duration(obj.metrics.maxSecsBetweenUpdates, "seconds").humanize() : "",
+					obj.metrics.minSecsBetweenUpdates ? moment.duration(obj.metrics.minSecsBetweenUpdates, "seconds").humanize() : "",
+					obj.metrics.witnessingCommitteeSize > 0 ? obj.metrics.witnessingCommitteeSize : "",
+					obj.metrics.maxDeviationPercentage ? `± ${obj.metrics.maxDeviationPercentage.toFixed(1)} %` : "",
+					obj.metrics.computesEMA ? "yes" : "",
+				] : []),
 			];
 		}),
 		{
@@ -701,10 +711,11 @@ async function main() {
 				":CAPTION",
 				":solver",
 				":sources",
-				"max.dev.:",
-				":liveness",
-				":promptness",
-				"thrshold:",
+				":heartbeat",
+				":cooldown",
+				"wtnss",
+				"max.dev:",
+				"EMA",
 			],
 			colors: [
 				colors.lwhite,
@@ -714,7 +725,7 @@ async function main() {
 				colors.gray,
 				colors.gray,
 				colors.gray,
-				colors.magenta,
+				colors.gray,
 			],
 		},
 	);
