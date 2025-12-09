@@ -146,19 +146,23 @@ export class Rulebook {
 		network?: string | boolean,
 	): any {
 		let res: any = {};
-		if (network === true) res = this.updateConditions.default.mainnets;
-		else if (!network) res = this.updateConditions.default.testnets;
+		if (network === true) res = { ...this.updateConditions.default.mainnets };
+		else if (!network) res = { ...this.updateConditions.default.testnets };
 		else if (typeof network === "string") {
 			res = _utils.isEvmNetworkMainnet(network)
-				? this.updateConditions.default.mainnets
-				: this.updateConditions.default.testnets;
+				? { ...this.updateConditions.default.mainnets }
+				: { ...this.updateConditions.default.testnets }
 		}
 		if (typeof network === "string") {
 			_utils.getNetworkTagsFromString(network).forEach((network: any) => {
-				res = merge(res, network[caption]);
+				if (this.updateConditions[network] && this.updateConditions[network][caption]) {
+					res = merge(res, this.updateConditions[network][caption]);
+				}
 			});
 			return res;
 		} else {
+			// if no specific network is specified, reduce all parameters to the
+			// minimum found in the whole mainnet, or testnet, hierarchy:
 			Object.values(this.updateConditions).forEach((network: any) => {
 				const specs = network[caption];
 				if (specs) {
