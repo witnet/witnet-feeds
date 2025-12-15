@@ -68,7 +68,8 @@
     },
     "polygon:amoy": {
         "WitOracleRequestPriceUsdtWit9": "52be4c9f39bdeaf78d671162a8a497e5267228536ebbeaea81aae32d238dbe55",
-        "WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c"
+        "WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c",
+        "WitOracleRequestPricePolUsd6": "688df0325d6f46dc71f19bb816b73e5dd7531a8e78b95332047631b8ac5fee83"
     },
     "ten:testnet": {
         "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",

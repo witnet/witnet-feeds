@@ -435,6 +435,29 @@
 			}
 		}
 	},
+	"polygon": {
+		"oracles": {
+			"Price-POL/USD-6": {
+				"class": "witnet"
+			}
+		}
+	},
+	"polygon:mainnet": {
+		"oracles": {
+			"Price-BTC/USD-6": {
+				"class": "witnet"
+			},
+			"Price-DAI/USD-6": {
+				"class": "witnet"
+			},
+			"Price-ETH/USD-6": {
+				"class": "witnet"
+			},
+			"Price-USDC/USD-6": {
+				"class": "witnet"
+			}
+		}
+	},
 	"ten": {
 		"oracles": {
 			"Price-BTC/USD-6": {
