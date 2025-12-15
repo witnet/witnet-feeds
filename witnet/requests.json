@@ -40,6 +40,9 @@
         "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740",
         "WitOracleRequestPriceUsdcUsd6": "6c5b8588b5381a41204608a4a6e5ca80896fca32239ce333b146e3a36a37efa4"
     },
+    "gnosis:testnet": {
+        "WitOracleRequestPriceDaiUsd6": "e5fb8f1053af31f824446f19127bde61639bb0bb0350510002d1b53614b1c30e"
+    },
     "optimism:sepolia": {
         "WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c",
         "WitOracleRequestPriceWitUsdt6": "a1b3d27e85a472f6bf965b460caaa09aa55a23295bf0765c785f682995f6b91d",
