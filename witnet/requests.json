@@ -63,7 +63,8 @@
         "WitOracleRequestTemplateKuswapTicker6$KUS/KCS-6": "5ca992d7ffdc460e22db15fd891d815397664e3a9d4c8683847c164eee95c197",
         "WitOracleRequestTemplateMojitoTicker6$KCS/USDT-6": "5895415da5a8361e719e04b1f0175dfd5b9ed05835a5eb38bf0af922b51f0e10",
         "WitOracleRequestTemplateMojitoTicker6$MJT/KCS-6": "695198d41c584fb07d7f47f693c1632e54b7dc9ae71eb59b4031f750ca7185fc",
-        "WitOracleRequestTemplateMojitoTicker6$SAX/USDT-6": "c76432886603b41cba06e7ac462a4025eb849b3a3da3144308d3da08aac439e9"
+        "WitOracleRequestTemplateMojitoTicker6$SAX/USDT-6": "c76432886603b41cba06e7ac462a4025eb849b3a3da3144308d3da08aac439e9",
+        "WitOracleRequestPriceOpUsdt6": "ae53a8680b5a5a6cc5f1fb0f508a4a9a46edda4b84ce7b116d0668614a05ac32"
     },
     "polygon:amoy": {
         "WitOracleRequestPriceUsdtWit9": "52be4c9f39bdeaf78d671162a8a497e5267228536ebbeaea81aae32d238dbe55",

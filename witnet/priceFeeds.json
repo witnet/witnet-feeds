@@ -409,7 +409,11 @@
 	"optimism": {
 		"mappers": {
 			"Price-OP/USD-6": {
-				"class": "witnet"
+				"class": "product",
+				"deps": [
+					"Price-OP/USDT-6",
+					"Price-USDT/USD-6"
+				]
 			}
 		},
 		"oracles": {
