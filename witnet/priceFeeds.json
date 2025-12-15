@@ -22,7 +22,7 @@
 			}
 		}
 	},
-	"avalanche:fuji": {
+	"avalanche:testnet": {
 		"oracles": {
 			"Price-AVAX/USD-6": {
 				"class": "witnet"
