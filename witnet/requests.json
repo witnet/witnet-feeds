@@ -43,6 +43,11 @@
     "gnosis:testnet": {
         "WitOracleRequestPriceDaiUsd6": "e5fb8f1053af31f824446f19127bde61639bb0bb0350510002d1b53614b1c30e"
     },
+    "kaia:testnet": {
+        "WitOracleRequestPriceKaiaUsdt6": "9bc1c1cb90263192602f0e2cee1623823a1afc89d1e60d51aa95ab5d8ca2bfab",
+        "WitOracleRequestPriceKrwUsd9": "5924080523aa7e7f5e6c1d74f24505de046e45f1d5ce28c712fd36a43a56f9c8",
+        "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740"
+    },
     "optimism:sepolia": {
         "WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c",
         "WitOracleRequestPriceWitUsdt6": "a1b3d27e85a472f6bf965b460caaa09aa55a23295bf0765c785f682995f6b91d",
