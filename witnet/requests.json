@@ -13,7 +13,8 @@
     "celo:sepolia": {
         "WitOracleRequestPriceBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
         "WitOracleRequestPriceCeloEur6": "b1182a92e26ab672524c40662e742e50b091fb112ccd50ffb8afec7d04a1a5db",
-        "WitOracleRequestPriceCeloUsd6": "dbab5f8c3722ecf130ba1a85db46d7b71f32887659fc9b52a805f9f7f55ab54d"
+        "WitOracleRequestPriceCeloUsd6": "dbab5f8c3722ecf130ba1a85db46d7b71f32887659fc9b52a805f9f7f55ab54d",
+        "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1"
     },
     "ethereum:sepolia": {
         "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
