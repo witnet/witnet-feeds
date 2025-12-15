@@ -16,6 +16,24 @@
         "WitOracleRequestPriceCeloUsd6": "dbab5f8c3722ecf130ba1a85db46d7b71f32887659fc9b52a805f9f7f55ab54d",
         "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1"
     },
+    "cronos:testnet": {
+        "WitOracleRequestPriceAdaUsd6": "9cf88ec59684c1bd6d3079ea18a4c9784c0064c6968ca112e561f9a0e64bff99",
+        "WitOracleRequestPriceAlgoUsd6": "123be3b0dbfaa336233403124308fea76d82d5ab89f842c537c7f672453f7013",
+        "WitOracleRequestPriceApeUsd6": "25544bb31b7bef8e92dbc3d60295d9ae54bf6f159ae0863f7e428eed9bbaead9",
+        "WitOracleRequestPriceAtomUsd6": "47fda24a69528b31e212c01ebb4a60296ffe6ddc46f09f25fd7ebe1c8296a15b",
+        "WitOracleRequestPriceAvaxUsd6": "1bc0e4b179e295c43c0540daf23e8c7115c60a5f28372d321b2c8d73a001784d",
+        "WitOracleRequestPriceCroUsdt6": "9570e3abb93f3a84c1404c5fef18fe90a2cfb5c661de51db3d68fc2c72ffe9bf",
+        "WitOracleRequestPriceDaiUsd6": "e5fb8f1053af31f824446f19127bde61639bb0bb0350510002d1b53614b1c30e",
+        "WitOracleRequestPriceDogeUsd6": "c6b2f89ca60b6389a77bc8a643f60ed3075525383988787890c88ec18b76f44d",
+        "WitOracleRequestPriceDotUsd6": "4624816f69410596f86ebbad478863f381ff05281b9e0f230edb10d638163903",
+        "WitOracleRequestPriceLinkUsd6": "f76ac85c72cee4be5afe3ceb92b16e219ec0c34c1dfd7b9b45572304c595bafe",
+        "WitOracleRequestPriceShibUsd9": "b424989e7efaa06d29900674fe47d1f5b72953f9464f5abd8dc6dc3cfc3b892e",
+        "WitOracleRequestPriceSolUsd6": "dc124deb40add8523bc1794782e6707fd7fa690a676c8f01e59f2da0799288d2",
+        "WitOracleRequestPriceUsdcUsd6": "6c5b8588b5381a41204608a4a6e5ca80896fca32239ce333b146e3a36a37efa4",
+        "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740",
+        "WitOracleRequestPriceWbtcUsd6": "46281a529b52c3cfd37e97cc0d545e6676ba348edd3b0b66f8711b597e16f93e",
+        "WitOracleRequestPriceXlmUsd6": "3e4c1af0bbed446d61434257c22864c1d97c869cdea4a351b9b59d1750e447db"
+    },
     "ethereum:sepolia": {
         "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
         "WitOracleRequestPriceWitUsdt6": "b46c3849008383bc9dd08568ed4923eb90069979a29192b1ce869cdc2e2b97cf",
