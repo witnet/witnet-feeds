@@ -1,7 +1,17 @@
 {
-    "polygon:amoy": {
-        "WitOracleRequestPriceUsdtWit9": "52be4c9f39bdeaf78d671162a8a497e5267228536ebbeaea81aae32d238dbe55",
-        "WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c"
+    "arbitrum:sepolia": {
+        "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1"
+    },
+    "celo:sepolia": {
+        "WitOracleRequestPriceBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
+        "WitOracleRequestPriceCeloEur6": "b1182a92e26ab672524c40662e742e50b091fb112ccd50ffb8afec7d04a1a5db",
+        "WitOracleRequestPriceCeloUsd6": "dbab5f8c3722ecf130ba1a85db46d7b71f32887659fc9b52a805f9f7f55ab54d"
+    },
+    "ethereum:sepolia": {
+        "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
+        "WitOracleRequestPriceWitUsdt6": "b46c3849008383bc9dd08568ed4923eb90069979a29192b1ce869cdc2e2b97cf",
+        "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740",
+        "WitOracleRequestPriceUsdcUsd6": "6c5b8588b5381a41204608a4a6e5ca80896fca32239ce333b146e3a36a37efa4"
     },
     "optimism:sepolia": {
         "WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c",
@@ -20,16 +30,9 @@
         "WitOracleRequestTemplateMojitoTicker6$MJT/KCS-6": "695198d41c584fb07d7f47f693c1632e54b7dc9ae71eb59b4031f750ca7185fc",
         "WitOracleRequestTemplateMojitoTicker6$SAX/USDT-6": "c76432886603b41cba06e7ac462a4025eb849b3a3da3144308d3da08aac439e9"
     },
-    "ethereum:sepolia": {
-        "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
-        "WitOracleRequestPriceWitUsdt6": "b46c3849008383bc9dd08568ed4923eb90069979a29192b1ce869cdc2e2b97cf",
-        "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740",
-        "WitOracleRequestPriceUsdcUsd6": "6c5b8588b5381a41204608a4a6e5ca80896fca32239ce333b146e3a36a37efa4"
-    },
-    "celo:sepolia": {
-        "WitOracleRequestPriceBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
-        "WitOracleRequestPriceCeloEur6": "b1182a92e26ab672524c40662e742e50b091fb112ccd50ffb8afec7d04a1a5db",
-        "WitOracleRequestPriceCeloUsd6": "dbab5f8c3722ecf130ba1a85db46d7b71f32887659fc9b52a805f9f7f55ab54d"
+    "polygon:amoy": {
+        "WitOracleRequestPriceUsdtWit9": "52be4c9f39bdeaf78d671162a8a497e5267228536ebbeaea81aae32d238dbe55",
+        "WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c"
     },
     "ten:testnet": {
         "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
