@@ -468,7 +468,7 @@
 			}
 		}
 	},
-	"world": {
+	"worldchain": {
 		"mappers": {
 			"Price-WLD/USD-6": {
 				"class": "product",

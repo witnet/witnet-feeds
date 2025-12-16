@@ -74,5 +74,10 @@
     "ten:testnet": {
         "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
         "WitOracleRequestPriceBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc"
+    },
+    "worldchain:sepolia": {
+        "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
+        "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740",
+        "WitOracleRequestPriceWldUsdt6": "fe751f1cf35e0aad76d5bec545985b9f2205923cad7edef7ac86e0df3cf5219f"
     }
 }
