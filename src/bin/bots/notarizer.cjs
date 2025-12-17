@@ -205,6 +205,7 @@ async function main() {
 								lastUpdates[caption].value
 							: 0;
 					if (Math.abs(deviation) < conditions.deviationPercentage) {
+						metrics.errors -= 1;
 						throw `${deviation >= 0 ? "+" : ""}${deviation.toFixed(2)} % deviation after ${heartbeatSecs} secs.`;
 					} else {
 						console.info(
@@ -297,7 +298,7 @@ async function main() {
 			
 			} catch (err) {
 				console.warn(`[${tag}] ${err}`);
-				metrics.errors += 1;
+				metrics.errors += 1; 
 			}
 
 			if (onAir) metrics.inflight -= 1;
@@ -305,8 +306,11 @@ async function main() {
 			const elapsed =
 				Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
 			const remaining = conditions.cooldownSecs - elapsed;
-			const timeout =
-				remaining > 0 ? Math.min(remaining, DRY_RUN_POLLING_SECS) : 0;
+			const timeout = Math.min(
+				DRY_RUN_POLLING_SECS,
+				remaining > 0 ? remaining : conditions.cooldownSecs
+			);
+			console.debug(`[${tag}] Next dry run in Min(remaning: ${remaining}, timeout: ${timeout}) ...`)
 			setTimeout(() => notarize(caption, _footprint), timeout * 1000);
 		
 		} else {
