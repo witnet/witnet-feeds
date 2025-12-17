@@ -14,7 +14,7 @@
 			"computeEMA": false,
 			"cooldownSecs": 300,
 			"deviationPercentage": 1.0,
-			"heartbeatSecs": 900,
+			"heartbeatSecs": 86400,
 			"maxDeviationPercentage": 0,
 			"minWitnesses": 3
 		},
