@@ -250,10 +250,11 @@ async function main() {
 				// await inclusion in Witnet
 				tx = await DRs.confirmTransaction(tx.hash, {
 					onStatusChange: () => console.info(`[${tag}] DRT status =>`, tx.status),
-				}).catch((err) => {
-					console.error(`[${tag}] ${err}`);
-					/* FORCE TERMINATION */ process.exit(0);
-				});
+				})
+				// .catch((err) => {
+				// 	console.error(`[${tag}] ${err}`);
+				// 	/* FORCE TERMINATION */ process.exit(0);
+				// });
 
 				console.debug(
 					`[${tag}] Cache info after confirmation =>`,
