@@ -384,7 +384,7 @@ async function main() {
 						}),
 					),
 				);
-				Object.entries(priceFeeds).forEach(([caption, { id4, conditions }]) => {
+				for (const [caption, { id4, conditions }] of Object.entries(priceFeeds)) {
 					console.info(
 						`[${network}:${id4}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}] Update conditions: { cooldown: ${
 							conditions.cooldownSecs
@@ -395,7 +395,10 @@ async function main() {
 						} }`,
 					);
 					dryRunPriceFeed(caption, footprint);
-				});
+					const delay = (ms) =>
+						new Promise((_resolve) => setTimeout(_resolve, ms));
+					await delay((1 + Math.floor(Math.random() * 5)) * 1000);
+				};
 			}
 		} catch (err) {
 			console.warn(`[${network}:${signer}] Cannot check footprint: ${err}`);

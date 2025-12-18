@@ -471,7 +471,7 @@ async function main() {
 			maxCaptionWidth = Math.max(
 				...Object.keys(priceFeeds).map((caption) => caption.length),
 			);
-			Object.entries(priceFeeds).forEach(([caption, { conditions }]) => {
+			for (const [caption, {conditions}] of Object.entries(priceFeeds)) {
 				lastUpdates[caption] = { value: 0, timestamp: 0 };
 				console.info(
 					`[${caption}${" ".repeat(maxCaptionWidth - caption.length)}] Update conditions: { deviation: ${conditions.deviationPercentage.toFixed(
@@ -483,7 +483,10 @@ async function main() {
 					)} ", witnesses: ${conditions.minWitnesses} }`,
 				);
 				notarize(caption, footprint);
-			});
+				const delay = (ms) =>
+					new Promise((_resolve) => setTimeout(_resolve, ms));
+				await delay((1 + Math.floor(Math.random() * 5)) * 1000);
+			}
 		} else {
 			console.info(
 				`[witnet:${wallet.provider.network}] Price feeds rulebook hash remains the same: ${footprint}`
