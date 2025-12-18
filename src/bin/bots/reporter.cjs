@@ -13,6 +13,7 @@ const { colors, commas, traceHeader } = require("../helpers.cjs");
 const CHECK_BALANCE_SCHEDULE =
 	process.env.WITNET_PFS_CHECK_BALANCE_SCHEDULE || "*/5 * * * *";
 const DRY_RUN_POLLING_SECS = process.env.WITNET_PFS_DRY_RUN_POLLING_SECS || 45;
+const DRY_RUN_TIMEOUT_SECS = 15;
 const KERMIT = process.env.WITNET_SDK_KERMIT_URL || "https://kermit.witnet.io";
 
 let balance,
@@ -417,7 +418,7 @@ async function main() {
 				const heartbeatSecs =
 					Math.floor(Date.now() / 1000) - Number(lastUpdate.timestamp);
 				if (heartbeatSecs < conditions.heartbeatSecs) {
-					let dryrun = JSON.parse(await request.execDryRun());
+					let dryrun = JSON.parse(await request.execDryRun({ timeout: DRY_RUN_TIMEOUT_SECS * 1e3 }));
 					if (!Object.keys(dryrun).includes("RadonInteger")) {
 						throw `Error: unexpected dry run result: ${JSON.stringify(dryrun)}`;
 					} else {

@@ -16,6 +16,7 @@ const CHECK_BALANCE_SCHEDULE =
 const CHECK_RULEBOOK_SCHEDULE =
 	process.env.WITNET_PFS_CHECK_RULEBOOK_SCHEDULE || "0 0 * * *";
 const DRY_RUN_POLLING_SECS = process.env.WITNET_PFS_DRY_RUN_POLLING_SECS || 45;
+const DRY_RUN_TIMEOUT_SECS = 15;
 const WIT_WALLET_MASTER_KEY = process.env.WITNET_PFS_WIT_WALLET_MASTER_KEY || process.env.WITNET_SDK_WALLET_MASTER_KEY;
 
 const lastUpdates = {};
@@ -188,7 +189,7 @@ async function main() {
 			let onAir = false
 			try {
 				metrics.dryruns += 1;
-				let dryrun = JSON.parse(await request.execDryRun());
+				let dryrun = JSON.parse(await request.execDryRun({ timeout: DRY_RUN_TIMEOUT_SECS * 1e3 }));
 				if (!Object.keys(dryrun).includes("RadonInteger")) {
 					throw `Error: unexpected dry run result: ${JSON.stringify(dryrun)}`;
 				} else {
