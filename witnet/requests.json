@@ -48,6 +48,15 @@
         "WitOracleRequestPriceKrwUsd9": "5924080523aa7e7f5e6c1d74f24505de046e45f1d5ce28c712fd36a43a56f9c8",
         "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740"
     },
+    "kava:testnet": {
+        "WitOracleRequestPriceAtomUsd6": "47fda24a69528b31e212c01ebb4a60296ffe6ddc46f09f25fd7ebe1c8296a15b",
+        "WitOracleRequestPriceBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
+        "WitOracleRequestPriceDaiUsd6": "e5fb8f1053af31f824446f19127bde61639bb0bb0350510002d1b53614b1c30e",
+        "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
+        "WitOracleRequestPriceKavaUsdt6": "3ae06f692e2062e166613d64ee087f5b1a004d92cd6ca2f7c73d494243a7dbac",
+        "WitOracleRequestPriceUsdcUsd6": "6c5b8588b5381a41204608a4a6e5ca80896fca32239ce333b146e3a36a37efa4",
+        "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740"
+    },
     "optimism:sepolia": {
         "WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c",
         "WitOracleRequestPriceWitUsdt6": "a1b3d27e85a472f6bf965b460caaa09aa55a23295bf0765c785f682995f6b91d",
