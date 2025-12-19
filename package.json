@@ -77,7 +77,7 @@
 		"test": "vitest"
 	},
 	"dependencies": {
-		"@witnet/sdk": "^3.0.4",
+		"@witnet/sdk": "^3.0.5",
 		"@witnet/solidity": "^3.1.1",
 		"commander": "^14.0.2",
 		"dotenv": "^17.2.3",
@@ -87,7 +87,7 @@
 		"object-hash": "^3.0.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.3.9",
+		"@biomejs/biome": "^2.3.10",
 		"@types/lodash.merge": "^4.6.9",
 		"@types/node": "^24.10.4",
 		"chai": "^6.2.1",
