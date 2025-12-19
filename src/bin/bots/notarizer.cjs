@@ -16,7 +16,7 @@ const CHECK_BALANCE_SCHEDULE =
 const CHECK_RULEBOOK_SCHEDULE =
 	process.env.WITNET_PFS_CHECK_RULEBOOK_SCHEDULE || "0 0 * * *";
 const DRY_RUN_POLLING_SECS = process.env.WITNET_PFS_DRY_RUN_POLLING_SECS || 45;
-const DRY_RUN_TIMEOUT_SECS = 15;
+const DRY_RUN_TIMEOUT_SECS = process.env.WITNET_PFS_DRY_RUN_TIMEOUT_SECS || 15;
 const WIT_WALLET_MASTER_KEY = process.env.WITNET_PFS_WIT_WALLET_MASTER_KEY || process.env.WITNET_SDK_WALLET_MASTER_KEY;
 
 const lastUpdates = {};
@@ -187,11 +187,12 @@ async function main() {
 			const { request, conditions } = priceFeeds[caption];
 			const tag = `witnet:${wallet.provider.network}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}`;
 			let onAir = false
+			const start = Date.now();
 			try {
 				metrics.dryruns += 1;
-				let dryrun = JSON.parse(await request.execDryRun({ timeout: DRY_RUN_TIMEOUT_SECS * 1e3 }));
+				let dryrun = JSON.parse(await request.execDryRun({ timeout: 400 }));
 				if (!Object.keys(dryrun).includes("RadonInteger")) {
-					throw `Error: unexpected dry run result: ${JSON.stringify(dryrun)}`;
+					throw `Error: unexpected dry run result: ${JSON.stringify(dryrun).slice(0, 2048)}`;
 				} else {
 					dryrun = parseInt(dryrun.RadonInteger, 10);
 				}
@@ -299,7 +300,7 @@ async function main() {
 				} while (status !== "solved");
 			
 			} catch (err) {
-				console.warn(`[${tag}] ${err}`);
+				console.warn(`[${tag}] ${debug ? `(after ${commas(Date.now() - start)} msecs) ` : " "}${err}`);
 				metrics.errors += 1; 
 			}
 
@@ -312,7 +313,7 @@ async function main() {
 				DRY_RUN_POLLING_SECS,
 				remaining > 0 ? remaining : conditions.cooldownSecs
 			);
-			console.debug(`[${tag}] Next dry run in Min(remaning: ${remaining}, timeout: ${timeout}) ...`)
+			console.debug(`[${tag}] Next dry run in Min(remaning: ${remaining > 0 ? remaining : conditions.cooldownSecs}, timeout: ${timeout}) ...`)
 			setTimeout(() => notarize(caption, _footprint), timeout * 1000);
 		
 		} else {
