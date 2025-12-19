@@ -607,7 +607,7 @@ async function main() {
 			settled.requests.map(async ([caption, obj]) => {
 				let dryrun;
 				try {
-					dryrun = JSON.parse(await obj.sources.execDryRun(true));
+					dryrun = JSON.parse(await obj.sources.execDryRun({ verbose: true }));
 					const result = dryrun.tally.result;
 					console.info(
 						`  ${colors.green(caption)}${" ".repeat(18 - caption.length)} => ${
