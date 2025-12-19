@@ -92,8 +92,7 @@
 	"ethereum:sepolia": {
 		"Price-ETH/USD-6#0": {
 			"computeEMA": true,
-			"cooldownSecs": 150,
-			"minWitnesses": 4
+			"heartbeatSecs": 900
 		}
 	}
 }
