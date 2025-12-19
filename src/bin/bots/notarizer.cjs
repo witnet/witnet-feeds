@@ -190,7 +190,7 @@ async function main() {
 			const start = Date.now();
 			try {
 				metrics.dryruns += 1;
-				let dryrun = JSON.parse(await request.execDryRun({ timeout: 400 }));
+				let dryrun = JSON.parse(await request.execDryRun({ timeout: DRY_RUN_TIMEOUT_SECS * 1000 }));
 				if (!Object.keys(dryrun).includes("RadonInteger")) {
 					throw `Error: unexpected dry run result: ${JSON.stringify(dryrun).slice(0, 2048)}`;
 				} else {
