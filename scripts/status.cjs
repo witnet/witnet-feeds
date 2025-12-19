@@ -72,12 +72,12 @@ async function main() {
 					reverse: true,
 				}),
 				request
-					.execDryRun(true)
+					.execDryRun({ verbose: true, timeout: 180000 })
 					.catch((err) => console.error(`  ${caption}: Error: ${err}`)),
 			]);
 
 			const drt = dataRequests.find(
-				(drt) => drt?.result?.finalized && drt.result.cbor_bytes,
+				(drt) => /*drt?.result?.finalized &&*/ drt.result.cbor_bytes,
 			); // todo: check cbor_bytes is not tagged with error
 
 			let dryRun;
@@ -183,7 +183,9 @@ async function main() {
 					deployed += networks.total;
 					const now = Math.floor(Date.now() / 1000);
 					return [
-						caption,
+						Number.isNaN(Math.abs(deviation)) || Math.abs(deviation) > conditions?.deviationPercentage
+							? colors.red(caption)
+							: colors.lwhite(caption),
 						`${radHash.slice(0, 6)}..${radHash.slice(-5)}`,
 						`± ${conditions?.deviationPercentage.toFixed(1)} %`,
 						moment.duration(conditions?.heartbeatSecs, "seconds").humanize(),
@@ -198,11 +200,11 @@ async function main() {
 							? moment.duration(now - drt?.timestamp, "seconds").asSeconds() >
 								conditions?.heartbeatSecs
 								? colors.mred(moment.unix(drt.timestamp).fromNow())
-								: colors.yellow(moment.unix(drt.timestamp).fromNow())
+								: colors.white(moment.unix(drt.timestamp).fromNow())
 							: "",
-						deviation <= conditions?.deviationPercentage
+						Math.abs(deviation) <= conditions?.deviationPercentage
 							? colors.green(`${sign} ${Math.abs(deviation).toFixed(3)} %`)
-							: Number.isNaN(deviation)
+							: Number.isNaN(Math.abs(deviation))
 								? ""
 								: colors.red(`${sign} ${Math.abs(deviation).toFixed(3)} %`),
 					];
@@ -221,7 +223,7 @@ async function main() {
 					"DEVIATION:",
 				],
 				colors: [
-					colors.lwhite,
+					,
 					colors.mgreen,
 					colors.gray,
 					colors.gray,
