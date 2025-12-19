@@ -12,4 +12,4 @@ RUN pnpm install --frozen-lockfile
 
 RUN chmod +x src/bin/bots/notarizer.cjs
 
-CMD ["node", "/app/src/bin/bots/notarizer.cjs"] 
+CMD ["node", "/app/src/bin/bots/notarizer.cjs", "--debug"] 
