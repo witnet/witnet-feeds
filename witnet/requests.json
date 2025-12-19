@@ -76,6 +76,6 @@
     "worldchain:sepolia": {
         "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
         "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740",
-        "WitOracleRequestPriceWldUsdt6": "fe751f1cf35e0aad76d5bec545985b9f2205923cad7edef7ac86e0df3cf5219f"
+        "WitOracleRequestPriceWldUsdt6": "82c900e99daba85132e6ab52ade4e51228514bc8c77ccaa389a3c0d9e714e0a3"
     }
 }

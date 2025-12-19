@@ -337,7 +337,7 @@ module.exports = {
 	}),
 
 	WitOracleRequestPriceWldUsdt6: PriceTickerRequest({
-		"ticker/binance.com": ["WLD", "USDT"],
+		"ticker/binance.us": ["WLD", "USDT"],
 		"ticker/bitget.com_v2": ["WLD", "USDT"],
 		"ticker/bitmart.com": ["WLD", "USDT"],
 		"ticker/bybit.com": ["WLD", "USDT", "inverse"],
