@@ -353,10 +353,7 @@ async function main() {
 							}),
 					)
 					.catch((err) => {
-						console.error(
-							`❌ Fatal: cannot fetch price feeds from ${artifact}@${witPriceFeeds.address}:\n${err}`,
-						);
-						process.exit(0);
+						throw err
 					});
 
 				maxCaptionWidth = Math.max(...pfs.map(({ caption }) => caption.length));
@@ -402,7 +399,7 @@ async function main() {
 				};
 			}
 		} catch (err) {
-			console.warn(`[${network}:${signer}] Cannot check footprint: ${err}`);
+			console.warn(`[${network}:${signer}] Cannot fetch price feeds from contract: ${err}`);
 			metrics.errors += 1;
 		}
 	}
