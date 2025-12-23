@@ -309,11 +309,11 @@ async function main() {
 			const elapsed =
 				Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
 			const remaining = conditions.cooldownSecs - elapsed;
-			const timeout = Math.min(
+			const timeout = Math.max(
+				remaining,
 				DRY_RUN_POLLING_SECS,
-				remaining > 0 ? remaining : conditions.cooldownSecs
 			);
-			console.debug(`[${tag}] Next dry run in Min(${remaining > 0 ? remaining : conditions.cooldownSecs}, ${timeout}) secs ...`)
+			console.debug(`[${tag}] Next dry run in ${timeout}) secs ...`)
 			setTimeout(() => notarize(caption, _footprint), timeout * 1000);
 		
 		} else {
