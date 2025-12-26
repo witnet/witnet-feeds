@@ -89,11 +89,6 @@ async function main() {
 			"Address of WitPriceFeeds contract where to report data updates.",
 			process.env.WITNET_PFS_ETH_TARGET || undefined,
 		)
-		.option(
-			"--witnet <url>",
-			"The WIT/RPC provider endpoint where to search for notarized data updates, other than the officials .",
-			process.env.WITNET_PFS_WIT_NETWORK,
-		);
 
 	program.parse();
 
@@ -108,7 +103,6 @@ async function main() {
 		port,
 		patron,
 		target,
-		witnet,
 	} = program.opts();
 
 	if (!debug) console.debug = () => {};
@@ -142,26 +136,9 @@ async function main() {
 			process.exit(0);
 		});
 
-	const _witnet = await Witnet.JsonRpcProvider.fromURL(
-		witnet ||
-			(utils.isEvmNetworkMainnet(network)
-				? "https://rpc-02.witnet.io"
-				: "https://rpc-testnet.witnet.io"),
-	);
-	if ((_witnet.network === "mainnet") ^ utils.isEvmNetworkMainnet(network)) {
-		console.error(
-			`❌ Fatal: invalid Witnet network at ${
-				_witnet.endpoints
-			}: should connect to the ${
-				utils.isEvmNetworkMainnet(network) ? "MAINNET" : "TESTNET"
-			} instead.`,
-		);
-		process.exit(0);
-	}
 	const kermit = await Witnet.KermitClient.fromEnv(KERMIT);
 
 	console.info(`> WIT/Kermit URL:   ${kermit.url}`);
-	console.info(`> WIT/RPC provider: ${_witnet.endpoints}`);
 	console.info(`> EVM RPC gateway:  ${host}:${port}`);
 	console.info(`> EVM network:      ${network.toUpperCase()}`);
 
@@ -253,7 +230,7 @@ async function main() {
 		const runningSecs = metrics.clock ? Math.floor(Date.now() / 1000) - metrics.clock : 0
 		let status
 		try {
-			const syncStatus = await _witnet.syncStatus()
+			const syncStatus = await kermit.getSyncStatus()
 			if (syncStatus.node_state !== "Synced") {
 				status = `wit-syncing`
 			
@@ -439,12 +416,10 @@ async function main() {
 					);
 				}
 				console.info(`[${tag}] [>] RAD hash: ${radHash.slice(2)}`);
-				const since = -Math.ceil(conditions.heartbeatSecs / 20);
-				await _witnet
-					.searchDataRequests(radHash.slice(2), {
+				await kermit
+					.searchDataRequests(radHash.slice(2), utils.isEvmNetworkMainnet(network), {
 						limit: 16,
 						mode: "ethereal",
-						since,
 						reverse: true,
 					})
 					.then(async (dataRequests) => {
