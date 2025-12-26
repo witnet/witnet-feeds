@@ -313,7 +313,7 @@ async function main() {
 				remaining,
 				DRY_RUN_POLLING_SECS,
 			);
-			console.debug(`[${tag}] Next dry run in ${timeout}) secs ...`)
+			console.debug(`[${tag}] Next dry run in ${timeout} secs ...`)
 			setTimeout(() => notarize(caption, _footprint), timeout * 1000);
 		
 		} else {
