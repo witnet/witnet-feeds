@@ -182,139 +182,151 @@ async function main() {
 		process.exit(0);
 	}
 
-	async function notarize(caption, _footprint) {
+	async function notarize(_footprint) {
 		if (footprint === _footprint) {
-			const { request, conditions } = priceFeeds[caption];
-			const tag = `witnet:${wallet.provider.network}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}`;
-			let onAir = false
-			const start = Date.now();
-			try {
-				metrics.dryruns += 1;
-				let dryrun = JSON.parse(await request.execDryRun({ timeout: DRY_RUN_TIMEOUT_SECS * 1000 }));
-				if (!Object.keys(dryrun).includes("RadonInteger")) {
-					throw `Error: unexpected dry run result: ${JSON.stringify(dryrun).slice(0, 2048)}`;
-				} else {
-					dryrun = parseInt(dryrun.RadonInteger, 10);
-				}
-
-				// determine whether a new notarization is required
-				const heartbeatSecs =
-					Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
-				if (heartbeatSecs < conditions.heartbeatSecs / 2 + 1) {
-					const deviation =
-						lastUpdates[caption].value > 0
-							? (100 * (dryrun - lastUpdates[caption].value)) /
-								lastUpdates[caption].value
-							: 0;
-					if (Math.abs(deviation) < conditions.deviationPercentage) {
-						metrics.errors -= 1;
-						throw `${deviation >= 0 ? "+" : ""}${deviation.toFixed(2)} % deviation after ${heartbeatSecs} secs.`;
-					} else {
-						console.info(
-							`[${tag}] Updating due to price deviation of ${deviation.toFixed(2)} % ...`,
-						);
-					}
-				} else {
-					console.info(
-						`[${tag}] Updating due to heartbeat after ${heartbeatSecs} secs ...`,
-					);
-				}
-
-				console.debug(`[${tag}] Cache info before sending =>`, ledger.cacheInfo);
-
-				// create, sign and send new data request transaction
-				const DRs = Witnet.DataRequests.from(ledger, request);
-				onAir = true; 
-				metrics.inflight += 1;
-				let tx = await DRs.sendTransaction({
-					fees: priority,
-					witnesses: conditions.minWitnesses,
-				});
-				console.info(`[${tag}] RAD hash   =>`, tx.radHash);
-				console.info(`[${tag}] DRT hash   =>`, tx.hash);
-				console.info(`[${tag}] DRT weight =>`, commas(tx.weight));
-				console.info(`[${tag}] DRT wtnsss =>`, tx.witnesses);
-				console.debug(
-					`[${tag}] DRT inputs =>`,
-					tx.tx?.DataRequest?.signatures.length,
-				);
-				console.info(
-					`[${tag}] DRT cost   =>`,
-					Witnet.Coins.fromNanowits(
-						tx.fees.nanowits + tx.value?.nanowits,
-					).toString(2),
-				);
-
-				metrics.nanowits += tx.fees.nanowits + tx.value?.nanowits;
-				metrics.queries += 1;
-
-				// await inclusion in Witnet
-				tx = await DRs.confirmTransaction(tx.hash, {
-					onStatusChange: () => console.info(`[${tag}] DRT status =>`, tx.status),
-				})
-				// .catch((err) => {
-				// 	console.error(`[${tag}] ${err}`);
-				// 	/* FORCE TERMINATION */ process.exit(0);
-				// });
-
-				console.debug(
-					`[${tag}] Cache info after confirmation =>`,
-					ledger.cacheInfo,
-				);
-
-				// await resolution in Witnet
-				let status = tx.status;
-				do {
-					const report = await ledger.provider.getDataRequest(
-						tx.hash,
-						"ethereal",
-					);
-					if (report.status !== status) {
-						status = report.status;
-						console.info(`[${tag}] DRT status =>`, report.status);
-					}
-					if (report.status === "solved" && report?.result) {
-						const result = utils.cbor.decode(
-							utils.fromHexString(report.result.cbor_bytes),
-						);
-						if (Number.isInteger(result)) {
-							lastUpdates[caption].timestamp = report.result.timestamp;
-							lastUpdates[caption].value = parseInt(result, 10);
-							const { value, timestamp } = lastUpdates[caption]
-							const providers = request.sources
-								.map(source => {
-									let parts = source.authority.split(".").slice(-2);
-									parts[0] = parts[0][0].toUpperCase() + parts[0].slice(1);
-									return parts.join(".")
-								})
-								.sort();
-							console.info(`[${tag}] DRT result => { value: ${value}, ts: ${moment.unix(timestamp).format("MMM Do YYYY HH:mm:ss")}, providers: ${providers.join(" ")} }`);
+			const batchStart = Date.now()
+			for (const [caption, { request, conditions, inflight, lastDryRunClock }] of Object.entries(priceFeeds)) {
+				const tag = `witnet:${wallet.provider.network}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}`;
+				if (!inflight) {
+					const dryRunStart = Date.now();
+					try {
+						// launch and wait for dry-run to finish:
+						metrics.dryruns += 1;
+						console.debug(`[${tag}] Dry-running ${lastDryRunClock ? `after ${commas(dryRunStart - lastDryRunClock)} msecs` : `for the first time`}:`);
+						priceFeeds[caption].lastDryRunClock = dryRunStart;
+						let dryrun = JSON.parse(await request.execDryRun({ timeout: DRY_RUN_TIMEOUT_SECS * 1000 }));
+						console.debug(`[${tag}] Dry-run solved in ${commas(Date.now() - dryRunStart)} msecs => ${JSON.stringify(dryrun)}`);
+						if (!Object.keys(dryrun).includes("RadonInteger")) {
+							throw `Error: unexpected dry run result: ${JSON.stringify(dryrun).slice(0, 2048)}`;
 						} else {
-							throw `Unexpected DRT result => ${result}`;
+							dryrun = parseInt(dryrun.RadonInteger, 10);
 						}
-						break;
-					}
-					const delay = (ms) =>
-						new Promise((_resolve) => setTimeout(_resolve, ms));
-					await delay(5000);
-				} while (status !== "solved");
-			
-			} catch (err) {
-				console.warn(`[${tag}] ${debug ? `(after ${commas(Date.now() - start)} msecs) ` : " "}${err}`);
-				metrics.errors += 1; 
-			}
+						
+						// determine whether a new notarization is required
+						const heartbeatSecs =
+							Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
+						if (heartbeatSecs < conditions.heartbeatSecs / 2 + 1) {
+							const deviation =
+								lastUpdates[caption].value > 0
+									? (100 * (dryrun - lastUpdates[caption].value)) /
+										lastUpdates[caption].value
+									: 0;
+							if (Math.abs(deviation) < conditions.deviationPercentage) {
+								metrics.errors -= 1;
+								console.info(
+									`[${tag}] ${deviation >= 0 ? "+" : ""}${deviation.toFixed(2)} % deviation after ${heartbeatSecs} secs.`
+								)
+								continue;
+							} else {
+								console.info(
+									`[${tag}] Updating due to price deviation of ${deviation.toFixed(2)} % ...`,
+								);
+							}
+						} else {
+							console.info(
+								`[${tag}] Updating due to heartbeat after ${heartbeatSecs} secs ...`,
+							);
+						}
 
-			if (onAir) metrics.inflight -= 1;
+						console.debug(`[${tag}] Cache info before sending =>`, ledger.cacheInfo);
+
+						// create, sign and send new data request transaction
+						const DRs = Witnet.DataRequests.from(ledger, request);
+						metrics.inflight += 1;
+						priceFeeds[caption].inflight = true
+
+						// launch promise for the notarization of new price update
+						DRs.sendTransaction({
+							fees: priority,
+							witnesses: conditions.minWitnesses,
+						}).then(tx => {
+							console.info(`[${tag}] RAD hash   =>`, tx.radHash);
+							console.info(`[${tag}] DRT hash   =>`, tx.hash);
+							console.info(`[${tag}] DRT weight =>`, commas(tx.weight));
+							console.info(`[${tag}] DRT wtnsss =>`, tx.witnesses);
+							console.debug(
+								`[${tag}] DRT inputs =>`,
+								tx.tx?.DataRequest?.signatures.length,
+							);
+							console.info(
+								`[${tag}] DRT cost   =>`,
+								Witnet.Coins.fromNanowits(
+									tx.fees.nanowits + tx.value?.nanowits,
+								).toString(2),
+							);
+
+							metrics.nanowits += tx.fees.nanowits + tx.value?.nanowits;
+							metrics.queries += 1;
+							return DRs.confirmTransaction(tx.hash, {
+								onStatusChange: () => console.info(`[${tag}] DRT status =>`, tx.status),
+							})
+						}).then(async tx => {
+							console.debug(
+								`[${tag}] Cache info after confirmation =>`,
+								ledger.cacheInfo,
+							);
+
+							// await resolution in Witnet
+							let status = tx.status;
+							do {
+								const report = await ledger.provider.getDataRequest(
+									tx.hash,
+									"ethereal",
+								);
+								if (report.status !== status) {
+									status = report.status;
+									console.info(`[${tag}] DRT status =>`, report.status);
+								}
+								if (report.status === "solved" && report?.result) {
+									const result = utils.cbor.decode(
+										utils.fromHexString(report.result.cbor_bytes),
+									);
+									if (Number.isInteger(result)) {
+										lastUpdates[caption].timestamp = report.result.timestamp;
+										lastUpdates[caption].value = parseInt(result, 10);
+										const { value, timestamp } = lastUpdates[caption]
+										const providers = request.sources
+											.map(source => {
+												let parts = source.authority.split(".").slice(-2);
+												parts[0] = parts[0][0].toUpperCase() + parts[0].slice(1);
+												return parts.join(".")
+											})
+											.sort();
+										console.info(`[${tag}] DRT result => { value: ${value}, ts: ${moment.unix(timestamp).format("MMM Do YYYY HH:mm:ss")}, providers: ${providers.join(" ")} }`);
+									} else {
+										throw `Unexpected DRT result => ${result}`;
+									}
+									break;
+								}
+								const delay = (ms) =>
+									new Promise((_resolve) => setTimeout(_resolve, ms));
+								await delay(5000);
+							} while (status !== "solved");
+						
+						}).catch(err => {
+							metrics.errors += 1;
+							console.error(`[${tag}] Notarization failed: ${err}`);
+						});
+
+						metrics.inflight -= 1;
+						priceFeeds[caption].inflight = false
+					
+					}
+					catch (err) {
+						console.warn(`[${tag}] ${debug ? `(after ${commas(Date.now() - dryRunStart)} msecs) ` : " "}Dry-run failed: ${err}`);
+						metrics.errors += 1; 
+					}
+				} else {
+					console.debug(`[${tag}] Skipped dry run because because pending update is being notarized.`)
+				}
+			}
 			
-			const elapsed =
-				Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
-			const remaining = conditions.cooldownSecs - elapsed;
-			const timeout = Math.max(
-				remaining,
-				DRY_RUN_POLLING_SECS,
-			);
-			console.debug(`[${tag}] Next dry run in ${timeout} secs ...`)
-			setTimeout(() => notarize(caption, _footprint), timeout * 1000);
+			const elapsed = Date.now() - batchStart;
+			const remaining = DRY_RUN_POLLING_SECS * 1000 - elapsed;
+			const timeout = Math.max(remaining, 0);
+			console.debug(`[footprint::${_footprint}] Dry run of ${Object.keys(priceFeeds).length} price feeds took ${commas(elapsed)} msecs to accomplish.`)
+			if (timeout > 0) console.info(`[footprint::${_footprint}] Next dry run batch in ${commas(timeout)} msecs ...`);
+			setTimeout(() => notarize(_footprint), timeout);
 		
 		} else {
 			// live and let die
@@ -485,11 +497,8 @@ async function main() {
 
 					)} ", witnesses: ${conditions.minWitnesses} }`,
 				);
-				notarize(caption, footprint);
-				const delay = (ms) =>
-					new Promise((_resolve) => setTimeout(_resolve, ms));
-				await delay((1 + Math.floor(Math.random() * 5)) * 1000);
 			}
+			notarize(footprint)
 		} else {
 			console.info(
 				`[witnet:${wallet.provider.network}] Price feeds rulebook hash remains the same: ${footprint}`
