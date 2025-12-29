@@ -247,12 +247,10 @@ async function main() {
 							console.info(`[${tag}] Sending data request transaction => { radHash: ${tx.radHash
 								} inputs: ${tx.tx?.DataRequest?.signatures.length
 								} cost: ${Witnet.Coins.fromNanowits(tx.fees.nanowits + tx.value?.nanowits).wits
-								} hash: ${tx.hash
 								} weight: ${commas(tx.weight)
 								} witnesses: ${tx.witnesses
-								
-								
-								} WIT }`);
+								} hash: ${tx.hash
+								} }`);
 							metrics.nanowits += tx.fees.nanowits + tx.value?.nanowits;
 							metrics.queries += 1;
 							return DRs.confirmTransaction(tx.hash, {
