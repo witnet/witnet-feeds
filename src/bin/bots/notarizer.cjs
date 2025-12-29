@@ -192,9 +192,13 @@ async function main() {
 					try {
 						// launch and wait for dry-run to finish:
 						metrics.dryruns += 1;
-						console.debug(`[${tag}] Dry-running ${lastDryRunClock ? `after ${commas(dryRunStart - lastDryRunClock)} msecs` : `for the first time`}:`);
+						console.debug(`[${tag}] Dry-running ${lastDryRunClock ? `after ${commas(dryRunStart - lastDryRunClock)} msecs` : `for the first time`} ...`);
 						priceFeeds[caption].lastDryRunClock = dryRunStart;
-						let dryrun = JSON.parse(await request.execDryRun({ timeout: DRY_RUN_TIMEOUT_SECS * 1000 }));
+						let dryrun = JSON.parse(
+							await request.execDryRun({ 
+								timeout: DRY_RUN_TIMEOUT_SECS * 1000 
+							})
+						);
 						console.debug(`[${tag}] Dry-run solved in ${commas(Date.now() - dryRunStart)} msecs => ${JSON.stringify(dryrun)}`);
 						if (!Object.keys(dryrun).includes("RadonInteger")) {
 							throw `Error: unexpected dry run result: ${JSON.stringify(dryrun).slice(0, 2048)}`;
@@ -240,21 +244,15 @@ async function main() {
 							fees: priority,
 							witnesses: conditions.minWitnesses,
 						}).then(tx => {
-							console.info(`[${tag}] RAD hash   =>`, tx.radHash);
-							console.info(`[${tag}] DRT hash   =>`, tx.hash);
-							console.info(`[${tag}] DRT weight =>`, commas(tx.weight));
-							console.info(`[${tag}] DRT wtnsss =>`, tx.witnesses);
-							console.debug(
-								`[${tag}] DRT inputs =>`,
-								tx.tx?.DataRequest?.signatures.length,
-							);
-							console.info(
-								`[${tag}] DRT cost   =>`,
-								Witnet.Coins.fromNanowits(
-									tx.fees.nanowits + tx.value?.nanowits,
-								).toString(2),
-							);
-
+							console.info(`[${tag}] Sending data request transaction => { radHash: ${tx.radHash
+								} inputs: ${tx.tx?.DataRequest?.signatures.length
+								} cost: ${Witnet.Coins.fromNanowits(tx.fees.nanowits + tx.value?.nanowits).wits
+								} hash: ${tx.hash
+								} weight: ${commas(tx.weight)
+								} witnesses: ${tx.witnesses
+								
+								
+								} WIT }`);
 							metrics.nanowits += tx.fees.nanowits + tx.value?.nanowits;
 							metrics.queries += 1;
 							return DRs.confirmTransaction(tx.hash, {
