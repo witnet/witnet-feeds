@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@witnet/sdk':
-        specifier: ^3.1.7
-        version: 3.1.7(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+        specifier: ^3.1.8
+        version: 3.1.8(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
       '@witnet/solidity':
         specifier: ^3.1.1
         version: 3.1.1(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
@@ -740,8 +740,8 @@ packages:
   '@vitest/utils@4.0.16':
     resolution: {integrity: sha512-h8z9yYhV3e1LEfaQ3zdypIrnAg/9hguReGZoS7Gl0aBG5xgA410zBqECqmaF/+RkTggRsfnzc1XaAHA6bmUufA==}
 
-  '@witnet/sdk@3.1.7':
-    resolution: {integrity: sha512-lNulWf1q79QlrPFTHeh4por8Qz7hLpjXfzyOdE4vpYU+cfXBsrJzcH4qVzs998ZVa4rFfW4KA+vOxuPk4Dcefg==}
+  '@witnet/sdk@3.1.8':
+    resolution: {integrity: sha512-+JuEsrPt+0jFNf7vb6xzjBzRwvPHFy+CBmEukZQgWXZHSEDFXG6+LEmGyihGUC2BpJwLQLYPGYd5TRlGBR6Flg==}
     hasBin: true
 
   '@witnet/solidity@3.1.1':
@@ -1766,6 +1766,10 @@ packages:
   tokenizr@1.5.7:
     resolution: {integrity: sha512-w6qS6F5PNtY30DxoRD4a7nC7zOlPM2SlpQ4zLhOmqBaB1VCZrlV82bLpc/lKNOdNmrwIwcsJLDcjEJ8f7UG6Mg==}
 
+  tree-kill@1.2.2:
+    resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
+    hasBin: true
+
   triple-beam@1.4.1:
     resolution: {integrity: sha512-aZbgViZrg1QNcG+LULa7nhZpJTZSLm/mXnHXnbAbjmN5aSa0y7V+wvv6+4WaBtpISJzThKy+PIPxc1Nq1EJ9mg==}
     engines: {node: '>= 14.0.0'}
@@ -2673,7 +2677,7 @@ snapshots:
       '@vitest/pretty-format': 4.0.16
       tinyrainbow: 3.0.3
 
-  '@witnet/sdk@3.1.7(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@witnet/sdk@3.1.8(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@bitcoinerlab/secp256k1': 1.2.0
       axios: 1.13.2
@@ -2695,6 +2699,7 @@ snapshots:
       protobufjs: 7.5.4
       qrcode-terminal: 0.12.0
       secp256k1: 5.0.1
+      tree-kill: 1.2.2
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
@@ -2705,7 +2710,7 @@ snapshots:
 
   '@witnet/solidity@3.1.1(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@witnet/sdk': 3.1.7(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@witnet/sdk': 3.1.8(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
       cbor: 10.0.11
       commander: 14.0.2
       cross-env: 10.1.0
@@ -3931,6 +3936,8 @@ snapshots:
   toidentifier@1.0.1: {}
 
   tokenizr@1.5.7: {}
+
+  tree-kill@1.2.2: {}
 
   triple-beam@1.4.1: {}
 
