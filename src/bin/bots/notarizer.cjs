@@ -49,6 +49,11 @@ async function main() {
 		)
 		.option("--debug", "Trace debug logs")
 		.option(
+			"--max-threads <number>",
+			"Max. number of simultaneous dry runs",
+			process.env.WITNET_PFS_DRY_RUN_MAX_THREADS || 1,
+		)
+		.option(
 			"--min-balance <wits>",
 			"Min. balance threshold",
 			process.env.WITNET_PFS_WIT_MIN_BALANCE || 1000.0,
@@ -94,6 +99,7 @@ async function main() {
 	const {
 		configPath,
 		debug,
+		maxThreads,
 		minUtxos,
 		network,
 		priority,
@@ -185,34 +191,54 @@ async function main() {
 	async function notarize(_footprint) {
 		if (footprint === _footprint) {
 			const batchStart = Date.now()
-			for (const [caption, { request, conditions, inflight, lastDryRunClock }] of Object.entries(priceFeeds)) {
+			let threadBucket = []
+			for (const [caption, { request, conditions, lastDryRunClock }] of Object.entries(priceFeeds)) {
 				const tag = `witnet:${wallet.provider.network}:${caption}${" ".repeat(maxCaptionWidth - caption.length)}`;
-				if (!inflight) {
-					const dryRunStart = Date.now();
-					try {
-						// launch and wait for dry-run to finish:
-						metrics.dryruns += 1;
-						console.debug(`[${tag}] Dry-running ${lastDryRunClock ? `after ${commas(dryRunStart - lastDryRunClock)} msecs` : `for the first time`} ...`);
-						priceFeeds[caption].lastDryRunClock = dryRunStart;
-						let dryrun = JSON.parse(
-							await request.execDryRun({ 
-								timeout: DRY_RUN_TIMEOUT_SECS * 1000 
-							})
-						);
-						console.debug(`[${tag}] Dry-run solved in ${commas(Date.now() - dryRunStart)} msecs => ${JSON.stringify(dryrun)}`);
-						if (!Object.keys(dryrun).includes("RadonInteger")) {
-							throw `Error: unexpected dry run result: ${JSON.stringify(dryrun).slice(0, 2048)}`;
-						} else {
-							dryrun = parseInt(dryrun.RadonInteger, 10);
+
+				if (!lastUpdates[caption].timestamp) {
+					const lastUpdate = await wallet.provider
+						.searchDataRequests(request.radHash, { limit: 16, mode: "ethereal", reverse: true })					
+						.then(entries => entries.find(report => report.status === "solved" && report?.result))
+						.then(report => {
+							if (report) {
+								const result = utils.cbor.decode(
+									utils.fromHexString(report.result.cbor_bytes),
+								);
+								if (Number.isInteger(result)) {
+									return {
+										timestamp: report.result.timestamp,
+										value: parseInt(result, 10)
+									}
+								}
+							}
+						});
+					if (lastUpdate) {
+						console.info(`[${tag}] Captured last known update for RAD hash ${request.radHash} => { timestamp: ${lastUpdate.timestamp}, value: ${lastUpdate.value} }`)
+						lastUpdates[caption] = lastUpdate
+					}
+				}
+				
+				// prepare and spawn new dry-run subprocess:
+				const dryRunStart = Date.now();
+				metrics.dryruns += 1;
+				console.debug(`[${tag}] Dry-running ${lastDryRunClock ? `after ${commas(dryRunStart - lastDryRunClock)} msecs` : `for the first time`} ...`);
+				threadBucket.push(
+					request.execDryRun({ timeout: DRY_RUN_TIMEOUT_SECS * 1000 })
+					.then(output => JSON.parse(output))
+					.then(json => {
+						// parse dry run result
+						console.debug(`[${tag}] Dry-run solved in ${commas(Date.now() - dryRunStart)} msecs => ${JSON.stringify(json)}`);
+						if (!Object.keys(json).includes("RadonInteger")) {
+							throw `Error: unexpected dry run result: ${JSON.stringify(json).slice(0, 2048)}`;
 						}
-						
+						const currentValue = parseInt(json.RadonInteger, 10);
+
 						// determine whether a new notarization is required
-						const heartbeatSecs =
-							Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
+						const heartbeatSecs = Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
 						if (heartbeatSecs < conditions.heartbeatSecs / 2 + 1) {
 							const deviation =
 								lastUpdates[caption].value > 0
-									? (100 * (dryrun - lastUpdates[caption].value)) /
+									? (100 * (currentValue - lastUpdates[caption].value)) /
 										lastUpdates[caption].value
 									: 0;
 							if (Math.abs(deviation) < conditions.deviationPercentage) {
@@ -220,7 +246,7 @@ async function main() {
 								console.info(
 									`[${tag}] ${deviation >= 0 ? "+" : ""}${deviation.toFixed(2)} % deviation after ${heartbeatSecs} secs.`
 								)
-								continue;
+								return;
 							} else {
 								console.info(
 									`[${tag}] Updating due to price deviation of ${deviation.toFixed(2)} % ...`,
@@ -237,7 +263,7 @@ async function main() {
 						// create, sign and send new data request transaction
 						const DRs = Witnet.DataRequests.from(ledger, request);
 						metrics.inflight += 1;
-						priceFeeds[caption].inflight = true
+						priceFeeds[caption].inflight = (priceFeeds[caption].inflight || 0) + 1;
 
 						// launch promise for the notarization of new price update
 						DRs.sendTransaction({
@@ -256,6 +282,7 @@ async function main() {
 							return DRs.confirmTransaction(tx.hash, {
 								onStatusChange: () => console.info(`[${tag}] DRT status =>`, tx.status),
 							})
+						
 						}).then(async tx => {
 							console.debug(
 								`[${tag}] Cache info after confirmation =>`,
@@ -299,22 +326,30 @@ async function main() {
 								await delay(5000);
 							} while (status !== "solved");
 						
+						}).then(() => {
+							priceFeeds[caption].inflight -= 1;
+							metrics.inflight -= 1;
+						
 						}).catch(err => {
+							priceFeeds[caption].inflight -= 1;
+							metrics.inflight -= 1;	
 							metrics.errors += 1;
 							console.error(`[${tag}] Notarization failed: ${err}`);
 						});
-
-						metrics.inflight -= 1;
-						priceFeeds[caption].inflight = false
-					
-					}
-					catch (err) {
+					})
+					.catch(err => {
 						console.warn(`[${tag}] ${debug ? `(after ${commas(Date.now() - dryRunStart)} msecs) ` : " "}Dry-run failed: ${err}`);
 						metrics.errors += 1; 
-					}
-				} else {
-					console.debug(`[${tag}] Skipped dry run because because pending update is being notarized.`)
+					})
+				);
+				
+				if (threadBucket.length >= maxThreads) {
+					await Promise.all(threadBucket)
+					threadBucket = []
 				}
+			}
+			if (threadBucket.length) {
+				await Promise.all(threadBucket)
 			}
 			
 			const elapsed = Date.now() - batchStart;
