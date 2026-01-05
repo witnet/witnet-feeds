@@ -222,9 +222,13 @@ async function main() {
 				const dryRunStart = Date.now();
 				metrics.dryruns += 1;
 				console.debug(`[${tag}] Dry-running ${lastDryRunClock ? `after ${commas(dryRunStart - lastDryRunClock)} msecs` : `for the first time`} ...`);
+				priceFeeds[caption].lastDryRunClock = dryRunStart;
 				threadBucket.push(
 					request.execDryRun({ timeout: DRY_RUN_TIMEOUT_SECS * 1000 })
-					.then(output => JSON.parse(output))
+					.then(output => {
+						if (!output || output === "") throw new Error(`no dry-run report`);
+						else return JSON.parse(output);
+					})
 					.then(json => {
 						// parse dry run result
 						console.debug(`[${tag}] Dry-run solved in ${commas(Date.now() - dryRunStart)} msecs => ${JSON.stringify(json)}`);
