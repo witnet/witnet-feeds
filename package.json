@@ -1,6 +1,6 @@
 {
 	"name": "@witnet/price-feeds",
-	"version": "3.1.19",
+	"version": "3.1.20",
 	"description": "Open-source collection of verified price data using Witnet on supported blockchains.",
 	"author": "Witnet Foundation",
 	"license": "MIT",
