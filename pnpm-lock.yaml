@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@witnet/sdk':
-        specifier: ^3.2.0
-        version: 3.2.0(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+        specifier: ^3.2.1
+        version: 3.2.1(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
       '@witnet/solidity':
         specifier: ^3.1.1
         version: 3.1.1(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
@@ -740,8 +740,8 @@ packages:
   '@vitest/utils@4.0.16':
     resolution: {integrity: sha512-h8z9yYhV3e1LEfaQ3zdypIrnAg/9hguReGZoS7Gl0aBG5xgA410zBqECqmaF/+RkTggRsfnzc1XaAHA6bmUufA==}
 
-  '@witnet/sdk@3.2.0':
-    resolution: {integrity: sha512-s/9WIHAdHBtVtP6s2urVrsWv87bO4pzmn2GkhnSoufrnbcZnatMV0MmD3dRZWRzn0AknMt16YzpjBuHc/Aoj8A==}
+  '@witnet/sdk@3.2.1':
+    resolution: {integrity: sha512-RfCHuh/5o9vJI0S+UvjFyMkJxD3bQGGlbkOErcBJbVJEzTXQ5yUdei/XoeMRUal+HNbkJsJQHT4d5XGXheRtPA==}
     hasBin: true
 
   '@witnet/solidity@3.1.1':
@@ -2677,7 +2677,7 @@ snapshots:
       '@vitest/pretty-format': 4.0.16
       tinyrainbow: 3.0.3
 
-  '@witnet/sdk@3.2.0(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+  '@witnet/sdk@3.2.1(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
       '@bitcoinerlab/secp256k1': 1.2.0
       axios: 1.13.2
@@ -2710,7 +2710,7 @@ snapshots:
 
   '@witnet/solidity@3.1.1(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@witnet/sdk': 3.2.0(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      '@witnet/sdk': 3.2.1(@types/node@24.10.4)(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)
       cbor: 10.0.11
       commander: 14.0.2
       cross-env: 10.1.0
