@@ -246,7 +246,6 @@ async function main() {
 										lastUpdates[caption].value
 									: 0;
 							if (Math.abs(deviation) < conditions.deviationPercentage) {
-								metrics.errors -= 1;
 								console.info(
 									`[${tag}] ${deviation >= 0 ? "+" : ""}${deviation.toFixed(2)} % deviation after ${heartbeatSecs} secs.`
 								)
