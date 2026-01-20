@@ -15,7 +15,7 @@
 			}
 		}
 	},
-	"arbitrum": {
+	"arbitrum:sepolia": {
 		"oracles": {
 			"Price-ETH/USD-6": {
 				"class": "witnet"
@@ -236,12 +236,6 @@
 			}
 		}
 	},
-	"ethereum": {
-		"requests": [
-			"Price-USDC/USD-6",
-			"Price-USDT/USD-6"
-		]
-	},
 	"ethereum:sepolia": {
 		"mappers": {
 			"Price-ETH/USD-6": {
@@ -270,7 +264,7 @@
 			}
 		}
 	},
-	"gnosis": {
+	"gnosis:testnet": {
 		"oracles": {
 			"Price-DAI/USD-6": {
 				"class": "witnet"
@@ -299,7 +293,7 @@
 			}
 		}
 	},
-	"kava": {
+	"kava:testnet": {
 		"mappers": {
 			"Price-KAVA/USD-6": {
 				"class": "product",
