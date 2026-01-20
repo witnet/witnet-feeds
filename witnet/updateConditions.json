@@ -7,7 +7,7 @@
 			"deviationPercentage": 3.5,
 			"heartbeatSecs": 86400,
 			"maxDeviationPercentage": 0,
-			"minWitnesses": 12
+			"minWitnesses": 7
 		},
 		"testnets": {
 			"callbackGas": 0,
