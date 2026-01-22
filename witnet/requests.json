@@ -82,6 +82,13 @@
         "WitOracleRequestPriceUsdcUsd6": "6c5b8588b5381a41204608a4a6e5ca80896fca32239ce333b146e3a36a37efa4",
         "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740"
     },
+    "mantle:mainnet": {
+        "WitOracleRequestPriceBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
+        "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
+        "WitOracleRequestPriceMntUsdt6": "aab60c51c5f9aee31ddc229d75cdcf10884ce0f668d96fa46e75a2b228551ef6",
+        "WitOracleRequestPriceUsdcUsd6": "6c5b8588b5381a41204608a4a6e5ca80896fca32239ce333b146e3a36a37efa4",
+        "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740"
+    },
     "optimism:sepolia": {
         "WitOracleRequestRandomness": "65d6d4ee499b0bd13f0a96355ae30ede913555094a265b75305e904de1afbf3c",
         "WitOracleRequestPriceBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
