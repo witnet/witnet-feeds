@@ -492,7 +492,7 @@ async function main() {
 				colors.lyellow(`\n\n  >>> VERIFY RADON REQUESTS ON-CHAIN <<<`),
 			);
 			execSync(
-				`npx witeth assets ${tasks.verifications.join(" ")} --deploy --force --port ${port}`,
+				`npx witeth assets ${tasks.verifications.join(" ")} --deploy --force --port ${port} --signer ${signer}`,
 				{ stdio: "inherit", stdout: "inherit" },
 			);
 		}
