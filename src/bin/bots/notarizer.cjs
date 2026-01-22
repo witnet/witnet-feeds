@@ -377,7 +377,7 @@ async function main() {
 			const utxos = (await ledger.getUtxos(increased)).filter(
 				(utxo) => utxo.timelock <= now,
 			);
-			if (increased || utxos.length < minUtxos) {
+			if ((balance?.nanowits && increased) || utxos.length < minUtxos) {
 				const totalSplits = minUtxos * 2;
 				const iters = BigInt(Math.ceil(totalSplits / 32));
 				let remaining = totalSplits;
