@@ -15,6 +15,15 @@
     "base:sepolia": {
         "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1"
     },
+    "boba:eth:mainnet": {
+        "WitOracleRequestPriceBobaUsdt6": "da52ae15c197cc6688eb76e35f5315369bcdb390b7119ccddda28dfb47a3ca20",
+        "WitOracleRequestPriceBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
+        "WitOracleRequestPriceDaiUsd6": "e5fb8f1053af31f824446f19127bde61639bb0bb0350510002d1b53614b1c30e",
+        "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
+        "WitOracleRequestPriceFraxUsdt6": "be751a5fbe5d5fb7702e9086daf836c99851ebcb5b3445b13e24fa8e8e76b6cf",
+        "WitOracleRequestPriceUsdcUsd6": "6c5b8588b5381a41204608a4a6e5ca80896fca32239ce333b146e3a36a37efa4",
+        "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740"
+    },
     "celo:sepolia": {
         "WitOracleRequestPriceBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
         "WitOracleRequestPriceCeloEur6": "b1182a92e26ab672524c40662e742e50b091fb112ccd50ffb8afec7d04a1a5db",
