@@ -36,6 +36,13 @@
         "WitOracleRequestPriceCeloUsd6": "dbab5f8c3722ecf130ba1a85db46d7b71f32887659fc9b52a805f9f7f55ab54d",
         "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1"
     },
+    "conflux:core:mainnet": {
+        "WitOracleRequestPriceBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
+        "WitOracleRequestPriceCfxUsdt6": "44268cc495499cd4f0083e90822c08fdd352e97e9519ed76468128fc976e395a",
+        "WitOracleRequestPriceEthUsd6": "746393c94943317a5fcda1bb883015bd4f9100412e0d00872035fb895e4b0ee1",
+        "WitOracleRequestPriceUsdcUsd6": "6c5b8588b5381a41204608a4a6e5ca80896fca32239ce333b146e3a36a37efa4",
+        "WitOracleRequestPriceUsdtUsd6": "a09593030c4cddaf69bbc74c55b442fcb22692785ab02cb0eeb63e130c42e740"
+    },
     "conflux:espace:mainnet": {
         "WitOracleRequestPriceBtcUsd6": "4377aca8710933b4b99a728bc566f27402c0339baf0f32960a3c6af720a1b7cc",
         "WitOracleRequestPriceCfxUsdt6": "44268cc495499cd4f0083e90822c08fdd352e97e9519ed76468128fc976e395a",
