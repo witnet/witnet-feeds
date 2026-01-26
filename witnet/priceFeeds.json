@@ -353,13 +353,6 @@
 			}
 		}
 	},
-	"meter:mainnet": {
-		"oracles": {
-			"Price-MTR/USDT-6": {
-				"class": "witnet"
-			}
-		}
-	},
 	"metis": {
 		"mappers": {
 			"Price-METIS/USD-6": {
