@@ -56,7 +56,7 @@
 		"mappers": {
 			"Price-BNB/USD-6": {
 				"class": "product",
-				"deps": ["Price-BNT/USDT-6", "Price-USDT/USD-6"]
+				"deps": ["Price-BNB/USDT-6", "Price-USDT/USD-6"]
 			}
 		}
 	},
