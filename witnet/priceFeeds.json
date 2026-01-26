@@ -334,34 +334,6 @@
 			}
 		}
 	},
-	"kcc:mainnet": {
-		"oracles": {
-			"Price-BTC/USD-6": {
-				"class": "witnet"
-			},
-			"Price-DAI/USD-6": {
-				"class": "witnet"
-			},
-			"Price-ETH/USD-6": {
-				"class": "witnet"
-			},
-			"Price-KCS/USDT-6": {
-				"class": "witnet"
-			},
-			"Price-MJT/KCS-9": {
-				"class": "witnet"
-			},
-			"Price-SAX/USDT-6": {
-				"class": "witnet"
-			},
-			"Price-USDC/USD-6": {
-				"class": "witnet"
-			},
-			"Price-USDT/USD-6": {
-				"class": "witnet"
-			}
-		}
-	},
 	"mantle:mainnet": {
 		"oracles": {
 			"Price-BTC/USD-6": {
