@@ -109,6 +109,13 @@
 					"Price-CFX/USDT-6",
 					"Price-USDT/USD-6"
 				]
+			},
+			"Price-USD/CFX-6": {
+				"class": "inverse",
+				"deps": [
+					"Price-CFX/USDT-6",
+					"Price-USDT/USD-6"
+				]
 			}
 		},
 		"oracles": {
