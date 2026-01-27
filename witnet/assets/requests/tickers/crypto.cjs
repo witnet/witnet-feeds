@@ -340,7 +340,7 @@ module.exports = {
 		"ticker/binance.us": ["WLD", "USDT"],
 		"ticker/bitget.com_v2": ["WLD", "USDT"],
 		"ticker/bitmart.com": ["WLD", "USDT"],
-		"ticker/bybit.com": ["WLD", "USDT", "inverse"],
+		// "ticker/bybit.com": ["WLD", "USDT", "inverse"],
 		"ticker/gateapi.io": ["wld", "usdt"],
 		"ticker/kucoin.com": ["WLD", "USDT"],
 		"ticker/mexc.com": ["WLD", "USDT"],
