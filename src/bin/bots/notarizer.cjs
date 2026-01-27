@@ -247,11 +247,8 @@ async function main() {
 							.catch(err => {
 								console.warn(`[${tag}] ${debug ? `(after ${commas(Date.now() - dryRunStart)} msecs) ` : " "}Dry-run failed: ${err}`);
 								metrics.errors += 1; 
-								return null;
+								reject(); // skip notarization
 							});
-						
-						// skip notarization if the dry-run failed
-						if (currentValue === null) reject();
 
 						// compute and evaluate current deviation with respect to last notarized value
 						const deviation = lastUpdates[caption].value > 0
