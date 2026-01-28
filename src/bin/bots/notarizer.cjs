@@ -218,7 +218,7 @@ async function main() {
 					}
 				}
 				
-				threadBucket.push(new Promise(async (resolve, reject) => {					
+				threadBucket.push(new Promise(async (resolve) => {					
 					
 					// determine whether a new notarization is required
 					const heartbeatSecs = Math.floor(Date.now() / 1000) - lastUpdates[caption].timestamp;
@@ -247,11 +247,11 @@ async function main() {
 							.catch(err => {
 								console.warn(`[${tag}] ${debug ? `(after ${commas(Date.now() - dryRunStart)} msecs) ` : " "}Dry-run failed: ${err}`);
 								metrics.errors += 1; 
-								reject(); // skip notarization
+								resolve(); // skip notarization
 							});
 
 						// compute and evaluate current deviation with respect to last notarized value
-						const deviation = lastUpdates[caption].value > 0
+						const deviation = currentValue > 0 && lastUpdates[caption].value > 0
 							? (100 * (currentValue - lastUpdates[caption].value)) /
 								lastUpdates[caption].value
 							: 0;	
