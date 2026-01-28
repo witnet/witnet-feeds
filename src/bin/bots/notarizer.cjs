@@ -485,7 +485,7 @@ async function main() {
 			? await Rulebook.fromUrlBase(configPath)
 			: Rulebook.default();
 		const pfs = rulebook.getNetworkPriceFeeds(network);
-		const newFootprint = hash(pfs)
+		const newFootprint = rulebook.hash(network, mainnets);
 		if (newFootprint !== footprint) {
 			footprint = newFootprint
 			console.info(

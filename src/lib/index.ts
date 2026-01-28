@@ -103,6 +103,12 @@ export class Rulebook {
 		return { ...res };
 	}
 
+	public hash(network?: string, mainnets?: boolean): string {
+		const pfs = this.getNetworkPriceFeeds(network);
+		const updateConditions = this.getDefaultUpdateConditions(mainnets);
+		return helpers.hash({ pfs, updateConditions });
+	}
+
 	public getNetworkPriceFeeds(network?: string): any {
 		if (network) {
 			return this._networksPriceFeeds[network];

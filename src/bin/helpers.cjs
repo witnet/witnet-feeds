@@ -1,5 +1,6 @@
 const fs = require("node:fs");
 const merge = require("lodash.merge");
+const hash = require("object-hash");
 
 const camelize = (str) => capitalizeFirstLetter(str.toLowerCase());
 
@@ -213,8 +214,10 @@ module.exports = {
 		mmagenta,
 	},
 	camelize,
+	capitalizeFirstLetter,
 	commas,
 	colorstrip,
+	hash,
 	parseIntFromArgs,
 	prompter,
 	readWitnetJsonFiles,
