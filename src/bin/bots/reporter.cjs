@@ -376,8 +376,10 @@ async function main() {
 				};
 			}
 		} catch (err) {
-			console.warn(`[${network}:${signer}] Cannot fetch price feeds from contract: ${err}`);
-			metrics.errors += 1;
+			// console.warn(`[${network}:${signer}] Cannot fetch price feeds from contract: ${err}`);
+			// metrics.errors += 1;
+			console.error(`❌ Fatal: Cannot fetch price feeds from contract: ${err}`);
+			process.exit(0);
 		}
 	}
 
