@@ -60,31 +60,6 @@
 			}
 		}
 	},
-	"boba:eth:mainnet": {
-		"oracles": {
-			"Price-BOBA/USDT-6": {
-				"class": "witnet"
-			},
-			"Price-BTC/USD-6": {
-				"class": "witnet"
-			},
-			"Price-DAI/USD-6": {
-				"class": "witnet"
-			},
-			"Price-ETH/USD-6": {
-				"class": "witnet"
-			},
-			"Price-FRAX/USDT-6": {
-				"class": "witnet"
-			},
-			"Price-USDC/USD-6": {
-				"class": "witnet"
-			},
-			"Price-USDT/USD-6": {
-				"class": "witnet"
-			}
-		}
-	},
 	"celo": {
 		"oracles": {
 			"Price-BTC/USD-6": {
