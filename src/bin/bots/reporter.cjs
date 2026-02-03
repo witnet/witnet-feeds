@@ -181,7 +181,7 @@ async function main() {
 
 	if (balance < BigInt(minBalance)) {
 		console.error(
-			`❌ Fatal: the signer address must be funded with at least ${minBalance} ${symbol}`,
+			`❌ Fatal: the signer address must be funded with at least ${ethers.formatEther(minBalance)} ${symbol}`,
 		);
 		process.exit(0);
 	} else {
