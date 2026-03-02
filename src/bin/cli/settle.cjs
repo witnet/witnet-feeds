@@ -583,6 +583,7 @@ async function main() {
 	);
 
 	if (tasks.conditions.length > 0) {
+		await wrapper.setSigner(signer)
 		if (wrapper.signer.address === curator) {
 			console.info(colors.lyellow(`\n  >>> SETTLE UPDATE CONDITIONS <<<`));
 			for (const task of tasks.conditions) {
