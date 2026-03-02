@@ -60,11 +60,6 @@ async function main() {
 			process.env.WITNET_PFS_ETH_RPC_PROVIDER_HOST || "http://127.0.0.1",
 		)
 		.option(
-			"--patron <evm_address>",
-			"Signer address that will pay for every update report, other than the gateway's default.",
-			process.env.WITNET_PFS_ETH_SIGNER || undefined,
-		)
-		.option(
 			"--port <url>",
 			"ETH/RPC provider port",
 			process.env.WITNET_PFS_ETH_RPC_PROVIDER_PORT || 8545,
@@ -84,7 +79,12 @@ async function main() {
 			"Make sure the randomizer bot connects to this EVM chain.",
 			process.env.WITNET_PFS_ETH_NETWORK || undefined,
 		)
-		.requiredOption(
+		.option(
+			"--signer <evm_address>",
+			"Signer address that will pay for every update report, other than the gateway's default.",
+			process.env.WITNET_PFS_ETH_SIGNER || undefined,
+		)
+		.option(
 			"--target <evm_address>",
 			"Address of WitPriceFeeds contract where to report data updates.",
 			process.env.WITNET_PFS_ETH_TARGET || undefined,
@@ -101,49 +101,45 @@ async function main() {
 		maxGasPriceGwei,
 		network,
 		port,
-		patron,
+		signer,
 		target,
 	} = program.opts();
 
 	if (!debug) console.debug = () => {};
 
-	if (patron && !ethers.isAddress(patron)) {
-		console.error(`❌ Fatal: invalid EVM signer address: "${patron}"`);
+	if (signer && !ethers.isAddress(signer)) {
+		console.error(`❌ Fatal: invalid EVM signer address: "${signer}"`);
 		process.exit(0);
-	} else if (!target || !ethers.isAddress(target)) {
+	} else if (target && !ethers.isAddress(target)) {
 		console.error(`❌ Fatal: invalid EVM target address: "${target}"`);
 		process.exit(0);
-	}
-
-	const witOracle = patron
-		? await WitOracle.fromJsonRpcUrl(`${host}:${port}`, patron)
-		: await WitOracle.fromJsonRpcUrl(`${host}:${port}`);
-	const signer = witOracle.signer.address;
-
-	if (network && witOracle.network !== network) {
-		console.error(
-			`❌ Fatal: connected to ${witOracle.network.toUpperCase()} instead of ${network.toUpperCase()}`,
-		);
+	} else if (gasLimit && isNaN(Number(gasLimit))) {
+		console.error(`❌ Fatal: invalid gas limit: "${gasLimit}"`);
 		process.exit(0);
-	} else {
-		network = witOracle.network;
 	}
 
-	const witOracleRadonRegistry = await witOracle
-		.getWitOracleRadonRegistry()
+	const kermit = await Witnet.KermitClient.fromEnv(KERMIT);
+	
+	console.info(`> WIT/Kermit URL:   ${kermit.url}`);
+	console.info(`> EVM RPC gateway:  ${host}:${port}`);
+
+	const witOracle = await WitOracle.fromEthRpcUrl(`${host}:${port}`);
+	if (network && network !== witOracle.network) {
+		console.error(`Fatal: connected to wrong network: ${network.toUpperCase()}`);
+		process.exit(1);
+	}
+	network = witOracle.network;
+	console.info(`> EVM network:      ${network.toUpperCase()}`);
+	console.info(`> Wit/Oracle bridge:    ${witOracle.address}`);
+
+	const witOracleRadonRegistry = await witOracle._getWitOracleRadonRegistry()
 		.catch((err) => {
 			console.error(`❌ Fatal: cannot fetch Wit/Oracle Radon Registry: ${err}`);
 			process.exit(0);
 		});
+	console.info(`> Wit/Oracle registry:  ${witOracleRadonRegistry.address}`);
 
-	const kermit = await Witnet.KermitClient.fromEnv(KERMIT);
-
-	console.info(`> WIT/Kermit URL:   ${kermit.url}`);
-	console.info(`> EVM RPC gateway:  ${host}:${port}`);
-	console.info(`> EVM network:      ${network.toUpperCase()}`);
-
-	const witPriceFeeds = await witOracle
-		.getWitPriceFeedsAt(target)
+	const witPriceFeeds = await witOracle._getWitPriceFeeds(target)
 		.catch((err) => {
 			console.error(`❌ Fatal: ${err}`);
 			process.exit(0);
@@ -160,13 +156,17 @@ async function main() {
 		console.error(`❌ Fatal: unsupported WitPriceFeeds version: ${serial}`);
 		process.exit(0);
 	}
-
-	console.info(`> Wit/Oracle bridge:    ${witOracle.address}`);
-	console.info(`> Wit/Oracle registry:  ${witOracleRadonRegistry.address}`);
 	console.info(
 		`> Wit/Oracle appliance: ${target} [${artifact} v${serial.split("-")[0]}]`,
 	);
 
+	try {
+		signer = (await witPriceFeeds.setSigner(signer)).address;
+	} catch (err) {
+		console.error(`❌ Fatal: failed to set signer to ${signer}: ${err.message}`);
+		process.exit(0);
+	}
+	
 	const { provider } = witOracle;
 	const symbol = utils.getEvmNetworkSymbol(network);
 	balance = await provider.getBalance(signer);

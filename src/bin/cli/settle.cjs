@@ -11,9 +11,9 @@ require("dotenv").config({ quiet: true });
 const inquirer = require("inquirer");
 const moment = require("moment");
 
-const { assets, utils, Rulebook } = require("../dist/src/lib");
-const radHashes = require("../witnet/requests.json");
-const helpers = require("../src/bin/helpers.cjs");
+const { assets, utils, Rulebook } = require("../../../dist/src/lib");
+const radHashes = require("../../../witnet/requests.json");
+const helpers = require("../helpers.cjs");
 const { colors } = helpers;
 
 const host =
@@ -30,23 +30,24 @@ const clone = process.argv.indexOf(`--clone`) >= 0;
 main();
 
 async function main() {
-	const witnet = await Witnet.JsonRpcProvider.fromEnv(
-		witRpcUrl === "testnet"
-			? "https://rpc-testnet.witnet.io"
-			: witRpcUrl === "mainnet"
-				? "https://rpc-01.witnet.io"
-				: witRpcUrl,
-	);
-
-	const witOracle = await WitOracle.fromJsonRpcUrl(`${host}:${port}`, signer);
+	
+	const witOracle = await WitOracle.fromEthRpcUrl(`${host}:${port}`);
 	if (network && witOracle.network !== network.toLowerCase()) {
 		console.error(
 			`Error: gateway at ${host}:${port} connects to a different network (${witOracle.network})`,
 		);
 		process.exit(1);
-	}
-
+	} 
 	network = witOracle.network;
+
+	const witnet = await Witnet.JsonRpcProvider.fromURL(
+		witRpcUrl || (
+			utils.isEvmNetworkMainnet(witOracle.network)
+				? "https://rpc-01.witnet.io"
+				: "https://rpc-testnet.witnet.io"
+		)
+	);
+	
 	if (utils.isEvmNetworkMainnet(network) !== (witnet.network === "mainnet")) {
 		console.error(
 			`Error: cannot connect to the Witnet ${witnet.network} and an EVM ${witnet.network === "mainnet" ? "testnet" : "mainnet"} at the same time.`,
@@ -70,7 +71,7 @@ async function main() {
 		}
 	}
 
-	const wrapper = await witOracle.getWitPriceFeedsAt(target);
+	const wrapper = await witOracle._getWitPriceFeeds(target);
 	let curator = await wrapper.getEvmCurator();
 	const [artifact, version, consumer, master] = await Promise.all([
 		await wrapper.getEvmImplClass(),
@@ -92,7 +93,7 @@ async function main() {
 		console.info(`> Master address:   ${colors.blue(master)}`);
 	}
 	if (clone) {
-		console.info();
+		await wrapper.setSigner(signer);
 		await inquirer
 			.prompt([
 				{
@@ -152,13 +153,13 @@ async function main() {
 		if (consumer !== "0x0000000000000000000000000000000000000000") {
 			console.info(`> Consumer address: ${colors.cyan(consumer)}`);
 		}
-		if (wrapper.signer.address !== curator) {
-			console.info(`> Curator address:  ${colors.magenta(curator)}`);
-			console.info(
-				`> Signer address:   ${colors.yellow(wrapper.signer.address)}`,
-			);
-		} else {
+		if (wrapper?.signer?.address === curator) {
 			console.info(`> Curator address:  ${colors.mmagenta(curator)}`);
+		} else {
+			console.info(`> Curator address:  ${colors.magenta(curator)}`);
+			if (signer) console.info(
+				`> Signer address:   ${colors.yellow(signer)}`,
+			);
 		}
 	}
 	console.info();
@@ -452,11 +453,14 @@ async function main() {
 		// ================================================================================================================
 		// --- PERFORM TO-DO TASKS ----------------------------------------------------------------------------------------
 
-		// only if the provider is connected to the proper price feeds curator address:
-		if (wrapper.signer.address === curator) {
-			if (runs > 0) {
-				// on all main iterations but the last:
-				if (tasks.removals.length > 0) {
+		if (runs > 0) {
+			// on all main iterations but the last:
+			if (tasks.removals.length > 0) {
+				if (!wrapper.signer) {
+					await wrapper.setSigner(signer);
+				}
+				// only if the provider is connected to the proper price feeds curator address:
+				if (wrapper.signer.address === curator) {
 					console.info(
 						colors.lyellow(`\n  >>> REMOVE AFFECTED PRICE FEEDS <<<`),
 					);
@@ -478,74 +482,78 @@ async function main() {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	if (
-		wrapper.signer.address !== curator &&
-		(tasks.removals.length > 0 ||
+		tasks.removals.length > 0 ||
 			tasks.requests.length > 0 ||
 			tasks.oracles.length > 0 ||
-			tasks.mappers.length > 0)
+			tasks.mappers.length > 0
 	) {
-		console.error(colors.red(`\n^ Pending tasks require curatorship!`));
-		process.exit(1);
-	} else if (wrapper.signer.address === curator) {
-		if (tasks.verifications.length > 0) {
-			console.info(
-				colors.lyellow(`\n\n  >>> VERIFY RADON REQUESTS ON-CHAIN <<<`),
-			);
-			execSync(
-				`npx witeth assets ${tasks.verifications.join(" ")} --deploy --force --port ${port} --signer ${signer}`,
-				{ stdio: "inherit", stdout: "inherit" },
-			);
-		}
-		if (tasks.requests.length > 0) {
-			console.info(colors.lyellow(`\n  >>> SETTLE WITNET PRICE FEEDS <<<`));
-			for (const task of tasks.requests) {
+		await wrapper.setSigner(signer)
+		if (wrapper.signer.address !== curator) {
+			console.error(colors.red(`\n^ Pending tasks require curatorship!`));
+			process.exit(1);
+		
+		} else {
+			if (tasks.verifications.length > 0) {
 				console.info(
-					`\n  ${colors.lwhite(task.caption)}: ${" ".repeat(18 - task.caption.length)} ${colors.yellow(task.radHash)}`,
+					colors.lyellow(`\n\n  >>> VERIFY RADON REQUESTS ON-CHAIN <<<`),
 				);
-				await _invokeAdminTask(
-					wrapper.settlePriceFeedRadonHash.bind(wrapper),
-					task.caption,
-					-task.decimals,
-					task.radHash,
+				execSync(
+					`npx witeth assets ${tasks.verifications.join(" ")} --deploy --force --port ${port} --signer ${signer}`,
+					{ stdio: "inherit", stdout: "inherit" },
 				);
 			}
-			console.info();
-		}
-		if (tasks.oracles.length > 0) {
-			console.info(colors.lyellow(`\n  >>> SETTLE ORACLIZED PRICE FEEDS <<<`));
-			for (const task of tasks.oracles) {
-				console.info(
-					`\n  ${colors.lwhite(task.caption)}: ${" ".repeat(18 - task.caption.length)} ${colors.yellow(`${task.oracle}:${task.sources || task.target}`)}`,
-				);
-				await _invokeAdminTask(
-					wrapper.settlePriceFeedOracle.bind(wrapper),
-					task.caption,
-					-task.decimals,
-					task.oracle,
-					task.target,
-					task.sources,
-				);
+			if (tasks.requests.length > 0) {
+				console.info(colors.lyellow(`\n  >>> SETTLE WITNET PRICE FEEDS <<<`));
+				for (const task of tasks.requests) {
+					console.info(
+						`\n  ${colors.lwhite(task.caption)}: ${" ".repeat(18 - task.caption.length)} ${colors.yellow(task.radHash)}`,
+					);
+					await _invokeAdminTask(
+						wrapper.settlePriceFeedRadonHash.bind(wrapper),
+						task.caption,
+						-task.decimals,
+						task.radHash,
+					);
+				}
+				console.info();
 			}
-			console.info();
-		}
-		if (tasks.mappers.length > 0) {
-			console.info(colors.lyellow(`\n  >>> SETTLE MAPPED PRICE FEEDS <<<`));
+			if (tasks.oracles.length > 0) {
+				console.info(colors.lyellow(`\n  >>> SETTLE ORACLIZED PRICE FEEDS <<<`));
+				for (const task of tasks.oracles) {
+					console.info(
+						`\n  ${colors.lwhite(task.caption)}: ${" ".repeat(18 - task.caption.length)} ${colors.yellow(`${task.oracle}:${task.sources || task.target}`)}`,
+					);
+					await _invokeAdminTask(
+						wrapper.settlePriceFeedOracle.bind(wrapper),
+						task.caption,
+						-task.decimals,
+						task.oracle,
+						task.target,
+						task.sources,
+					);
+				}
+				console.info();
+			}
+			if (tasks.mappers.length > 0) {
+				console.info(colors.lyellow(`\n  >>> SETTLE MAPPED PRICE FEEDS <<<`));
 
-			for (const task of tasks.mappers) {
-				console.info(
-					`\n  ${colors.lwhite(task.caption)}: ${" ".repeat(18 - task.caption.length)} ${colors.yellow(
-						`${task.mapper}(${JSON.stringify(task.deps)})`,
-					)}`,
-				);
-				await _invokeAdminTask(
-					wrapper.settlePriceFeedMapper.bind(wrapper),
-					task.caption,
-					-task.decimals,
-					task.mapper,
-					task.deps,
-				);
+				for (const task of tasks.mappers) {
+					console.info(
+						`\n  ${colors.lwhite(task.caption)}: ${" ".repeat(18 - task.caption.length)} ${colors.yellow(
+							`${task.mapper}(${JSON.stringify(task.deps)})`,
+						)}`,
+					);
+					await _invokeAdminTask(
+						wrapper.settlePriceFeedMapper.bind(wrapper),
+						task.caption,
+						-task.decimals,
+						task.mapper,
+						task.deps,
+					);
+				}
+				console.info();
 			}
-			console.info();
+
 		}
 	}
 
@@ -688,47 +696,51 @@ async function main() {
 		return [caption, { ...obj, metrics }]
 	}))
 
-	helpers.traceTable(
-		priceFeeds.map(([caption, obj]) => {
-			// console.log(caption, "=>", obj.metrics)
-			return [
-				obj.id4,
-				caption,
-				obj.class,
-				obj.sources,
-				...(Object.keys(obj?.metrics ?? {}).length > 0 ? [
-					obj.metrics.maxSecsBetweenUpdates ? moment.duration(obj.metrics.maxSecsBetweenUpdates, "seconds").humanize() : "",
-					obj.metrics.minSecsBetweenUpdates ? moment.duration(obj.metrics.minSecsBetweenUpdates, "seconds").humanize() : "",
-					obj.metrics.witnessingCommitteeSize > 0 ? obj.metrics.witnessingCommitteeSize : "",
-					obj.metrics.maxDeviationPercentage ? `± ${obj.metrics.maxDeviationPercentage.toFixed(1)} %` : "",
-					obj.metrics.computesEMA ? "yes" : "",
-				] : []),
-			];
-		}),
-		{
-			headlines: [
-				":ID4",
-				":CAPTION",
-				":solver",
-				":sources",
-				":heartbeat",
-				":cooldown",
-				"wtnss",
-				"max.dev:",
-				"EMA",
-			],
-			colors: [
-				colors.lwhite,
-				colors.mgreen,
-				colors.green,
-				undefined,
-				colors.gray,
-				colors.gray,
-				colors.gray,
-				colors.gray,
-			],
-		},
-	);
+	if (priceFeeds.length > 0) {
+		helpers.traceTable(
+			priceFeeds.map(([caption, obj]) => {
+				// console.log(caption, "=>", obj.metrics)
+				return [
+					obj.id4,
+					caption,
+					obj.class,
+					obj.sources,
+					...(Object.keys(obj?.metrics ?? {}).length > 0 ? [
+						obj.metrics.maxSecsBetweenUpdates ? moment.duration(obj.metrics.maxSecsBetweenUpdates, "seconds").humanize() : "",
+						obj.metrics.minSecsBetweenUpdates ? moment.duration(obj.metrics.minSecsBetweenUpdates, "seconds").humanize() : "",
+						obj.metrics.witnessingCommitteeSize > 0 ? obj.metrics.witnessingCommitteeSize : "",
+						obj.metrics.maxDeviationPercentage ? `± ${obj.metrics.maxDeviationPercentage.toFixed(1)} %` : "",
+						obj.metrics.computesEMA ? "yes" : "",
+					] : []),
+				];
+			}),
+			{
+				headlines: [
+					":ID4",
+					":CAPTION",
+					":solver",
+					":sources",
+					":heartbeat",
+					":cooldown",
+					"wtnss",
+					"max.dev:",
+					"EMA",
+				],
+				colors: [
+					colors.lwhite,
+					colors.mgreen,
+					colors.green,
+					undefined,
+					colors.gray,
+					colors.gray,
+					colors.gray,
+					colors.gray,
+				],
+			},
+		);
+	} else {
+		console.info(colors.yellow(`^ No price feeds to be settled on ${network.toUpperCase()}!`));
+	} 
 }
 
 function _checkIfConditionsDiffer(onchain, specs) {

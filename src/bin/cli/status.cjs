@@ -3,11 +3,11 @@ const { Witnet } = require("@witnet/sdk");
 require("dotenv").config({ quiet: true });
 const moment = require("moment");
 
-const { utils, Rulebook } = require("../dist/src/lib");
-const helpers = require("../src/bin/helpers.cjs");
+const { utils, Rulebook } = require("../../../dist/src/lib");
+const helpers = require("../helpers.cjs");
 const { colors } = helpers;
 
-const assets = require("../dist/witnet/assets/index.cjs");
+const assets = require("../../../dist/witnet/assets/index.cjs");
 
 const witRpcUrl = helpers.spliceFromArgs(process.argv, `--witnet`);
 
@@ -32,7 +32,7 @@ async function main() {
 	);
 
 	const captions = [];
-	const radHashes = require("../witnet/requests.json");
+	const radHashes = require("../../../witnet/requests.json");
 	const radEntries = Object.entries(radHashes);
 
 	const { oracles } = priceFeeds;
