@@ -63,7 +63,7 @@ export class Rulebook {
 		this.updateConditions = updateConditions;
 		this._networks = _utils.getEvmNetworks();
 		this._networksPriceFeeds = Object.fromEntries(
-			_utils.getEvmNetworks().map((network) => {
+			Object.keys(_utils.getEvmNetworks()).map((network) => {
 				const pfs = this._getNetworkPriceFeeds(network);
 				pfs.mappers = Object.fromEntries(
 					Object.entries(pfs.mappers).filter(([key, mapper]) => {
@@ -130,7 +130,7 @@ export class Rulebook {
 	}
 
 	public getPriceFeedNetworks(caption: string, mainnets: boolean): string[] {
-		return this._networks.filter((network: string) => {
+		return Object.keys(this._networks).filter((network: string) => {
 			const { mappers, oracles } = this._networksPriceFeeds[network];
 			return (
 				!(mainnets !== _utils.isEvmNetworkMainnet(network)) &&
